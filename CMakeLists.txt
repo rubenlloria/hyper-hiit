@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(hyper-hiit VERSION 0.1.0 LANGUAGES CXX)
+project(hyper-hiit VERSION 0.1.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
