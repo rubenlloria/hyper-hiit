@@ -2,24 +2,39 @@
 #define CHRONOMETER_H
 
 #include <QObject>
-#include <QElapsedTimer>
 #include <QTimer>
+#include <QElapsedTimer>
 
-class Chronometer : public QObject {
+class Chronometer : public QObject
+{
     Q_OBJECT
-    Q_PROPERTY(QString timeDisplay READ timeDisplay NOTIFY timeChanged)
+    // Property to bind the formatted time string to QML
+    Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
 
 public:
     explicit Chronometer(QObject *parent = nullptr);
-    Q_INVOKABLE void start();
-    QString timeDisplay() const;
+
+    // Starts countdown from given seconds
+    Q_INVOKABLE void start(int seconds);
+    Q_INVOKABLE void stop();
+
+    QString timeText() const { return m_timeText; }
 
 signals:
-    void timeChanged();
+    void timeTextChanged();
+    void finished();
+
+private slots:
+    void updateTime();
 
 private:
-    QElapsedTimer m_timer;
-    QTimer *m_refreshTimer;
+    QTimer *m_timer;
+    QElapsedTimer m_elapsedTimer;
+
+    int m_totalTargetMs;
+    QString m_timeText;
+
+    void formatTimeText(int totalMs);
 };
 
-#endif
+#endif // CHRONOMETER_H
