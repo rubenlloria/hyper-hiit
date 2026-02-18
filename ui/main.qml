@@ -22,18 +22,6 @@ Window {
     }
 
     // --- CAPA 1: TU RELOJ Y BOTONES (Encima del fondo) ---
-    // Text {
-    //     id: mainTimer
-    //     text: "00:03:47.2"
-    //     color: "#00FF00" // Verde neón como en tu captura
-    //     font.pixelSize: 48
-    //     font.family: "Monospace"
-    //     anchors {
-    //         top: parent.top
-    //         topMargin: 50
-    //         horizontalCenter: parent.horizontalCenter
-    //     }
-    // }
     Row {
         id: timerRow
         anchors {
@@ -41,29 +29,33 @@ Window {
             topMargin: 50
             horizontalCenter: parent.horizontalCenter
         }
-        spacing: 2 // Espacio mínimo entre el tiempo y las milésimas
+        spacing: 2
 
-        // Minutos y Segundos (GRANDES)
+        // Minutes and Seconds (LARGE)
         Text {
-            text: "00:03:47"
+            // We take the first 5 characters "MM:SS"
+            text: myChrono.timeText.substring(0, 5)
             color: "#00FF00"
-            font.pixelSize: 48
-            font.family: "Monospace"
+            font.pixelSize: 64 // Increased size for Orbitron
+            font.family: "Orbitron"
             font.bold: true
             verticalAlignment: Text.AlignBottom
         }
 
-        // Milésimas (PEQUEÑAS)
+        // Centiseconds (SMALL)
         Text {
-            text: ".2"
+            // We take the last 3 characters ":CC" (including the separator)
+            // or just the numbers. Let's use "." + last 2 digits.
+            text: "." + myChrono.timeText.substring(6, 8)
             color: "#00FF00"
-            font.pixelSize: 24 // La mitad del tamaño
-            font.family: "Monospace"
+            font.pixelSize: 32 // Half the size of the main clock
+            font.family: "Orbitron"
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8 // Ajuste fino para que alineen por la base
-            opacity: 0.8 // Un poco de transparencia para dar jerarquía
+            anchors.bottomMargin: 12 // Adjusted for Orbitron's baseline
+            opacity: 0.7
         }
     }
+
     // Aquí iría tu ProgressDial.qml justo encima del círculo de la imagen
     ProgressDial {
         anchors.centerIn: parent
