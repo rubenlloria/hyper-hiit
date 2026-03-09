@@ -9,6 +9,12 @@ Item {
     width: 300
     height: 300
 
+    // Rectangle {
+    //         anchors.fill: parent
+    //         color: "#ffffff"
+    //         z: -1
+    //     }
+
     Shape {
         anchors.fill: parent
         layer.enabled: true

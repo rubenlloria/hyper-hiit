@@ -43,6 +43,8 @@ Rectangle {
     height: Constants.designHeight
     color: "#030213" // Color de fondo del theme.css
     property alias neonAccordion: neonAccordion
+    property alias header: header
+
 
     Column {
         width: parent.width
@@ -57,6 +59,12 @@ Rectangle {
         NeonAccordion {
             id: neonAccordion
             anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        ProtocolList {
+            id: prolocols
+            anchors.horizontalCenter: parent.horizontalCenter
+            listThemeColor: neonAccordion.activeThemeColor
         }
     }
 
@@ -103,10 +111,7 @@ Rectangle {
             loops: Animation.Infinite
         }
     }
-} // ColumnLayout {//     anchors.fill: parent//     anchors.margins: 20//     spacing: 15//     // --- HEADER ---//     // Text {//     //     text: "hyper//hiit"//     //     font.family: "Orbitron"//     //     font.pixelSize: 28//     //     color: "#00fff9"
-//     //     Layout.alignment: Qt.AlignHCenter
-
-//     //     // Neon Glow
+} // ColumnLayout {//     anchors.fill: parent//     anchors.margins: 20//     spacing: 15//     // --- HEADER ---//     // Text {//     //     text: "hyper//hiit"//     //     font.family: "Orbitron"//     //     font.pixelSize: 28//     //     color: "#00fff9"//     //     Layout.alignment: Qt.AlignHCenter//     //     // Neon Glow
 //     //     layer.enabled: true
 //     //     layer.effect: MultiEffect {
 //     //         blurEnabled: true
