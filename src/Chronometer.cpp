@@ -1,3 +1,25 @@
+/****************************************************************************
+** File: Chronometer.cpp
+** Date: 22/02/2026
+** Author: Rubén Llòria
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+**
+** Copyright (C) 2026 Rubén Llòria
+****************************************************************************/
+
 #include "Chronometer.h"
 #include <QDebug>
 
@@ -26,6 +48,20 @@ void Chronometer::stop() {
 void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
     int elapsed = static_cast<int>(m_elapsedTimer.elapsed());
+
+    if (m_totalTime > 0) {
+        m_progressValue = static_cast<double>(elapsed) / m_totalTime;
+    }
+
+    // Security límits
+    if (m_progressValue >= 1.0) {
+        m_progressValue = 1.0;
+        stop();
+        emit finished(); // Avisamos que terminó
+    }
+
+    // Update QML
+    emit progressValueChanged();
 
     // Update the text with the elapsed time
     formatTimeText(elapsed);

@@ -1,6 +1,6 @@
 /****************************************************************************
-** File: DatabaseManager.h
-** Date: 18/2/2026
+** File: ThemeManager.cpp
+** Date: 22/2/2026
 ** Author: Rubén Llòria
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -20,27 +20,34 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-#ifndef DATABASEMANAGER_H
-#define DATABASEMANAGER_H
-
-#include <QObject>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
+#include "ThemeManager.h"
+#include <QDebug>
 #include <QStandardPaths>
 #include <QDir>
-#include <QDebug>
 
-class DatabaseManager : public QObject {
-    Q_OBJECT
-public:
-    explicit DatabaseManager(QObject *parent = nullptr);
-    bool initDatabase();
-    bool seedDatabase(); // To insert our first Protocol
+ThemeManager::ThemeManager(QObject *parent) : QObject(parent) {}
 
-private:
-    QSqlDatabase m_db;
-    bool createTables();
-};
+void ThemeManager::loadTheme(const QString &folderName) {
+    // 1. Construir la ruta (puedes usar una ruta fija para pruebas ahora)
+    QString path = QDir::currentPath() + "/themes/" + folderName;
+    QFile file(path + "/theme.json");
 
-#endif
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "No se pudo abrir el tema en:" << path;
+        return;
+    }
+
+    // 2. Leer y parsear el JSON
+    QByteArray data = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object();
+
+    // 3. Actualizar la ruta base para las imágenes
+    m_themePath = QUrl::fromLocalFile(path + "/");
+
+    // 4. Avisar a QML
+    emit themeDataLoaded(obj.toVariantMap());
+    emit themeChanged();
+
+    qDebug() << "Tema cargado correctamente:" << folderName;
+}

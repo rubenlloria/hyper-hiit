@@ -1,15 +1,54 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include <QLocale>
 #include <QTranslator>
+#include "src/Chronometer.h"
+
+// #ifdef Q_OS_ANDROID
+// #include <QtCore/private/qandroidextras_p.h>
+// #endif
 
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
+
+#ifdef Q_OS_ANDROID
+    // Kep Android screen on
+    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([](){
+        QJniObject activity = QNativeInterface::QAndroidApplication::context();
+        QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+        const int FLAG_KEEP_SCREEN_ON = 128; // Constante de Android
+        window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+    });
+#endif
+
+    // Force the scaling to be smooth and respect the system's density
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
+        Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+
     QGuiApplication app(argc, argv);
+
+#ifdef Q_OS_ANDROID
+    // Set the window to immersive mode to hide status and navigation bars
+    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([](){
+        QJniObject activity = QNativeInterface::QAndroidApplication::context();
+        QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+        QJniObject decorView = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+
+        // Define the flags for SYSTEM_UI_FLAG_FULLSCREEN and IMMERSIVE_STICKY
+        const int SYSTEM_UI_FLAG_FULLSCREEN = 4;
+        const int SYSTEM_UI_FLAG_HIDE_NAVIGATION = 2;
+        const int SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 4096;
+
+        int flags = SYSTEM_UI_FLAG_FULLSCREEN | SYSTEM_UI_FLAG_HIDE_NAVIGATION | SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        decorView.callMethod<void>("setSystemUiVisibility", "(I)V", flags);
+    });
+#endif
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -21,8 +60,14 @@ int main(int argc, char *argv[])
         }
     }
 
+    qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
+
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/ui/main.qml"));
+    engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
+
+    // const QUrl url(QStringLiteral("qrc:/ui/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
+    // const QUrl url(u"qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"_ss);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

@@ -1,6 +1,6 @@
 /****************************************************************************
-** File: DatabaseManager.h
-** Date: 18/2/2026
+** File: ThemeManager.h
+** Date: 22/02/2026
 ** Author: Rubén Llòria
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -20,27 +20,37 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-#ifndef DATABASEMANAGER_H
-#define DATABASEMANAGER_H
+#ifndef THEMEMANAGER_H
+#define THEMEMANAGER_H
 
 #include <QObject>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include <QStandardPaths>
-#include <QDir>
-#include <QDebug>
+#include <QString>
+#include <QVariantMap>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
+#include <QUrl>
 
-class DatabaseManager : public QObject {
+class ThemeManager : public QObject {
     Q_OBJECT
+    // Propiedad para que QML sepa la ruta base de las imágenes
+    Q_PROPERTY(QUrl themePath READ themePath NOTIFY themeChanged)
+
 public:
-    explicit DatabaseManager(QObject *parent = nullptr);
-    bool initDatabase();
-    bool seedDatabase(); // To insert our first Protocol
+    explicit ThemeManager(QObject *parent = nullptr);
+
+    // Función que llamaremos desde el menú de configuración
+    Q_INVOKABLE void loadTheme(const QString &folderName);
+
+    QUrl themePath() const { return m_themePath; }
+
+signals:
+    void themeChanged();
+    // Señal que envía todos los colores del JSON a QML de una vez
+    void themeDataLoaded(QVariantMap data);
 
 private:
-    QSqlDatabase m_db;
-    bool createTables();
+    QUrl m_themePath;
 };
 
-#endif
+#endif // THEMEMANAGER_H
