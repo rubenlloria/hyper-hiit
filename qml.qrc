@@ -4,5 +4,7 @@
         <file>ui/main.qml</file>
         <file>ui/ProgressDial.qml</file>
         <file>ui/CyberButton.qml</file>
+        <file>ui/assets/fonts/Orbitron-VariableFont_wght.ttf</file>
+        <file>ui/views/Dashboard.qml</file>
     </qresource>
 </RCC>

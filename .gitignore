@@ -2,6 +2,7 @@
 # ----------------------------------------------------------------------------
 
 build/
+res/
 *.user
 *~
 *.autosave
@@ -81,5 +82,3 @@ authors.txt
 *.qmlproject
 CMakeLists.txt2
 ui.txt
-res/*.zip
-res/HIIT Fitness App UI Design/
