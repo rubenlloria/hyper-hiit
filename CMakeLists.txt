@@ -44,11 +44,12 @@ qt_add_qml_module(hyper-hiit
         ui/CyberButton.qml
         ui/ProgressDial.qml
         # screens
+        ui/views/Architect.qml
+        ui/views/ArchitectForm.ui.qml
+        ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
         ui/views/Testboard.qml
-        ui/views/ArchitectForm.ui.qml
         ui/views/ProtocolForm.ui.qml
-        ui/views/Dashboard.qml
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
@@ -56,6 +57,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
         ui/components/NeonText.ui.qml
+        ui/components/ProtocolList.ui.qml
     RESOURCES
         res/background_tech.png
         gpl2_header.txt
@@ -66,9 +68,6 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/ShareTechMono-Regular.ttf
         RESOURCES ui/qmldir
         QML_FILES ui/components/NeonProtocol.ui.qml
-RESOURCES ui/components/ProtocolList.ui.qml
-QML_FILES ui/views/Architect.qml
-
 )
 
 # 7. Definiciones de compilación
