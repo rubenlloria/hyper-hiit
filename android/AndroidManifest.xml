@@ -26,7 +26,8 @@
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
             android:label="HYPER//HIIT"
             android:launchMode="singleTop"
-            android:screenOrientation="unspecified"
+            android:screenOrientation="portrait"
+            android:keepScreenOn="true"
             android:theme="@style/AppSplash"
             android:exported="true">
             <intent-filter>
