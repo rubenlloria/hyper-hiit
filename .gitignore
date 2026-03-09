@@ -74,3 +74,12 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+# Qt Creator User/Alias configuration
+authors.txt
+
+*.qtds
+*.qmlproject
+CMakeLists.txt2
+ui.txt
+res/*.zip
+res/HIIT Fitness App UI Design/
