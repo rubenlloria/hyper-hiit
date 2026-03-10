@@ -22,10 +22,10 @@ Item {
         // Header Title
         Text {
             id: listTitle
-            text: "MISSION_PROTOCOLS"
+            text: "PROTOCOLS"
             color: listRoot.listThemeColor
             font.family: "Share Tech Mono"
-            font.pixelSize: 14
+            font.pixelSize: 16
             leftPadding: 5
         }
 
