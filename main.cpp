@@ -1,14 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
 #include <QLocale>
 #include <QTranslator>
-#include "src/Chronometer.h"
 
-// #ifdef Q_OS_ANDROID
-// #include <QtCore/private/qandroidextras_p.h>
-// #endif
+// Project components
+#include "src/Chronometer.h"
+#include "src/DatabaseManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -60,19 +58,31 @@ int main(int argc, char *argv[])
         }
     }
 
-    qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
+    DatabaseManager dbManager;
+    if (dbManager.initDatabase()) {
+        // Seeding master data (Directives and Protocols) on first execution
+        dbManager.seedDatabase();
+    }
 
+    Chronometer chronometer;
+
+    // 1. Initialize the QML engine
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
 
-    // const QUrl url(QStringLiteral("qrc:/ui/main.qml"));
+    // 2. Register Context Properties (Neural Sync)
+    // We inject the version defined in CMake so the HUD can display it
+    engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
+    engine.rootContext()->setContextProperty("DatabaseManager", &dbManager);
+    engine.rootContext()->setContextProperty("chronometer", &chronometer);
+
     const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
-    // const QUrl url(u"qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"_ss);
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
     engine.load(url);
 
     return app.exec();
