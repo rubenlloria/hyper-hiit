@@ -20,6 +20,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
+#include <QFile>
 #include "DatabaseManager.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent) {}
@@ -31,6 +32,8 @@ bool DatabaseManager::initDatabase() {
     if (!dir.exists()) dir.mkpath(path);
 
     QString dbPath = path + "/hyperhiit_core.db";
+    qDebug() << "DEBUG: database on '" << dbPath << "'.";
+    bool firstRun = !QFile::exists(dbPath);
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(dbPath);
 
@@ -39,7 +42,14 @@ bool DatabaseManager::initDatabase() {
         return false;
     }
 
-    return createTables();
+    if (firstRun) {
+        qDebug() << "DEBUG: First run detected. Creating default database grid...";
+        if (!createTables()) return false;
+        if (!seedDatabase()) return false;
+    }
+
+    qDebug() << "STATUS: Database system online.";
+    return true;
 }
 
 bool DatabaseManager::createTables() {
@@ -48,27 +58,18 @@ bool DatabaseManager::createTables() {
     // 1. Directives table
     QString createDirectives =
         "CREATE TABLE IF NOT EXISTS directives ("
-        "directive_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "directive_name TEXT NOT NULL, "
-        "directive_description TEXT, "
-        "directive_icon TEXT, "
-        "directive_color TEXT"
+        "dir_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "dir_name TEXT NOT NULL, "
+        "dir_description TEXT, "
+        "dir_icon TEXT, "
+        "dir_color TEXT"
         ");";
     if (!q.exec(createDirectives)) {
         qDebug() << "ERROR: Failed to create directives table:" << q.lastError().text();
         return false;
     }
 
-    /*
-    // We use the English schema we discussed
-    success &= q.exec("CREATE TABLE IF NOT EXISTS exercises (exercise_id INTEGER PRIMARY KEY, name TEXT UNIQUE)");
-    success &= q.exec("CREATE TABLE IF NOT EXISTS directives (directive_id INTEGER PRIMARY KEY, label TEXT UNIQUE)");
-    success &= q.exec("CREATE TABLE IF NOT EXISTS protocols (protocol_id INTEGER PRIMARY KEY, directive_id INTEGER, name TEXT, version INTEGER)");
-    success &= q.exec("CREATE TABLE IF NOT EXISTS subsystems (subsystem_id INTEGER PRIMARY KEY, protocol_id INTEGER, name TEXT, order_index INTEGER)");
-    success &= q.exec("CREATE TABLE IF NOT EXISTS protocol_steps (step_id INTEGER PRIMARY KEY, subsystem_id INTEGER, exercise_id INTEGER, reps_count INTEGER, order_index INTEGER)");
-    */
-
-    // 2. Protocols table: linked to directives
+     // 2. Protocols table: linked to directives
     QString createProtocols =
         "CREATE TABLE IF NOT EXISTS protocols ("
         "protocol_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -79,7 +80,7 @@ bool DatabaseManager::createTables() {
         "personal_best INTEGER"
         ");";
 
-    if (q.exec(createProtocols)) {
+    if (!q.exec(createProtocols)) {
         qDebug() << "ERROR: Failed to create protocols table:" << q.lastError().text();
         return false;
     }
@@ -88,9 +89,9 @@ bool DatabaseManager::createTables() {
     QString createMapping =
         "CREATE TABLE IF NOT EXISTS directives_protocols_map ("
         "mapping_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "directive_id INTEGER, "
+        "dir_id INTEGER, "
         "protocol_id INTEGER, "
-        "FOREIGN KEY(directive_id) REFERENCES directives(directive_id), "
+        "FOREIGN KEY(dir_id) REFERENCES directives(dir_id), "
         "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
         ");";
     if (!q.exec(createMapping)) {
@@ -107,13 +108,16 @@ bool DatabaseManager::seedDatabase() {
 
     //////////// DIRECTIVES ///////////////
     // --- Insert Primary Directive (FAT_BURNING) ---
-    q.prepare("INSERT OR IGNORE INTO directives (directive_name, description, icon_glyph, neon_color) "
+    q.prepare("INSERT OR IGNORE INTO directives (dir_name, dir_description, dir_icon, dir_color) "
               "VALUES (:name, :desc, :icon, :color)");
     q.bindValue(":name", "FAT_BURNING");
     q.bindValue(":desc", "Metabolic acceleration protocol"); // Sentence case [7]
     q.bindValue(":icon", "\ue0d2"); // Lucide flame icon [7, 8]
     q.bindValue(":color", "#BF00FF"); // Fuchsia Neon constant [9]
-    if (!q.exec()) return false;
+    if (!q.exec()) {
+        qDebug() << "ERROR: Failed seeding directives:" << q.lastError().text();
+        return false;
+    }
     // Get the last inserted ID for mapping
     int fatBurnId = q.lastInsertId().toInt();
     qDebug() << "[CORE] Database seeded with FAT_BURNING directive.";
@@ -127,7 +131,10 @@ bool DatabaseManager::seedDatabase() {
     q.bindValue(":count", 8);
     q.bindValue(":rank", "ADVANCED");
     q.bindValue(":pb", 85);
-    if (!q.exec()) return false;
+    if (!q.exec()) {
+        qDebug() << "ERROR: Failed seeding protocols:" << q.lastError().text();
+        return false;
+    }
     int aresStrikeId = q.lastInsertId().toInt();
     qDebug() << "[CORE] Database seeded with ARES_STRIKE protocol.";
 
