@@ -20,6 +20,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
+    src/SystemErrors.h
     src/DatabaseManager.h
     src/DatabaseManager.cpp
     src/Chronometer.h
