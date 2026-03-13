@@ -68,6 +68,7 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/ShareTechMono-Regular.ttf
         RESOURCES ui/qmldir
         QML_FILES ui/components/NeonProtocol.ui.qml
+        QML_FILES ui/components/NeonButton.ui.qml
 )
 
 # 7. Definiciones de compilación
