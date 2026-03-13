@@ -68,7 +68,7 @@ Rectangle {
         }
     }
 
-    // --- FOOTER DATA ---
+    // --- FOOTER DATA ---  TODO: Create Component
     Text {
         id: footer
         text: "NEURAL_SYNC: 100%       |       LATENCY: <1ms       |       BUILD: v2.026.2"
