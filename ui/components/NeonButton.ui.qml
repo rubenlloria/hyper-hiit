@@ -20,6 +20,7 @@ Item {
     property color themeColor: "#00fff9" // Cyan Neon by default [4]
     property bool isHovered: interactionArea.containsMouse
     property bool isPressed: interactionArea.pressed
+    property alias interactionArea: interactionArea
 
     // 1. Matte Black Background
     Rectangle {
@@ -109,7 +110,7 @@ Item {
     RowLayout {
         id: content
         anchors.centerIn: parent
-        anchors.horizontalCenterOffset: -4
+        anchors.horizontalCenterOffset: -5
         spacing: 5
 
         // Icon component using Lucide font [3]
