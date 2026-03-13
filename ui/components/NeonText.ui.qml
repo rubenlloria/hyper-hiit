@@ -34,7 +34,7 @@ Item {
         font.pixelSize: 20
         font.letterSpacing: 1
         anchors.verticalCenter: parent.verticalCenter
-        // renderType: Text.QtRendering // Ensures implicitWidth is calculated correctly
+        renderType: Text.QtRendering // Ensures implicitWidth is calculated correctly
     }
     DropShadow {
         id: labelGlow
