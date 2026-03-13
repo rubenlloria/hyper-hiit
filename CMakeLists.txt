@@ -53,22 +53,22 @@ qt_add_qml_module(hyper-hiit
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
+        ui/components/NeonButton.ui.qml
         ui/components/NeonDirective.ui.qml
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
+        ui/components/NeonProtocol.ui.qml
         ui/components/NeonText.ui.qml
         ui/components/ProtocolList.ui.qml
     RESOURCES
         res/background_tech.png
         gpl2_header.txt
         authors.txt
+        ui/qmldir
         ui/assets/fonts/Orbitron-VariableFont_wght.ttf
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
-        RESOURCES ui/qmldir
-        QML_FILES ui/components/NeonProtocol.ui.qml
-        QML_FILES ui/components/NeonButton.ui.qml
 )
 
 # 7. Definiciones de compilación
