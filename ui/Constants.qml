@@ -17,7 +17,7 @@ QtObject {
 
     // --- COLOR PALETTE (Centralized for Neon Theme) ---
     readonly property color blackNeon:          "#030213"
-    readonly property color WhiteNeon:          "#ffffff"
+    readonly property color whiteNeon:          "#ffffff"
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
     readonly property color greenNeon:          "#39ff14"
@@ -28,12 +28,15 @@ QtObject {
     readonly property color yellowNeon:         "#ffdf00"
     readonly property color cyberYellow:        yellowNeon  // DELETEME
     // readonly property color backgroundColor: "#EAEAEA"
-    readonly property color backgroundColor:    neonBlack
-    readonly property color descriptionColor:   neonWhite
+    readonly property color backgroundColor:    blackNeon
+    readonly property color descriptionColor:   whiteNeon
     readonly property color primaryColor:       fuchsiaNeon
     readonly property color secondaryColor:     cyanNeon
-    readonly property color primaryTextColor:   fuchsiaNeon
-    readonly property color secondaryTextColor: cyanNeon
+    readonly property color primaryTextColor:   cyanNeon
+    readonly property color secondaryTextColor: fuchsiaNeon
+    readonly property color onColor:            cyanNeon
+    readonly property color offColor:           fuchsiaNeon
+
 
     // --- DESIGN TOKENS ---
 
