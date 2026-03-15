@@ -2,13 +2,15 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
+import ".."
+
 
 /*
     NeonProtocol Component: Individual training protocol card.
     Designed for Android/Mobile with property injection for C++.
 */
 Item {
-    id: protocolRoot
+    id: root
     width: 350
     height: 85
 
@@ -19,8 +21,8 @@ Item {
     property int modulesCount: 8
     property real currentProgress: 0.75 // Value between 0.0 and 1.0
     property real personalBest: 0.60 // Value between 0.0 and 1.0
-    property color neonMagenta: "#bf00ff"
-    property color neonCyan: "#00fff9"
+    property color primaryColor: Constants.primaryColor
+    property color secondaryColor: Constants.secondaryColor
 
     // Card Background and Neon Border
     Rectangle {
@@ -28,7 +30,7 @@ Item {
         anchors.fill: parent
         color: "#1a1a1f"
         opacity: 0.8
-        border.color: protocolRoot.neonMagenta
+        border.color: root.primaryColor
         border.width: 1
     }
 
@@ -37,7 +39,7 @@ Item {
         id: borderGlow
         anchors.fill: backgroundBase
         source: backgroundBase
-        color: protocolRoot.neonMagenta
+        color: root.primaryColor
         radius: 10
         samples: 15
         spread: 0.2
@@ -52,11 +54,11 @@ Item {
         // Upper Section: Title and Rank
         NeonText {
             id: titleLabel
-            label: protocolRoot.protocolName
-            labelColor: protocolRoot.neonMagenta
+            label: root.protocolName
+            labelColor: root.primaryColor
             size: 16
-            // text: protocolRoot.protocolName
-            // color: protocolRoot.neonMagenta
+            // text: root.protocolName
+            // color: root.primaryColor
             // font.family: "Orbitron"
             // font.pixelSize: 16
             // font.bold: true
@@ -66,8 +68,8 @@ Item {
 
         Text {
             id: rankLabel
-            text: protocolRoot.rankLevel
-            color: protocolRoot.neonCyan
+            text: root.rankLevel
+            color: root.secondaryColor
             font.family: "Share Tech Mono"
             font.pixelSize: 12
             font.bold: true
@@ -78,7 +80,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: -4
                 color: "transparent"
-                border.color: protocolRoot.neonCyan
+                border.color: root.secondaryColor
                 border.width: 1
                 opacity: 0.5
             }
@@ -92,7 +94,7 @@ Item {
             spacing: 15
 
             Text {
-                text: "DURATION: " + protocolRoot.durationText
+                text: "DURATION: " + root.durationText
                 color: "#ffffff"
                 opacity: 0.7
                 font.family: "Share Tech Mono"
@@ -100,7 +102,7 @@ Item {
             }
 
             Text {
-                text: "MODULES: " + protocolRoot.modulesCount
+                text: "MODULES: " + root.modulesCount
                 color: "#ffffff"
                 opacity: 0.7
                 font.family: "Share Tech Mono"
@@ -120,20 +122,20 @@ Item {
             // Progress Fill
             Rectangle {
                 id: progressFill
-                width: parent.width * protocolRoot.currentProgress
+                width: parent.width * root.currentProgress
                 height: parent.height
-                color: protocolRoot.neonMagenta
+                color: root.primaryColor
 
                 // Gradient logic for exceeding PB
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0
-                        color: protocolRoot.neonMagenta
+                        color: root.primaryColor
                     }
                     GradientStop {
                         id: gradientMid
                         position: 1.0
-                        color: protocolRoot.neonMagenta
+                        color: root.primaryColor
                     }
                 }
             }
@@ -143,9 +145,9 @@ Item {
                 id: pbMarker
                 width: 2
                 height: parent.height + 6
-                color: protocolRoot.neonCyan
+                color: root.secondaryColor
                 anchors.verticalCenter: parent.verticalCenter
-                x: parent.width * protocolRoot.personalBest
+                x: parent.width * root.personalBest
                 z: 2
             }
         }
@@ -155,7 +157,7 @@ Item {
     states: [
         State {
             name: "record_breaking"
-            when: protocolRoot.currentProgress > protocolRoot.personalBest
+            when: root.currentProgress > root.personalBest
             PropertyChanges {
                 target: gradientMid
                 color: "#ffffff" // Changes to White-Magenta gradient
