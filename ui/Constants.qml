@@ -16,15 +16,26 @@ QtObject {
     function px(value) { return value * scaleFactor }
 
     // --- COLOR PALETTE (Centralized for Neon Theme) ---
-    readonly property color backgroundColor:    "#030213"
-    readonly property color descriptionColor:   "#ffffff"
+    readonly property color blackNeon:          "#030213"
+    readonly property color WhiteNeon:          "#ffffff"
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
-    readonly property color terminalGreen:      "#39ff14"
-    readonly property color radicalRed:         "#ff003c"
-    readonly property color neonLime:           "#39ff14"
-    readonly property color cyberYellow:        "#ffdf00"
+    readonly property color greenNeon:          "#39ff14"
+    readonly property color terminalGreen:      greenNeon   // DELETEME
+    readonly property color neonLime:           greenNeon   // DELETEME
+    readonly property color redNeon:             "#ff003c"
+    readonly property color radicalRed:         redNeon     // DELETEME
+    readonly property color yellowNeon:         "#ffdf00"
+    readonly property color cyberYellow:        yellowNeon  // DELETEME
     // readonly property color backgroundColor: "#EAEAEA"
+    readonly property color backgroundColor:    neonBlack
+    readonly property color descriptionColor:   neonWhite
+    readonly property color primaryColor:       fuchsiaNeon
+    readonly property color secondaryColor:     cyanNeon
+    readonly property color primaryTextColor:   fuchsiaNeon
+    readonly property color secondaryTextColor: cyanNeon
+
+    // --- DESIGN TOKENS ---
 
     // --- ICONS (From Lucide font)
     readonly property string settingsIcon:  "\uE154"
