@@ -63,10 +63,11 @@ Window {
         // Apply the transformation
         scale: Constants.scaleFactor
         // Add margins to prevent UI overlapping with physical notches
-        anchors.topMargin: Screen.safeAreaMargins.top
-        anchors.bottomMargin: Screen.safeAreaMargins.bottom
-        anchors.leftMargin: Screen.safeAreaMargins.left
-        anchors.rightMargin: Screen.safeAreaMargins.right
+        // Fallback to 0 if margins are undefined (Desktop/Generic targets)
+        anchors.topMargin: Screen.safeAreaMargins ? Screen.safeAreaMargins.top : 0
+        anchors.bottomMargin: Screen.safeAreaMargins ? Screen.safeAreaMargins.bottom : 0
+        anchors.leftMargin: Screen.safeAreaMargins ? Screen.safeAreaMargins.left : 0
+        anchors.rightMargin: Screen.safeAreaMargins ? Screen.safeAreaMargins.right : 0
 
         // Wrap the StackView in a Flickable
         Flickable {
