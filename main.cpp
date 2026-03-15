@@ -59,10 +59,7 @@ int main(int argc, char *argv[])
     }
 
     DatabaseManager dbManager;
-    if (dbManager.initDatabase()) {
-        // Seeding master data (Directives and Protocols) on first execution
-        dbManager.seedDatabase();
-    }
+    dbManager.initDatabase();
 
     Chronometer chronometer;
 
