@@ -67,6 +67,7 @@ Item {
             font.family: Constants.techFont.family
             font.pixelSize: 12
             bottomPadding: 8
+            topPadding: 8
         }
 
         // Active Directive Header [6]
