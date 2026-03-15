@@ -14,23 +14,31 @@ Rectangle {
     property alias header: header
     property alias restoreDBButton: restoreDBButton
     ColumnLayout {
+        id: mainLayout
+        anchors.fill: parent // Ensures the layout covers the view
         spacing: 10
         // --- VIEW CONTENT ---
         AppHeader {
             id: header
+            Layout.fillWidth: true
             titlePart1: "sys"
             titlePart2: "architect"
             buttonLabel: "BACK     "
             // buttonGlyph: Constants.backIcon
             buttonGlyph: Constants.backIcon
-            anchors.top: parent.top
+            // anchors.top: parent.top
         }
 
         NeonButton {
             id: restoreDBButton
-            x: 24
-            y: 121
             label: "RESTORE_DB"
+            Layout.alignment: Qt.AlignTop
+            // Layout.topMargin: Constants.px(20)
+        }
+
+        // [BUFFER]: Flexible item to push content up
+        Item {
+            Layout.fillHeight: true
         }
 
         // Add your configuration components here

@@ -119,7 +119,9 @@ Item {
             glyph: buttonRoot.iconGlyph
             color: buttonRoot.themeColor
             size: 20
-            anchors.verticalCenter: parent.verticalCenter
+            // anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: Qt.AlignVCenter
+
         }
 
         NeonText {
@@ -127,7 +129,9 @@ Item {
             label: buttonRoot.label
             labelColor: buttonRoot.themeColor
             size: 14
-            anchors.verticalCenter: parent.verticalCenter
+            // anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: Qt.AlignVCenter
+
         }
     }
 
