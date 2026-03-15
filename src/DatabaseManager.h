@@ -35,8 +35,12 @@ class DatabaseManager : public QObject {
     Q_OBJECT
 public:
     explicit DatabaseManager(QObject *parent = nullptr);
+    Q_INVOKABLE bool restoreDatabase();
+
     bool initDatabase();
-    bool seedDatabase(); // To insert our first Protocol
+    bool seedDatabase();
+    // bool restoreDatabase();
+
 
 private:
     QSqlDatabase m_db;

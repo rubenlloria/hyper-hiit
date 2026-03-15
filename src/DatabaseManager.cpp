@@ -159,3 +159,14 @@ bool DatabaseManager::seedDatabase() {
 
     return true;
 }
+
+bool DatabaseManager::restoreDatabase() {
+    QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
+    if (QFile::remove(dbPath)) {
+        qDebug() << "[INFO]: " << dbPath << " deleted successfully";
+    } else {
+        qDebug() << "[ERROR]: Could not delete file " << dbPath;
+        return false;
+    }
+    return initDatabase();
+}
