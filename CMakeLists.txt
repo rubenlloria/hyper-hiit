@@ -70,6 +70,7 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
+        QML_FILES ui/components/NeonFooter.ui.qml
 )
 
 # 7. Definiciones de compilación
