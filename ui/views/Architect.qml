@@ -12,5 +12,6 @@ ArchitectForm {
     }
     restoreDBButton.interactionArea.onClicked: {
         console.log("Restoring database...");
+        DatabaseManager.restoreDatabase();
     }
 }
