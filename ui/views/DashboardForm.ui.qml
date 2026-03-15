@@ -45,10 +45,10 @@ Rectangle {
     property alias neonAccordion: neonAccordion
     property alias header: header
 
-
     Column {
         width: parent.width
         height: parent.height
+        spacing: 10
         AppHeader {
             id: header
             z: 60
@@ -69,17 +69,20 @@ Rectangle {
     }
 
     // --- FOOTER DATA ---  TODO: Create Component
-    Text {
-        id: footer
-        text: "NEURAL_SYNC: 100%       |       LATENCY: <1ms       |       BUILD: v2.026.2"
-        font.family: Constants.techFont.family
-        font.pixelSize: 10
-        color: Constants.cyanNeon
-        opacity: 0.5
+    NeonFooter {
         anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        // Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
     }
+    // Text {
+    //     id: footer
+    //     text: "NEURAL_SYNC: 100%       |       LATENCY: <1ms       |       BUILD: v2.026.2"
+    //     font.family: Constants.techFont.family
+    //     font.pixelSize: 10
+    //     color: Constants.cyanNeon
+    //     opacity: 0.5
+    //     anchors.bottom: parent.bottom
+    //     anchors.horizontalCenter: parent.horizontalCenter
+    //     // Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
+    // }
 
     // --- SCANLINES EFFECT (.scanlines de cyberpunk.css) ---
     Rectangle {
@@ -111,7 +114,7 @@ Rectangle {
             loops: Animation.Infinite
         }
     }
-} // ColumnLayout {//     anchors.fill: parent//     anchors.margins: 20//     spacing: 15//     // --- HEADER ---//     // Text {//     //     text: "hyper//hiit"//     //     font.family: "Orbitron"//     //     font.pixelSize: 28//     //     color: "#00fff9"//     //     Layout.alignment: Qt.AlignHCenter//     //     // Neon Glow
+}// ColumnLayout {//     anchors.fill: parent//     anchors.margins: 20//     spacing: 15//     // --- HEADER ---//     // Text {//     //     text: "hyper//hiit"//     //     font.family: "Orbitron"//     //     font.pixelSize: 28//     //     color: "#00fff9"//     //     Layout.alignment: Qt.AlignHCenter//     //     // Neon Glow
 //     //     layer.enabled: true
 //     //     layer.effect: MultiEffect {
 //     //         blurEnabled: true
