@@ -5,11 +5,13 @@
 #include <QTranslator>
 
 // Project components
+#include "src/SystemManager.h"
 #include "src/Chronometer.h"
 #include "src/DatabaseManager.h"
 
 int main(int argc, char *argv[])
 {
+    bool isSystemReady = false;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -63,6 +65,8 @@ int main(int argc, char *argv[])
 
     Chronometer chronometer;
 
+    SystemManager systemManager;
+
     // 1. Initialize the QML engine
     QQmlApplicationEngine engine;
 
@@ -71,13 +75,19 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
     engine.rootContext()->setContextProperty("DatabaseManager", &dbManager);
     engine.rootContext()->setContextProperty("chronometer", &chronometer);
+    engine.rootContext()->setContextProperty("SystemManager", &systemManager);
 
     const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
+                     &app, [url, &systemManager](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl) {
             QCoreApplication::exit(-1);
+        } else if (obj) {
+            // UI handshake successful: Setting operational state to ONLINE
+            // This triggers the NOTIFY signal for isSystemReady
+            systemManager.setSystemReady(true);
+        }
     }, Qt::QueuedConnection);
 
     engine.load(url);

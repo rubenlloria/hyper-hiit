@@ -21,6 +21,8 @@ find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
     src/SystemErrors.h
+    src/SystemManager.h
+    src/SystemManager.cpp
     src/DatabaseManager.h
     src/DatabaseManager.cpp
     src/Chronometer.h
@@ -56,6 +58,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonAccordion.ui.qml
         ui/components/NeonButton.ui.qml
         ui/components/NeonDirective.ui.qml
+        ui/components/NeonFooter.ui.qml
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
         ui/components/NeonProtocol.ui.qml
@@ -70,7 +73,6 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
-        QML_FILES ui/components/NeonFooter.ui.qml
 )
 
 # 7. Definiciones de compilación
