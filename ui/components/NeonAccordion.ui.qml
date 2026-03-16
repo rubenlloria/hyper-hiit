@@ -135,9 +135,10 @@ Item {
                 // Chevron indicator [3]
                 Text {
                     id: chevron
-                    text: "▼"
+                    text: Constants.chevronDown
                     color: root.activeThemeColor
-                    font.pixelSize: 14
+                    font.family: Constants.iconFont.family
+                    font.pixelSize: 20
                     rotation: root.isOpen ? 180 : 0
                 }
             }
