@@ -29,7 +29,7 @@ Item {
     Text {
         id: label
         text: "LABEL"
-        color: "#bf00ff"
+        color: Constants.secondaryTextColor
         font.family: Constants.techFont.family
         font.pixelSize: 20
         font.letterSpacing: 1
