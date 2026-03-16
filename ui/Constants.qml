@@ -48,6 +48,10 @@ QtObject {
     readonly property string targetIcon:    "\ue180" // Endurance
     readonly property string zapIcon:       "\ue1b4" // Strength
     readonly property string brainIcon:     "\ue3c6" // Neural
+    readonly property string chevronDown:   "\uE06D" // chevron-down
+    readonly property string chevronLeft:   "\uE06E" // chevron-left
+    readonly property string chevronRight:  "\uE06F" // chevron-right
+    readonly property string chevronUp:     "\uE070" // chevron-up
 
 /*
     // --- FONT CONFIGURATION ---
