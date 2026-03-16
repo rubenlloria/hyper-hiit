@@ -1,7 +1,7 @@
 /****************************************************************************
 ** File: SystemErrors.h
 ** Date: 13/3/2026
-** Author: orion
+** Author: Rubén Llòria
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License version 2 as
@@ -21,7 +21,7 @@
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ** GNU General Public License for more details.
 **
-** Copyright (C) 2026 orion
+** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 #ifndef SYSTEMERRORS_H
 #define SYSTEMERRORS_H
