@@ -1,0 +1,88 @@
+{
+  "modules": [
+    {
+      "mod_name": "Rest",
+      "mod_description": "Take your time to rest",
+      "target_zone": "REST",
+      "unit_type": "seconds",
+      "met_factor": 12,
+      "met_factor": 4,
+      "fatigue_rate": 6.5,
+      "rep_time": 1
+    },
+    {
+      "mod_name": "Burpees",
+      "mod_description": "Plank, push-up and jump",
+      "target_zone": "Full body",
+      "unit_type": "reps",
+      "met_factor": 12,
+      "fatigue_rate": 6.5,
+      "rep_time": 3.7
+    },
+    {
+      "mod_name": "Sit-ups",
+      "mod_description": "Plank, push-up and jump",
+      "target_zone": "Full body",
+      "unit_type": "reps",
+      "met_factor": 4,
+      "fatigue_rate": 2,
+      "rep_time": 2.5
+    },
+    {
+      "mod_name": "Squats",
+      "mod_description": "Plank, push-up and jump",
+      "target_zone": "Full body",
+      "unit_type": "reps",
+      "met_factor": 8,
+      "fatigue_rate": 3,
+      "rep_time": 3.25
+    }
+  ],
+  "directives": [
+    {
+      "directive_name": "FAT_BURNING",
+      "directive_description": "Metabolic acceleration protocol",
+      "directive_icon": "\ue0d2",
+      "directive_color": "#BF00FF"
+    },
+    {
+      "directive_name": "CARDIO_ENHANCEMENT",
+      "directive_description": "Cardiovascular optimization system",
+      "directive_icon": "\ue0f2",
+      "directive_color": "#00FFF9"
+    }
+  ],
+  "protocols": [
+    {
+      "protocol_name": "ARES_STRIKE",
+      "estimated_duration": 1200,
+      "module_count": 8,
+      "rank": "ADVANCED",
+      "personal_best": 85,
+      "target_directives": ["FAT_BURNING", "CARDIO_ENHANCEMENT"],
+      "structure": [
+        {
+          "order": 1,
+          "subsystem": 1,
+          "module": "burpees",
+          "quantity": 30,
+          "unit": "reps",
+        },
+        {
+          "order": 2,
+          "subsystem": 1,
+          "module": "situps",
+          "quantity": 30,
+          "unit": "reps",
+        },
+        {
+          "order": 3,
+          "subsystem": 1,
+          "module": "squats",
+          "quantity": 30,
+          "unit": "reps",
+        },
+      ]
+    }
+  ]
+}

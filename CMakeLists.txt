@@ -65,6 +65,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonText.ui.qml
         ui/components/ProtocolList.ui.qml
     RESOURCES
+        res/init_data.json
         res/background_tech.png
         gpl2_header.txt
         authors.txt
