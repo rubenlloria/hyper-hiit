@@ -134,6 +134,7 @@ Item {
 
                 // Chevron indicator [3]
                 Text {
+                    // FIXME first click not animated
                     id: chevron
                     text: Constants.chevronDown
                     color: root.activeThemeColor
@@ -213,7 +214,7 @@ Item {
             to: "*"
             RotationAnimation {
                 target: chevron
-                duration: 200
+                duration: 300
                 easing.type: Easing.InOutQuad
             }
         }
