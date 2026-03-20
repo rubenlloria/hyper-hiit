@@ -33,6 +33,7 @@ bool DatabaseManager::initDatabase() {
 
     QString dbPath = path + "/hyperhiit_core.db";
     qDebug() << "DEBUG: database on '" << dbPath << "'.";
+    QFile::remove(dbPath); // TODO DELETEME
     bool firstRun = !QFile::exists(dbPath);
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(dbPath);
@@ -55,107 +56,207 @@ bool DatabaseManager::initDatabase() {
 bool DatabaseManager::createTables() {
     QSqlQuery q;
 
-    // 1. Directives table
+    qDebug() << "[INFO]: Creating tables";
+    // 1. Modules table
+    QString createModules =
+       "CREATE TABLE IF NOT EXISTS modules ("
+          "module_id INTEGER PRIMARY KEY,"
+          "mod_name VARCHAR(100),"
+          "mod_description TEXT,"
+          "target_zone VARCHAR(50),"    // Target area (e.g., FULL BODY)
+          "unit_type INTEGER NOT NULL," // 0: SECONDS | 1: REPS
+          "rep_time FLOAT,"
+          "met_factor FLOAT,"           // Efficiency constant
+          "fatigue_rate FLOAT"         // Performance tier 1
+          ");";
+    if (!q.exec(createModules)) {
+        qDebug() << "[ERROR]: Failed to create modules "
+                    "table:" << q.lastError().text();
+        return false;
+    }
+
+    // 2. Directives table
     QString createDirectives =
         "CREATE TABLE IF NOT EXISTS directives ("
-        "dir_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "dir_name TEXT NOT NULL, "
-        "dir_description TEXT, "
-        "dir_icon TEXT, "
-        "dir_color TEXT"
-        ");";
+            "dir_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "dir_name TEXT NOT NULL, "
+            "dir_description TEXT, "
+            "dir_icon TEXT, "
+            "dir_color TEXT"
+            ");";
     if (!q.exec(createDirectives)) {
         qDebug() << "ERROR: Failed to create directives table:" << q.lastError().text();
         return false;
     }
 
-     // 2. Protocols table: linked to directives
+     // 3. Protocols table: linked to directives
     QString createProtocols =
         "CREATE TABLE IF NOT EXISTS protocols ("
-        "protocol_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "protocol_name TEXT NOT NULL, "
-        "estimated_duration INTEGER, "
-        "module_count INTEGER, "
-        "rank TEXT, "
-        "personal_best INTEGER"
-        ");";
+            "protocol_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "protocol_name TEXT NOT NULL, "
+            "estimated_duration INTEGER, "
+            "module_count INTEGER, "
+            "rank TEXT, "
+            "personal_best INTEGER"
+            ");";
 
     if (!q.exec(createProtocols)) {
         qDebug() << "ERROR: Failed to create protocols table:" << q.lastError().text();
         return false;
     }
 
-    // 3. Mapping table: Implements the many-to-many relationship [6]
+    // 4. Mapping directive_protocols table: Implements the many-to-many relationship
     QString createMapping =
-        "CREATE TABLE IF NOT EXISTS directives_protocols_map ("
-        "mapping_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "dir_id INTEGER, "
-        "protocol_id INTEGER, "
-        "FOREIGN KEY(dir_id) REFERENCES directives(dir_id), "
-        "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
-        ");";
+        "CREATE TABLE IF NOT EXISTS directives_protocols ("
+            "dp_mapping_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "dir_id INTEGER, "
+            "protocol_id INTEGER, "
+            "FOREIGN KEY(dir_id) REFERENCES directives(dir_id), "
+            "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
+            ");";
     if (!q.exec(createMapping)) {
-        qDebug() << "ERROR: Failed to create directives_protocols_map table:" << q.lastError().text();
+        qDebug() << "ERROR: Failed to create directives_protocols table:" << q.lastError().text();
         return false;
     }
 
-
+    // 5. Mapping protocol_structure table: Implements the many-to-many relationship
+    QString createStructure =
+        "CREATE TABLE IF NOT EXISTS protocol_structure ("
+            "p_map_id INTEGER PRIMARY KEY,"
+            "protocol_id INTEGER,"
+            "subsystem INTEGER,"
+            "s_order INT,"
+            "module_id INTEGER,"
+            "quantity INT,"
+            "UNIQUE (protocol_id, subsystem, s_order),"
+            "FOREIGN KEY (protocol_id) REFERENCES protocols(protocol_id),"
+            "FOREIGN KEY (module_id) REFERENCES modules(module_id)"
+            ");";
+    if (!q.exec(createStructure)) {
+        qDebug() << "[ERROR]: Failed to create protocol_structure table:" << q.lastError().text();
+        return false;
+    }
+    qDebug() << "[INFO]: Tables created succesfully";
     return true;
 }
 
 bool DatabaseManager::seedDatabase() {
     QSqlQuery q;
 
-    //////////// DIRECTIVES ///////////////
-    // --- Insert Primary Directive (FAT_BURNING) ---
-    q.prepare("INSERT OR IGNORE INTO directives (dir_name, dir_description, dir_icon, dir_color) "
-              "VALUES (:name, :desc, :icon, :color)");
-    q.bindValue(":name", "FAT_BURNING");
-    q.bindValue(":desc", "Metabolic acceleration protocol"); // Sentence case [7]
-    q.bindValue(":icon", "\ue0d2"); // Lucide flame icon [7, 8]
-    q.bindValue(":color", "#BF00FF"); // Fuchsia Neon constant [9]
-    if (!q.exec()) {
-        qDebug() << "ERROR: Failed seeding directives:" << q.lastError().text();
+    qDebug() << "[INFO]: Seeding tables";
+    // Load the data shard from the Qt Resource System
+    // QFile file(":/qt/qml/res/init_data.json");
+    QFile file(":/qt/qml/org/aic/hyperhiit/res/init_data.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "[ERROR]: Data shard init_data.json not found.";
         return false;
     }
-    // Get the last inserted ID for mapping
-    int fatBurnId = q.lastInsertId().toInt();
-    qDebug() << "[CORE] Database seeded with FAT_BURNING directive.";
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    if (jsonData.isEmpty()) {
+        qDebug() << "SYSTEM_HALT: Shard is empty. Neural Sync aborted.";
+        return false;
+    }
+
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    QJsonObject root = doc.object();
+    QJsonArray modulesArr = root["modules"].toArray();
+    QJsonArray directivesArr = root["directives"].toArray();
+    QJsonArray protocolsArr = root["protocols"].toArray();
+    // QJsonArray mappingArr = root["mapping"].toArray();
+
+    // Start SQL Transaction to maximize performance and ensure Neural Sync integrity
+    if (!m_db.transaction()) {
+        qDebug() << "[ERROR]: Could not start transaction:" << m_db.lastError().text();
+        return false;
+    }
+
+    // QSqlQuery q;
+    // 1. PRINT FULL JSON (Indented for readability)
+    qDebug() << "--- [START FULL_JSON_SHARD] ---";
+    qDebug().noquote() << doc.toJson(QJsonDocument::Indented);
+    qDebug() << "--- [END FULL_JSON_SHARD] ---";
+
+
+    //////////// MODULES ///////////////
+    for (const QJsonValue &value : std::as_const(modulesArr)) {
+        qDebug() << "[INFO]: insertModule";
+        QJsonObject d = value.toObject();
+        QString moduleName = d.value("module_name").toString();
+        int id = insertModule(
+            moduleName,
+            d.value("module_description").toString(),
+            d.value("target_zone").toString(),
+            resolveUnitType(d.value("unit_type")),
+            d.value("met_factor").toDouble(),
+            d.value("fatigue_rate").toDouble(),
+            d.value("rep_time").toDouble()
+            );
+        if (id != -1) {
+            nameToModuleId[moduleName.toLower()] = id;
+        }
+    }
+
+    //////////// DIRECTIVES ///////////////
+    for (const QJsonValue &value : std::as_const(directivesArr)) {
+        QJsonObject d = value.toObject();
+        QString directiveName = d.value("directive_name").toString();
+        int id = insertDirective(
+            directiveName,
+            d.value("directive_description").toString(),
+            d.value("directive_icon").toString(),
+            d.value("directive_color").toString()
+            );
+        if (id != -1) {
+            nameToDirectiveId[directiveName] = id;
+        }
+    }
 
     //////////// PROTOCOLS ///////////////
-    // Seed a test protocol (ARES_STRIKE) linked to FAT_BURNING (ID 1)
-    q.prepare("INSERT OR IGNORE INTO protocols (protocol_name, estimated_duration, module_count, rank, personal_best) "
-              "VALUES (:name, :duration, :count, :rank, :pb)");
-    q.bindValue(":name", "ARES_STRIKE");
-    q.bindValue(":duration", 1200); // 20 minutes in seconds [11]
-    q.bindValue(":count", 8);
-    q.bindValue(":rank", "ADVANCED");
-    q.bindValue(":pb", 85);
-    if (!q.exec()) {
-        qDebug() << "ERROR: Failed seeding protocols:" << q.lastError().text();
+    for (const QJsonValue &value : std::as_const(protocolsArr)) {
+        QJsonObject d = value.toObject();
+        QString protocolName = d.value("protocol_name").toString();
+        int id = insertProtocol(
+            protocolName,
+            d.value("estimated_duration").toDouble(),
+            d.value("module_count").toInt(),
+            d.value("rank").toString(),
+            d.value("personal_best").toDouble()
+            );
+        if (id != -1) {
+            nameToProtocolId[protocolName] = id;
+            QJsonArray targetDirs = d.value("target_directives").toArray();
+            linkProtocol(id, targetDirs);
+            QJsonArray protocolStructure = d.value("structure").toArray();
+            seedProtocolStructure(id, protocolStructure);
+            // for (const QJsonValue &dVal : std::as_const(targetDirs)) {
+            //     QString dirName = dVal.toString(); // e.g., "FAT_BURNING"
+            //     // Lookup the Directive ID using our pre-populated map
+            //     if (nameToDirectiveId.contains(dirName)) {
+            //         int directiveId = nameToDirectiveId[dirName];
+
+            //         q.bindValue(":dir_id", directiveId);
+            //         q.bindValue(":prot_id", id);
+
+            //         if (!q.exec()) {
+            //             qDebug() << "[ERROR] Mapping failure for" << dirName << "<->" << protocolName;
+            //         }
+            //     }
+            // }
+        }
+    }
+    qDebug() << "[INFO]: Tables seeded succesfully";
+
+    if (m_db.commit()) {
+        qDebug() << "UPLINK_COMPLETE: Neural Sync at 100%";
+        return true;
+    } else {
+        qDebug() << "CRITICAL: Transaction commit failed. Rolling back.";
+        m_db.rollback();
         return false;
     }
-    int aresStrikeId = q.lastInsertId().toInt();
-    qDebug() << "[CORE] Database seeded with ARES_STRIKE protocol.";
-
-/*
-    // Insert initial directive
-    q.exec("INSERT OR IGNORE INTO directives (label) VALUES ('FAT_BURN')");
-    // Insert initial exercise
-    q.exec("INSERT OR IGNORE INTO exercises (name) VALUES ('BURPEES')");
-    // Insert test protocol: ARES_STRIKE
-    q.exec("INSERT OR IGNORE INTO protocols (directive_id, name, version) VALUES (1, 'ARES_STRIKE', 1)");
-*/
-
-
-    // --- Create Mapping Relation ---
-    // Link ARES_STRIKE to FAT_BURNING using the map table [6]
-    q.prepare("INSERT OR IGNORE INTO directives_protocols_map (directive_id, protocol_id) "
-              "VALUES (:dir_id, :prot_id)");
-    q.bindValue(":dir_id", fatBurnId);
-    q.bindValue(":prot_id", aresStrikeId);
-
-    return q.exec();
 
     return true;
 }
@@ -169,4 +270,116 @@ bool DatabaseManager::restoreDatabase() {
         return false;
     }
     return initDatabase();
+}
+
+int DatabaseManager::insertModule(const QString &name, const QString &desc, const QString &target, int unit, float met, float f_rate, float rep_time){
+    QSqlQuery q;
+    q.prepare("INSERT OR IGNORE INTO modules(mod_name, mod_description, target_zone, unit_type, rep_time, met_factor, fatigue_rate) "
+              "VALUES (:name, :desc, :target, :unit, :rep_time, :met, :fatigue)");
+
+    q.bindValue(":name", name);
+    q.bindValue(":desc", desc);
+    q.bindValue(":target", target);
+    q.bindValue(":unit", unit);
+    q.bindValue(":rep_time", static_cast<double>(rep_time));
+    q.bindValue(":met", static_cast<double>(met));
+    q.bindValue(":fatigue", static_cast<double>(f_rate));
+
+    qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
+    qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    if (!q.exec()) {
+        qDebug() << "[ERROR]: Failed to insert module:" << q.lastError().text();
+        return -1;
+    }
+    return q.lastInsertId().toInt();
+}
+
+int DatabaseManager::insertDirective(const QString &name, const QString &desc, const QString &icon, const QString &color) {
+    QSqlQuery q;
+    q.prepare("INSERT OR IGNORE INTO directives (dir_name, dir_description, dir_icon, dir_color) "
+              "VALUES (:name, :desc, :icon, :color)");
+
+    q.bindValue(":name", name);
+    q.bindValue(":desc", desc);
+    q.bindValue(":icon", icon);
+    q.bindValue(":color", color);
+
+    if (!q.exec()) {
+        qDebug() << "[ERROR]: Failed to insert directive:" << q.lastError().text();
+        return -1;
+    }
+    qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
+    qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    return q.lastInsertId().toInt();
+}
+
+int DatabaseManager::insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb) {
+    QSqlQuery q;
+
+    q.prepare("INSERT OR IGNORE INTO protocols (protocol_name, estimated_duration, module_count, rank, personal_best) "
+              "VALUES (:name, :duration, :count, :rank, :pb)");
+    q.bindValue(":name", name);
+    q.bindValue(":duration", duration); // 20 minutes in seconds [11]
+    q.bindValue(":count", modules);
+    q.bindValue(":rank", rank);
+    q.bindValue(":pb", pb);
+    if (!q.exec()) {
+        qDebug() << "[ERROR]: Failed seeding protocol " << name << ":" << q.lastError().text();
+        return -1;
+    }
+    return q.lastInsertId().toInt();
+}
+
+int DatabaseManager::resolveUnitType(const QJsonValue &unitValue) {
+    // Returns the integer or -1 if the shard contains an invalid unit
+    return m_unitMap.value(unitValue.toString().toLower(), -1);
+}
+
+void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
+    QSqlQuery q;
+    q.prepare("INSERT INTO directives_protocols (dir_id, protocol_id) VALUES (:dir_id, :prot_id)");
+    for (const QJsonValue &dVal : std::as_const(targetDirs)) {
+        QString dirName = dVal.toString(); // e.g., "FAT_BURNING"
+        // Lookup the Directive ID using our pre-populated map
+        if (nameToDirectiveId.contains(dirName)) {
+            int directiveId = nameToDirectiveId[dirName];
+
+            q.bindValue(":dir_id", directiveId);
+            q.bindValue(":prot_id", id);
+
+            if (!q.exec()) {
+                qDebug() << "[ERROR] Mapping failure for" << dirName << "<->" << nameToProtocolId.key(id);
+            }
+        }
+    }
+
+}
+
+void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &structureArr) { // TODO integrate into code
+    QSqlQuery q;
+    // Prepare the structure insertion for the Protocol Matrix [4, 6]
+    q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity) "
+              "VALUES (:prot_id, :subsystem, :s_order, :mod_id, :quantity)");
+
+    for (const QJsonValue &val : std::as_const(structureArr)) {
+        QJsonObject s = val.toObject();
+        // Resolve the module name to its corresponding DB INTEGER ID
+        QString moduleName = s.value("module").toString();
+
+        if (nameToModuleId.contains(moduleName.toLower())) {
+            q.bindValue(":prot_id", protocolId);
+            q.bindValue(":subsystem", s.value("subsystem").toInt()); // LEVEL_03 Logic [7, 8]
+            q.bindValue(":s_order", s.value("order").toInt());     // Execution sequence [6]
+            q.bindValue(":mod_id", nameToModuleId[moduleName.toLower()]);   // Resolved Module ID [4]
+            q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
+
+            if (!q.exec()) {
+                qDebug() << "[ERROR]: Failed to link module" << moduleName
+                         << "to protocol ID" << protocolId << ":" << q.lastError().text();
+            }
+        } else {
+            qDebug() << "[ERROR]: Module reference" << moduleName
+                     << "not found in the current data shard. Integrity compromised.";
+        }
+    }
 }

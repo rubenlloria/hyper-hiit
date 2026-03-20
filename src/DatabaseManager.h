@@ -30,13 +30,18 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QSqlError>
+#include <QSqlQuery>
 
 class DatabaseManager : public QObject {
     Q_OBJECT
 public:
     explicit DatabaseManager(QObject *parent = nullptr);
-    Q_INVOKABLE bool restoreDatabase();
 
+    Q_INVOKABLE bool restoreDatabase();
     bool initDatabase();
     bool seedDatabase();
     // bool restoreDatabase();
@@ -44,7 +49,20 @@ public:
 
 private:
     QSqlDatabase m_db;
+    const QMap<QString, int> m_unitMap = {
+        {"seconds", 0},
+        {"reps",    1}
+    };
+    QMap<QString, int> nameToModuleId;
+    QMap<QString, int> nameToDirectiveId;
+    QMap<QString, int> nameToProtocolId;
     bool createTables();
+    int insertModule(const QString &name, const QString &desc, const QString &target, int unit, float met, float f_rate, float rep_time);
+    int insertDirective(const QString &name, const QString &desc, const QString &icon, const QString &color);
+    int insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb);
+    int resolveUnitType(const QJsonValue &unitValue);
+    void linkProtocol(int protocolId, const QJsonArray &targetDirectives);
+    void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);
 };
 
 #endif
