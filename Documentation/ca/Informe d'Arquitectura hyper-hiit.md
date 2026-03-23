@@ -17,30 +17,26 @@ Taula de continguts
 
 [6. Exemple d'Implementació: 4](#exemple-dimplementació)
 
-[Protocol INFERNO_SEQUENCE 4](#protocol-inferno_sequence)
+- [Protocol INFERNO_SEQUENCE 4](#protocol-inferno_sequence)
 
-[7. Arquitectura Jeràrquica del Sistema
-5](#arquitectura-jeràrquica-del-sistema)
+[7. Arquitectura Jeràrquica del Sistema 5](#arquitectura-jeràrquica-del-sistema)
 
-[8. Model de Dades: Taules Mestres i Relacionals
-5](#model-de-dades-taules-mestres-i-relacionals)
+[8. Model de Dades: Taules Mestres i Relacionals 5](#model-de-dades-taules-mestres-i-relacionals)
 
-[Taula: Modules 5](#taula-modules)
+- [Taula: Modules 5](#taula-modules)
 
-[Taula: directives 5](#taula-directives)
+- [Taula: directives 5](#taula-directives)
 
-[Taula: protocols 5](#taula-protocols)
+- [Taula: protocols 5](#taula-protocols)
 
-[Taula de mapeig: directive_protocols
-6](#taula-de-mapeig-directive_protocols)
+- [Taula de mapeig: directive_protocols 6](#taula-de-mapeig-directive_protocols)
 
-[Taula de mapeig: protocol_structure
-6](#taula-de-mapeig-protocol_structure)
+- [Taula de mapeig: protocol_structure 6](#taula-de-mapeig-protocol_structure)
 
 [9. Lògica de l'Array Estructurat i Processament de Dades
 6](#lògica-de-larray-estructurat-i-processament-de-dades)
 
-[Algorismes de Càlcul de Mètriques
+- [Algorismes de Càlcul de Mètriques
 6](#algorismes-de-càlcul-de-mètriques)
 
 [10. Arquitectura del fitxer JSON 7](#arquitectura-del-fitxer-json)
@@ -48,14 +44,14 @@ Taula de continguts
 [11. Regles d'UX i Disseny d'Interfície (Mission Flow)
 8](#regles-dux-i-disseny-dinterfície-mission-flow)
 
-[Flux de Missió (Mission Flux) 8](#flux-de-missió-mission-flux)
+- [Flux de Missió (Mission Flux) 8](#flux-de-missió-mission-flux)
 
-[Indicadors de Rang (RANK labels) 8](#indicadors-de-rang-rank-labels)
+- [Indicadors de Rang (RANK labels) 8](#indicadors-de-rang-rank-labels)
 
-[Visualització d'Eficiència i Progressió
+- [Visualització d'Eficiència i Progressió
 9](#visualització-deficiència-i-progressió)
 
-[Requisits Visuals del Sistema (System Footer)
+- [Requisits Visuals del Sistema (System Footer)
 9](#requisits-visuals-del-sistema-system-footer)
 
 [12. Exemple d'Implementació de Protocol
@@ -64,49 +60,44 @@ Taula de continguts
 [13. Llistat preliminar de protocols
 10](#llistat-preliminar-de-protocols)
 
-[A. FAT_BURNING (Metabolic acceleration protocol)
+- [A. FAT_BURNING (Metabolic acceleration protocol)
 10](#fat_burning-metabolic-acceleration-protocol)
 
-[B. CARDIO_ENHANCEMENT (Cardiovascular optimization system)
+- [B. CARDIO_ENHANCEMENT (Cardiovascular optimization system)
 10](#cardio_enhancement-cardiovascular-optimization-system)
 
-[C. STRENGTH_MATRIX (Muscular fortification sequence)
+- [C. STRENGTH_MATRIX (Muscular fortification sequence)
 10](#strength_matrix-muscular-fortification-sequence)
 
-[D. ENDURANCE_GRID (Stamina amplification framework)
+- [D. ENDURANCE_GRID (Stamina amplification framework)
 11](#endurance_grid-stamina-amplification-framework)
 
-[E. NEURAL_FLOW (Neural-synaptic synchronization)
+- [E. NEURAL_FLOW (Neural-synaptic synchronization)
 11](#neural_flow-neural-synaptic-synchronization)
 
-[Implementació Tècnica 11](#implementació-tècnica)
+- [Implementació Tècnica 11](#implementació-tècnica)
 
 [14. Ruta de versions 12](#ruta-de-versions)
 
-[v0.1: Core Terminal & Shell 12](#v0.1-core-terminal-shell)
+- [v0.1: Core Terminal & Shell 12](#v0.1-core-terminal-shell)
 
-[v0.2: Sistema de Navegació de Directives
-12](#v0.2-sistema-de-navegació-de-directives)
+- [v0.2: Sistema de Navegació de Directives 12](#v0.2-sistema-de-navegació-de-directives)
 
-[v0.3: Gestió de Protocols & Scroll
-12](#v0.3-gestió-de-protocols-scroll)
+- [v0.3: Gestió de Protocols & Scroll 12](#v0.3-gestió-de-protocols-scroll)
 
-[v0.4: Motor d'Execució (MVP) 13](#v0.4-motor-dexecució-mvp)
+- [v0.4: Motor d'Execució (MVP) 13](#v0.4-motor-dexecució-mvp)
 
-[v0.5: Feedback en Temps Real 13](#v0.5-feedback-en-temps-real)
+- [v0.5: Feedback en Temps Real 13](#v0.5-feedback-en-temps-real)
 
-[v0.6: Evolution Metrics & Històric
-13](#v0.6-evolution-metrics-històric)
+- [v0.6: Evolution Metrics & Històric 13](#v0.6-evolution-metrics-històric)
 
-[v0.7: Achievement Matrix 13](#v0.7-achievement-matrix)
+- [v0.7: Achievement Matrix 13](#v0.7-achievement-matrix)
 
-[v0.8: Audio Uplink & Media Control
-13](#v0.8-audio-uplink-media-control)
+- [v0.8: Audio Uplink & Media Control 13](#v0.8-audio-uplink-media-control)
 
-[v0.9: Personal Best (PB) & Benchmarks
-13](#v0.9-personal-best-pb-benchmarks)
+- [v0.9: Personal Best (PB) & Benchmarks 13](#v0.9-personal-best-pb-benchmarks)
 
-[v1.0: Full System Online 14](#v1.0-full-system-online)
+- [v1.0: Full System Online 14](#v1.0-full-system-online)
 
 # Fonaments de l'Arquitectura d'Array Estructurat
 
@@ -171,9 +162,8 @@ dades i la seva alineació amb la sincronització biomètrica. Aquest
 atribut defineix la naturalesa de la variable numèrica, permetent que el
 sistema interprete correctament l'esforç requerit per a cada mòdul.
 
-|               |              |                                               |
-|---------------|--------------|-----------------------------------------------|
 | Valor Numèric | unitat_tipus | Interpretació del Sistema                     |
+|---------------|--------------|-----------------------------------------------|
 | 30            | repeticions  | Execució física de 30 unitats (ex: Burpees)   |
 | 30            | segons       | Durada temporal de 30s (ex: Planxa o Descans) |
 
