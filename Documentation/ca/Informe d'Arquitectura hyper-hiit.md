@@ -1,3 +1,5 @@
+Rev. 31 (23/03/26)
+
 Taula de continguts
 
 [1. Fonaments de l'Arquitectura d'Array Estructurat
@@ -162,8 +164,9 @@ dades i la seva alineació amb la sincronització biomètrica. Aquest
 atribut defineix la naturalesa de la variable numèrica, permetent que el
 sistema interprete correctament l'esforç requerit per a cada mòdul.
 
-| Valor Numèric | unitat_tipus | Interpretació del Sistema                     |
+|               |              |                                               |
 |---------------|--------------|-----------------------------------------------|
+| Valor Numèric | unitat_tipus | Interpretació del Sistema                     |
 | 30            | repeticions  | Execució física de 30 unitats (ex: Burpees)   |
 | 30            | segons       | Durada temporal de 30s (ex: Planxa o Descans) |
 
@@ -184,7 +187,7 @@ interfície d'usuari:
 
 # Exemple d'Implementació: 
 
-## Protocol INFERNO_SEQUENCE
+-   ## Protocol INFERNO_SEQUENCE
 
 Basat en la telemetria de la interfície actual sota la directiva
 **FAT_BURNING**, així es renderitza la jerarquia de dades:
@@ -870,7 +873,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de Seccions:** Definició dels espais per a
     EVOLUTION_METRICS, ACTIVE_DIRECTIVE i ACHIEVEMENT_MATRIX 1.
 
-#### v0.2: Sistema de Navegació de Directives
+    1.  #### v0.2: Sistema de Navegació de Directives
+
+<!-- -->
 
 -   **Lògica d'Acordió:** Implementació del mecanisme per desplegar i
     col·lapsar les directives (FAT_BURNING, CARDIO_ENHANCEMENT, etc.) 3,
@@ -885,7 +890,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de la Base de Dades:** Funcions de lectura i escritura
     bàsiques i carrega desde fitxer de dades Json.
 
-#### v0.3: Gestió de Protocols & Scroll
+    1.  #### v0.3: Gestió de Protocols & Scroll
+
+<!-- -->
 
 -   **Mission Protocols List:** Implementació de la llista de protocols
     amb targetes individuals que mostren DURATION i MODULES 3, 4.
@@ -900,7 +907,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Dades de Dificultat:** Integració de les etiquetes de rang (RANK:
     ADVANCED) a les targetes de protocol 2.
 
-#### v0.4: Motor d'Execució (MVP)
+    1.  #### v0.4: Motor d'Execució (MVP)
+
+<!-- -->
 
 -   **Pantalla d'Execució de Protocol (Nou):** Implementació de la
     pantalla de treball real que segueix l'arquitectura de
@@ -913,7 +922,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Cronòmetre de Missió:** Comptador de temps real per a la sessió
     actual.
 
-#### v0.5: Feedback en Temps Real
+    1.  #### v0.5: Feedback en Temps Real
+
+<!-- -->
 
 -   **Barres de Progrés Dinàmiques:** Les barres de neó de les targetes
     de protocol reflecteixen el progrés real de la sessió en curs 2, 4.
@@ -921,7 +932,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Sincronització de Mòduls:** Actualització del comptador de mòduls
     restants durant l'execució.
 
-#### v0.6: Evolution Metrics & Històric
+    1.  #### v0.6: Evolution Metrics & Històric
+
+<!-- -->
 
 -   **Gràfics de Rendiment:** Connexió de la secció EVOLUTION_METRICS
     amb la base de dades per mostrar l'evolució dels darrers 7 dies
@@ -931,7 +944,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     percentatge d'millora (IMPROVEMENT) basat en les sessions
     completades 1.
 
-#### v0.7: Achievement Matrix
+    1.  #### v0.7: Achievement Matrix
+
+<!-- -->
 
 -   **Desbloqueig de Fites:** Funcionalitat per activar les icones de la
     ACHIEVEMENT_MATRIX (com FIRE_STARTER o IRON_CORE) quan l'usuari
@@ -940,7 +955,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Resum de Carrera:** Activació dels comptadors totals de SESSIONS,
     CALORIES i EFFICIENCY 1.
 
-#### v0.8: Audio Uplink & Media Control
+    1.  #### v0.8: Audio Uplink & Media Control
+
+<!-- -->
 
 -   **Mini-reproductor:** Integració de la barra d'àudio just a sobre
     del footer tècnic (segons conversa prèvia).
@@ -948,7 +965,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Progrés Musical:** Barra de progrés de neó magenta per a la pista
     d'àudio actual sense indicadors numèrics.
 
-#### v0.9: Personal Best (PB) & Benchmarks
+    1.  #### v0.9: Personal Best (PB) & Benchmarks
+
+<!-- -->
 
 -   **Comparativa de Rendiment:** Implementació del marcador de PB a les
     barres de progrés de cada protocol per comparar la sessió actual amb
@@ -957,7 +976,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Optimització de Ranks:** Ajust automàtic de la dificultat
     suggerida segons el rendiment històric de l'usuari.
 
-#### v1.0: Full System Online
+    1.  #### v1.0: Full System Online
+
+<!-- -->
 
 -   **Mode Architect:** Activació completa de les funcions de
     configuració a través de l'icona d'engranatge (ARCHITECT) 2.
