@@ -57,7 +57,10 @@ private:
     QMap<QString, int> nameToDirectiveId;
     QMap<QString, int> nameToProtocolId;
     bool createTables();
-    int insertModule(const QString &name, const QString &desc, const QString &target, int unit, float met, float f_rate, float rep_time);
+    int insertModule(const QString &name, int difficulty, const QString &target, const QString &desc, const QString &instruction,
+                     const QString &safety,
+                     // const QString &equipment,
+                     int unit, float met, float f_rate, float rep_time);
     int insertDirective(const QString &name, const QString &desc, const QString &icon, const QString &color);
     int insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb);
     int resolveUnitType(const QJsonValue &unitValue);

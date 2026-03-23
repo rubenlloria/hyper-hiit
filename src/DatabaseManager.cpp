@@ -60,15 +60,19 @@ bool DatabaseManager::createTables() {
     // 1. Modules table
     QString createModules =
        "CREATE TABLE IF NOT EXISTS modules ("
-          "module_id INTEGER PRIMARY KEY,"
-          "mod_name VARCHAR(100),"
-          "mod_description TEXT,"
-          "target_zone VARCHAR(50),"    // Target area (e.g., FULL BODY)
-          "unit_type INTEGER NOT NULL," // 0: SECONDS | 1: REPS
-          "rep_time FLOAT,"
-          "met_factor FLOAT,"           // Efficiency constant
-          "fatigue_rate FLOAT"         // Performance tier 1
-          ");";
+            "module_id INTEGER PRIMARY KEY,"
+            "mod_name VARCHAR(100),"
+            "target_zone VARCHAR(50),"      // Target area (e.g., FULL BODY)
+            "difficulty INT,"                // 1: Begginer | 2: Intermediate | 3: Advanced
+            "mod_description TEXT,"
+            "mod_instructions TEXT,"
+            "mod_safety TEXT,"
+            "mod_equipment TEXT,"
+            "unit_type INTEGER NOT NULL,"   // 0: SECONDS | 1: REPS | 2: BREATHS
+            "rep_time FLOAT,"
+            "met_factor FLOAT,"             // Efficiency constant
+            "fatigue_rate FLOAT"            // Performance tier 1
+            ");";
     if (!q.exec(createModules)) {
         qDebug() << "[ERROR]: Failed to create modules "
                     "table:" << q.lastError().text();
@@ -181,14 +185,19 @@ bool DatabaseManager::seedDatabase() {
 
 
     //////////// MODULES ///////////////
-    for (const QJsonValue &value : std::as_const(modulesArr)) {
+    for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add new parameters. see doc
         qDebug() << "[INFO]: insertModule";
         QJsonObject d = value.toObject();
         QString moduleName = d.value("module_name").toString();
+        // insertModule(name, difficulty, zone, desc, inst, safe, equip, unit, met, fatigue, time)
         int id = insertModule(
             moduleName,
-            d.value("module_description").toString(),
-            d.value("target_zone").toString(),
+            d.value("difficulty").toInt(0),
+            d.value("target_zone").toString("FULL_BODY"),
+            d.value("description").toString(),
+            d.value("instructions").toString(),
+            d.value("safety_info").toString(),
+            // d.value("equipment").toString(),
             resolveUnitType(d.value("unit_type")),
             d.value("met_factor").toDouble(),
             d.value("fatigue_rate").toDouble(),
@@ -272,14 +281,24 @@ bool DatabaseManager::restoreDatabase() {
     return initDatabase();
 }
 
-int DatabaseManager::insertModule(const QString &name, const QString &desc, const QString &target, int unit, float met, float f_rate, float rep_time){
+int DatabaseManager::insertModule(const QString &name, int difficulty, const QString &target, const QString &desc, const QString &instruction,
+                                             //  name,     difficulty,                zone,                  desc,                instruction
+                                const QString &safety,
+                                  // const QString &equipment,
+                                  int unit, float met, float f_rate, float rep_time){
+                                             //safe,                  equip,         unit,       met,       fatigue,      time
     QSqlQuery q;
-    q.prepare("INSERT OR IGNORE INTO modules(mod_name, mod_description, target_zone, unit_type, rep_time, met_factor, fatigue_rate) "
-              "VALUES (:name, :desc, :target, :unit, :rep_time, :met, :fatigue)");
+    q.prepare("INSERT OR IGNORE INTO modules(mod_name, target_zone, difficulty, mod_description, mod_instructions, mod_safety, mod_equipment, "
+              "unit_type, rep_time, met_factor, fatigue_rate) "
+              "VALUES (:name, :target, :difficulty, :desc, :instruction, :safe, :equipment, :unit, :rep_time, :met, :fatigue)");
 
     q.bindValue(":name", name);
-    q.bindValue(":desc", desc);
     q.bindValue(":target", target);
+    q.bindValue(":difficulty", difficulty);
+    q.bindValue(":desc", desc);
+    q.bindValue(":instruction", instruction);
+    q.bindValue(":safe", safety);
+    q.bindValue(":equipment", "NONE");
     q.bindValue(":unit", unit);
     q.bindValue(":rep_time", static_cast<double>(rep_time));
     q.bindValue(":met", static_cast<double>(met));
@@ -369,7 +388,7 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
         if (nameToModuleId.contains(moduleName.toLower())) {
             q.bindValue(":prot_id", protocolId);
             q.bindValue(":subsystem", s.value("subsystem").toInt()); // LEVEL_03 Logic [7, 8]
-            q.bindValue(":s_order", s.value("order").toInt());     // Execution sequence [6]
+            q.bindValue(":s_order", s.value("s_order").toInt());     // Execution sequence [6]
             q.bindValue(":mod_id", nameToModuleId[moduleName.toLower()]);   // Resolved Module ID [4]
             q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
 
