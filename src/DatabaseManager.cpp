@@ -32,31 +32,31 @@ bool DatabaseManager::initDatabase() {
     if (!dir.exists()) dir.mkpath(path);
 
     QString dbPath = path + "/hyperhiit_core.db";
-    qDebug() << "DEBUG: database on '" << dbPath << "'.";
+    qDebug() << "[DEBUG]: database on '" << dbPath << "'.";
     QFile::remove(dbPath); // TODO DELETEME
     bool firstRun = !QFile::exists(dbPath);
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(dbPath);
 
     if (!m_db.open()) {
-        qDebug() << "ERROR: Failed to establish db connection.";
+        qCritical() << "[ERROR]: Failed to establish db connection.";
         return false;
     }
 
     if (firstRun) {
-        qDebug() << "DEBUG: First run detected. Creating default database grid...";
+        qDebug() << "[DEBUG]: First run detected. Creating default database grid...";
         if (!createTables()) return false;
         if (!seedDatabase()) return false;
     }
 
-    qDebug() << "STATUS: Database system online.";
+    qInfo() << "[INFO]: Database system online.";
     return true;
 }
 
 bool DatabaseManager::createTables() {
     QSqlQuery q;
 
-    qDebug() << "[INFO]: Creating tables";
+    qInfo() << "[INFO]: Creating tables";
     // 1. Modules table
     QString createModules =
        "CREATE TABLE IF NOT EXISTS modules ("
@@ -74,7 +74,7 @@ bool DatabaseManager::createTables() {
             "fatigue_rate FLOAT"            // Performance tier 1
             ");";
     if (!q.exec(createModules)) {
-        qDebug() << "[ERROR]: Failed to create modules "
+        qCritical() << "[ERROR]: Failed to create modules "
                     "table:" << q.lastError().text();
         return false;
     }
@@ -89,7 +89,7 @@ bool DatabaseManager::createTables() {
             "dir_color TEXT"
             ");";
     if (!q.exec(createDirectives)) {
-        qDebug() << "ERROR: Failed to create directives table:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to create directives table:" << q.lastError().text();
         return false;
     }
 
@@ -105,7 +105,7 @@ bool DatabaseManager::createTables() {
             ");";
 
     if (!q.exec(createProtocols)) {
-        qDebug() << "ERROR: Failed to create protocols table:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to create protocols table:" << q.lastError().text();
         return false;
     }
 
@@ -119,7 +119,7 @@ bool DatabaseManager::createTables() {
             "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
             ");";
     if (!q.exec(createMapping)) {
-        qDebug() << "ERROR: Failed to create directives_protocols table:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to create directives_protocols table:" << q.lastError().text();
         return false;
     }
 
@@ -137,22 +137,22 @@ bool DatabaseManager::createTables() {
             "FOREIGN KEY (module_id) REFERENCES modules(module_id)"
             ");";
     if (!q.exec(createStructure)) {
-        qDebug() << "[ERROR]: Failed to create protocol_structure table:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to create protocol_structure table:" << q.lastError().text();
         return false;
     }
-    qDebug() << "[INFO]: Tables created succesfully";
+    qInfo() << "[INFO]: Tables created succesfully";
     return true;
 }
 
 bool DatabaseManager::seedDatabase() {
     QSqlQuery q;
 
-    qDebug() << "[INFO]: Seeding tables";
+    qInfo() << "[INFO]: Seeding tables";
     // Load the data shard from the Qt Resource System
     // QFile file(":/qt/qml/res/init_data.json");
     QFile file(":/qt/qml/org/aic/hyperhiit/res/init_data.json");
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "[ERROR]: Data shard init_data.json not found.";
+        qCritical() << "[ERROR]: Data shard init_data.json not found.";
         return false;
     }
 
@@ -160,7 +160,7 @@ bool DatabaseManager::seedDatabase() {
     file.close();
 
     if (jsonData.isEmpty()) {
-        qDebug() << "SYSTEM_HALT: Shard is empty. Neural Sync aborted.";
+        qWarning() << "[WARNING]: Shard is empty. Neural Sync aborted.";
         return false;
     }
 
@@ -173,22 +173,22 @@ bool DatabaseManager::seedDatabase() {
 
     // Start SQL Transaction to maximize performance and ensure Neural Sync integrity
     if (!m_db.transaction()) {
-        qDebug() << "[ERROR]: Could not start transaction:" << m_db.lastError().text();
+        qCritical() << "[ERROR]: Could not start transaction:" << m_db.lastError().text();
         return false;
     }
 
     // QSqlQuery q;
     // 1. PRINT FULL JSON (Indented for readability)
-    qDebug() << "--- [START FULL_JSON_SHARD] ---";
-    qDebug().noquote() << doc.toJson(QJsonDocument::Indented);
-    qDebug() << "--- [END FULL_JSON_SHARD] ---";
+    // qDebug() << "[DEBUG]: --- [START FULL_JSON_SHARD] ---";
+    // qDebug().noquote() << doc.toJson(QJsonDocument::Indented);
+    // qDebug() << "[DEBUG]: --- [END FULL_JSON_SHARD] ---";
 
 
     //////////// MODULES ///////////////
     for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add equipment as list. see doc
-        qDebug() << "[INFO]: insertModule";
         QJsonObject d = value.toObject();
         QString moduleName = d.value("module_name").toString();
+        qInfo() << "[INFO]: inserting module " << moduleName;
         // insertModule(name, difficulty, zone, desc, inst, safe, equip, unit, met, fatigue, time)
         int id = insertModule(
             moduleName,
@@ -212,6 +212,7 @@ bool DatabaseManager::seedDatabase() {
     for (const QJsonValue &value : std::as_const(directivesArr)) {
         QJsonObject d = value.toObject();
         QString directiveName = d.value("directive_name").toString();
+        qInfo() << "[INFO]: inserting directive " << directiveName;
         int id = insertDirective(
             directiveName,
             d.value("directive_description").toString(),
@@ -227,6 +228,7 @@ bool DatabaseManager::seedDatabase() {
     for (const QJsonValue &value : std::as_const(protocolsArr)) {
         QJsonObject d = value.toObject();
         QString protocolName = d.value("protocol_name").toString();
+        qInfo() << "[INFO]: inserting protocol " << protocolName;
         int id = insertProtocol(
             protocolName,
             d.value("estimated_duration").toDouble(),
@@ -256,13 +258,13 @@ bool DatabaseManager::seedDatabase() {
             // }
         }
     }
-    qDebug() << "[INFO]: Tables seeded succesfully";
+    qInfo() << "[INFO]: Tables seeded succesfully";
 
     if (m_db.commit()) {
-        qDebug() << "UPLINK_COMPLETE: Neural Sync at 100%";
+        qInfo() << "[INFO]: UPLINK_COMPLETE: Neural Sync at 100%";
         return true;
     } else {
-        qDebug() << "CRITICAL: Transaction commit failed. Rolling back.";
+        qCritical() << "[CRITICAL]: Transaction commit failed. Rolling back.";
         m_db.rollback();
         return false;
     }
@@ -273,9 +275,9 @@ bool DatabaseManager::seedDatabase() {
 bool DatabaseManager::restoreDatabase() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
     if (QFile::remove(dbPath)) {
-        qDebug() << "[INFO]: " << dbPath << " deleted successfully";
+        qInfo() << "[INFO]: " << dbPath << " deleted successfully";
     } else {
-        qDebug() << "[ERROR]: Could not delete file " << dbPath;
+        qCritical() << "[ERROR]: Could not delete file " << dbPath;
         return false;
     }
     return initDatabase();
@@ -305,10 +307,10 @@ int DatabaseManager::insertModule(const QString &name, int difficulty, const QSt
     q.bindValue(":met", static_cast<double>(met));
     q.bindValue(":fatigue", static_cast<double>(f_rate));
 
-    qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
-    qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    // qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
+    // qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
     if (!q.exec()) {
-        qDebug() << "[ERROR]: Failed to insert module:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to insert module:" << q.lastError().text();
         return -1;
     }
     return q.lastInsertId().toInt();
@@ -325,11 +327,11 @@ int DatabaseManager::insertDirective(const QString &name, const QString &desc, c
     q.bindValue(":color", color);
 
     if (!q.exec()) {
-        qDebug() << "[ERROR]: Failed to insert directive:" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed to insert directive:" << q.lastError().text();
         return -1;
     }
-    qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
-    qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    // qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
+    // qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
     return q.lastInsertId().toInt();
 }
 
@@ -344,7 +346,7 @@ int DatabaseManager::insertProtocol(const QString &name, int duration, int modul
     q.bindValue(":rank", rank);
     q.bindValue(":pb", pb);
     if (!q.exec()) {
-        qDebug() << "[ERROR]: Failed seeding protocol " << name << ":" << q.lastError().text();
+        qCritical() << "[ERROR]: Failed seeding protocol " << name << ":" << q.lastError().text();
         return -1;
     }
     return q.lastInsertId().toInt();
@@ -368,7 +370,7 @@ void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
             q.bindValue(":prot_id", id);
 
             if (!q.exec()) {
-                qDebug() << "[ERROR] Mapping failure for" << dirName << "<->" << nameToProtocolId.key(id);
+                qCritical() << "[ERROR] Mapping failure for" << dirName << "<->" << nameToProtocolId.key(id);
             }
         }
     }
@@ -394,11 +396,11 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
             q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
 
             if (!q.exec()) {
-                qDebug() << "[ERROR]: Failed to link module" << moduleName
+                qCritical() << "[ERROR]: Failed to link module" << moduleName
                          << "to protocol ID" << protocolId << ":" << q.lastError().text();
             }
         } else {
-            qDebug() << "[ERROR]: Module reference" << moduleName
+            qCritical() << "[ERROR]: Module reference" << moduleName
                      << "not found in the current data shard. Integrity compromised.";
         }
     }
