@@ -185,7 +185,7 @@ bool DatabaseManager::seedDatabase() {
 
 
     //////////// MODULES ///////////////
-    for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add new parameters. see doc
+    for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add equipment as list. see doc
         qDebug() << "[INFO]: insertModule";
         QJsonObject d = value.toObject();
         QString moduleName = d.value("module_name").toString();
@@ -288,6 +288,7 @@ int DatabaseManager::insertModule(const QString &name, int difficulty, const QSt
                                   int unit, float met, float f_rate, float rep_time){
                                              //safe,                  equip,         unit,       met,       fatigue,      time
     QSqlQuery q;
+    //TODO Chek if module exists
     q.prepare("INSERT OR IGNORE INTO modules(mod_name, target_zone, difficulty, mod_description, mod_instructions, mod_safety, mod_equipment, "
               "unit_type, rep_time, met_factor, fatigue_rate) "
               "VALUES (:name, :target, :difficulty, :desc, :instruction, :safe, :equipment, :unit, :rep_time, :met, :fatigue)");
@@ -374,7 +375,7 @@ void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
 
 }
 
-void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &structureArr) { // TODO integrate into code
+void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &structureArr) {
     QSqlQuery q;
     // Prepare the structure insertion for the Protocol Matrix [4, 6]
     q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity) "

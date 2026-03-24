@@ -221,7 +221,7 @@
       "instructions": "Lift knees to hip height while pumping arms.",
       "safety_info": "Stay on the balls of your feet; keep torso upright.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 9.0,
       "fatigue_rate": 6.0,
       "rep_time": 1.0
@@ -235,7 +235,7 @@
       "instructions": "Stay low in a partial squat and shuffle laterally.",
       "safety_info": "Do not cross your feet; keep chest up.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 7.5,
       "fatigue_rate": 5.0,
       "rep_time": 2.25
@@ -249,7 +249,7 @@
       "instructions": "Jog in place, kicking heels up to touch the glutes.",
       "safety_info": "Maintain a slight forward lean and soft landings.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 8.0,
       "fatigue_rate": 4.0,
       "rep_time": 0.95
@@ -263,7 +263,7 @@
       "instructions": "Jump and cross arms/legs alternately in front.",
       "safety_info": "Keep movements fluid and shoulders relaxed.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 8.0,
       "fatigue_rate": 4.0,
       "rep_time": 1.5
@@ -277,7 +277,7 @@
       "instructions": "Open and close arms horizontally while jumping.",
       "safety_info": "Focus on opening the chest and retracting scapulae.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 8.0,
       "fatigue_rate": 4.0,
       "rep_time": 1.65
@@ -291,7 +291,7 @@
       "instructions": "Perform jabs and crosses with light footwork.",
       "safety_info": "Do not fully lock elbows on punches.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 7.0,
       "fatigue_rate": 4.0,
       "rep_time": 1.0
@@ -305,7 +305,7 @@
       "instructions": "Run in place with very short, quick steps.",
       "safety_info": "Keep hips low and stay on the balls of the feet.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 8.5,
       "fatigue_rate": 5.0,
       "rep_time": 0.65
@@ -319,7 +319,7 @@
       "instructions": "Maintain hollow hold and rock back and forth.",
       "safety_info": "Lower back must stay pressed against the floor.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 5.0,
       "fatigue_rate": 3.0,
       "rep_time": 3.0
@@ -333,7 +333,7 @@
       "instructions": "Place back foot on a bench and squat on the front leg.",
       "safety_info": "Ensure front knee does not collapse inward.",
       "equipment": ["BENCH", "CHAIR"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 7.0,
       "fatigue_rate": 4.0,
       "rep_time": 4.0
@@ -347,7 +347,7 @@
       "instructions": "In plank position, jump feet out and in.",
       "safety_info": "Keep hips level with shoulders; avoid sagging.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 5.0,
       "fatigue_rate": 3.0,
       "rep_time": 3.0
@@ -361,7 +361,7 @@
       "instructions": "Feet on bench, perform push-ups focusing on shoulders.",
       "safety_info": "Keep core tight to prevent lower back arching.",
       "equipment": ["BENCH", "CHAIR"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 7.0,
       "fatigue_rate": 5.0,
       "rep_time": 4.5
@@ -375,7 +375,7 @@
       "instructions": "Feet wide, toes out, squat deep with a pulse at bottom.",
       "safety_info": "Keep knees tracking over the toes.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 5.5,
       "fatigue_rate": 3.0,
       "rep_time": 4.0
@@ -389,7 +389,7 @@
       "instructions": "Lying on back, lift straight legs to 90 degrees.",
       "safety_info": "Press lower back into the floor throughout.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 4.0,
       "fatigue_rate": 2.0,
       "rep_time": 4.0
@@ -403,7 +403,7 @@
       "instructions": "Perform standard push-ups with slow tempo (3s down).",
       "safety_info": "Prioritize form; stop if technical breakdown occurs.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 5.5,
       "fatigue_rate": 4.0,
       "rep_time": 3.0
@@ -417,7 +417,7 @@
       "instructions": "Lying on back, kick legs over/under each other.",
       "safety_info": "Keep legs as straight as possible; core engaged.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 4.0,
       "fatigue_rate": 2.0,
       "rep_time": 1.8
@@ -431,10 +431,75 @@
       "instructions": "Alternately lower opposite arm and leg while on back.",
       "safety_info": "Slow and controlled movement is key for neural sync.",
       "equipment": ["NONE"],
-      "unit_type": 1,
+      "unit_type": "reps",
       "met_factor": 3.0,
       "fatigue_rate": 1.0,
       "rep_time": 4.0
+    },
+    {
+      "module_name": "Reverse Lunges",
+      "difficulty": 1,
+      "target_zone": "LOWER_KNEE",
+      "description": "Estocades enrere, més segures per als genolls.",
+      "instructions": "Fes un pas enrere i baixa el maluc fins que ambdues cames estiguin a 90 graus.",
+      "safety_info": "Mantenir el tors recte i no deixar que el genoll davanter passi de la punta del peu.",
+      "equipment": ["NONE"],
+      "unit_type": "reps",
+      "met_factor": 8.0,
+      "fatigue_rate": 4.0,
+      "rep_time": 2.5
+    },
+    {
+      "module_name": "Bicycle Crunches",
+      "difficulty": 2,
+      "target_zone": "CORE",
+      "description": "Abdominals de bicicleta, molt metabòlics.",
+      "instructions": "Simula el pedaleig d'una bicicleta mentre toques el genoll amb el colze oposat.",
+      "safety_info": "No estirar del coll; la força ha de venir de l'abdomen.",
+      "equipment": ["NONE"],
+      "unit_type": "reps",
+      "met_factor": 8.0,
+      "fatigue_rate": 2.0,
+      "rep_time": 2.0
+    },
+    {
+      "module_name": "Air Squats",
+      "difficulty": 1,
+      "target_zone": "LOWER_KNEE",
+      "description": "Sentadilla amb pes corporal.",
+      "instructions": "Baixa el maluc mantenint l'esquena recta i puja.",
+      "safety_info": "Els talons han d'estar sempre en contacte amb el terra.",
+      "equipment": ["NONE"],
+      "unit_type": "reps",
+      "met_factor": 5.0,
+      "fatigue_rate": 3.0,
+      "rep_time": 3.25
+    },
+    {
+      "module_name": "Alternating Lunges",
+      "difficulty": 1,
+      "target_zone": "LOWER_KNEE",
+      "description": "Estocades alternes per a resistència muscular.",
+      "instructions": "Fes estocades canviant de cama en cada repetició.",
+      "safety_info": "Genoll alineat amb el taló.",
+      "equipment": ["NONE"],
+      "unit_type": "reps",
+      "met_factor": 5.5,
+      "fatigue_rate": 4.0,
+      "rep_time": 2.5
+    },
+    {
+      "module_name": "Push-ups",
+      "difficulty": 2,
+      "target_zone": "UPPER_PUSH",
+      "description": "Flexions tècniques enfocades al control.",
+      "instructions": "Baixa el pit cap al terra mantenint el cos com una taula.",
+      "safety_info": "Mantenir el core activat per evitar la hiperextensió lumbar.",
+      "equipment": ["NONE"],
+      "unit_type": "reps",
+      "met_factor": 5.5,
+      "fatigue_rate": 4.0,
+      "rep_time": 3.0
     }
   ],
   "directives": [
@@ -476,9 +541,10 @@
   ],
   "protocols": [
     {
-      "protocol_name": "ARES_STRIKE",
-      "rank": "ADVANCED",
+      "protocol_name": "STRIKE",
       "estimated_duration": 840,
+      "module_count": 9,
+      "rank": "ADVANCED",
       "personal_best": 0,
       "target_directives": ["FAT_BURNING"],
       "structure": [
@@ -495,8 +561,9 @@
     },
     {
       "protocol_name": "METABOLIX",
-      "rank": "ADVANCED",
       "estimated_duration": 540,
+      "module_count": 12,
+      "rank": "ADVANCED",
       "personal_best": 0,
       "target_directives": ["FAT_BURNING"],
       "structure": [
@@ -516,8 +583,9 @@
     },
     {
       "protocol_name": "PYROGEN",
-      "rank": "ROOT",
       "estimated_duration": 660,
+      "module_count": 12,
+      "rank": "ROOT",
       "personal_best": 0,
       "target_directives": ["FAT_BURNING"],
       "structure": [
