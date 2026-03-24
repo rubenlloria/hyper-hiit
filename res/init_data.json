@@ -504,35 +504,30 @@
   ],
   "directives": [
     {
-      "dir_id": 1,
       "directive_name": "FAT_BURNING",
       "directive_description": "Metabolic acceleration protocol",
       "directive_icon": "\ue0d2",
       "directive_color": "#BF00FF"
     },
     {
-      "dir_id": 2,
       "directive_name": "CARDIO_ENHANCEMENT",
       "directive_description": "Cardiovascular optimization system",
       "directive_icon": "\ue0f2",
       "directive_color": "#00FFF9"
     },
     {
-      "dir_id": 3,
       "directive_name": "STRENGTH_MATRIX",
       "directive_description": "Muscular fortification sequence",
       "directive_icon": "\ue0af",
       "directive_color": "#FFCC00"
     },
     {
-      "dir_id": 4,
       "directive_name": "ENDURANCE_GRID",
       "directive_description": "Stamina amplification framework",
       "directive_icon": "\ue0e0",
       "directive_color": "#00FF00"
     },
     {
-      "dir_id": 5,
       "directive_name": "NEURAL_FLOW",
       "directive_description": "Neural-synaptic synchronization",
       "directive_icon": "\ue0d0",
