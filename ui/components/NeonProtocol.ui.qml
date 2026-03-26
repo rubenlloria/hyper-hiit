@@ -16,10 +16,10 @@ Item {
 
     // Properties for C++ data injection
     property string protocolName: "INFERNO_SEQUENCE"
-    property string rankLevel: "ADVANCED"
-    property string durationText: "20:00"
-    property int modulesCount: 8
-    property real currentProgress: 0.75 // Value between 0.0 and 1.0
+    property string rankLevel: "root"
+    property string estimatedDuration: "129"
+    property string moduleCount: "4"
+    property real currentProgress: 0.75 // Vaand 1.0
     property real personalBest: 0.60 // Value between 0.0 and 1.0
     property color primaryColor: Constants.primaryColor
     property color secondaryColor: Constants.secondaryColor
@@ -67,8 +67,8 @@ Item {
         }
 
         Text {
-            id: rankLabel
-            text: root.rankLevel
+            id: rankLevel
+            text: "root"
             color: root.secondaryColor
             font.family: "Share Tech Mono"
             font.pixelSize: 12
@@ -94,7 +94,8 @@ Item {
             spacing: 15
 
             Text {
-                text: "DURATION: " + root.durationText
+                id: estimatedDuration
+                text: "DURATION: " + root.estimatedDuration
                 color: "#ffffff"
                 opacity: 0.7
                 font.family: "Share Tech Mono"
@@ -102,7 +103,8 @@ Item {
             }
 
             Text {
-                text: "MODULES: " + root.modulesCount
+                id: moduleCount
+                text: "MODULES: " + root.moduleCount
                 color: "#ffffff"
                 opacity: 0.7
                 font.family: "Share Tech Mono"

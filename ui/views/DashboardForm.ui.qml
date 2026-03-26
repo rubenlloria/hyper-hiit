@@ -43,6 +43,7 @@ Rectangle {
     height: Constants.designHeight
     color: "#030213" // Color de fondo del theme.css
     property alias neonAccordion: neonAccordion
+    property alias protocols: protocols
     property alias header: header
 
     Column {
@@ -62,7 +63,7 @@ Rectangle {
         }
 
         ProtocolList {
-            id: prolocols
+            id: protocols
             anchors.horizontalCenter: parent.horizontalCenter
             listThemeColor: neonAccordion.activeThemeColor
         }

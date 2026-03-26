@@ -23,6 +23,9 @@
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
+#include "src/DirectiveModel.h"
+#include "src/ModuleModel.h"
+#include "src/ProtocolModel.h"
 #include <QObject>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -35,6 +38,8 @@
 #include <QJsonObject>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QMultiMap>
+
 
 class DatabaseManager : public QObject {
     Q_OBJECT
@@ -44,6 +49,12 @@ public:
     Q_INVOKABLE bool restoreDatabase();
     bool initDatabase();
     bool seedDatabase();
+    QList<Module> getAllModules();
+    QList<Directive> getAllDirectives();
+    QList<Protocol> getAllProtocols();
+    QList<Protocol> getProtocolsByDirective(int dirId);
+    QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
+
     // bool restoreDatabase();
 
 
@@ -51,7 +62,8 @@ private:
     QSqlDatabase m_db;
     const QMap<QString, int> m_unitMap = {
         {"seconds", 0},
-        {"reps",    1}
+        {"reps",    1},
+        {"breaths", 2}
     };
     QMap<QString, int> nameToModuleId;
     QMap<QString, int> nameToDirectiveId;

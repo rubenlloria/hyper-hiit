@@ -272,6 +272,118 @@ bool DatabaseManager::seedDatabase() {
     return true;
 }
 
+QList<Module> DatabaseManager::getAllModules() {
+    QList<Module> moduleList;
+    QSqlQuery q("SELECT * FROM modules ORDER BY mod_name ASC");
+
+    while (q.next()) {
+        Module m;
+        m.id = q.value("module_id").toInt();
+        m.name = q.value("mod_name").toString();
+        m.targetZone = q.value("target_zone").toString();
+        m.difficulty = q.value("difficulty").toInt();
+        m.description = q.value("mod_description").toString();
+        m.unitType = q.value("unit_type").toInt();
+        m.repTime = q.value("rep_time").toDouble();
+        m.metFactor = q.value("met_factor").toDouble();
+        m.fatigueRate = q.value("fatigue_rate").toDouble();
+
+        qDebug() << "[DEBUG]: Append module " << m.name;
+        moduleList.append(m);
+    }
+    return moduleList;
+}
+
+QList<Directive> DatabaseManager::getAllDirectives() {
+    QList<Directive> list;
+    QSqlQuery q("SELECT * FROM directives ORDER BY dir_id ASC");
+
+    while (q.next()) {
+        Directive d;
+        d.id = q.value("dir_id").toInt();
+        d.name = q.value("dir_name").toString();
+        d.description = q.value("dir_description").toString();
+        d.icon = q.value("dir_icon").toString();
+        d.color = q.value("dir_color").toString();
+
+        qDebug() << "[DEBUG]: Append directive " << d.name;
+        list.append(d);
+    }
+    return list;
+}
+
+/**
+ * Retrieves the Protocol Matrix core data.
+ * Does not include structure yet (handled via relational mapping) [Source 15, 23].
+ */
+QList<Protocol> DatabaseManager::getAllProtocols() {
+    QList<Protocol> list;
+    QSqlQuery q("SELECT * FROM protocols ORDER BY protocol_name ASC");
+
+    while (q.next()) {
+        Protocol p;
+        p.id = q.value("protocol_id").toInt();
+        p.name = q.value("protocol_name").toString();
+        p.estimatedDuration = q.value("estimated_duration").toInt();
+        p.moduleCount = q.value("module_count").toInt();
+        p.rank = q.value("rank").toString(); // newbie, advanced, or root [Source 26]
+        p.personalBest = q.value("personal_best").toInt();
+
+        qDebug() << "[DEBUG]: Append protocol " << p.name;
+        list.append(p);
+    }
+    return list;
+}
+
+/**
+ * [LEVEL_02] Fetches protocols linked to a specific directive.
+ * Uses a relational JOIN between 'protocols' and the mapping table 'directives_protocols' [Source 16].
+ */
+QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
+    QList<Protocol> list;
+    QSqlQuery q;
+
+    q.prepare("SELECT p.* FROM protocols p "
+              "JOIN directives_protocols dp ON p.protocol_id = dp.protocol_id "
+              "WHERE dp.dir_id = :dirId "
+              "ORDER BY p.protocol_name ASC");
+    q.bindValue(":dirId", dirId);
+
+    if (q.exec()) {
+        while (q.next()) {
+            Protocol p;
+            p.id = q.value("protocol_id").toInt();
+            p.name = q.value("protocol_name").toString();
+            p.estimatedDuration = q.value("estimated_duration").toInt();
+            p.moduleCount = q.value("module_count").toInt();
+            p.rank = q.value("rank").toString();
+            p.personalBest = q.value("personal_best").toInt();
+
+            qDebug() << "[DEBUG]: Append protocol " << p.name;
+            list.append(p);
+        }
+    } else {
+        qCritical() << "[WARNING]: Failed to load protocol list from DB" << q.lastError().text();
+    }
+    return list;
+}
+
+
+/**
+ * Extracts the mapping shard for Directive -> Protocol links.
+ * Essential for the 'Master Cache' filtering strategy in v0.3 [Source 16].
+ */
+QMultiMap<int, int> DatabaseManager::getDirectiveProtocolMapping() {
+    QMultiMap<int, int> map;
+    QSqlQuery q("SELECT dir_id, protocol_id FROM directives_protocols");
+
+    while (q.next()) {
+        // MultiMap allows one Directive ID to point to multiple Protocol IDs
+        map.insert(q.value("dir_id").toInt(), q.value("protocol_id").toInt());
+    }
+    return map;
+}
+
 bool DatabaseManager::restoreDatabase() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
     if (QFile::remove(dbPath)) {

@@ -29,6 +29,12 @@ set(PROJECT_SOURCES
     src/Chronometer.cpp
     src/ThemeManager.h
     src/ThemeManager.cpp
+    src/ModuleModel.h
+    src/ModuleModel.cpp
+    src/ProtocolModel.h
+    src/ProtocolModel.cpp
+    src/DirectiveModel.h
+    src/DirectiveModel.cpp
 )
 
 # 5. Definir el ejecutable base (Solo con main.cpp)

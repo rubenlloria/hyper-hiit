@@ -61,7 +61,17 @@ int main(int argc, char *argv[])
     }
 
     DatabaseManager dbManager;
-    dbManager.initDatabase();
+    ModuleModel moduleModel;
+    DirectiveModel directiveModel;
+    ProtocolModel protocolModel(&dbManager);
+
+    if (dbManager.initDatabase()) {
+        // Neural Sync: Fetching data from SQLite and injecting into the Model
+        moduleModel.setModules(dbManager.getAllModules());
+        directiveModel.setDirectives(dbManager.getAllDirectives());
+        // protocolModel.
+        protocolModel.setProtocols(dbManager.getProtocolsByDirective(4)); //TODO: Set saved active directive from config DB
+    }
 
     Chronometer chronometer;
 
@@ -74,6 +84,9 @@ int main(int argc, char *argv[])
     // We inject the version defined in CMake so the HUD can display it
     engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
     engine.rootContext()->setContextProperty("DatabaseManager", &dbManager);
+    engine.rootContext()->setContextProperty("moduleModel", &moduleModel);
+    engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
+    engine.rootContext()->setContextProperty("protocolModel", &protocolModel);
     engine.rootContext()->setContextProperty("chronometer", &chronometer);
     engine.rootContext()->setContextProperty("SystemManager", &systemManager);
 

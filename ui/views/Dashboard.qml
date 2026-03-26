@@ -13,57 +13,77 @@ DashboardForm {
     id: dashboardView
 
     // Definim el model buit per evitar l'error de ListElement
-    ListModel {
-        id: directivesModel
-    }
+    // ListModel {
+    //     id: directivesModel
+    // }
 
     // Connexió per obrir/tancar l'acordió
     neonAccordion.headerMouseArea.onClicked: {
         neonAccordion.isOpen = !neonAccordion.isOpen
     }
 
-    Component.onCompleted: {
-        // 1. Define the directives data using Constants for icons and colors [3, 4]
-        const data = [
-            { name: "FAT_BURNING", desc: "Metabolic acceleration protocols", glyph: Constants.flameIcon, accent: Constants.fuchsiaNeon },
-            { name: "CARDIO_ENHANCEMENT", desc: "Cardiovascular optimization system", glyph: Constants.heartIcon, accent: Constants.cyanNeon },
-            { name: "STRENGTH_MATRIX", desc: "Muscular fortification sequence", glyph: Constants.zapIcon, accent: Constants.radicalRed },
-            { name: "ENDURANCE_GRID", desc: "Stamina amplification framework", glyph: Constants.targetIcon, accent: Constants.neonLime },
-            { name: "NEURAL_FLOW", desc: "Neural-synaptic synchronization", glyph: Constants.brainIcon, accent: Constants.cyberYellow }
-        ];
+    /**
+     * [NEURAL_SYNC] Directive Matrix Repeater.
+     * Automatically instantiates NeonDirective components based on the C++ directiveModel.
+     */
+    Repeater {
+        // Target the specific container inside the NeonAccordion component [Source 89]
+        model: directiveModel
+        parent: neonAccordion.dropdownList
 
-        // 2. Iterate through data to populate the model and create visual elements [2, 5]
-        data.forEach(itemData => {
-            console.log("Creating directive:", itemData.name, "| Icon:", itemData.glyph, "| Accent:", itemData.accent);
-            directivesModel.append(itemData);
+        delegate: NeonDirective {
+            // Automatic Role Mapping: 'name', 'description', 'icon', and 'color'
+            // are defined in the C++ DirectiveModel::roleNames() [Source 34]
+            directiveTitle: model.name
+            directiveDescription: model.description
+            directiveGlyph: model.icon
+            color: model.color
+            width: neonAccordion.width
 
-            // Create the NeonDirective component from the components folder [6]
-            var component = Qt.createComponent("../components/NeonDirective.ui.qml");
-            if (component.status === Component.Ready) {
-                // Instantiate the object inside the accordion's dropdown list [5, 7]
-                var item = component.createObject(neonAccordion.dropdownList, {
-                    "directiveTitle": itemData.name,
-                    "directiveDescription": itemData.desc,
-                    "directiveGlyph": itemData.glyph,
-                    "color": itemData.accent,
-                    "width": neonAccordion.width
-                });
+            // Selection Logic: High-speed Protocol Matrix filtering [Source 11, 16]
+            itemMouseArea.onClicked: {
+                // 1. Trigger high-speed filter on the Protocol Shard
+                protocolModel.filterByDirective(model.id);
 
-                // SELECTION LOGIC: Use .connect() to avoid "read-only property clicked" error
-                // This updates the main accordion state when an item is selected [8]
-                item.itemMouseArea.clicked.connect(function() {
-                    neonAccordion.activeDirectiveName = itemData.name;
-                    neonAccordion.activeDirectiveDesc = itemData.desc;
-                    neonAccordion.activeIconGlyph = itemData.glyph;
-                    neonAccordion.activeThemeColor = itemData.accent;
-                    neonAccordion.isOpen = false; // Close accordion after selection
-                    console.log("Active directive updated to: " + itemData.name);
-                });
-            } else {
-                console.error("Failed to load NeonDirective.ui.qml:", component.errorString());
+                // 2. Update HUD visual state with selected directive metadata
+                neonAccordion.activeDirectiveName = model.name;
+                neonAccordion.activeDirectiveDesc = model.description;
+                neonAccordion.activeIconGlyph = model.icon;
+                neonAccordion.activeThemeColor = model.color;
+
+                // 3. Collapse shard for optimal tactical overlay space [Source 6]
+                neonAccordion.isOpen = false;
+
+                console.log("NEURAL_SYNC: Active Directive updated to " + model.name);
             }
-        });
+        }
     }
+
+    /**
+     * [NEURAL_SYNC] Protocol Matrix Repeater.
+     * Automatically instantiates NeonDirective components based on the C++ directiveModel.
+     */
+
+    protocols.protocolView.model: protocolModel
+
+    protocols.protocolView.delegate: NeonProtocol {
+        // Data Mapping from C++ Roles [Source 15, 34]
+        protocolName: model.name
+        estimatedDuration: model.duration
+        moduleCount: model.moduleCount
+        rankLevel: model.rank
+        personalBest: model.personalBest
+        primaryColor: neonAccordion.activeThemeColor
+
+        // Aesthetic Persistence: RANK color logic [Source 29]
+        // rankColor: (model.rank === "ROOT") ? Constants.terminalGreen :
+        //            (model.rank === "ADVANCED") ? Constants.cyanNeon : "#ffffff"
+
+        // itemMouseArea.onClicked: {
+        //     console.log("NEURAL_SYNC: Initializing " + model.name);
+        // }
+    }
+
     header.settingsMouseArea.onClicked: {
         console.log("Navigating to System Config...");
         // Aquí aniria la crida al StackView o al controlador C++

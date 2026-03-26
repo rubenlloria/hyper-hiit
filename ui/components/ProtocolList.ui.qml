@@ -16,6 +16,7 @@ Item {
     height: 305
 
     property color listThemeColor: "#00fff9" // Cyan for list headers and scrollbar
+    property alias protocolView: protocolView
 
     Column {
         anchors.fill: parent
@@ -39,15 +40,6 @@ Item {
             height: 275 // (Item height 85 * 3) + spacing
             spacing: 10
             clip: true
-            model: 10 // To be replaced by C++ Model
-
-            delegate: NeonProtocol {
-                // Properties injected here from C++ model in the future
-                protocolName: "PROTOCOL_" + index
-                currentProgress: 0.4 + (index * 0.1)
-                personalBest: 0.6
-                primaryColor: listRoot.listThemeColor
-            }
 
             // Custom Neon ScrollBar
             ScrollBar.vertical: ScrollBar {
@@ -59,6 +51,7 @@ Item {
                     implicitWidth: 6
                     color: Constants.fuchsiaNeon
                     opacity: 0.8
+                    radius: 3
                     // Glow effect for the scrollbar thumb [3]
                 }
                 DropShadow {

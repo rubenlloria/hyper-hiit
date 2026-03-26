@@ -1,7 +1,7 @@
 /****************************************************************************
 ** File: %FILENAME%
 ** Date: %DATE%
-** Author: %USER%
+** Author: Rubén Llòria
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License version 2 as
@@ -21,5 +21,5 @@
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ** GNU General Public License for more details.
 **
-** Copyright (C) %YEAR% %USER%
+** Copyright (C) %YEAR% Rubén Llòria
 ****************************************************************************/
