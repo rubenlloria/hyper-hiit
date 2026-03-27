@@ -16,15 +16,29 @@ QtObject {
     function px(value) { return value * scaleFactor }
 
     // --- COLOR PALETTE (Centralized for Neon Theme) ---
-    readonly property color backgroundColor:    "#030213"
-    readonly property color descriptionColor:   "#ffffff"
+    readonly property color blackNeon:          "#030213"
+    readonly property color whiteNeon:          "#ffffff"
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
-    readonly property color terminalGreen:      "#39ff14"
-    readonly property color radicalRed:         "#ff003c"
-    readonly property color neonLime:           "#39ff14"
-    readonly property color cyberYellow:        "#ffdf00"
+    readonly property color greenNeon:          "#39ff14"
+    readonly property color terminalGreen:      greenNeon   // DELETEME
+    readonly property color neonLime:           greenNeon   // DELETEME
+    readonly property color redNeon:             "#ff003c"
+    readonly property color radicalRed:         redNeon     // DELETEME
+    readonly property color yellowNeon:         "#ffdf00"
+    readonly property color cyberYellow:        yellowNeon  // DELETEME
     // readonly property color backgroundColor: "#EAEAEA"
+    readonly property color backgroundColor:    blackNeon
+    readonly property color descriptionColor:   whiteNeon
+    readonly property color primaryColor:       fuchsiaNeon
+    readonly property color secondaryColor:     cyanNeon
+    readonly property color primaryTextColor:   cyanNeon
+    readonly property color secondaryTextColor: fuchsiaNeon
+    readonly property color onColor:            cyanNeon
+    readonly property color offColor:           fuchsiaNeon
+
+
+    // --- DESIGN TOKENS ---
 
     // --- ICONS (From Lucide font)
     readonly property string settingsIcon:  "\uE154"
@@ -34,6 +48,10 @@ QtObject {
     readonly property string targetIcon:    "\ue180" // Endurance
     readonly property string zapIcon:       "\ue1b4" // Strength
     readonly property string brainIcon:     "\ue3c6" // Neural
+    readonly property string chevronDown:   "\uE06D" // chevron-down
+    readonly property string chevronLeft:   "\uE06E" // chevron-left
+    readonly property string chevronRight:  "\uE06F" // chevron-right
+    readonly property string chevronUp:     "\uE070" // chevron-up
 
 /*
     // --- FONT CONFIGURATION ---

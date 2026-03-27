@@ -13,8 +13,18 @@ DashboardForm {
     id: dashboardView
 
     // Definim el model buit per evitar l'error de ListElement
-    ListModel {
-        id: directivesModel
+    // ListModel {
+    //     id: directivesModel
+    // }
+
+    Component.onCompleted: {
+    var activeId = dbManager.getActiveDirectiveId() -1;
+    neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
+    neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
+    neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
+    neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
+
+    console.log("NEURAL_SYNC: Dashboard resumed with Directive ID " + activeId);
     }
 
     // Connexió per obrir/tancar l'acordió
@@ -22,48 +32,101 @@ DashboardForm {
         neonAccordion.isOpen = !neonAccordion.isOpen
     }
 
-    Component.onCompleted: {
-        // 1. Define the directives data using Constants for icons and colors [3, 4]
-        const data = [
-            { name: "FAT_BURNING", desc: "Metabolic acceleration protocols", glyph: Constants.flameIcon, accent: Constants.fuchsiaNeon },
-            { name: "CARDIO_ENHANCEMENT", desc: "Cardiovascular optimization system", glyph: Constants.heartIcon, accent: Constants.cyanNeon },
-            { name: "STRENGTH_MATRIX", desc: "Muscular fortification sequence", glyph: Constants.zapIcon, accent: Constants.radicalRed },
-            { name: "ENDURANCE_GRID", desc: "Stamina amplification framework", glyph: Constants.targetIcon, accent: Constants.neonLime },
-            { name: "NEURAL_FLOW", desc: "Neural-synaptic synchronization", glyph: Constants.brainIcon, accent: Constants.cyberYellow }
-        ];
+    /**
+     * [NEURAL_SYNC] Directive Matrix Repeater.
+     * Automatically instantiates NeonDirective components based on the C++ directiveModel.
+     */
+    Repeater {
+        // Target the specific container inside the NeonAccordion component [Source 89]
+        model: directiveModel
+        parent: neonAccordion.dropdownList
 
-        // 2. Iterate through data to populate the model and create visual elements [2, 5]
-        data.forEach(itemData => {
-            console.log("Creating directive:", itemData.name, "| Icon:", itemData.glyph, "| Accent:", itemData.accent);
-            directivesModel.append(itemData);
+        delegate: NeonDirective {
+            // Automatic Role Mapping: 'name', 'description', 'icon', and 'color'
+            // are defined in the C++ DirectiveModel::roleNames() [Source 34]
+            directiveTitle: model.name
+            directiveDescription: model.description
+            directiveGlyph: model.icon
+            color: model.color
+            width: neonAccordion.width
 
-            // Create the NeonDirective component from the components folder [6]
-            var component = Qt.createComponent("../components/NeonDirective.ui.qml");
-            if (component.status === Component.Ready) {
-                // Instantiate the object inside the accordion's dropdown list [5, 7]
-                var item = component.createObject(neonAccordion.dropdownList, {
-                    "directiveTitle": itemData.name,
-                    "directiveDescription": itemData.desc,
-                    "directiveGlyph": itemData.glyph,
-                    "color": itemData.accent,
-                    "width": neonAccordion.width
-                });
+            // Selection Logic: High-speed Protocol Matrix filtering [Source 11, 16]
+            itemMouseArea.onClicked: {
+                // 1. Trigger high-speed filter on the Protocol Shard
+                protocolModel.filterByDirective(model.id);
+                dbManager.setActiveDirectiveId(model.id);
 
-                // SELECTION LOGIC: Use .connect() to avoid "read-only property clicked" error
-                // This updates the main accordion state when an item is selected [8]
-                item.itemMouseArea.clicked.connect(function() {
-                    neonAccordion.activeDirectiveName = itemData.name;
-                    neonAccordion.activeDirectiveDesc = itemData.desc;
-                    neonAccordion.activeIconGlyph = itemData.glyph;
-                    neonAccordion.activeThemeColor = itemData.accent;
-                    neonAccordion.isOpen = false; // Close accordion after selection
-                    console.log("Active directive updated to: " + itemData.name);
-                });
-            } else {
-                console.error("Failed to load NeonDirective.ui.qml:", component.errorString());
+                // 2. Update HUD visual state with selected directive metadata
+                neonAccordion.activeDirectiveName = model.name;
+                neonAccordion.activeDirectiveDesc = model.description;
+                neonAccordion.activeIconGlyph = model.icon;
+                neonAccordion.activeThemeColor = model.color;
+
+                // 3. Collapse shard for optimal tactical overlay space [Source 6]
+                neonAccordion.isOpen = false;
+
+                console.log("NEURAL_SYNC: Active Directive updated to " + model.name);
             }
-        });
+        }
     }
+
+    /**
+     * [NEURAL_SYNC] Protocol Matrix Repeater.
+     * Automatically instantiates NeonDirective components based on the C++ directiveModel.
+     */
+
+    function formatTime(totalSeconds) {
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Returns formatted string with zero-padding (e.g., "05:08")
+        return minutes.toString().padStart(2, '0') + ":" +
+               seconds.toString().padStart(2, '0');
+    }
+
+    protocols.protocolView.model: protocolModel
+
+    protocols.protocolView.delegate: NeonProtocol {
+        // Data Mapping from C++ Roles
+        protocolName: model.name
+        estimatedDuration: formatTime(model.duration)
+        moduleCount: model.moduleCount
+        rankLabel: model.rank
+        personalBest: (model.personalBest === 0)
+                      ? model.duration / protocolModel.maxDuration
+                      : model.personalBest / protocolModel.maxDuration
+        primaryColor: neonAccordion.activeThemeColor
+        currentProgress: model.duration / protocolModel.maxDuration
+
+
+        // Aesthetic Persistence: RANK color logic [Source 29]
+        // rankColor: (model.rank === "ROOT") ? Constants.terminalGreen :
+        //            (model.rank === "ADVANCED") ? Constants.cyanNeon : "#ffffff"
+
+        itemMouseArea.onClicked: {
+            console.log("NEURAL_SYNC: Initializing " + model.name);
+
+            mainStack.push("Protocol.qml", {
+                // "protocolId": model.id,
+                // "protocolName": model.name,
+                // "themeColor": neonAccordion.activeThemeColor
+            });
+        }
+        Component.onCompleted: {
+            console.log("[DEBUG]: Shard Loaded -> " + model.name
+                        + " | Rank: " + model.rank
+                        + " | Modules: " + model.moduleCount
+                        + " | Duration: " + model.duration + "s"
+                        + " | PersonalBest : " + model.personalBest
+                        + " | currentProgress: " + model.duration / protocolModel.maxDuration );
+            console.log("[DEBUG]: Shard Loaded -> " + model.name
+                        + " | PersonalRecord: " + (model.personalBest === 0)
+                                                ? model.duration / protocolModel.maxDuration
+                                                : ( model.personalBest / protocolModel.maxDuration ));
+        }
+
+    }
+
     header.settingsMouseArea.onClicked: {
         console.log("Navigating to System Config...");
         // Aquí aniria la crida al StackView o al controlador C++
@@ -71,87 +134,3 @@ DashboardForm {
     }
 
 }
-
-
-/*
-Dashboard {
-    id: dashboardView
-
-    // --- MOCK DATABASE MODEL ---
-    // This model simulates data coming from DatabaseManager.cpp
-    // Using real descriptions and glyphs from Lucide font
-    ListModel {
-        id: directivesModel
-        ListElement {
-            name: "FAT_BURNING"
-            desc: "Metabolic acceleration protocols"
-            glyph: Constants.flameIcon
-            accent: Constants.fuchsiaNeon
-        }
-        ListElement {
-            name: "CARDIO_ENHANCEMENT"
-            desc: "Cardiovascular optimization system"
-            glyph: Constants.heartIcon
-            accent: Constants.cyanNeon
-        }
-        ListElement {
-            name: "STRENGTH_MATRIX"
-            desc: "Muscular fortification sequence"
-            glyph: Constants.zapIcon
-            accent: Constants.radicalRed
-        }
-        ListElement {
-            name: "ENDURANCE_GRID"
-            desc: "Stamina amplification framework"
-            glyph: Constants.targetIcon
-            accent: Constants.neonLime
-        }
-        ListElement {
-            name: "NEURAL_PROTOCOL"
-            desc: "Neural-synaptic synchronization"
-            glyph: Constants.brainIcon
-            accent: Constants.cyberYellow
-        }
-    }
-
-    // --- LOGIC: ACCORDION TOGGLE ---
-    // Handles the opening/closing of the selection menu
-    neonAccordion.headerMouseArea.onClicked: {
-        neonAccordion.isOpen = !neonAccordion.isOpen
-    }
-
-    // --- LOGIC: DIRECTIVE SELECTION ---
-    // We populate the accordion's dropdown list using a Repeater.
-    // This connects the UI placeholder with our simulated Database Model.
-    Component.onCompleted: {
-        for (var i = 0; i < directivesModel.count; i++) {
-            var data = directivesModel.get(i);
-
-            // Dynamically create the directive item
-            var component = Qt.createComponent("../components/NeonDirective.ui.qml");
-            if (component.status === Component.Ready) {
-                var item = component.createObject(neonAccordion.dropdownList, {
-                    "directiveTitle": data.name,
-                    "directiveDescription": data.desc,
-                    "directiveGlyph": data.glyph,
-                    "color": data.accent,
-                    "width": neonAccordion.width
-                });
-
-                // Assign the click logic to update the main view
-                item.itemMouseArea.onClicked = (function(capturedData) {
-                    return function() {
-                        neonAccordion.activeDirectiveName = capturedData.name;
-                        neonAccordion.activeDirectiveDesc = capturedData.desc;
-                        neonAccordion.activeIconGlyph = capturedData.glyph;
-                        neonAccordion.activeThemeColor = capturedData.accent;
-                        neonAccordion.isOpen = false; // Auto-close on selection
-
-                        console.log("System Directive updated to: " + capturedData.name);
-                    };
-                })(data);
-            }
-        }
-    }
-}
-*/

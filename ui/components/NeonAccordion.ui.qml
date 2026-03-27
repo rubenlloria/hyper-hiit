@@ -67,6 +67,7 @@ Item {
             font.family: Constants.techFont.family
             font.pixelSize: 12
             bottomPadding: 8
+            topPadding: 8
         }
 
         // Active Directive Header [6]
@@ -133,10 +134,12 @@ Item {
 
                 // Chevron indicator [3]
                 Text {
+                    // FIXME first click not animated
                     id: chevron
-                    text: "▼"
+                    text: Constants.chevronDown
                     color: root.activeThemeColor
-                    font.pixelSize: 14
+                    font.family: Constants.iconFont.family
+                    font.pixelSize: 20
                     rotation: root.isOpen ? 180 : 0
                 }
             }
@@ -211,7 +214,7 @@ Item {
             to: "*"
             RotationAnimation {
                 target: chevron
-                duration: 200
+                duration: 300
                 easing.type: Easing.InOutQuad
             }
         }

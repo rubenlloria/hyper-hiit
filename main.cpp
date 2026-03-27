@@ -1,17 +1,17 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
 #include <QLocale>
 #include <QTranslator>
-#include "src/Chronometer.h"
 
-// #ifdef Q_OS_ANDROID
-// #include <QtCore/private/qandroidextras_p.h>
-// #endif
+// Project components
+#include "src/SystemManager.h"
+#include "src/Chronometer.h"
+#include "src/DatabaseManager.h"
 
 int main(int argc, char *argv[])
 {
+    bool isSystemReady = false;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -60,19 +60,53 @@ int main(int argc, char *argv[])
         }
     }
 
-    qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
+    DatabaseManager dbManager;
+    ModuleModel moduleModel;
+    DirectiveModel directiveModel;
+    ProtocolModel protocolModel(&dbManager);
 
+    if (dbManager.initDatabase()) {
+        // Neural Sync: Fetching data from SQLite and injecting into the Model
+        moduleModel.setModules(dbManager.getAllModules());
+        directiveModel.setDirectives(dbManager.getAllDirectives());
+        int activeDirId = dbManager.getActiveDirectiveId();
+
+        // protocolModel.
+        protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
+        qDebug() << "[DEBUG]: Resuming Directive:" << activeDirId;
+
+    }
+
+    Chronometer chronometer;
+
+    SystemManager systemManager;
+
+    // 1. Initialize the QML engine
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
 
-    // const QUrl url(QStringLiteral("qrc:/ui/main.qml"));
+    // 2. Register Context Properties (Neural Sync)
+    // We inject the version defined in CMake so the HUD can display it
+    engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
+    engine.rootContext()->setContextProperty("dbManager", &dbManager);
+    engine.rootContext()->setContextProperty("moduleModel", &moduleModel);
+    engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
+    engine.rootContext()->setContextProperty("protocolModel", &protocolModel);
+    engine.rootContext()->setContextProperty("chronometer", &chronometer);
+    engine.rootContext()->setContextProperty("SystemManager", &systemManager);
+
     const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
-    // const QUrl url(u"qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"_ss);
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
+                     &app, [url, &systemManager](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl) {
             QCoreApplication::exit(-1);
+        } else if (obj) {
+            // UI handshake successful: Setting operational state to ONLINE
+            // This triggers the NOTIFY signal for isSystemReady
+            systemManager.setSystemReady(true);
+        }
     }, Qt::QueuedConnection);
+
     engine.load(url);
 
     return app.exec();

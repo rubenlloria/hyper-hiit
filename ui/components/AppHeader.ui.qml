@@ -1,3 +1,29 @@
+/****************************************************************************
+** File: AppHeader.ui.qml
+** Date: 18/2/2026
+** Author: Rubén Llòria
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License version 2 as
+** published by the Free Software Foundation.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** Copyright (C) 2026 Rubén Llòria
+****************************************************************************/
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -42,7 +68,7 @@ Rectangle {
             id: bracketLeftV
             width: 2
             height: 15
-            color: Constants.cyanNeon
+            color: Constants.secondaryColor
             anchors.top: parent.top
             anchors.left: parent.left
         }
@@ -50,7 +76,7 @@ Rectangle {
             id: bracketLeftH
             width: 15
             height: 2
-            color: Constants.cyanNeon
+            color: Constants.secondaryColor
             anchors.bottom: parent.bottom
             anchors.left: parent.left
         }
@@ -69,7 +95,7 @@ Rectangle {
             id: bracketRightV
             width: 2
             height: 15
-            color: Constants.cyanNeon
+            color: Constants.secondaryColor
             anchors.top: parent.top
             anchors.right: parent.right
         }
@@ -77,7 +103,7 @@ Rectangle {
             id: bracketRightH
             width: 15
             height: 2
-            color: Constants.cyanNeon
+            color: Constants.secondaryColor
             anchors.bottom: parent.bottom
             anchors.right: parent.right
         }
@@ -118,8 +144,8 @@ Rectangle {
         DropShadow {
             anchors.fill: titleTextRowSource
             source: titleTextRowSource
-            color: Constants.cyanNeon
-            radius: 20 // You can increase this now without displacement
+            color: Constants.primaryTextColor
+            radius: 20
             samples: 25
             spread: 0.2
             transparentBorder: true
@@ -133,25 +159,17 @@ Rectangle {
 
             Text {
                 text: headerRoot.titlePart1
-                color: Constants.cyanNeon // White core for better neon contrast
+                color: Constants.primaryTextColor
                 font: Constants.titleFont
             }
             Text {
                 text: "//"
-                color: Constants.fuchsiaNeon
+                color: Constants.secondaryTextColor
                 font: Constants.titleFont
-
-                // // Inner glow for the slashes (Specific)
-                // layer.enabled: true
-                // layer.effect: DropShadow {
-                //     color: Constants.fuchsiaNeon
-                //     radius: 3
-                //     transparentBorder: true
-                // }
             }
             Text {
                 text: headerRoot.titlePart2
-                color: Constants.cyanNeon
+                color: Constants.primaryTextColor
                 font: Constants.titleFont
             }
         }
@@ -174,11 +192,8 @@ Rectangle {
         // Settings Gear
         NeonIcon {
             id: settingsIcon
-            anchors.left: titleArea.right
-            anchors.top: bracketRight.bottom
-
             glyph: headerRoot.buttonGlyph
-            color: Constants.fuchsiaNeon
+            color: Constants.primaryColor
             size: 40
             glowRadius: 15
         }
@@ -189,22 +204,20 @@ Rectangle {
             anchors.leftMargin: 5
             anchors.verticalCenter: settingsIcon.verticalCenter
             label: headerRoot.buttonLabel
-            labelColor: Constants.fuchsiaNeon
+            labelColor: Constants.secondaryTextColor
             size: 20
         }
     }
 
     // 2. STATUS INDICATOR (Aligned to the right)
     NeonIndicator {
-        // anchors.left: titleArea.right
-        // anchors.right: neonText.right
-        anchors.right: headerRoot.right
-        anchors.rightMargin: 12
+        anchors.left: settingsActionGroup.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
-        label: "SYSTEM_ONLINE"
-        labelColor: Constants.cyanNeon
-        ledColor: Constants.cyanNeon
+        label_on: "SYSTEM_ONLINE"
+        label_off: "SYSTEM_OFFLINE"
+        active: SystemManager.isSystemReady
+        labelColor: Constants.primaryTextColor
     }
 
     // 3. DECORATIVE BOTTOM LINE

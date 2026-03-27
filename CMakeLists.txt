@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.16)
 set(QT_POLICY_QTP0001 NEW)
 set(QT_POLICY_QTP0004 NEW)
 
-project(hyper-hiit VERSION 0.1.1 LANGUAGES CXX)
-set(APP_VERSION_STR "0.1.1-alpha")
+project(hyper-hiit VERSION 0.3.0 LANGUAGES CXX)
+set(APP_VERSION_STR "0.3.0-alpha")
 
 # 2. Configuración automática de Qt (Necesario para Q_OBJECT)
 set(CMAKE_AUTOMOC ON)
@@ -20,12 +20,21 @@ find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
+    src/SystemErrors.h
+    src/SystemManager.h
+    src/SystemManager.cpp
     src/DatabaseManager.h
     src/DatabaseManager.cpp
     src/Chronometer.h
     src/Chronometer.cpp
     src/ThemeManager.h
     src/ThemeManager.cpp
+    src/ModuleModel.h
+    src/ModuleModel.cpp
+    src/ProtocolModel.h
+    src/ProtocolModel.cpp
+    src/DirectiveModel.h
+    src/DirectiveModel.cpp
 )
 
 # 5. Definir el ejecutable base (Solo con main.cpp)
@@ -49,25 +58,28 @@ qt_add_qml_module(hyper-hiit
         ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
         ui/views/Testboard.qml
+        ui/views/Protocol.qml
         ui/views/ProtocolForm.ui.qml
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
+        ui/components/NeonButton.ui.qml
         ui/components/NeonDirective.ui.qml
+        ui/components/NeonFooter.ui.qml
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
+        ui/components/NeonProtocol.ui.qml
         ui/components/NeonText.ui.qml
         ui/components/ProtocolList.ui.qml
     RESOURCES
-        res/background_tech.png
+        res/init_data.json
         gpl2_header.txt
         authors.txt
+        ui/qmldir
         ui/assets/fonts/Orbitron-VariableFont_wght.ttf
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
-        RESOURCES ui/qmldir
-        QML_FILES ui/components/NeonProtocol.ui.qml
 )
 
 # 7. Definiciones de compilación

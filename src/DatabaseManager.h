@@ -23,6 +23,9 @@
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
+#include "src/DirectiveModel.h"
+#include "src/ModuleModel.h"
+#include "src/ProtocolModel.h"
 #include <QObject>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -30,17 +33,58 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QMultiMap>
+
 
 class DatabaseManager : public QObject {
     Q_OBJECT
 public:
     explicit DatabaseManager(QObject *parent = nullptr);
+
+    Q_INVOKABLE bool restoreDatabase();
     bool initDatabase();
-    bool seedDatabase(); // To insert our first Protocol
+    bool seedDatabase();
+    // Module methods
+    QList<Module> getAllModules();
+
+    // Directive methods
+    QList<Directive> getAllDirectives();
+    Q_INVOKABLE int getActiveDirectiveId();
+    Q_INVOKABLE void setActiveDirectiveId(int dirId);
+
+    // Protocol methods
+    QList<Protocol> getAllProtocols();
+    QList<Protocol> getProtocolsByDirective(int dirId);
+    int setProtocolMaxDuration();
+    QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
+
+    // bool restoreDatabase();
 
 private:
     QSqlDatabase m_db;
+    const QMap<QString, int> m_unitMap = {
+        {"seconds", 0},
+        {"reps",    1},
+        {"breaths", 2}
+    };
+    QMap<QString, int> nameToModuleId;
+    QMap<QString, int> nameToDirectiveId;
+    QMap<QString, int> nameToProtocolId;
     bool createTables();
+    int insertModule(const QString &name, int difficulty, const QString &target, const QString &desc, const QString &instruction,
+                     const QString &safety,
+                     // const QString &equipment,
+                     int unit, float met, float f_rate, float rep_time);
+    int insertDirective(const QString &name, const QString &desc, const QString &icon, const QString &color);
+    int insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb);
+    int resolveUnitType(const QJsonValue &unitValue);
+    void linkProtocol(int protocolId, const QJsonArray &targetDirectives);
+    void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);
 };
 
 #endif

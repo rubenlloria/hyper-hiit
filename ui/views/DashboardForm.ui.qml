@@ -43,12 +43,13 @@ Rectangle {
     height: Constants.designHeight
     color: "#030213" // Color de fondo del theme.css
     property alias neonAccordion: neonAccordion
+    property alias protocols: protocols
     property alias header: header
-
 
     Column {
         width: parent.width
         height: parent.height
+        spacing: 10
         AppHeader {
             id: header
             z: 60
@@ -62,23 +63,15 @@ Rectangle {
         }
 
         ProtocolList {
-            id: prolocols
+            id: protocols
             anchors.horizontalCenter: parent.horizontalCenter
             listThemeColor: neonAccordion.activeThemeColor
         }
     }
 
     // --- FOOTER DATA ---
-    Text {
-        id: footer
-        text: "NEURAL_SYNC: 100%       |       LATENCY: <1ms       |       BUILD: v2.026.2"
-        font.family: Constants.techFont.family
-        font.pixelSize: 10
-        color: Constants.cyanNeon
-        opacity: 0.5
+    NeonFooter {
         anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        // Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
     }
 
     // --- SCANLINES EFFECT (.scanlines de cyberpunk.css) ---
@@ -111,92 +104,4 @@ Rectangle {
             loops: Animation.Infinite
         }
     }
-} // ColumnLayout {//     anchors.fill: parent//     anchors.margins: 20//     spacing: 15//     // --- HEADER ---//     // Text {//     //     text: "hyper//hiit"//     //     font.family: "Orbitron"//     //     font.pixelSize: 28//     //     color: "#00fff9"//     //     Layout.alignment: Qt.AlignHCenter//     //     // Neon Glow
-//     //     layer.enabled: true
-//     //     layer.effect: MultiEffect {
-//     //         blurEnabled: true
-//     //         blur: 0.5
-//     //         brightness: 1.5
-//     //     }
-//     // }
-
-//     // --- EVOLUTION METRICS PANEL (neon-border-cyan) ---
-//     Rectangle {
-//         Layout.fillWidth: true
-//         Layout.preferredHeight: 150
-//         color: "#0d0d10"
-//         opacity: 0.8
-//         border.color: "#00fff9"
-//         border.width: 1
-//         radius: 4
-
-//         Text {
-//             text: "EVOLUTION_METRICS"
-//             font.family: "Share Tech Mono"
-//             color: "#00fff9"
-//             anchors.top: parent.top
-//             anchors.left: parent.left
-//             anchors.margins: 10
-//         }
-//     }
-
-//     // --- DIRECTIVES LIST (Basado en dashboard.tsx) ---
-//     Repeater {
-//         model: [{
-//                 "name": "FAT_BURN",
-//                 "color": "#bf00ff",
-//                 "desc": "Metabolic acceleration"
-//             }, {
-//                 "name": "CARDIO_ENHANCEMENT",
-//                 "color": "#00fff9",
-//                 "desc": "Cardiovascular optimization"
-//             }]
-
-//         delegate: Rectangle {
-//             Layout.fillWidth: true
-//             Layout.preferredHeight: 80
-//             color: "#0d0d10"
-//             border.color: modelData.color
-//             border.width: 1
-
-//             // Tech Corners (.tech-corners de cyberpunk.css)
-//             Rectangle {
-//                 width: 10
-//                 height: 10
-//                 color: "transparent"
-//                 border.color: modelData.color
-//                 border.width: 2
-//                 anchors.top: parent.top
-//                 anchors.left: parent.left
-//             }
-
-//             Column {
-//                 anchors.centerIn: parent
-//                 Text {
-//                     text: modelData.name
-//                     color: modelData.color
-//                     font.family: "Orbitron"
-//                     font.pixelSize: 16
-//                 }
-//                 Text {
-//                     text: modelData.desc
-//                     color: "#717182"
-//                     font.family: "Share Tech Mono"
-//                     font.pixelSize: 10
-//                     anchors.horizontalCenter: parent.horizontalCenter
-//                 }
-//             }
-//         }
-//     }
-
-//     // --- FOOTER DATA ---
-//     Text {
-//         text: "BUILD: v2.026.2  |  NEURAL_SYNC: 100%"
-//         font.family: "Share Tech Mono"
-//         font.pixelSize: 10
-//         color: "#00fff9"
-//         opacity: 0.5
-//         Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
-//     }
-// }
-
+}

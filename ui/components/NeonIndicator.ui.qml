@@ -17,9 +17,11 @@ Item {
     width: indicatorRow.implicitWidth
     height: indicatorRow.implicitHeight
 
-    property alias label: indicatorLabel.text
+    property bool active: false
+    property string label_on: "label_on"
+    property string label_off: "label_off"
     property alias labelColor: indicatorLabel.color
-    property alias ledColor: indicatorLed.color
+    // property alias ledColor: indicatorLed.color
 
     // FontLoader {
     //     id: internalShareTecFont
@@ -38,7 +40,7 @@ Item {
                 width: 10
                 height: 10
                 radius: 5
-                color: "#00fff9"
+                color: root.active ? Constants.onColor : Constants.offColor
                 anchors.centerIn: parent
             }
             DropShadow {
@@ -55,7 +57,7 @@ Item {
 
         Text {
             id: indicatorLabel
-            text: "label"
+            text: root.active ? root.label_on : root.label_off
             color: "#00fff9"
             font.family: Constants.techFont.family
             font.letterSpacing: 1

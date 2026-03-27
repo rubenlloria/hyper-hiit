@@ -10,4 +10,8 @@ ArchitectForm {
         // Aquí aniria la crida al StackView o al controlador C++
         mainStack.push("Dashboard.qml");
     }
+    restoreDBButton.interactionArea.onClicked: {
+        console.log("Restoring database...");
+        dbManager.restoreDatabase();
+    }
 }
