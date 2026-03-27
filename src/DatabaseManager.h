@@ -49,8 +49,15 @@ public:
     Q_INVOKABLE bool restoreDatabase();
     bool initDatabase();
     bool seedDatabase();
+    // Module methods
     QList<Module> getAllModules();
+
+    // Directive methods
     QList<Directive> getAllDirectives();
+    Q_INVOKABLE int getActiveDirectiveId();
+    Q_INVOKABLE void setActiveDirectiveId(int dirId);
+
+    // Protocol methods
     QList<Protocol> getAllProtocols();
     QList<Protocol> getProtocolsByDirective(int dirId);
     QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME

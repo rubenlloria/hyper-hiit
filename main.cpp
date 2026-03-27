@@ -69,8 +69,12 @@ int main(int argc, char *argv[])
         // Neural Sync: Fetching data from SQLite and injecting into the Model
         moduleModel.setModules(dbManager.getAllModules());
         directiveModel.setDirectives(dbManager.getAllDirectives());
+        int activeDirId = dbManager.getActiveDirectiveId();
+
         // protocolModel.
-        protocolModel.setProtocols(dbManager.getProtocolsByDirective(4)); //TODO: Set saved active directive from config DB
+        protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
+        qDebug() << "[DEBUG]: Resuming Directive:" << activeDirId;
+
     }
 
     Chronometer chronometer;
@@ -83,7 +87,7 @@ int main(int argc, char *argv[])
     // 2. Register Context Properties (Neural Sync)
     // We inject the version defined in CMake so the HUD can display it
     engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
-    engine.rootContext()->setContextProperty("DatabaseManager", &dbManager);
+    engine.rootContext()->setContextProperty("dbManager", &dbManager);
     engine.rootContext()->setContextProperty("moduleModel", &moduleModel);
     engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
     engine.rootContext()->setContextProperty("protocolModel", &protocolModel);
