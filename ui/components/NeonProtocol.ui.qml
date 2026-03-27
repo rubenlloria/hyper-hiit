@@ -23,6 +23,7 @@ Item {
     property real personalBest: 0.60 // Value between 0.0 and 1.0
     property color primaryColor: Constants.primaryColor
     property color secondaryColor: Constants.secondaryColor
+    property alias itemMouseArea: protocolInteraction
 
     // Card Background and Neon Border
     Rectangle {
@@ -153,6 +154,11 @@ Item {
                 z: 2
             }
         }
+    }
+
+    MouseArea {
+        id: protocolInteraction
+        anchors.fill: parent // Ensures the entire protocol card is tactile
     }
 
     // State for Performance exceeding Personal Best

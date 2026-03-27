@@ -24,9 +24,7 @@ Rectangle {
             titlePart1: "sys"
             titlePart2: "architect"
             buttonLabel: "BACK     "
-            // buttonGlyph: Constants.backIcon
             buttonGlyph: Constants.backIcon
-            // anchors.top: parent.top
         }
 
         NeonButton {

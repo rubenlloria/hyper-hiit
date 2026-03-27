@@ -17,6 +17,16 @@ DashboardForm {
     //     id: directivesModel
     // }
 
+    Component.onCompleted: {
+    var activeId = dbManager.getActiveDirectiveId() -1;
+    neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
+    neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
+    neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
+    neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
+
+    console.log("NEURAL_SYNC: Dashboard resumed with Directive ID " + activeId);
+    }
+
     // Connexió per obrir/tancar l'acordió
     neonAccordion.headerMouseArea.onClicked: {
         neonAccordion.isOpen = !neonAccordion.isOpen
@@ -44,6 +54,7 @@ DashboardForm {
             itemMouseArea.onClicked: {
                 // 1. Trigger high-speed filter on the Protocol Shard
                 protocolModel.filterByDirective(model.id);
+                dbManager.setActiveDirectiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
                 neonAccordion.activeDirectiveName = model.name;
@@ -79,9 +90,15 @@ DashboardForm {
         // rankColor: (model.rank === "ROOT") ? Constants.terminalGreen :
         //            (model.rank === "ADVANCED") ? Constants.cyanNeon : "#ffffff"
 
-        // itemMouseArea.onClicked: {
-        //     console.log("NEURAL_SYNC: Initializing " + model.name);
-        // }
+        itemMouseArea.onClicked: {
+            console.log("NEURAL_SYNC: Initializing " + model.name);
+
+            mainStack.push("Protocol.qml", {
+                // "protocolId": model.id,
+                // "protocolName": model.name,
+                // "themeColor": neonAccordion.activeThemeColor
+            });
+        }
     }
 
     header.settingsMouseArea.onClicked: {

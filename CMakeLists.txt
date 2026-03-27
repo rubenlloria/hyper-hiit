@@ -58,6 +58,7 @@ qt_add_qml_module(hyper-hiit
         ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
         ui/views/Testboard.qml
+        ui/views/Protocol.qml
         ui/views/ProtocolForm.ui.qml
         # Visual components
         ui/components/AppHeader.ui.qml
