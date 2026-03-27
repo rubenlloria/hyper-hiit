@@ -16,11 +16,11 @@ Item {
 
     // Properties for C++ data injection
     property string protocolName: "INFERNO_SEQUENCE"
-    property string rankLevel: "root"
+    property string rankLabel: "root"
     property string estimatedDuration: "129"
     property string moduleCount: "4"
-    property real currentProgress: 0.75 // Vaand 1.0
-    property real personalBest: 0.60 // Value between 0.0 and 1.0
+    property real currentProgress: 1
+    property real personalBest: 0 // Value between 0.0 and 1.0
     property color primaryColor: Constants.primaryColor
     property color secondaryColor: Constants.secondaryColor
     property alias itemMouseArea: protocolInteraction
@@ -69,7 +69,7 @@ Item {
 
         Text {
             id: rankLevel
-            text: "root"
+            text: root.rankLabel
             color: root.secondaryColor
             font.family: "Share Tech Mono"
             font.pixelSize: 12

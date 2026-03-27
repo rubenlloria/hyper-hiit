@@ -98,7 +98,17 @@ void ProtocolModel::setProtocols(const QList<Protocol> &protocols)
     beginResetModel();
     m_protocols = protocols;
     qDebug() << m_protocols.size() << "protocols found";
+    // Fetch the persistent scale from the configuration table
+    QSqlQuery q;
+    q.prepare("SELECT config_value FROM system_config WHERE config_key = 'protocol_max_duration'");
+    if (q.exec() && q.next()) {
+        m_maxDuration = q.value(0).toInt();
+    } else {
+        m_maxDuration = 1800; // Fallback to 30min if config is missing
+    }
+
     endResetModel();
+    emit maxDurationChanged();
 }
 
 void ProtocolModel::clear()

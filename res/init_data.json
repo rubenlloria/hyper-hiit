@@ -540,7 +540,7 @@
       "estimated_duration": 840,
       "module_count": 9,
       "rank": "ADVANCED",
-      "personal_best": 0,
+      "personal_best": 800,
       "target_directives": ["FAT_BURNING"],
       "structure": [
         { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 30 },
@@ -559,7 +559,7 @@
       "estimated_duration": 540,
       "module_count": 12,
       "rank": "ADVANCED",
-      "personal_best": 0,
+      "personal_best": 600,
       "target_directives": ["FAT_BURNING"],
       "structure": [
         { "subsystem": 1, "s_order": 1, "module": "Jumping Jacks", "quantity": 20 },

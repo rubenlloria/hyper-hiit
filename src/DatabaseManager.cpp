@@ -54,6 +54,7 @@ bool DatabaseManager::initDatabase() {
         if (!seedDatabase()) return false;
     }
 
+
     qInfo() << "[INFO]: Database system online.";
     return true;
 }
@@ -422,6 +423,33 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
     return list;
 }
 
+int DatabaseManager::setProtocolMaxDuration() {
+    QSqlQuery q;
+
+    // 1. Query the longest protocol duration from the Master Table [Source 15]
+    if (q.exec("SELECT MAX(estimated_duration) FROM protocols") && q.next()) {
+        int maxVal = q.value(0).toInt();
+
+        // 2. Dynamic Tactical Buffer: 10% of the maximum value
+        const int TACTICAL_BUFFER = qRound(maxVal * 0.1);
+        int finalScale = maxVal + TACTICAL_BUFFER;
+
+        // 3. Persistent Configuration Update (Neural Sync Storage)
+        // We use INSERT OR REPLACE to maintain a single 'protocol_max_duration' key
+        QSqlQuery configQuery;
+        configQuery.prepare("INSERT OR REPLACE INTO system_config (config_key, config_value) "
+                            "VALUES ('protocol_max_duration', :val)");
+        configQuery.bindValue(":val", QString::number(finalScale));
+
+        if (configQuery.exec()) {
+            qDebug() << "[SYSTEM] Protocol Matrix Scale updated to:" << finalScale << "s.";
+            return finalScale;
+        }
+    }
+
+    qCritical() << "[ERROR] Failed to update global protocol scale.";
+    return 0; // Return 0 as failure signal
+}
 
 /**
  * Extracts the mapping shard for Directive -> Protocol links.
@@ -522,6 +550,7 @@ int DatabaseManager::insertProtocol(const QString &name, int duration, int modul
         qCritical() << "[ERROR]: Failed seeding protocol " << name << ":" << q.lastError().text();
         return -1;
     }
+    setProtocolMaxDuration();
     return q.lastInsertId().toInt();
 }
 

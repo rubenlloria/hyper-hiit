@@ -60,10 +60,10 @@ public:
     // Protocol methods
     QList<Protocol> getAllProtocols();
     QList<Protocol> getProtocolsByDirective(int dirId);
+    int setProtocolMaxDuration();
     QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();
-
 
 private:
     QSqlDatabase m_db;

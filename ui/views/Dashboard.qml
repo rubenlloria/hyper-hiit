@@ -75,16 +75,29 @@ DashboardForm {
      * Automatically instantiates NeonDirective components based on the C++ directiveModel.
      */
 
+    function formatTime(totalSeconds) {
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Returns formatted string with zero-padding (e.g., "05:08")
+        return minutes.toString().padStart(2, '0') + ":" +
+               seconds.toString().padStart(2, '0');
+    }
+
     protocols.protocolView.model: protocolModel
 
     protocols.protocolView.delegate: NeonProtocol {
-        // Data Mapping from C++ Roles [Source 15, 34]
+        // Data Mapping from C++ Roles
         protocolName: model.name
-        estimatedDuration: model.duration
+        estimatedDuration: formatTime(model.duration)
         moduleCount: model.moduleCount
-        rankLevel: model.rank
-        personalBest: model.personalBest
+        rankLabel: model.rank
+        personalBest: (model.personalBest === 0)
+                      ? model.duration / protocolModel.maxDuration
+                      : model.personalBest / protocolModel.maxDuration
         primaryColor: neonAccordion.activeThemeColor
+        currentProgress: model.duration / protocolModel.maxDuration
+
 
         // Aesthetic Persistence: RANK color logic [Source 29]
         // rankColor: (model.rank === "ROOT") ? Constants.terminalGreen :
@@ -99,6 +112,19 @@ DashboardForm {
                 // "themeColor": neonAccordion.activeThemeColor
             });
         }
+        Component.onCompleted: {
+            console.log("[DEBUG]: Shard Loaded -> " + model.name
+                        + " | Rank: " + model.rank
+                        + " | Modules: " + model.moduleCount
+                        + " | Duration: " + model.duration + "s"
+                        + " | PersonalBest : " + model.personalBest
+                        + " | currentProgress: " + model.duration / protocolModel.maxDuration );
+            console.log("[DEBUG]: Shard Loaded -> " + model.name
+                        + " | PersonalRecord: " + (model.personalBest === 0)
+                                                ? model.duration / protocolModel.maxDuration
+                                                : ( model.personalBest / protocolModel.maxDuration ));
+        }
+
     }
 
     header.settingsMouseArea.onClicked: {

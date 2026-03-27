@@ -51,6 +51,7 @@ struct Protocol {
 class ProtocolModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int maxDuration READ maxDuration NOTIFY maxDurationChanged)
 
 public:
     enum ProtocolRoles {
@@ -68,6 +69,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE int maxDuration() const { return m_maxDuration; }
 
     // Data handling
     void setProtocols(const QList<Protocol> &protocols);
@@ -79,10 +81,17 @@ public:
      */
     Q_INVOKABLE void filterByDirective(int dirId);
 
+signals:
+    /**
+     * Notifies the HUD when the global duration scale changes.
+     * Required for real-time relative bar updates [Source 5, 27].
+     */
+    void maxDurationChanged();
+
 private:
     QList<Protocol> m_protocols;
     DatabaseManager *m_db = nullptr;
-
+    int m_maxDuration;
 };
 
 #endif // PROTOCOLMODEL_H
