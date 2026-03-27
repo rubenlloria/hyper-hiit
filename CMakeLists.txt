@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.16)
 set(QT_POLICY_QTP0001 NEW)
 set(QT_POLICY_QTP0004 NEW)
 
-project(hyper-hiit VERSION 0.3.0 LANGUAGES CXX)
-set(APP_VERSION_STR "0.3.0-alpha")
+project(hyper-hiit VERSION 0.4.0 LANGUAGES CXX)
+set(APP_VERSION_STR "0.4.0-beta")
 
 # 2. Configuración automática de Qt (Necesario para Q_OBJECT)
 set(CMAKE_AUTOMOC ON)
