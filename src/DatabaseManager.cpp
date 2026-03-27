@@ -33,9 +33,14 @@ bool DatabaseManager::initDatabase() {
 
     QString dbPath = path + "/hyperhiit_core.db";
     qDebug() << "[DEBUG]: database on '" << dbPath << "'.";
-    QFile::remove(dbPath); // TODO DELETEME
+    // QFile::remove(dbPath); // TODO DELETEME
     bool firstRun = !QFile::exists(dbPath);
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
+
+    if (QSqlDatabase::contains(QSqlDatabase::defaultConnection)) {
+        m_db = QSqlDatabase::database();
+    } else {
+        m_db = QSqlDatabase::addDatabase("QSQLITE");
+    }
     m_db.setDatabaseName(dbPath);
 
     if (!m_db.open()) {
@@ -57,6 +62,19 @@ bool DatabaseManager::createTables() {
     QSqlQuery q;
 
     qInfo() << "[INFO]: Creating tables";
+
+     // System Configuration Table.
+    QString createConfig =
+        "CREATE TABLE IF NOT EXISTS system_config ("
+            "config_key TEXT PRIMARY KEY,"
+            "config_value TEXT"
+            ");";
+    if (!q.exec(createConfig)) {
+        qCritical() << "[ERROR]: Failed to create config "
+                       "table:" << q.lastError().text();
+        return false;
+    }
+
     // 1. Modules table
     QString createModules =
        "CREATE TABLE IF NOT EXISTS modules ("
@@ -313,6 +331,42 @@ QList<Directive> DatabaseManager::getAllDirectives() {
 }
 
 /**
+ * @brief Fetches the active directive from the Database.
+ * @return active directive id
+ */
+int DatabaseManager::getActiveDirectiveId() {
+    QSqlQuery q;
+    int dirId;
+    q.prepare("SELECT config_value FROM system_config WHERE config_key = 'active_directive_id'");
+
+    if (q.exec() && q.next()) {
+        dirId = q.value(0).toInt();
+        qDebug() << "[DEBUG]: GET active_directive_id: " << dirId;
+        return dirId;
+    }
+
+    // Fallback if table is empty: Default to Directive 1 (FAT_BURNING)
+    qWarning() << "[WARNING]: failed to GET active_directive_id.";
+    return 1;
+}
+
+/**
+ * @brief Sets the active directive to the Database.
+ */
+void DatabaseManager::setActiveDirectiveId(int dirId) {
+    QSqlQuery q;
+    q.prepare("INSERT OR REPLACE INTO system_config (config_key, config_value) "
+              "VALUES ('active_directive_id', :dirId)");
+    q.bindValue(":dirId", QString::number(dirId));
+    if (q.exec()) {
+        qDebug() << "[DEBUG]: SET active_directive_id: " << dirId;
+    } else {
+        qWarning() << "[WARNING]: failed to SET active_directive_id: " << dirId;
+    }
+}
+
+
+/**
  * Retrieves the Protocol Matrix core data.
  * Does not include structure yet (handled via relational mapping) [Source 15, 23].
  */
@@ -386,6 +440,13 @@ QMultiMap<int, int> DatabaseManager::getDirectiveProtocolMapping() {
 
 bool DatabaseManager::restoreDatabase() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
+
+    // 1. Release the SQLite file lock by closing the active connection [Source 101]
+    if (m_db.isOpen()) {
+        m_db.close();
+        qInfo() << "[INFO]: Database connection closed for restoration.";
+    }
+
     if (QFile::remove(dbPath)) {
         qInfo() << "[INFO]: " << dbPath << " deleted successfully";
     } else {
