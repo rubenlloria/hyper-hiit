@@ -8,7 +8,7 @@ QtObject {
     readonly property int height: 865
     // Reference dimensions from your original design
     readonly property int designWidth: 412
-    readonly property int designHeight: 865
+    readonly property int designHeight: 915
     // Scale factor based on the actual width of the window/screen
     // This ensures the UI looks the same on a 360px or 412px logical width screen
     property real scaleFactor: 1.0

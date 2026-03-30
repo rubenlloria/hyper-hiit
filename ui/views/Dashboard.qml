@@ -112,18 +112,6 @@ DashboardForm {
                 // "themeColor": neonAccordion.activeThemeColor
             });
         }
-        Component.onCompleted: {
-            console.log("[DEBUG]: Shard Loaded -> " + model.name
-                        + " | Rank: " + model.rank
-                        + " | Modules: " + model.moduleCount
-                        + " | Duration: " + model.duration + "s"
-                        + " | PersonalBest : " + model.personalBest
-                        + " | currentProgress: " + model.duration / protocolModel.maxDuration );
-            console.log("[DEBUG]: Shard Loaded -> " + model.name
-                        + " | PersonalRecord: " + (model.personalBest === 0)
-                                                ? model.duration / protocolModel.maxDuration
-                                                : ( model.personalBest / protocolModel.maxDuration ));
-        }
 
     }
 

@@ -22,9 +22,13 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Effects
+
 import Qt5Compat.GraphicalEffects
 import org.aic.hyperhiit 1.0
 import "views" // Import folder containing Dashboard, Architect and Protocol views
+// import "components"
 import "."      // Import current directory to access Constants singleton
 
 Window {
@@ -56,7 +60,7 @@ Window {
     FontLoader { source: Constants.fontUrl("lucide.ttf") }
 
     Item {
-        id: scaledRoot
+        id: root
         width: Constants.designWidth
         height: Constants.designHeight
         anchors.centerIn: parent
@@ -103,6 +107,43 @@ Window {
                 }
             }
         }
+
+        // --- FOOTER DATA ---
+        NeonFooter {
+            anchors.bottom: parent.bottom
+        }
+
+        // --- SCANLINES EFFECT (.scanlines de cyberpunk.css) ---
+        Rectangle {
+            id: scanlines
+            width: parent.width
+            height: 10
+            // anchors.fill: parent
+            // anchors.fill
+            opacity: 0.2
+            z: 50
+            gradient: Gradient {
+                GradientStop {
+                    position: 0.0
+                    color: "transparent"
+                }
+                GradientStop {
+                    position: 0.5
+                    color: "#00fff9"
+                }
+                GradientStop {
+                    position: 1.0
+                    color: "transparent"
+                }
+            }
+            PropertyAnimation on y {
+                from: -10
+                to: root.height
+                duration: 3000
+                loops: Animation.Infinite
+            }
+        }
+
     }
 
     // --- NAVIGATION FUNCTIONS ---
@@ -119,6 +160,14 @@ Window {
         if (mainStack.depth > 1) {
             mainStack.pop() // Returns to the previous screen if stack depth permits
         }
+    }
+
+    Component.onCompleted: {
+        // [DEBUG] Log resolution for scaling verification [Source 27]
+        console.log("SYSTEM_READY: Screen Geometry -> " + Screen.width + "x" + Screen.height
+                    + "\nOS: " + Qt.platform.os);
+        console.log("SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
+        console.log("SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
     }
 }
 

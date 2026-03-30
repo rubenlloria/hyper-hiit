@@ -68,40 +68,4 @@ Rectangle {
             listThemeColor: neonAccordion.activeThemeColor
         }
     }
-
-    // --- FOOTER DATA ---
-    NeonFooter {
-        anchors.bottom: parent.bottom
-    }
-
-    // --- SCANLINES EFFECT (.scanlines de cyberpunk.css) ---
-    Rectangle {
-        id: scanlines
-        width: parent.width
-        height: 10
-        // anchors.fill: parent
-        // anchors.fill
-        opacity: 0.2
-        z: 50
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "transparent"
-            }
-            GradientStop {
-                position: 0.5
-                color: "#00fff9"
-            }
-            GradientStop {
-                position: 1.0
-                color: "transparent"
-            }
-        }
-        PropertyAnimation on y {
-            from: -10
-            to: root.height
-            duration: 3000
-            loops: Animation.Infinite
-        }
-    }
 }
