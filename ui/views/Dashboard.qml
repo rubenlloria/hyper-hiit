@@ -106,7 +106,7 @@ DashboardForm {
         itemMouseArea.onClicked: {
             console.log("NEURAL_SYNC: Initializing " + model.name);
 
-            mainStack.push("Protocol.qml", {
+            mainStack.push("Briefing.qml", {
                 // "protocolId": model.id,
                 // "protocolName": model.name,
                 // "themeColor": neonAccordion.activeThemeColor

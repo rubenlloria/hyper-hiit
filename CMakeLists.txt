@@ -55,6 +55,8 @@ qt_add_qml_module(hyper-hiit
         # screens
         ui/views/Architect.qml
         ui/views/ArchitectForm.ui.qml
+        ui/views/BriefingForm.ui.qml
+        ui/views/Briefing.qml
         ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
         ui/views/Testboard.qml

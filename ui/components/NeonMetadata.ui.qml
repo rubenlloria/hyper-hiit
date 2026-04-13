@@ -43,19 +43,19 @@ Item {
         Text {
             id: labelTitle
             text: root.keyLabel
-            color: root.color
-            font.family: Constants.mainFont.family
-            font.pixelSize: 14
-            font.bold: true
+            color: Constants.descriptionColor
+            opacity: 0.7
+            font.family: Constants.techFont.family
+            font.pixelSize: 10
         }
 
         Text {
             id: labelDescription
             text: root.valueLabel
-            color: Constants.descriptionColor
-            opacity: 0.7
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
+            color: root.color
+            font.family: Constants.mainFont.family
+            font.pixelSize: 14
+            font.bold: true
         }
     }
 }

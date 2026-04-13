@@ -6,7 +6,7 @@ import ".."
 ProtocolForm {
     // Ara sí, definim l'acció del clic
     header.settingsMouseArea.onClicked: {
-        console.log("Navigating to System Config...");
+        console.log("Back to Dashboard...");
         // Aquí aniria la crida al StackView o al controlador C++
         mainStack.push("Dashboard.qml");
     }

@@ -2,188 +2,56 @@
     <qresource>
         <file>hyperhiit.qmlproject</file>
         <file>qtquickcontrols2.conf</file>
-        <file>res/HIIT Fitness App UI Design/Screenshot_20260301_175637.png</file>
         <file>res/background_tech.png</file>
-        <file>res/icon/Imatges/KF-ApAn48-7133-4.jpg</file>
-        <file>res/icon/Imatges/M87bhPolarized_Eht_960.jpg</file>
-        <file>res/icon/Imatges/M87bh_EHT_2629.jpg</file>
-        <file>res/icon/Imatges/PIA02471_800.jpg</file>
-        <file>res/icon/Imatges/PIA24547_fig1.jpg</file>
-        <file>res/icon/Imatges/Screenshot_20210408_223603.png</file>
-        <file>res/icon/Imatges/Screenshot_20210415_162112.png</file>
-        <file>res/icon/Imatges/Screenshot_20240602_012141.png</file>
-        <file>res/icon/Imatges/Screenshot_20250301_130827.png</file>
-        <file>res/icon/Imatges/Tux_Enhanced.svg</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250301_131005-1.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250301_131005.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250301_131220.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250301_131310.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250327_192921.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250327_193907.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250327_194359.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250327_194430.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250328_195057.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250328_195115.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250530_131805.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250723_183954.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250723_184011.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250813_202102.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250903_172922.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250903_172948.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250903_173146.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250903_173210.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250910_001609.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20250910_001620.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251202_153741.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251202_153759.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251209_112528.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251209_112559.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251209_112812.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20251209_112830.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260216_204919.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260216_204932.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260216_205117.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260216_205127.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_203619.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_203628.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_204149.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_204554.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_204607.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_205820.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260217_205830.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_113251.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_113303.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_114028.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_120704.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_120804.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_120827.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_122234.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_122247.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_122503.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_124004.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_124014.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_140628.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_140642.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_143020.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_143030.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_162817.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260218_162832.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260219_191547.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260219_191557.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260219_192025.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260219_192039.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_211926.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_211947.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_222427.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_222439.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_222716.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_225829.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_225838.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_230125.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_230207.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_230357.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260222_230514.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_192043.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_192102.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_201736.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_201745.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_203654.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_203709.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260223_203716.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_183147.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_183223.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_184757.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_185008.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_185122.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_185434.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_200818.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_201158.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_201310.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_204238.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_204251.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260224_204606.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260225_193339.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260225_193350.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260225_194913.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260225_200505.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_110655.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_110707.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_200608.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_200630.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_202706.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_202717.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_202801.png</file>
-        <file>res/icon/Imatges/captures/Screenshot_20260304_202943.png</file>
-        <file>res/icon/Imatges/taça-linux/g4035.png</file>
-        <file>res/icon/Imatges/taça-linux/linux.png</file>
-        <file>res/icon/Imatges/taça-linux/linux.svg</file>
-        <file>res/icon/Imatges/taça-linux/linux2.png</file>
-        <file>res/icon/Imatges/taça-linux/linux3.png</file>
-        <file>res/icon/hyperhiit_128.ico</file>
-        <file>res/icon/hyperhiit_128.png</file>
-        <file>res/icon/hyperhiit_256.ico</file>
-        <file>res/icon/hyperhiit_256.png</file>
-        <file>res/icon/hyperhiit_64.ico</file>
-        <file>res/icon/hyperhiit_64.png</file>
-        <file>res/icon/icon2.png</file>
-        <file>res/icon/lucide-font/lucide.svg</file>
-        <file>res/icon/lucide-font/lucide.symbol.svg</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/100.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/102.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/1024.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/108.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/114.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/120.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/128.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/144.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/152.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/16.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/167.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/172.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/180.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/196.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/20.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/216.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/234.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/256.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/258.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/29.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/32.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/40.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/48.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/50.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/512.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/55.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/57.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/58.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/60.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/66.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/72.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/76.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/80.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/87.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/88.png</file>
-        <file>res/icon/v2/AppIcons/Assets.xcassets/AppIcon.appiconset/92.png</file>
-        <file>res/icon/v2/AppIcons/android/mipmap-hdpi/ic_launcher.png</file>
-        <file>res/icon/v2/AppIcons/android/mipmap-mdpi/ic_launcher.png</file>
-        <file>res/icon/v2/AppIcons/android/mipmap-xhdpi/ic_launcher.png</file>
-        <file>res/icon/v2/AppIcons/android/mipmap-xxhdpi/ic_launcher.png</file>
-        <file>res/icon/v2/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png</file>
-        <file>res/icon/v2/AppIcons/appstore.png</file>
-        <file>res/icon/v2/AppIcons/playstore.png</file>
-        <file>res/icon/v2/HH.png</file>
-        <file>res/icon/v2/HH2.png</file>
-        <file>res/icon/v2/drawable.png</file>
-        <file>res/icon/v2/splash.png</file>
-        <file>res/icon/v2/splash2.png</file>
-        <file>res/mockups/Main1.png</file>
-        <file>res/mockups/Screenshot_20260223_203716.png</file>
-        <file>res/mockups/Screenshot_20260306_201242.png</file>
-        <file>res/mockups/main.png</file>
-        <file>res/mockups/main2.png</file>
-        <file>res/mockups/main3.png</file>
-        <file>res/mockups/main4.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/100.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/102.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/1024.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/108.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/114.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/120.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/128.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/144.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/152.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/16.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/167.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/172.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/180.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/196.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/20.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/216.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/234.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/256.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/258.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/29.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/32.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/40.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/48.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/50.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/512.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/55.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/57.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/58.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/60.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/66.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/72.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/76.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/80.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/87.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/88.png</file>
+        <file>res/icon/AppIcons/Assets.xcassets/AppIcon.appiconset/92.png</file>
+        <file>res/icon/AppIcons/android/mipmap-hdpi/ic_launcher.png</file>
+        <file>res/icon/AppIcons/android/mipmap-mdpi/ic_launcher.png</file>
+        <file>res/icon/AppIcons/android/mipmap-xhdpi/ic_launcher.png</file>
+        <file>res/icon/AppIcons/android/mipmap-xxhdpi/ic_launcher.png</file>
+        <file>res/icon/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png</file>
+        <file>res/icon/AppIcons/appstore.png</file>
+        <file>res/icon/AppIcons/playstore.png</file>
+        <file>res/icon/HH.png</file>
+        <file>res/icon/HH2.png</file>
+        <file>res/icon/drawable.png</file>
+        <file>res/icon/splash.png</file>
+        <file>res/icon/splash2.png</file>
         <file>res/splash.png</file>
         <file>ui/Constants.qml</file>
         <file>ui/CyberButton.qml</file>
@@ -197,9 +65,12 @@
         <file>ui/assets/images/splash.png</file>
         <file>ui/components/AppHeader.ui.qml</file>
         <file>ui/components/NeonAccordion.ui.qml</file>
+        <file>ui/components/NeonButton.ui.qml</file>
         <file>ui/components/NeonDirective.ui.qml</file>
+        <file>ui/components/NeonFooter.ui.qml</file>
         <file>ui/components/NeonIcon.ui.qml</file>
         <file>ui/components/NeonIndicator.ui.qml</file>
+        <file>ui/components/NeonMetadata.ui.qml</file>
         <file>ui/components/NeonProtocol.ui.qml</file>
         <file>ui/components/NeonText.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
@@ -207,8 +78,10 @@
         <file>ui/qmldir</file>
         <file>ui/views/Architect.qml</file>
         <file>ui/views/ArchitectForm.ui.qml</file>
+        <file>ui/views/BriefingForm.ui.qml</file>
         <file>ui/views/Dashboard.qml</file>
         <file>ui/views/DashboardForm.ui.qml</file>
+        <file>ui/views/Protocol.qml</file>
         <file>ui/views/ProtocolForm.ui.qml</file>
         <file>ui/views/Testboard.qml</file>
     </qresource>
