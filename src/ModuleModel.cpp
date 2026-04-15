@@ -53,8 +53,8 @@ QVariant ModuleModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case IdRole:          return module.id;
-    case NameRole:        return module.name.toUpper(); // HUD Aesthetic [Source 13]
-    case TargetRole:      return module.targetZone.toUpper();
+    case NameRole:        return module.name; // HUD Aesthetic [Source 13]
+    case TargetRole:      return module.targetZone;
     case DifficultyRole:  return module.difficulty;
     case DescriptionRole: return module.description;
     case UnitTypeRole:    return module.unitType;

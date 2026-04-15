@@ -60,6 +60,7 @@ public:
     // Protocol methods
     QList<Protocol> getAllProtocols();
     QList<Protocol> getProtocolsByDirective(int dirId);
+    Q_INVOKABLE QVariantList getProtocolStructure(int protocolId);
     int setProtocolMaxDuration();
     QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

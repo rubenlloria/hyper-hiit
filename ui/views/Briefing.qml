@@ -29,10 +29,35 @@ import "../components"
 import ".."
 
 BriefingForm {
-    // Ara sí, definim l'acció del clic
+    id: briefingView
+
+    property int activeProtocolId: 0
+
+    onActiveProtocolIdChanged: {
+        if (activeProtocolId > 0) {
+            // We call the C++ DatabaseManager to get the nested array
+            // This is assigned to the model of your outer Repeater
+            subsystemRepeater.model = dbManager.getProtocolStructure(activeProtocolId);
+        }
+    }
+
+    // Link the back button to the main stack
     header.settingsMouseArea.onClicked: {
         console.log("Back to dashboard...");
-        // Aquí aniria la crida al StackView o al controlador C++
-        mainStack.push("Dashboard.qml");
+        mainStack.pop();
+    }
+
+    executeButton.interactionArea.onClicked: {
+        console.log("Executing protocol");
+        mainStack.push("Protocol.qml", {
+            "activeProtocolId": activeProtocolId,
+            "protocolName": protocolName,
+            "themeColor": themeColor,
+            "rank": rank,
+            // TODO: "calories": model.calories,
+            "moduleCount": moduleCount,
+            "duration": duration,
+            "personalBest": personalBest
+        });
     }
 }

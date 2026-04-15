@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.16)
 set(QT_POLICY_QTP0001 NEW)
 set(QT_POLICY_QTP0004 NEW)
 
-project(hyper-hiit VERSION 0.4.0 LANGUAGES CXX)
-set(APP_VERSION_STR "0.4.0-beta")
+project(hyper-hiit VERSION 0.4.1 LANGUAGES CXX)
+set(APP_VERSION_STR "0.4.1-beta")
 
 # 2. Configuración automática de Qt (Necesario para Q_OBJECT)
 set(CMAKE_AUTOMOC ON)
@@ -72,6 +72,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonIndicator.ui.qml
         ui/components/NeonMetadata.ui.qml
         ui/components/NeonProtocol.ui.qml
+        ui/components/NeonSubsystem.ui.qml
         ui/components/NeonText.ui.qml
         ui/components/ProtocolList.ui.qml
     RESOURCES

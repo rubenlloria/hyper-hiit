@@ -14,9 +14,19 @@ Rectangle {
     color: Constants.backgroundColor
 
     property alias header: header
+    property string protocolName: "PROTOCOL_NAME"
+    property color themeColor: Constants.primaryColor
+    property string rank: "NEWBIE"
+    property int calories: 123
+    property int moduleCount: 0
+    property string duration: "00:00"
+    property int personalBest: 0
+    property var protocolDataModel: []
+    // property alias subsystemRepeater: subsystemRepeater
+
+    // property alias executeButton: executeButton
 
     // --- VIEW CONTENT ---
-
     Column {
         width: parent.width
         height: parent.height

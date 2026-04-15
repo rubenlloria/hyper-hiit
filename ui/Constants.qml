@@ -21,12 +21,12 @@ QtObject {
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
     readonly property color greenNeon:          "#39ff14"
-    readonly property color terminalGreen:      greenNeon   // DELETEME
-    readonly property color neonLime:           greenNeon   // DELETEME
+    readonly property color terminalGreen:      greenNeon   // TODO: DELETEME
+    readonly property color neonLime:           greenNeon   // TODO: DELETEME
     readonly property color redNeon:             "#ff003c"
-    readonly property color radicalRed:         redNeon     // DELETEME
+    readonly property color radicalRed:         redNeon     // TODO: DELETEME
     readonly property color yellowNeon:         "#ffdf00"
-    readonly property color cyberYellow:        yellowNeon  // DELETEME
+    readonly property color cyberYellow:        yellowNeon  // TODO: DELETEME
     // readonly property color backgroundColor: "#EAEAEA"
     readonly property color backgroundColor:    blackNeon
     readonly property color descriptionColor:   whiteNeon
@@ -41,7 +41,8 @@ QtObject {
     // --- DESIGN TOKENS ---
 
     // --- ICONS (From Lucide font)
-    readonly property string settingsIcon:  "\uE154"
+    readonly property string settingsIcon:  "\uE154" // settings
+    readonly property string playIcon:      "\uE481" // square-play
     readonly property string backIcon:      "\uE1E2" // arrow-big-left
     readonly property string flameIcon:     "\ue0d2" // Fat burning
     readonly property string heartIcon:     "\ue0f2" // Cardio

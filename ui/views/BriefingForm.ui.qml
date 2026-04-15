@@ -41,6 +41,16 @@ Rectangle {
     color: Constants.backgroundColor
 
     property alias header: header
+    property string protocolName: "PROTOCOL_NAME"
+    property color themeColor: Constants.primaryColor
+    property string rank: "NEWBIE"
+    property int calories: 123
+    property int moduleCount: 0
+    property string duration: "00:00"
+    property int personalBest: 0
+    property var protocolDataModel: []
+    property alias subsystemRepeater: subsystemRepeater
+    property alias executeButton: executeButton
 
     // --- VIEW CONTENT ---
     Column {
@@ -60,18 +70,22 @@ Rectangle {
 
         Flickable {
             id: briefingScroll
-            anchors.fill: parent
-            anchors.topMargin: 100 // Leave space for AppHeader
+            // anchors.fill: parent
+            anchors.top: header.bottom
+            anchors.bottom: parent.bottom
+            // anchors.topMargin: 100 // Leave space for AppHeader
+            width: parent.width
+            // height: mainLayout.height // - 145
             contentWidth: parent.width
-            contentHeight: mainLayout.height - 20
+            contentHeight: mainLayout.implicitHeight - 20
             clip: true // Critical: prevents content from bleeding outside the shard [Source 95]
             boundsBehavior: Flickable.StopAtBounds
 
             // Custom Neon Scrollbar (v0.3 Fuchsia Aesthetic)
             ScrollBar.vertical: ScrollBar {
                 parent: root
-                anchors.right: parent.right
-                anchors.rightMargin: 2
+                // anchors.right: parent.right
+                // anchors.rightMargin: 2
                 policy: ScrollBar.AlwaysOn
                 width: 0
 
@@ -90,12 +104,6 @@ Rectangle {
                 rightPadding: 20
                 topPadding: 10
                 width: parent.width
-                // anchors.fill: parent
-                // anchors.top: header.bottom
-                // anchors.left: parent.left
-                // anchors.right: parent.right
-                // anchors.bottom: parent.bottom
-                // anchors.margins: 20
                 spacing: 25
 
                 // 1. Mission Title Section
@@ -108,8 +116,9 @@ Rectangle {
                         font.pixelSize: 12
                     }
                     Text {
-                        text: "PROTOCOL_NAME"
-                        color: Constants.secondaryTextColor
+                        id: protocolTitle
+                        text: root.protocolName
+                        color: root.themeColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 28
                         font.bold: true
@@ -123,184 +132,49 @@ Rectangle {
                     width: parent.width - 40
                     columns: 2
                     spacing: 15
-                    // anchors.leftMargin: 10
                     NeonMetadata {
                         keyLabel: "RANK"
-                        valueLabel: "ADVANCED"
+                        valueLabel: root.rank
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
                         keyLabel: "EST_CALORIES"
-                        valueLabel: "000k"
+                        valueLabel: root.calories + "k"
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
                         keyLabel: "MODULE_COUNT"
-                        valueLabel: "0"
+                        valueLabel: root.moduleCount
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
                         keyLabel: "DURATION"
-                        valueLabel: "00:00"
+                        valueLabel: root.duration
                         width: parent.width * 0.48
                     }
                 }
 
-                Column {
-                    spacing: 5
-                    width: parent.width - 40
-                    Text {
-                        text: "SUBSYSTEM 1:"
-                        color: Constants.primaryTextColor
-                        font.family: Constants.techFont.family
-                        font.pixelSize: 12
-                    }
-                    Text {
-                        text: "40x Burpees"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "40x Situps"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "40x Jumping Jacks"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
+                Repeater {
+                    id: subsystemRepeater
+                    model: root.protocolDataModel // Structured array from C++ backend
+
+                    NeonSubsystem {
+                        subsystemId: modelData.subsystem_id
+                        color: root.themeColor
+                        // Injecting the nested module array for this specific subsystem
+                        modulesModel: modelData.modules
+                        width: metadataGrid.width
                     }
                 }
-                Column {
-                    spacing: 5
-                    width: parent.width - 40
-                    Text {
-                        text: "SUBSYSTEM 2:"
-                        color: Constants.primaryTextColor
-                        font.family: Constants.techFont.family
-                        font.pixelSize: 12
-                    }
-                    Text {
-                        text: "30x Burpees"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "30x Situps"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "30x Jumping Jacks"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
+
+                NeonButton {
+                    id: executeButton
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    label: "EXECUTE"
+                    iconGlyph: Constants.playIcon
+                    themeColor: Constants.whiteNeon
                 }
-                Column {
-                    spacing: 5
-                    width: parent.width - 40
-                    Text {
-                        text: "SUBSYSTEM 3:"
-                        color: Constants.primaryTextColor
-                        font.family: Constants.techFont.family
-                        font.pixelSize: 12
-                    }
-                    Text {
-                        text: "20x Burpees"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "20x Situps"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "20x Jumping Jacks"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                }
-                Column {
-                    spacing: 5
-                    width: parent.width - 40
-                    Text {
-                        text: "SUBSYSTEM 4:"
-                        color: Constants.primaryTextColor
-                        font.family: Constants.techFont.family
-                        font.pixelSize: 12
-                    }
-                    Text {
-                        text: "10x Burpees"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "10x Situps"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "10x Jumping Jacks"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                }
-                Column {
-                    spacing: 5
-                    width: parent.width - 40
-                    Text {
-                        text: "SUBSYSTEM 5:"
-                        color: Constants.primaryTextColor
-                        font.family: Constants.techFont.family
-                        font.pixelSize: 12
-                    }
-                    Text {
-                        text: "5x Burpees"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "5x Situps"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                    Text {
-                        text: "5x Jumping Jacks"
-                        color: Constants.secondaryTextColor
-                        font.family: Constants.mainFont.family
-                        font.pixelSize: 20
-                        font.bold: true
-                    }
-                }
+
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
                     height: 30

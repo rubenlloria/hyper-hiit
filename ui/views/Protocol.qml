@@ -6,8 +6,8 @@ import ".."
 ProtocolForm {
     // Ara sí, definim l'acció del clic
     header.settingsMouseArea.onClicked: {
-        console.log("Back to Dashboard...");
+        console.log("Back to Briefing...");
         // Aquí aniria la crida al StackView o al controlador C++
-        mainStack.push("Dashboard.qml");
+        mainStack.pop();
     }
 }

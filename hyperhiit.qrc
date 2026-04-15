@@ -72,12 +72,14 @@
         <file>ui/components/NeonIndicator.ui.qml</file>
         <file>ui/components/NeonMetadata.ui.qml</file>
         <file>ui/components/NeonProtocol.ui.qml</file>
+        <file>ui/components/NeonSubsystem.ui.qml</file>
         <file>ui/components/NeonText.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
         <file>ui/main.qml</file>
         <file>ui/qmldir</file>
         <file>ui/views/Architect.qml</file>
         <file>ui/views/ArchitectForm.ui.qml</file>
+        <file>ui/views/Briefing.qml</file>
         <file>ui/views/BriefingForm.ui.qml</file>
         <file>ui/views/Dashboard.qml</file>
         <file>ui/views/DashboardForm.ui.qml</file>

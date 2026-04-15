@@ -423,6 +423,72 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
     return list;
 }
 
+/**
+ * [NEURAL_SYNC] Generates a nested structure of Subsystems and Modules.
+ * Required for the BriefingForm MVP (v0.4.0-beta).
+ * Each subsystem object contains a 'modules' list property [Source 1, 12, 17].
+ */
+QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
+    QVariantList subsystems;
+    QSqlQuery subQuery;
+
+    // STEP 1: Identify distinct subsystems [Source 16]
+    subQuery.prepare("SELECT DISTINCT subsystem FROM protocol_structure "
+                     "WHERE protocol_id = :id ORDER BY subsystem ASC");
+    subQuery.bindValue(":id", protocolId);
+
+    if (subQuery.exec()) {
+        while (subQuery.next()) {
+            QVariantMap subsystemMap;
+            int currentSubId = subQuery.value(0).toInt();
+
+            // [TACTICAL_FIX] Send raw ID as integer
+            subsystemMap["subsystem_id"] = currentSubId;
+            qDebug() << "Appendig subsystem_id: " << currentSubId << "with modules:";
+
+            // STEP 2: Fetch modules for this subsystem
+            QVariantList modulesInSub;
+            QSqlQuery modQuery;
+            modQuery.prepare("SELECT m.mod_name, ps.quantity, m.unit_type "
+                             "FROM protocol_structure ps "
+                             "JOIN Modules m ON ps.module_id = m.module_id "
+                             "WHERE ps.protocol_id = :p_id AND ps.subsystem = :sub_id "
+                             "ORDER BY ps.s_order ASC");
+            modQuery.bindValue(":p_id", protocolId);
+            modQuery.bindValue(":sub_id", currentSubId);
+
+            if (modQuery.exec()) {
+                while (modQuery.next()) {
+                    QVariantMap mod;
+                    mod["name"] = modQuery.value(0).toString();
+                    mod["quantity"] = modQuery.value(1).toInt();
+                    switch (modQuery.value(2).toInt()) {
+                    case 0:
+                        mod["unit"] = "s.";
+                        break;
+                    case 1:
+                        mod["unit"] = "x";
+                        break;
+                    case 2:
+                        mod["unit"] = "b";
+                        break;
+                    default:
+                        mod["type"] = "";
+                        break;
+                    }
+                    modulesInSub.append(mod);
+                    qDebug() << "\t" << mod["quantity"].toString() << mod["type"].toString() << " " << mod["name"].toString();
+                }
+            }
+
+            subsystemMap["modules"] = modulesInSub;
+            subsystems.append(subsystemMap);
+        }
+    }
+    return subsystems;
+}
+
+
 int DatabaseManager::setProtocolMaxDuration() {
     QSqlQuery q;
 

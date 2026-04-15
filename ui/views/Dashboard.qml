@@ -107,9 +107,14 @@ DashboardForm {
             console.log("NEURAL_SYNC: Initializing " + model.name);
 
             mainStack.push("Briefing.qml", {
-                // "protocolId": model.id,
-                // "protocolName": model.name,
-                // "themeColor": neonAccordion.activeThemeColor
+                "activeProtocolId": model.id,
+                "protocolName": model.name,
+                "themeColor": neonAccordion.activeThemeColor,
+                "rank": model.rank,
+                // "calories": model.calories,
+                "moduleCount": model.moduleCount,
+                "duration": formatTime(model.duration),
+                "personalBest": model.personalBest
             });
         }
 
