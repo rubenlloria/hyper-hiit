@@ -24,6 +24,7 @@ Item {
     // Public properties for data binding
     property string keyLabel: "METADATA"
     property string valueLabel: "Value"
+    property string unitLabel: "unit"
     property string directiveGlyph: "\ue0d2"
     property color color: Constants.primaryTextColor // Default cyan neon
 
@@ -43,19 +44,25 @@ Item {
         Text {
             id: labelTitle
             text: root.keyLabel
-            color: Constants.descriptionColor
+            color: Constants.secondaryColor
             opacity: 0.7
             font.family: Constants.techFont.family
             font.pixelSize: 10
         }
 
-        Text {
+        NeonText {
             id: labelDescription
-            text: root.valueLabel
-            color: root.color
-            font.family: Constants.mainFont.family
-            font.pixelSize: 14
-            font.bold: true
+            label: root.valueLabel
+            labelColor: root.color
+            size: 25
+        }
+        Text {
+            id: labelUnit
+            text: root.unitLabel
+            color: Constants.descriptionColor
+            opacity: 0.7
+            font.family: Constants.techFont.family
+            font.pixelSize: 10
         }
     }
 }

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource>
+    <qresource prefix="/">
         <file>hyperhiit.qmlproject</file>
         <file>qtquickcontrols2.conf</file>
         <file>res/background_tech.png</file>
@@ -58,6 +58,7 @@
         <file>ui/ProgressDial.qml</file>
         <file>ui/assets/fonts/Orbit-Regular.ttf</file>
         <file>ui/assets/fonts/Orbitron-VariableFont_wght.ttf</file>
+        <file>ui/assets/fonts/OrbitronMono-Black.ttf</file>
         <file>ui/assets/fonts/ShareTechMono-Regular.ttf</file>
         <file>ui/assets/fonts/lucide.ttf</file>
         <file>ui/assets/icons/settings.svg</file>
@@ -74,6 +75,7 @@
         <file>ui/components/NeonProtocol.ui.qml</file>
         <file>ui/components/NeonSubsystem.ui.qml</file>
         <file>ui/components/NeonText.ui.qml</file>
+        <file>ui/components/NeonTimer.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
         <file>ui/main.qml</file>
         <file>ui/qmldir</file>

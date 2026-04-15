@@ -81,9 +81,11 @@ qt_add_qml_module(hyper-hiit
         authors.txt
         ui/qmldir
         ui/assets/fonts/Orbitron-VariableFont_wght.ttf
+        ui/assets/fonts/OrbitronMono-Black.ttf
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
+        QML_FILES ui/components/NeonTimer.ui.qml
 )
 
 # 7. Definiciones de compilación

@@ -92,6 +92,7 @@ QtObject {
     property var _loader1: FontLoader { id: lucideLoader; source: Qt.resolvedUrl("assets/fonts/lucide.ttf") }
     property var _loader2: FontLoader { id: orbitronLoader; source: Qt.resolvedUrl("assets/fonts/Orbitron-VariableFont_wght.ttf") }
     property var _loader3: FontLoader { id: shareTechLoader; source: Qt.resolvedUrl("assets/fonts/ShareTechMono-Regular.ttf") }
+    property var _loader4: FontLoader { id: orbitronMonoLoader; source: Qt.resolvedUrl("assets/fonts/OrbitronMono-Black.ttf") }
 
     // --- FONT CONFIGURATIONS ---
     // Now 'family' will match the name registered by the loaders
@@ -103,6 +104,12 @@ QtObject {
     readonly property font mainFont: Qt.font({
         family: orbitronLoader.name,
         pixelSize: 16
+    })
+
+    readonly property font mainMonoFont: Qt.font({
+        family: orbitronMonoLoader.name,
+        pixelSize: 16,
+        weight: Font.Black
     })
 
     readonly property font titleFont: Qt.font({

@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
+import Qt5Compat.GraphicalEffects
+
 import "../components"
 // Access to NeonIcon, NeonText, etc.
 import ".."
@@ -30,7 +32,7 @@ Rectangle {
     Column {
         width: parent.width
         height: parent.height
-        spacing: 10
+        spacing: 40
         AppHeader {
             id: header
             z: 60
@@ -40,6 +42,86 @@ Rectangle {
             titlePart2: "protocol"
             buttonLabel: "BACK     "
             buttonGlyph: Constants.backIcon
+        }
+
+        NeonTimer {
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 3
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 1
+            }
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 0.5
+            }
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 0.5
+            }
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 0.5
+            }
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 0.5
+            }
+            Rectangle {
+                width: 50
+                height: 3
+                color: Constants.descriptionColor
+                opacity: 0.5
+            }
+        }
+        ProgressDial {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 250
+            height: 250
+            value: 1
+            moduleName: "Burpees"
+        }
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            NeonText {
+                label: "Next Module: "
+                labelColor: Constants.primaryTextColor
+            }
+            NeonText {
+                label: "30x Situps"
+                labelColor: Constants.secondaryTextColor
+            }
+        }
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 15
+            NeonMetadata {
+                keyLabel: "HEART_RATE"
+                valueLabel: "--"
+                unitLabel: "BPM"
+                color: Constants.primaryColor
+            }
+            NeonMetadata {
+                keyLabel: "CALORIES"
+                valueLabel: "150"
+                unitLabel: "kcal"
+                color: Constants.primaryColor
+            }
         }
     }
 }

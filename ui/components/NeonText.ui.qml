@@ -21,6 +21,7 @@ Item {
     property alias label: label.text
     property alias labelColor: label.color
     property alias size: label.font.pixelSize
+    property alias font: label.font
 
     // FontLoader {
     //     id: internalShareTecFont

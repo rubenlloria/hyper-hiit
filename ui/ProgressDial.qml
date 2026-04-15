@@ -5,6 +5,8 @@ Item {
     id: root
     property real value: 0.75 // Valor de 0.0 a 1.0
     property color accentColor: "#00FFFF" // Cian neón
+    property alias quantity: quantity.text
+    property alias moduleName: moduleName.text
 
     width: 300
     height: 300
@@ -72,6 +74,7 @@ Item {
         spacing: 2
 
         Text {
+            id: quantity
             text: "30x"
             color: "white"
             font.pixelSize: 45
@@ -80,6 +83,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Text {
+            id: moduleName
             text: "BURPEES"
             color: root.accentColor
             font.pixelSize: 18
