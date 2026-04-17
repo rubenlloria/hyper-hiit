@@ -27,6 +27,7 @@
 #include "src/ModuleModel.h"
 #include "src/ProtocolModel.h"
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
@@ -43,6 +44,7 @@
 
 class DatabaseManager : public QObject {
     Q_OBJECT
+    QML_ELEMENT  // WARNING: delete if not compile in the future
 public:
     explicit DatabaseManager(QObject *parent = nullptr);
 

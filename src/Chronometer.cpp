@@ -54,10 +54,11 @@ void Chronometer::updateTime() {
     }
 
     // Security límits
-    if (m_progressValue >= 1.0) {
-        m_progressValue = 1.0;
-        stop();
-        emit finished(); // Avisamos que terminó
+    if (m_progressValue >= 1.0 && !m_maxReached) {
+        // m_progressValue = 1.0;
+        //stop();
+        emit maxReached();
+        m_maxReached = true;
     }
 
     // Update QML

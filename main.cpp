@@ -77,12 +77,14 @@ int main(int argc, char *argv[])
 
     }
 
-    Chronometer chronometer;
-
     SystemManager systemManager;
+
+    qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
+    Chronometer chronometer;
 
     // 1. Initialize the QML engine
     QQmlApplicationEngine engine;
+    engine.addImportPath("qrc:/qt/qml"); // CRITICAL: This allows 'import org.aic.hyperhiit 1.0' to work
 
     // 2. Register Context Properties (Neural Sync)
     // We inject the version defined in CMake so the HUD can display it

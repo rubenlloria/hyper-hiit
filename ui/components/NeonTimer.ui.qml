@@ -6,11 +6,11 @@ import Qt5Compat.GraphicalEffects
 import ".."
 
 Column {
-    property alias label: label.text
-    property alias labelColor: label.color
-    property alias size: label.font.pixelSize
-    property alias font: label.font
-    property alias centLabel: centLabel.text
+    property alias minSec: minSec.text
+    property alias minSecColor: minSec.color
+    property alias size: minSec.font.pixelSize
+    property alias font: minSec.font
+    property alias cents: cents.text
 
     Rectangle {
         color: Constants.secondaryColor
@@ -23,12 +23,12 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 2
         Item {
-            id: labelItem
-            width: label.implicitWidth
-            height: label.implicitHeight
+            id: minSecItem
+            width: minSec.implicitWidth
+            height: minSec.implicitHeight
 
             Text {
-                id: label
+                id: minSec
                 text: "00:00"
                 color: Constants.primaryTextColor
                 font.family: Constants.mainMonoFont.family
@@ -38,9 +38,9 @@ Column {
                 renderType: Text.QtRendering // Ensures implicitWidth is calculated correctly
             }
             DropShadow {
-                id: labelGlow
-                anchors.fill: label
-                source: label
+                id: minSecGlow
+                anchors.fill: minSec
+                source: minSec
                 color: Constants.secondaryTextColor
                 radius: 64
                 samples: 15
@@ -48,18 +48,34 @@ Column {
                 transparentBorder: true
             }
         }
-        Text {
-            // We take the last 3 characters ":CC" (including the separator)
-            // or just the numbers. Let's use "." + last 2 digits.
-            // text: "." + myChrono.timeText.substring(6, 8)
-            id: centLabel
-            text: ".00"
-            color: Constants.primaryTextColor
-            font.pixelSize: 32 // Half the size of the main clock
-            font.family: Constants.mainMonoFont.family
+        Item {
+            id: centsItem
+            width: cents.implicitWidth
+            height: cents.implicitHeight
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 7 // Adjusted for Orbitron's baseline
-            opacity: 0.8
+            Text {
+                // We take the last 3 characters ":CC" (including the separator)
+                // or just the numbers. Let's use "." + last 2 digits.
+                // text: "." + myChrono.timeText.substring(6, 8)
+                id: cents
+                text: ".00"
+                color: Constants.primaryTextColor
+                font.pixelSize: 32 // Half the size of the main clock
+                font.family: Constants.mainMonoFont.family
+                opacity: 0.8
+                renderType: Text.QtRendering // Ensures implicitWidth is calculated correctly
+            }
+            DropShadow {
+                id: cestsGlow
+                anchors.fill: cents
+                source: cents
+                color: Constants.secondaryTextColor
+                radius: 32
+                samples: 15
+                spread: 0.2
+                transparentBorder: true
+            }
         }
     }
     Rectangle {

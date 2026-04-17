@@ -24,6 +24,7 @@
 #define CHRONOMETER_H
 
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 #include <QTimer>
 #include <QElapsedTimer>
 
@@ -31,6 +32,7 @@ class Chronometer : public QObject
 {
     Q_OBJECT
     // Property to bind the formatted time string to QML
+    QML_ELEMENT  // WARNING: delete if not compile in the future
     Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
     Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
 
@@ -47,6 +49,7 @@ public:
 signals:
     void timeTextChanged();
     void finished();
+    void maxReached();
     void progressValueChanged();
 
 private slots:
@@ -62,6 +65,7 @@ private:
     double m_progressValue = 0.0;
     int m_elapsedTime = 0;
     int m_totalTime = 60000;
+    bool m_maxReached = false;
 
     void formatTimeText(int totalMs);
 };
