@@ -15,7 +15,21 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.backgroundColor
 
+    property string currentModuleName: "ENGAGING"
+    property string dialMessage: "WAIT"
+    property int countdownTimer: -5
+    property string unit: "s"
+    property int unitType: 0 // 0: SECONDS | 1: REPS [Source 8]
+    property real progressValue: 0.0
+    property string currentQuantity: "-5s"
+
     property alias header: header
+    property alias mainTimer: mainTimer
+    property alias progressDial: progressDial
+    property alias nextModuleText: nextModuleText
+    property alias nextModuleTitle: nextModuleTitle
+
+    property int activeProtocolId: 0
     property string protocolName: "PROTOCOL_NAME"
     property color themeColor: Constants.primaryColor
     property string rank: "NEWBIE"
@@ -45,6 +59,7 @@ Rectangle {
         }
 
         NeonTimer {
+            id: mainTimer
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -88,23 +103,45 @@ Rectangle {
                 opacity: 0.5
             }
         }
-        ProgressDial {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 250
-            height: 250
-            value: 1
-            moduleName: "Burpees"
-        }
 
-        Row {
+        Column {
             anchors.horizontalCenter: parent.horizontalCenter
             NeonText {
-                label: "Next Module: "
+                id: currentModuleText
+                anchors.horizontalCenter: parent.horizontalCenter
+                size: 30
+                label: root.currentModuleName
                 labelColor: Constants.primaryTextColor
             }
+
+            NeonDial {
+                id: progressDial
+                anchors.horizontalCenter: parent.horizontalCenter
+                // width: 250
+                // height: 250
+                size: 250
+                value: 1
+                dialMessage: root.dialMessage
+                quantity: root.currentQuantity
+                unit: root.unit
+            }
+        }
+
+        Column {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 5
             NeonText {
-                label: "30x Situps"
+                id: nextModuleTitle
+                anchors.horizontalCenter: parent.horizontalCenter
+                label: "Next Module"
                 labelColor: Constants.secondaryTextColor
+            }
+            NeonText {
+                id: nextModuleText
+                anchors.horizontalCenter: parent.horizontalCenter
+                size: 25
+                label: "30x Situps"
+                labelColor: Constants.primaryTextColor
             }
         }
         Row {

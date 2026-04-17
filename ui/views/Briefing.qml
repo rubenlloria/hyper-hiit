@@ -37,7 +37,9 @@ BriefingForm {
         if (activeProtocolId > 0) {
             // We call the C++ DatabaseManager to get the nested array
             // This is assigned to the model of your outer Repeater
-            subsystemRepeater.model = dbManager.getProtocolStructure(activeProtocolId);
+            let data = dbManager.getProtocolStructure(activeProtocolId);
+            protocolDataModel = data;
+            subsystemRepeater.model = protocolDataModel;
         }
     }
 
@@ -57,7 +59,8 @@ BriefingForm {
             // TODO: "calories": model.calories,
             "moduleCount": moduleCount,
             "duration": duration,
-            "personalBest": personalBest
+            "personalBest": personalBest,
+            "protocolDataModel": protocolDataModel
         });
     }
 }
