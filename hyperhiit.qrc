@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource>
         <file>hyperhiit.qmlproject</file>
         <file>qtquickcontrols2.conf</file>
         <file>res/background_tech.png</file>
@@ -67,6 +67,7 @@
         <file>ui/components/AppHeader.ui.qml</file>
         <file>ui/components/NeonAccordion.ui.qml</file>
         <file>ui/components/NeonButton.ui.qml</file>
+        <file>ui/components/NeonDial.ui.qml</file>
         <file>ui/components/NeonDirective.ui.qml</file>
         <file>ui/components/NeonFooter.ui.qml</file>
         <file>ui/components/NeonIcon.ui.qml</file>
