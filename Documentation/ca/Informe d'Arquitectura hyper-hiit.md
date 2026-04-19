@@ -926,6 +926,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 
 <!-- -->
 
+-   **Registre de Sessions:** Les sessions es desen a la base de dades
+    per a futurs analisis.
+
 -   **Barres de Progrés Dinàmiques:** Les barres de neó de les targetes
     de protocol reflecteixen el progrés real de la sessió en curs 2, 4.
 
