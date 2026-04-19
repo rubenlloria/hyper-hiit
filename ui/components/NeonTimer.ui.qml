@@ -6,11 +6,15 @@ import Qt5Compat.GraphicalEffects
 import ".."
 
 Column {
+    id: root
     property alias minSec: minSec.text
     property alias minSecColor: minSec.color
     property alias size: minSec.font.pixelSize
     property alias font: minSec.font
     property alias cents: cents.text
+
+    width: timerRow.implicitWidth
+    height: timerRow.implicitHeight + 4
 
     Rectangle {
         color: Constants.secondaryColor
@@ -20,7 +24,7 @@ Column {
     }
     Row {
         id: timerRow
-        anchors.horizontalCenter: parent.horizontalCenter
+        // anchors.horizontalCenter: parent.horizontalCenter
         spacing: 2
         Item {
             id: minSecItem
