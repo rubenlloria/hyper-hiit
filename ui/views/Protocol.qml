@@ -1,10 +1,10 @@
 import QtQuick
 import org.aic.hyperhiit 1.0
 
-
 import "../components"
 // Access to NeonIcon, NeonText, etc.
 import ".."
+import "."
 
 ProtocolForm {
     id: protocolController
@@ -16,30 +16,33 @@ ProtocolForm {
     currentQuantity: countdownTimer + unit
 
     property real startX: 0
+    property real tapX: 0
     property real threshold: 50 // Minimum pixels to trigger a displacement
-    property var flatExecutionList: []
-    property int currentFlatIndex: 0
+    property var executionList: []
+    property int currentIndex: 0
     property int activeSubsystemId: 0
     property bool isRunning: false
 
     // Internal state for progress tracking
     property real currentModuleDuration: 10000
-    property real elapsedInModule: 0
+    property real elapsedMs: 0
+    readonly property var unitSymbols: ["s", "x", "b"]
 
-    Component.onCompleted: {
-        flattenProtocolModel();
-        let next = flatExecutionList[0];
-        nextModuleText.label = next.data.quantity + next.data.unit + " " + next.data.name ;
-    }
-
-    onProtocolDataModelChanged: {
-        if (protocolDataModel && protocolDataModel.length > 0) {
-            flattenProtocolModel();
-        } else {
-            console.log("Wait: Protocol data model is empty or null.");
+    onActiveProtocolIdChanged: {
+        if (activeProtocolId > 0) {
+            loadProtocolDetails();
+            let next = executionList[0];
+            let unitSymbol = unitSymbols[next.data.unit_type] || "";
+            console.log("DEBUG: " + next.module_name + " Content: " + JSON.stringify(next));
+            nextModuleText.label = next.data.quantity + unitSymbol + " " + next.data.module_name;
         }
     }
 
+    // Component.onCompleted: {
+    //     flattenProtocolModel();
+    //     let next = executionList[0];
+    //     nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
+    // }
 
     Chronometer {
         id: myChrono
@@ -57,40 +60,59 @@ ProtocolForm {
         }
     }
 
-    // Back button action
-    header.settingsMouseArea.onClicked: {
-        console.log("Back to Briefing...");
-        // Aquí aniria la crida al StackView o al controlador C++
-        mainStack.pop();
-    }
+    /**
+     * Dedicated C++ instance for the Dial/Unit progress.
+     * This ensures the progress remains accurate even if the app is minimized.
+     */
+    Chronometer {
+        id: unitChronometer
 
-    // Timer to update the dial value every 50ms for smooth animation
-    Timer {
-        id: progressUpdater
-        interval: 50
-        repeat: true
-        running: protocolController.isRunning || preparationTimer.running
-
-        onTriggered: {
-            if (preparationTimer.running) {
-                // Countdown progress: maps -5..0 to 0.0..1.0
-                // Calculation: (TotalTime + currentNegativeValue) / TotalTime
-                let cdProgress = (5 + protocolController.countdownTimer) / 5;
-                progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
-                console.log("Countdown value: " + progressDial.value);
-            } else if (protocolController.isRunning) {
-                // Module execution progress
-                elapsedInModule += 50;
-                if (currentModuleDuration > 0) {
-                    let execProgress = elapsedInModule / currentModuleDuration;
-                    progressDial.value = Math.min(execProgress, 1.0);
-                    console.log("Module value: " + progressDial.value);
-                }
+        onTimeTextChanged: {
+            // Calculate progress based on the actual elapsed MS from C++
+            // Using the currentModuleDuration calculated in loadUnit()
+            // console.log("unitChrono changed");
+            if (protocolController.isRunning && protocolController.currentModuleDuration > 0) {
+                // Get raw elapsed time from the chronometer logic
+                let elapsedMs = unitChronometer.elapsedMs;
+                progressDial.value = Math.min(elapsedMs / protocolController.currentModuleDuration, 1.0);
+                // console.log("dial updated | elapsedMS: " + elapsedMs + "moduleDuration: " + protocolController.currentModuleDuration);
             }
         }
     }
 
-    // [NEURAL_SYNC] Internal timer for the 5-second countdown
+    // Back button action
+    header.settingsMouseArea.onClicked: {
+        console.log("Back to Briefing...");
+        mainStack.pop();
+    }
+
+    // // Timer to update the dial value every 50ms for smooth animation
+    // Timer {
+    //     id: progressUpdater
+    //     interval: 50
+    //     repeat: true
+    //     running: protocolController.isRunning || preparationTimer.running
+
+    //     onTriggered: {
+    //         if (preparationTimer.running) {
+    //             // Countdown progress: maps -5..0 to 0.0..1.0
+    //             // Calculation: (TotalTime + currentNegativeValue) / TotalTime
+    //             let cdProgress = (5 + protocolController.countdownTimer) / 5;
+    //             progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
+    //             console.log("Countdown value: " + progressDial.value);
+    //         } else if (protocolController.isRunning) {
+    //             // Module execution progress
+    //             protocolController.elapsedMs += 50;
+    //             if (protocolController.currentModuleDuration > 0) {
+    //                 let execProgress = protocolController.elapsedMs / (protocolController.currentModuleDuration);
+    //                 progressDial.value = Math.min(execProgress, 1.0);
+    //                 console.log("Module value: " + progressDial.value);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // Internal timer for the 5-second countdown
     Timer {
         id: preparationTimer
         interval: 1000 // 1 second
@@ -107,14 +129,6 @@ ProtocolForm {
                     // Transition to ACTIVE mission state
                     preparationTimer.stop();
                     startProtocol();
-
-                    // currentModuleName = "Burpees";
-                    // currentQuantity = "30x";
-
-                    // // Start the C++ Chronometer logic
-                    // // Assuming 'myChrono' is globally available or passed from main
-                    // myChrono.start(0);
-                    // console.log("NEURAL_SYNC: Countdown finished. Protocol clock engaged.");
                 }
             }
         }
@@ -125,7 +139,8 @@ ProtocolForm {
     }
 
     progressDial.dialMouseArea.onReleased: (mouse) => {
-        let deltaX = mouse.x - startX;
+        tapX = mouse.x
+        let deltaX = tapX - startX;
 
         if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
@@ -142,48 +157,57 @@ ProtocolForm {
     }
 
     function handleRightSwipe() {
-        // Logic to move backward or decrease quantity [Source 17]
-        // console.log("NEURAL_SYNC: Right swipe detected. Incrementing module value.");
+        // Logic to move backward on moldule list
+        prevModule();
     }
 
     function handleLeftSwipe() {
         nextModule();
-        // console.log("NEURAL_SYNC: Left swipe detected. Decrementing module value.");
-        // Logic to move forward or increase quantity
+        // Logic to move forward on moldule list
     }
 
     function handleDialTap() {
-        nextModule();
+        // Logic to move forward or backward if tap on left side
+        if ( tapX < 30 ) {
+            prevModule();
+        } else {
+            nextModule();
+        }
+        console.debug("DEBUG: Mouse tap at " + tapX);
         // console.log("NEURAL_SYNC: Dial tapped. Validating current state.");
     }
 
     /**
-     * [DATA_PROCESSING] Converts hierarchical model to a linear list.
-     * Prevents duplicate DB calls by reusing the existing protocolDataModel [Source 12].
+     * Retrieves full Level 4 metadata from C++ and flattens the hierarchy.
      */
-    function flattenProtocolModel() {
-        let tempPath = [];
-        console.log("DEBUG: Full Model Content: " + JSON.stringify(protocolDataModel));
+    function loadProtocolDetails() {
+        let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
+        console.log("DEBUG: Full Model Content: " + JSON.stringify(structuredData));
+        let tempSequence = [];
 
-        // protocolDataModel structure: [ {subsystemId: 1, modules: [...]}, ... ]
-        for (let i = 0; i < protocolDataModel.length; i++) {
-            let subsystem = protocolDataModel[i];
-            for (let j = 0; j < subsystem.modules.length; j++) {
-                let module = subsystem.modules[j];
-                // Store module data alongside its parent subsystem ID for UI syncing
-                tempPath.push({
-                    "data": module,
-                    "subId": subsystem.subsystem_id
-                });
+        for (let i = 0; i < structuredData.length; i++) {
+            let subsystem = structuredData[i];
+            if (subsystem.modules) {
+                for (let j = 0; j < subsystem.modules.length; j++) {
+                    tempSequence.push({
+                        "data": subsystem.modules[j],
+                        "subId": subsystem.subsystemId
+                    });
+                }
             }
         }
-        flatExecutionList = tempPath;
-        console.log("NEURAL_SYNC: Protocol flattened. Total units: " + flatExecutionList.length);
+
+        executionList = tempSequence;
+        console.log("Protocol sequence synchronized. Total units: " + executionList.length);
     }
+
     /**
      * [EXECUTION_START] Engages the clock and loads the first module.
      */
     function startProtocol() {
+        if (executionList.length === 0)
+            return;
+
         isRunning = true;
         if (typeof myChrono !== "undefined") {
             myChrono.start(0);
@@ -196,25 +220,44 @@ ProtocolForm {
      * [NEURAL_LINK] Updates the UI shard with the current module telemetry.
      */
     function loadModule(index) {
-        elapsedInModule = 0;
-        console.log("flatExecutionList.length: " + flatExecutionList.length + " | index: " + index);
-        if (index >= flatExecutionList.length) {
+        console.log("executionList.length: " + executionList.length + " | index: " + index);
+        if (index >= executionList.length) {
             finishProtocol();
             return;
         }
 
-        currentFlatIndex = index;
-        let entry = flatExecutionList[index];
+        currentIndex = index;
+        let entry = executionList[index];
+        let unitSymbol = unitSymbols[entry.data.unit_type] || "";
+        console.log("DEBUG: " + entry.data.module_name + " Content: " + JSON.stringify(entry));
+
+        elapsedMs = 0;
+        progressDial.value = 0;
 
         // Update UI Properties for ProtocolForm.ui.qml [Source 17]
-        currentModuleName = entry.data.name;
-        currentQuantity = entry.data.quantity + entry.data.unit;
-        // unitType = entry.data.unit;
+        currentModuleName = entry.data.module_name;
+        currentQuantity = entry.data.quantity + unitSymbol;
+        unitType = entry.data.unit_type;
+        // unit = unitSymbols[unitType] || "";
 
-        if (index < flatExecutionList.length -1) {
+        // Duration Calculation: quantity * rep_time * fatigue_rate [Source 18]
+        // unit_type 0: SECONDS | 1: REPS
+        if (unitType === 0) {
+            protocolController.currentModuleDuration = entry.data.quantity * 1000;
+            protocolController.progressDial.messageColor = Constants.primaryTextColor
+        } else {
+            protocolController.progressDial.messageColor = Constants.secondaryTextColor
+            let baseTime = entry.data.rep_time || 2.0;
+            let fatigue = entry.data.fatigue_rate || 1.0;
+            protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
+        }
+
+        if (index < executionList.length -1) {
             console.log("Let next");
-            let next = flatExecutionList[index +1];
-            nextModuleText.label = next.data.quantity + next.data.unit + " " + next.data.name ;
+            let next = executionList[index +1];
+            let nextUnitSymbol = unitSymbols[next.data.unit_type] || "";
+            nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
+            console.log("DEBUG: " + next.data.module_name + " Content: " + JSON.stringify(next));
         } else {
             console.log("NO Let next");
             nextModuleText.label = "Last" ;
@@ -223,14 +266,27 @@ ProtocolForm {
         activeSubsystemId = entry.subId;
 
         console.log("FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
+        // We restart it for each new module to have a clean 0.0 -> 1.0 range
+        unitChronometer.stop();
+        unitChronometer.start(0);
+
     }
 
     /**
-     * [ACTION] Transition to the next atomic unit.
+     * Transition to the next module unit.
      */
     function nextModule() {
         if (isRunning) {
-            loadModule(currentFlatIndex + 1);
+            loadModule(currentIndex + 1);
+        }
+    }
+
+    /**
+     * Transition to the prev module unit.
+     */
+    function prevModule() {
+        if (isRunning && currentIndex > 0) {
+            loadModule(currentIndex - 1);
         }
     }
 
@@ -238,6 +294,7 @@ ProtocolForm {
         isRunning = false;
         currentModuleName = "COMPLETED";
         currentQuantity = "";
+        progressDial.messageColor = Constants.primaryTextColor
         progressDial.dialMessage = "STOPPED";
         nextModuleText.label = "GOD_JOB!";
         nextModuleTitle.label = " ";

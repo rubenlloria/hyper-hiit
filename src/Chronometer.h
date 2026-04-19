@@ -33,12 +33,14 @@ class Chronometer : public QObject
     Q_OBJECT
     // Property to bind the formatted time string to QML
     QML_ELEMENT  // WARNING: delete if not compile in the future
+    Q_PROPERTY(int elapsedMs READ elapsedMs NOTIFY elapsedMsChanged)
     Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
     Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
 
 public:
     explicit Chronometer(QObject *parent = nullptr);
 
+    int elapsedMs() const { return m_elapsedMs; }
     // Starts countdown from given seconds
     Q_INVOKABLE void start(int seconds);
     Q_INVOKABLE void stop();
@@ -47,6 +49,7 @@ public:
     double progressValue() const { return m_progressValue; }
 
 signals:
+    void elapsedMsChanged();
     void timeTextChanged();
     void finished();
     void maxReached();
@@ -60,6 +63,7 @@ private:
     QElapsedTimer m_elapsedTimer;
 
     int m_totalTargetMs;
+    int m_elapsedMs;
     QString m_timeText;
 
     double m_progressValue = 0.0;

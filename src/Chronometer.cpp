@@ -35,8 +35,10 @@ void Chronometer::start(int seconds) {
     // We ignore 'seconds' for now as we are counting UP from zero
     Q_UNUSED(seconds);
 
+    m_elapsedMs = 0;
     m_elapsedTimer.start(); // Resets and starts the timer from 0
     m_timer->start();
+    emit elapsedMsChanged();
 
     qDebug() << "Chronometer started (Count-up mode)";
 }
@@ -48,6 +50,10 @@ void Chronometer::stop() {
 void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
     int elapsed = static_cast<int>(m_elapsedTimer.elapsed());
+    m_elapsedMs = elapsed;
+
+    // Notify QML that the millisecond property has changed
+    emit elapsedMsChanged();
 
     if (m_totalTime > 0) {
         m_progressValue = static_cast<double>(elapsed) / m_totalTime;
