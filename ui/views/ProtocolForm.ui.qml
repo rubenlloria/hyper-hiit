@@ -46,7 +46,7 @@ Rectangle {
     Column {
         width: parent.width
         height: parent.height
-        spacing: 40
+        spacing: 30
         AppHeader {
             id: header
             z: 60
@@ -56,6 +56,12 @@ Rectangle {
             titlePart2: "protocol"
             buttonLabel: "BACK     "
             buttonGlyph: Constants.backIcon
+        }
+
+        NeonText {
+            anchors.horizontalCenter: parent.horizontalCenter
+            label: protocolName
+            size: 35
         }
 
         NeonTimer {
