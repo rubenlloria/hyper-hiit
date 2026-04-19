@@ -488,6 +488,66 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
     return subsystems;
 }
 
+/**
+ * @brief Deep data extraction for the execution engine for ProtocolForm
+ */
+QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
+    QVariantList executionPacket;
+    QSqlQuery query;
+
+    // SQL JOIN to fetch Level 4 metadata: rep_time, met_factor, and fatigue_rate
+    query.prepare(
+        "SELECT ps.subsystem, ps.quantity, "
+        "m.mod_name, m.unit_type, m.rep_time, m.met_factor, m.fatigue_rate "
+        "FROM protocol_structure ps "
+        "JOIN modules m ON ps.module_id = m.module_id "
+        "WHERE ps.protocol_id = :protId "
+        "ORDER BY ps.subsystem ASC, ps.s_order ASC"
+        );
+    query.bindValue(":protId", protocolId);
+
+    if (!query.exec()) {
+        qDebug() << "Execution sync error:" << query.lastError().text();
+        return executionPacket;
+    }
+
+    // Grouping modules by subsystem for the UI progress row [7, 8]
+    int currentSubId = -1;
+    QVariantMap subsystemMap;
+    QVariantList moduleList;
+
+    while (query.next()) {
+        int subId = query.value("subsystem").toInt();
+
+        if (subId != currentSubId) {
+            if (currentSubId != -1) {
+                subsystemMap["modules"] = moduleList;
+                executionPacket.append(subsystemMap);
+            }
+            currentSubId = subId;
+            subsystemMap = QVariantMap();
+            subsystemMap["subsystemId"] = subId;
+            moduleList = QVariantList();
+        }
+
+        QVariantMap mod;
+        mod["module_name"] = query.value("mod_name").toString();
+        mod["quantity"] = query.value("quantity").toInt();
+        mod["unit_type"] = query.value("unit_type").toInt();
+        mod["rep_time"] = query.value("rep_time").toFloat();
+        mod["met_factor"] = query.value("met_factor").toFloat();
+        mod["fatigue_rate"] = query.value("fatigue_rate").toFloat();
+        moduleList.append(mod);
+    }
+
+    // Append last subsystem
+    if (currentSubId != -1) {
+        subsystemMap["modules"] = moduleList;
+        executionPacket.append(subsystemMap);
+    }
+
+    return executionPacket;
+}
 
 int DatabaseManager::setProtocolMaxDuration() {
     QSqlQuery q;
