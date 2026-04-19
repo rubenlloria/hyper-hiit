@@ -35,41 +35,56 @@ class Chronometer : public QObject
     QML_ELEMENT  // WARNING: delete if not compile in the future
     Q_PROPERTY(int elapsedMs READ elapsedMs NOTIFY elapsedMsChanged)
     Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
-    Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
+    // Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
 
 public:
     explicit Chronometer(QObject *parent = nullptr);
 
+    // Getters
     int elapsedMs() const { return m_elapsedMs; }
-    // Starts countdown from given seconds
-    Q_INVOKABLE void start(int seconds);
+    QString timeText() const { return m_timeText; }
+
+    /**
+     * @brief Starts the timer sequence.
+     * @param mseconds: If > 0, signals targetReached() upon completion.
+     */
+    Q_INVOKABLE void start(int mseconds);
+
+    /**
+     * @brief Halts the periodic update timer.
+     */
     Q_INVOKABLE void stop();
 
-    QString timeText() const { return m_timeText; }
-    double progressValue() const { return m_progressValue; }
+    // double progressValue() const { return m_progressValue; }
 
 signals:
     void elapsedMsChanged();
     void timeTextChanged();
-    void finished();
-    void maxReached();
-    void progressValueChanged();
+    /**
+     * @brief Emitted exactly once when elapsedMs >= targetMs.
+     * Used for automated module transitions
+     */
+    void targetReached();
 
 private slots:
     void updateTime();
 
 private:
+    // Core Timers
     QTimer *m_timer;
     QElapsedTimer m_elapsedTimer;
 
-    int m_totalTargetMs;
+    // State Variables
+    int m_targetMs; // Stores the limit in milliseconds
     int m_elapsedMs;
     QString m_timeText;
+    bool m_targetReachedSent; // Flag to ensure single emission per start() call
 
-    double m_progressValue = 0.0;
-    int m_elapsedTime = 0;
-    int m_totalTime = 60000;
-    bool m_maxReached = false;
+    // double m_progressValue = 0.0;
+    // int m_elapsedTime = 0;
+    // int m_totalTime = 60000;
+    // bool m_maxReached = false;
+    // int m_totalTargetMs;
 
     void formatTimeText(int totalMs);
 };

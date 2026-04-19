@@ -126,7 +126,7 @@ Rectangle {
                 // width: 250
                 // height: 250
                 size: 250
-                value: 1
+                value: 0
                 dialMessage: root.dialMessage
                 quantity: root.currentQuantity
                 unit: root.unit

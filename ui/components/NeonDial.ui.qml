@@ -8,6 +8,7 @@ Item {
     id: root
     property real value: 0.75 // Valor de 0.0 a 1.0
     property color dialColor: Constants.secondaryColor
+    property color dialBgColor: Constants.darkNeon
     property alias quantity: quantity.text
     property string unit: unit
     property alias dialMessage: dialMessage.label
@@ -33,7 +34,7 @@ Item {
         ShapePath {
             id: grooveRing
             fillColor: "transparent"
-            strokeColor: "#1A1A1A"
+            strokeColor: root.dialBgColor
             strokeWidth: 15
             capStyle: ShapePath.RoundCap // Bordes redondeados
 

@@ -24,23 +24,29 @@
 #include <QDebug>
 
 Chronometer::Chronometer(QObject *parent)
-    : QObject(parent), m_totalTargetMs(0), m_timeText("00:00:00")
+    : QObject(parent),
+    m_targetMs(0),
+    m_timeText("00:00:00")
 {
     m_timer = new QTimer(this);
     m_timer->setInterval(40);
     connect(m_timer, &QTimer::timeout, this, &Chronometer::updateTime);
 }
 
-void Chronometer::start(int seconds) {
-    // We ignore 'seconds' for now as we are counting UP from zero
-    Q_UNUSED(seconds);
-
+void Chronometer::start(int mseconds) {
+    // If mseconds is 0, we treat it as an infinite count-up
+    m_targetMs = mseconds;
+    m_targetReachedSent = false; // Reset the flag for the new unit/module
     m_elapsedMs = 0;
     m_elapsedTimer.start(); // Resets and starts the timer from 0
     m_timer->start();
     emit elapsedMsChanged();
 
-    qDebug() << "Chronometer started (Count-up mode)";
+    if (m_targetMs > 0) {
+        qDebug() << "Chronometer started. Target set to:" << mseconds << "s";
+    } else {
+        qDebug() << "Chronometer started (Count-up mode)";
+    }
 }
 
 void Chronometer::stop() {
@@ -49,29 +55,38 @@ void Chronometer::stop() {
 
 void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
-    int elapsed = static_cast<int>(m_elapsedTimer.elapsed());
-    m_elapsedMs = elapsed;
+    m_elapsedMs = static_cast<int>(m_elapsedTimer.elapsed());
 
     // Notify QML that the millisecond property has changed
     emit elapsedMsChanged();
 
-    if (m_totalTime > 0) {
-        m_progressValue = static_cast<double>(elapsed) / m_totalTime;
+    if (m_targetMs > 0)
+        qDebug() << "[DEBUG]: Chronometer: Target: " << m_targetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Sended: " << m_targetReachedSent;
+
+    if (m_targetMs > 0 && m_elapsedMs >= m_targetMs && !m_targetReachedSent) {
+        m_targetReachedSent = true; // Block further emissions for this cycle
+        // m_timer->stop(); // Optional: Stop automatically on reach
+        emit targetReached();
+        qDebug() << "[DEBUG]: Chronometer: Target reached at" << m_targetMs << "ms";
     }
 
-    // Security límits
-    if (m_progressValue >= 1.0 && !m_maxReached) {
-        // m_progressValue = 1.0;
-        //stop();
-        emit maxReached();
-        m_maxReached = true;
-    }
+    // if (m_totalTime > 0) {
+    //     m_progressValue = static_cast<double>(m_elapsedMs) / m_totalTime;
+    // }
 
-    // Update QML
-    emit progressValueChanged();
+    // // Security límits
+    // if (m_progressValue >= 1.0 && !m_maxReached) {
+    //     // m_progressValue = 1.0;
+    //     //stop();
+    //     emit maxReached();
+    //     m_maxReached = true;
+    // }
+
+    // // Update QML
+    // emit progressValueChanged();
 
     // Update the text with the elapsed time
-    formatTimeText(elapsed);
+    formatTimeText(m_elapsedMs);
 }
 
 void Chronometer::formatTimeText(int totalMs) {
@@ -79,10 +94,13 @@ void Chronometer::formatTimeText(int totalMs) {
     int secs = (totalMs / 1000) % 60;
     int msecs = (totalMs % 1000) / 10;
 
-    m_timeText = QString("%1:%2:%3")
+    QString newTime  = QString("%1:%2:%3")
                      .arg(mins, 2, 10, QChar('0'))
                      .arg(secs, 2, 10, QChar('0'))
                      .arg(msecs, 2, 10, QChar('0'));
 
-    emit timeTextChanged();
+    if (m_timeText != newTime) {
+        m_timeText = newTime;
+        emit timeTextChanged();
+    }
 }

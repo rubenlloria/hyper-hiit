@@ -22,6 +22,8 @@ ProtocolForm {
     property int currentIndex: 0
     property int activeSubsystemId: 0
     property bool isRunning: false
+    property bool m_targetReached: false
+    property bool enableSkipForward: true
 
     // Internal state for progress tracking
     property real currentModuleDuration: 10000
@@ -38,21 +40,13 @@ ProtocolForm {
         }
     }
 
-    // Component.onCompleted: {
-    //     flattenProtocolModel();
-    //     let next = executionList[0];
-    //     nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
-    // }
+    Component.onCompleted: {
+        let next = executionList[0];
+        nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
+    }
 
     Chronometer {
         id: myChrono
-        onFinished: {
-            console.log("Workout Finished!")
-        }
-
-        onMaxReached: {
-            console.log("maximum time reached!")
-        }
 
         onTimeTextChanged:{
             mainTimer.minSec = myChrono.timeText.substring(0, 5);
@@ -67,15 +61,37 @@ ProtocolForm {
     Chronometer {
         id: unitChronometer
 
+        onTargetReached: {
+            m_targetReached = true;
+            console.log("maximum time reached!");
+            if ( unitType === 0 ) {
+                console.debug("DEBUG: module time reached, switching next module...")
+                nextModule();
+            }
+            else {
+                progressDial.dialBgColor = Constants.secondaryColor;
+                progressDial.dialColor = Constants.primaryColor;
+            }
+        }
+
         onTimeTextChanged: {
             // Calculate progress based on the actual elapsed MS from C++
             // Using the currentModuleDuration calculated in loadUnit()
-            // console.log("unitChrono changed");
             if (protocolController.isRunning && protocolController.currentModuleDuration > 0) {
                 // Get raw elapsed time from the chronometer logic
                 let elapsedMs = unitChronometer.elapsedMs;
-                progressDial.value = Math.min(elapsedMs / protocolController.currentModuleDuration, 1.0);
-                // console.log("dial updated | elapsedMS: " + elapsedMs + "moduleDuration: " + protocolController.currentModuleDuration);
+                if (m_targetReached) {
+                    progressDial.value = Math.min((elapsedMs - currentModuleDuration) / currentModuleDuration, 1.0);
+                } else {
+                    progressDial.value = Math.min(elapsedMs / currentModuleDuration, 1.0);
+                }
+
+                console.log("dial updated | elapsedMS: " + elapsedMs + " | moduleDuration: " + protocolController.currentModuleDuration);
+                if ( unitType === 0 ) {
+                    console.log("unitType: " + unitType + ": countdown");
+                    let remainingMs = Math.max(0, currentModuleDuration - elapsedMs);
+                    currentQuantity = Math.ceil(remainingMs / 1000) + "s";
+                }
             }
         }
     }
@@ -85,32 +101,6 @@ ProtocolForm {
         console.log("Back to Briefing...");
         mainStack.pop();
     }
-
-    // // Timer to update the dial value every 50ms for smooth animation
-    // Timer {
-    //     id: progressUpdater
-    //     interval: 50
-    //     repeat: true
-    //     running: protocolController.isRunning || preparationTimer.running
-
-    //     onTriggered: {
-    //         if (preparationTimer.running) {
-    //             // Countdown progress: maps -5..0 to 0.0..1.0
-    //             // Calculation: (TotalTime + currentNegativeValue) / TotalTime
-    //             let cdProgress = (5 + protocolController.countdownTimer) / 5;
-    //             progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
-    //             console.log("Countdown value: " + progressDial.value);
-    //         } else if (protocolController.isRunning) {
-    //             // Module execution progress
-    //             protocolController.elapsedMs += 50;
-    //             if (protocolController.currentModuleDuration > 0) {
-    //                 let execProgress = protocolController.elapsedMs / (protocolController.currentModuleDuration);
-    //                 progressDial.value = Math.min(execProgress, 1.0);
-    //                 console.log("Module value: " + progressDial.value);
-    //             }
-    //         }
-    //     }
-    // }
 
     // Internal timer for the 5-second countdown
     Timer {
@@ -124,6 +114,10 @@ ProtocolForm {
                 // Countdown: -5, -4, -3, -2, -1
                 protocolController.countdownTimer++;
                 protocolController.currentQuantity = String(protocolController.countdownTimer) + protocolController.unit;
+
+                let cdProgress = (5 + protocolController.countdownTimer) / 5;
+                progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
+                console.log("Countdown value: " + progressDial.value);
 
                 if (protocolController.countdownTimer === 0) {
                     // Transition to ACTIVE mission state
@@ -162,7 +156,8 @@ ProtocolForm {
     }
 
     function handleLeftSwipe() {
-        nextModule();
+        if ( unitType || enableSkipForward )
+            nextModule();
         // Logic to move forward on moldule list
     }
 
@@ -170,7 +165,7 @@ ProtocolForm {
         // Logic to move forward or backward if tap on left side
         if ( tapX < 30 ) {
             prevModule();
-        } else {
+        } else if ( unitType  || enableSkipForward ) {
             nextModule();
         }
         console.debug("DEBUG: Mouse tap at " + tapX);
@@ -233,6 +228,9 @@ ProtocolForm {
 
         elapsedMs = 0;
         progressDial.value = 0;
+        m_targetReached = false;
+        progressDial.dialBgColor = Constants.darkNeon;
+        progressDial.dialColor = Constants.secondaryColor
 
         // Update UI Properties for ProtocolForm.ui.qml [Source 17]
         currentModuleName = entry.data.module_name;
@@ -244,9 +242,11 @@ ProtocolForm {
         // unit_type 0: SECONDS | 1: REPS
         if (unitType === 0) {
             protocolController.currentModuleDuration = entry.data.quantity * 1000;
-            protocolController.progressDial.messageColor = Constants.primaryTextColor
+            progressDial.messageColor = Constants.primaryTextColor
+            progressDial.dialMessage = "WAIT"
         } else {
             protocolController.progressDial.messageColor = Constants.secondaryTextColor
+            progressDial.dialMessage = "NEXT"
             let baseTime = entry.data.rep_time || 2.0;
             let fatigue = entry.data.fatigue_rate || 1.0;
             protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
@@ -268,7 +268,7 @@ ProtocolForm {
         console.log("FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
         // We restart it for each new module to have a clean 0.0 -> 1.0 range
         unitChronometer.stop();
-        unitChronometer.start(0);
+        unitChronometer.start(currentModuleDuration);
 
     }
 
@@ -298,8 +298,19 @@ ProtocolForm {
         progressDial.dialMessage = "STOPPED";
         nextModuleText.label = "GOD_JOB!";
         nextModuleTitle.label = " ";
-        if (typeof myChrono !== "undefined") myChrono.stop();
-        console.log("NEURAL_SYNC: Execution sequence finalized.");
+
+        if (typeof myChrono !== "undefined") {
+            myChrono.stop();
+            console.debug("[DEBUG]: Session chronometer halted.");
+        }
+
+        if (typeof unitChronometer !== "undefined") {
+            unitChronometer.stop();
+            console.log("[DEBUG]: Modules chronometer halted.");
+        }
+
+        console.log("[DEBUG]: Execution sequence finalized and all timers stopped.");
+
     }
 }
 
