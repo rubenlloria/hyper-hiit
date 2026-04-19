@@ -6,6 +6,7 @@ set(QT_POLICY_QTP0004 NEW)
 
 project(hyper-hiit VERSION 0.4.3 LANGUAGES CXX)
 set(APP_VERSION_STR "0.4.3-beta")
+set(QML_COMPILER_EXTENSIONS ON)
 
 # 2. Configuración automática de Qt (Necesario para Q_OBJECT)
 set(CMAKE_AUTOMOC ON)
@@ -51,7 +52,7 @@ qt_add_qml_module(hyper-hiit
         ui/main.qml
         ui/Constants.qml
         ui/CyberButton.qml
-        ui/ProgressDial.qml
+        ui/ProgressDial.qml     # TODO: DELETEME
         # screens
         ui/views/Architect.qml
         ui/views/ArchitectForm.ui.qml
@@ -87,6 +88,13 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
+)
+
+# [SYNC_FIX] Make src/ directory headers visible to the QML registration generator
+# This allows the auto-generated 'hyper-hiit_qmltyperegistrations.cpp'
+# to find 'Chronometer.h' during the build process.
+target_include_directories(hyper-hiit PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 # 7. Definiciones de compilación
