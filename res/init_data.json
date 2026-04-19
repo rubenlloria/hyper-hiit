@@ -500,6 +500,19 @@
       "met_factor": 5.5,
       "fatigue_rate": 4.0,
       "rep_time": 3.0
+    },
+    {
+      "module_name": "Plank",
+      "difficulty": 1,
+      "target_zone": "CORE",
+      "module_description": "Static core stabilization exercise focusing on anti-extension and spinal alignment.",
+      "instructions": "Maintain a straight line from head to heels, supported by forearms and toes. Engage glutes and core throughout the hold.",
+      "safety_info": "Avoid lumbar hyperextension; do not let the hips sag. Maintain a neutral neck position looking at the floor.",
+      "equipment": ["NONE"],
+      "unit_type": "seconds",
+      "met_factor": 4.0,
+      "fatigue_rate": 2.0,
+      "rep_time": 1.0
     }
   ],
   "directives": [
@@ -838,6 +851,38 @@
         { "subsystem": 3, "s_order": 1, "module": "Butt Kicks", "quantity": 60 },
         { "subsystem": 3, "s_order": 2, "module": "Glute Bridges", "quantity": 60 },
         { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 60 }
+      ]
+    },
+    {
+      "protocol_name": "STABILIZER",
+      "estimated_duration": 480,
+      "module_count": 6,
+      "rank": "advanced",
+      "personal_best": 0,
+      "target_directives": ["STRENGTH_MATRIX"],
+      "structure": [
+        { "subsystem": 1, "s_order": 1, "module": "Push-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Air Squats", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Plank", "quantity": 45, "unit": "seconds" },
+        { "subsystem": 2, "s_order": 1, "module": "Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Air Squats", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Plank", "quantity": 60, "unit": "seconds" }
+      ]
+    },
+    {
+      "protocol_name": "METABOLIC_ISO",
+      "estimated_duration": 520,
+      "module_count": 6,
+      "rank": "advanced",
+      "personal_best": 0,
+      "target_directives": ["FAT_BURNING", "ENDURANCE_GRID"],
+      "structure": [
+        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 15, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Plank", "quantity": 30, "unit": "seconds" },
+        { "subsystem": 1, "s_order": 3, "module": "Glute Bridges", "quantity": 25, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Plank", "quantity": 45, "unit": "seconds" },
+        { "subsystem": 2, "s_order": 3, "module": "Glute Bridges", "quantity": 25, "unit": "reps" }
       ]
     }
   ]
