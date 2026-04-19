@@ -7,10 +7,11 @@ import ".."
 Item {
     id: root
     property real value: 0.75 // Valor de 0.0 a 1.0
-    property color accentColor: "#00FFFF" // Cian neón
+    property color dialColor: Constants.secondaryColor
     property alias quantity: quantity.text
     property string unit: unit
-    property alias dialMessage: dialMessage.text
+    property alias dialMessage: dialMessage.label
+    property color messageColor: Constants.secondaryColor
     property int size: 200
     property alias dialMouseArea: interactionArea
 
@@ -49,7 +50,7 @@ Item {
         // 2. Anillo de Progreso UNIDO y REDONDEADO
         ShapePath {
             fillColor: "transparent"
-            strokeColor: root.accentColor
+            strokeColor: root.dialColor
             strokeWidth: 15
             strokeStyle: ShapePath.SolidLine // Línea continua
             capStyle: ShapePath.RoundCap // ESTO redondea las puntas del anillo
@@ -102,7 +103,7 @@ Item {
             ShapePath {
                 id: outerStroke
                 fillColor: "transparent"
-                strokeColor: root.accentColor
+                strokeColor: root.dialColor
                 strokeWidth: 2
 
                 PathAngleArc {
@@ -131,10 +132,10 @@ Item {
             font.family: "Monospace"
             anchors.horizontalCenter: parent.horizontalCenter
         }
-        Text {
+        NeonText {
             id: dialMessage
-            text: "WAIT"
-            color: root.accentColor
+            label: "WAIT"
+            labelColor: root.messageColor
             font.pixelSize: 18
             font.letterSpacing: 4
             font.bold: true
