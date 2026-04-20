@@ -23,6 +23,7 @@
 #ifndef CHRONOMETER_H
 #define CHRONOMETER_H
 
+#include "SystemManager.h"
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <QTimer>

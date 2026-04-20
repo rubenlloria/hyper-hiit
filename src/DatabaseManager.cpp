@@ -20,6 +20,11 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
+// #define HH_DEBUG
+#define HH_INFO
+#define HH_WARNING
+#define HH_CRITICAL
+
 #include <QFile>
 #include "DatabaseManager.h"
 
@@ -32,7 +37,7 @@ bool DatabaseManager::initDatabase() {
     if (!dir.exists()) dir.mkpath(path);
 
     QString dbPath = path + "/hyperhiit_core.db";
-    qDebug() << "[DEBUG]: database on '" << dbPath << "'.";
+    hDebug() << "database on '" << dbPath << "'.";
     // QFile::remove(dbPath); // TODO DELETEME
     bool firstRun = !QFile::exists(dbPath);
 
@@ -44,25 +49,25 @@ bool DatabaseManager::initDatabase() {
     m_db.setDatabaseName(dbPath);
 
     if (!m_db.open()) {
-        qCritical() << "[ERROR]: Failed to establish db connection.";
+        hCritical() << "Failed to establish db connection.";
         return false;
     }
 
     if (firstRun) {
-        qDebug() << "[DEBUG]: First run detected. Creating default database grid...";
+        hDebug() << "First run detected. Creating default database grid...";
         if (!createTables()) return false;
         if (!seedDatabase()) return false;
     }
 
 
-    qInfo() << "[INFO]: Database system online.";
+    hInfo() << "Database system online.";
     return true;
 }
 
 bool DatabaseManager::createTables() {
     QSqlQuery q;
 
-    qInfo() << "[INFO]: Creating tables";
+    hInfo() << "Creating tables";
 
      // System Configuration Table.
     QString createConfig =
@@ -71,7 +76,7 @@ bool DatabaseManager::createTables() {
             "config_value TEXT"
             ");";
     if (!q.exec(createConfig)) {
-        qCritical() << "[ERROR]: Failed to create config "
+        hCritical() << "Failed to create config "
                        "table:" << q.lastError().text();
         return false;
     }
@@ -93,7 +98,7 @@ bool DatabaseManager::createTables() {
             "fatigue_rate FLOAT"            // Performance tier 1
             ");";
     if (!q.exec(createModules)) {
-        qCritical() << "[ERROR]: Failed to create modules "
+        hCritical() << "Failed to create modules "
                     "table:" << q.lastError().text();
         return false;
     }
@@ -108,7 +113,7 @@ bool DatabaseManager::createTables() {
             "dir_color TEXT"
             ");";
     if (!q.exec(createDirectives)) {
-        qCritical() << "[ERROR]: Failed to create directives table:" << q.lastError().text();
+        hCritical() << "Failed to create directives table:" << q.lastError().text();
         return false;
     }
 
@@ -124,7 +129,7 @@ bool DatabaseManager::createTables() {
             ");";
 
     if (!q.exec(createProtocols)) {
-        qCritical() << "[ERROR]: Failed to create protocols table:" << q.lastError().text();
+        hCritical() << "Failed to create protocols table:" << q.lastError().text();
         return false;
     }
 
@@ -138,7 +143,7 @@ bool DatabaseManager::createTables() {
             "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
             ");";
     if (!q.exec(createMapping)) {
-        qCritical() << "[ERROR]: Failed to create directives_protocols table:" << q.lastError().text();
+        hCritical() << "Failed to create directives_protocols table:" << q.lastError().text();
         return false;
     }
 
@@ -156,22 +161,22 @@ bool DatabaseManager::createTables() {
             "FOREIGN KEY (module_id) REFERENCES modules(module_id)"
             ");";
     if (!q.exec(createStructure)) {
-        qCritical() << "[ERROR]: Failed to create protocol_structure table:" << q.lastError().text();
+        hCritical() << "Failed to create protocol_structure table:" << q.lastError().text();
         return false;
     }
-    qInfo() << "[INFO]: Tables created succesfully";
+    hInfo() << "Tables created succesfully";
     return true;
 }
 
 bool DatabaseManager::seedDatabase() {
     QSqlQuery q;
 
-    qInfo() << "[INFO]: Seeding tables";
+    hInfo() << "Seeding tables";
     // Load the data shard from the Qt Resource System
     // QFile file(":/qt/qml/res/init_data.json");
     QFile file(":/qt/qml/org/aic/hyperhiit/res/init_data.json");
     if (!file.open(QIODevice::ReadOnly)) {
-        qCritical() << "[ERROR]: Data shard init_data.json not found.";
+        hCritical() << "Data shard init_data.json not found.";
         return false;
     }
 
@@ -179,7 +184,7 @@ bool DatabaseManager::seedDatabase() {
     file.close();
 
     if (jsonData.isEmpty()) {
-        qWarning() << "[WARNING]: Shard is empty. Neural Sync aborted.";
+        qWarning() << "Shard is empty. Neural Sync aborted.";
         return false;
     }
 
@@ -192,22 +197,22 @@ bool DatabaseManager::seedDatabase() {
 
     // Start SQL Transaction to maximize performance and ensure Neural Sync integrity
     if (!m_db.transaction()) {
-        qCritical() << "[ERROR]: Could not start transaction:" << m_db.lastError().text();
+        hCritical() << "Could not start transaction:" << m_db.lastError().text();
         return false;
     }
 
     // QSqlQuery q;
     // 1. PRINT FULL JSON (Indented for readability)
-    // qDebug() << "[DEBUG]: --- [START FULL_JSON_SHARD] ---";
-    // qDebug().noquote() << doc.toJson(QJsonDocument::Indented);
-    // qDebug() << "[DEBUG]: --- [END FULL_JSON_SHARD] ---";
+    // hDebug() << "--- [START FULL_JSON_SHARD] ---";
+    // hDebug().noquote() << doc.toJson(QJsonDocument::Indented);
+    // hDebug() << "--- [END FULL_JSON_SHARD] ---";
 
 
     //////////// MODULES ///////////////
     for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add equipment as list. see doc
         QJsonObject d = value.toObject();
         QString moduleName = d.value("module_name").toString();
-        qInfo() << "[INFO]: inserting module " << moduleName;
+        hInfo() << "inserting module " << moduleName;
         // insertModule(name, difficulty, zone, desc, inst, safe, equip, unit, met, fatigue, time)
         int id = insertModule(
             moduleName,
@@ -231,7 +236,7 @@ bool DatabaseManager::seedDatabase() {
     for (const QJsonValue &value : std::as_const(directivesArr)) {
         QJsonObject d = value.toObject();
         QString directiveName = d.value("directive_name").toString();
-        qInfo() << "[INFO]: inserting directive " << directiveName;
+        hInfo() << "inserting directive " << directiveName;
         int id = insertDirective(
             directiveName,
             d.value("directive_description").toString(),
@@ -247,7 +252,7 @@ bool DatabaseManager::seedDatabase() {
     for (const QJsonValue &value : std::as_const(protocolsArr)) {
         QJsonObject d = value.toObject();
         QString protocolName = d.value("protocol_name").toString();
-        qInfo() << "[INFO]: inserting protocol " << protocolName;
+        hInfo() << "inserting protocol " << protocolName;
         int id = insertProtocol(
             protocolName,
             d.value("estimated_duration").toDouble(),
@@ -271,19 +276,19 @@ bool DatabaseManager::seedDatabase() {
             //         q.bindValue(":prot_id", id);
 
             //         if (!q.exec()) {
-            //             qDebug() << "[ERROR] Mapping failure for" << dirName << "<->" << protocolName;
+            //             hDebug() << "Mapping failure for" << dirName << "<->" << protocolName;
             //         }
             //     }
             // }
         }
     }
-    qInfo() << "[INFO]: Tables seeded succesfully";
+    hInfo() << "Tables seeded succesfully";
 
     if (m_db.commit()) {
-        qInfo() << "[INFO]: UPLINK_COMPLETE: Neural Sync at 100%";
+        hInfo() << "UPLINK_COMPLETE: Neural Sync at 100%";
         return true;
     } else {
-        qCritical() << "[CRITICAL]: Transaction commit failed. Rolling back.";
+        hCritical() << "[CRITICAL]: Transaction commit failed. Rolling back.";
         m_db.rollback();
         return false;
     }
@@ -307,7 +312,7 @@ QList<Module> DatabaseManager::getAllModules() {
         m.metFactor = q.value("met_factor").toDouble();
         m.fatigueRate = q.value("fatigue_rate").toDouble();
 
-        qDebug() << "[DEBUG]: Append module " << m.name;
+        hDebug() << "Append module " << m.name;
         moduleList.append(m);
     }
     return moduleList;
@@ -325,7 +330,7 @@ QList<Directive> DatabaseManager::getAllDirectives() {
         d.icon = q.value("dir_icon").toString();
         d.color = q.value("dir_color").toString();
 
-        qDebug() << "[DEBUG]: Append directive " << d.name;
+        hDebug() << "Append directive " << d.name;
         list.append(d);
     }
     return list;
@@ -342,12 +347,12 @@ int DatabaseManager::getActiveDirectiveId() {
 
     if (q.exec() && q.next()) {
         dirId = q.value(0).toInt();
-        qDebug() << "[DEBUG]: GET active_directive_id: " << dirId;
+        hDebug() << "GET active_directive_id: " << dirId;
         return dirId;
     }
 
     // Fallback if table is empty: Default to Directive 1 (FAT_BURNING)
-    qWarning() << "[WARNING]: failed to GET active_directive_id.";
+    qWarning() << "failed to GET active_directive_id.";
     return 1;
 }
 
@@ -360,9 +365,9 @@ void DatabaseManager::setActiveDirectiveId(int dirId) {
               "VALUES ('active_directive_id', :dirId)");
     q.bindValue(":dirId", QString::number(dirId));
     if (q.exec()) {
-        qDebug() << "[DEBUG]: SET active_directive_id: " << dirId;
+        hDebug() << "SET active_directive_id: " << dirId;
     } else {
-        qWarning() << "[WARNING]: failed to SET active_directive_id: " << dirId;
+        qWarning() << "failed to SET active_directive_id: " << dirId;
     }
 }
 
@@ -384,7 +389,7 @@ QList<Protocol> DatabaseManager::getAllProtocols() {
         p.rank = q.value("rank").toString(); // newbie, advanced, or root [Source 26]
         p.personalBest = q.value("personal_best").toInt();
 
-        qDebug() << "[DEBUG]: Append protocol " << p.name;
+        hDebug() << "Append protocol " << p.name;
         list.append(p);
     }
     return list;
@@ -414,11 +419,11 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
             p.rank = q.value("rank").toString();
             p.personalBest = q.value("personal_best").toInt();
 
-            qDebug() << "[DEBUG]: Append protocol " << p.name;
+            hDebug() << "Append protocol " << p.name;
             list.append(p);
         }
     } else {
-        qCritical() << "[WARNING]: Failed to load protocol list from DB" << q.lastError().text();
+        hCritical() << "Failed to load protocol list from DB" << q.lastError().text();
     }
     return list;
 }
@@ -444,7 +449,7 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
 
             // [TACTICAL_FIX] Send raw ID as integer
             subsystemMap["subsystem_id"] = currentSubId;
-            qDebug() << "Appendig subsystem_id: " << currentSubId << "with modules:";
+            hDebug() << "Appendig subsystem_id: " << currentSubId << "with modules:";
 
             // STEP 2: Fetch modules for this subsystem
             QVariantList modulesInSub;
@@ -477,7 +482,7 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
                         break;
                     }
                     modulesInSub.append(mod);
-                    qDebug() << "\t" << mod["quantity"].toString() << mod["type"].toString() << " " << mod["name"].toString();
+                    hDebug() << "\t" << mod["quantity"].toString() << mod["type"].toString() << " " << mod["name"].toString();
                 }
             }
 
@@ -507,7 +512,7 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
     query.bindValue(":protId", protocolId);
 
     if (!query.exec()) {
-        qDebug() << "Execution sync error:" << query.lastError().text();
+        hDebug() << "Execution sync error:" << query.lastError().text();
         return executionPacket;
     }
 
@@ -568,12 +573,12 @@ int DatabaseManager::setProtocolMaxDuration() {
         configQuery.bindValue(":val", QString::number(finalScale));
 
         if (configQuery.exec()) {
-            qDebug() << "[SYSTEM] Protocol Matrix Scale updated to:" << finalScale << "s.";
+            hDebug() << "[SYSTEM] Protocol Matrix Scale updated to:" << finalScale << "s.";
             return finalScale;
         }
     }
 
-    qCritical() << "[ERROR] Failed to update global protocol scale.";
+    hCritical() << "Failed to update global protocol scale.";
     return 0; // Return 0 as failure signal
 }
 
@@ -598,13 +603,13 @@ bool DatabaseManager::restoreDatabase() {
     // 1. Release the SQLite file lock by closing the active connection [Source 101]
     if (m_db.isOpen()) {
         m_db.close();
-        qInfo() << "[INFO]: Database connection closed for restoration.";
+        hInfo() << "Database connection closed for restoration.";
     }
 
     if (QFile::remove(dbPath)) {
-        qInfo() << "[INFO]: " << dbPath << " deleted successfully";
+        hInfo() << "" << dbPath << " deleted successfully";
     } else {
-        qCritical() << "[ERROR]: Could not delete file " << dbPath;
+        hCritical() << "Could not delete file " << dbPath;
         return false;
     }
     return initDatabase();
@@ -634,10 +639,10 @@ int DatabaseManager::insertModule(const QString &name, int difficulty, const QSt
     q.bindValue(":met", static_cast<double>(met));
     q.bindValue(":fatigue", static_cast<double>(f_rate));
 
-    // qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
-    // qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    // hDebug() << "q.executedQuery(): " << q.executedQuery();
+    // hDebug() << "q.boundValues(): " << q.boundValues();
     if (!q.exec()) {
-        qCritical() << "[ERROR]: Failed to insert module:" << q.lastError().text();
+        hCritical() << "Failed to insert module:" << q.lastError().text();
         return -1;
     }
     return q.lastInsertId().toInt();
@@ -654,11 +659,11 @@ int DatabaseManager::insertDirective(const QString &name, const QString &desc, c
     q.bindValue(":color", color);
 
     if (!q.exec()) {
-        qCritical() << "[ERROR]: Failed to insert directive:" << q.lastError().text();
+        hCritical() << "Failed to insert directive:" << q.lastError().text();
         return -1;
     }
-    // qDebug() << "[DEBUG]: q.executedQuery(): " << q.executedQuery();
-    // qDebug() << "[DEBUG]: q.boundValues(): " << q.boundValues();
+    // hDebug() << "q.executedQuery(): " << q.executedQuery();
+    // hDebug() << "q.boundValues(): " << q.boundValues();
     return q.lastInsertId().toInt();
 }
 
@@ -673,7 +678,7 @@ int DatabaseManager::insertProtocol(const QString &name, int duration, int modul
     q.bindValue(":rank", rank);
     q.bindValue(":pb", pb);
     if (!q.exec()) {
-        qCritical() << "[ERROR]: Failed seeding protocol " << name << ":" << q.lastError().text();
+        hCritical() << "Failed seeding protocol " << name << ":" << q.lastError().text();
         return -1;
     }
     setProtocolMaxDuration();
@@ -698,7 +703,7 @@ void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
             q.bindValue(":prot_id", id);
 
             if (!q.exec()) {
-                qCritical() << "[ERROR] Mapping failure for" << dirName << "<->" << nameToProtocolId.key(id);
+                hCritical() << "Mapping failure for" << dirName << "<->" << nameToProtocolId.key(id);
             }
         }
     }
@@ -724,11 +729,11 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
             q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
 
             if (!q.exec()) {
-                qCritical() << "[ERROR]: Failed to link module" << moduleName
+                hCritical() << "Failed to link module" << moduleName
                          << "to protocol ID" << protocolId << ":" << q.lastError().text();
             }
         } else {
-            qCritical() << "[ERROR]: Module reference" << moduleName
+            hCritical() << "Module reference" << moduleName
                      << "not found in the current data shard. Integrity compromised.";
         }
     }

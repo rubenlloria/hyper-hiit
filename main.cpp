@@ -1,3 +1,8 @@
+// #define HH_DEBUG
+#define HH_INFO
+#define HH_WARNING
+#define HH_CRITICAL
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -73,7 +78,7 @@ int main(int argc, char *argv[])
 
         // protocolModel.
         protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
-        qDebug() << "[DEBUG]: Resuming Directive:" << activeDirId;
+        hDebug() << "Resuming Directive:" << activeDirId;
 
     }
 

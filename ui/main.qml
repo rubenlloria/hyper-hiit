@@ -165,7 +165,7 @@ Window {
     Component.onCompleted: {
         // [DEBUG] Log resolution for scaling verification [Source 27]
         console.log("SYSTEM_READY: Screen Geometry -> " + Screen.width + "x" + Screen.height
-                    + "\nOS: " + Qt.platform.os);
+                    + " | OS: " + Qt.platform.os);
         console.log("SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
         console.log("SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
     }

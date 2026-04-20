@@ -29,6 +29,11 @@
  * Manages the mission sequence stream for the QML tactical overlay [Source 1, 11].
  * Optimized for Neural Sync and real-time metric visualization [Source 5, 27].
  */
+// #define HH_DEBUG
+#define HH_INFO
+#define HH_WARNING
+#define HH_CRITICAL
+
 
 #include "ProtocolModel.h"
 #include "src/DatabaseManager.h"
@@ -38,9 +43,9 @@ ProtocolModel::ProtocolModel(DatabaseManager *db, QObject *parent)
     , m_db(db)
 {
     if (!m_db) {
-        qCritical() << "[ERROR]: ProtocolModel initialized without Database Uplink.";
+        hCritical() << "ProtocolModel initialized without Database Uplink.";
     } else {
-        qDebug() << "[DEBUG]: Protocol Shard Uplink established.";
+        hDebug() << "Protocol Shard Uplink established.";
     }
 }
 
@@ -97,7 +102,7 @@ void ProtocolModel::setProtocols(const QList<Protocol> &protocols)
 {
     beginResetModel();
     m_protocols = protocols;
-    qDebug() << m_protocols.size() << "protocols found";
+    hDebug() << m_protocols.size() << "protocols found";
     // Fetch the persistent scale from the configuration table
     QSqlQuery q;
     q.prepare("SELECT config_value FROM system_config WHERE config_key = 'protocol_max_duration'");
@@ -124,12 +129,12 @@ void ProtocolModel::clear()
  */
 void ProtocolModel::filterByDirective(int dirId) {
     if (!m_db) {
-        qCritical() << "[ERROR]: Database offline";
+        hCritical() << "Database offline";
         return;
     }
 
     // Fetch only protocols linked to this directive via SQL Join [Source 16]
     QList<Protocol> filteredList = m_db->getProtocolsByDirective(dirId);
-    qDebug() << "[DEBUG]: Filtered " << filteredList.size() << "protocols";
+    hDebug() << "Filtered " << filteredList.size() << "protocols";
     setProtocols(filteredList);
 }

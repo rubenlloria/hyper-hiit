@@ -26,6 +26,7 @@
 #include "src/DirectiveModel.h"
 #include "src/ModuleModel.h"
 #include "src/ProtocolModel.h"
+#include "src/SystemManager.h"
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <QtSql/QSqlDatabase>

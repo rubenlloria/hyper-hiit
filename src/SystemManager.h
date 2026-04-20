@@ -30,6 +30,38 @@
 #include <QObject>
 #include <QDebug>
 
+#ifndef hDebug
+#ifdef HH_DEBUG
+#define hDebug() qDebug() << "[DEBUG]: " << Q_FUNC_INFO
+#else
+#define hDebug() if(false) qDebug()
+#endif
+#endif
+
+#ifndef hInfo
+#ifdef HH_INFO
+#define hInfo() qInfo() << "[INFO]: " << Q_FUNC_INFO
+#else
+#define hInfo() if(false) qInfo()
+#endif
+#endif
+
+#ifndef hWarning
+#ifdef HH_WARNING
+#define hWarning() qCritical() << "[WARNING]: " << Q_FUNC_INFO
+#else
+#define hWarning() if(false) qCritical()
+#endif
+#endif
+
+#ifndef hCritical
+#ifdef HH_CRITICAL
+#define hCritical() qCritical() << "[DEBUG]: " << Q_FUNC_INFO
+#else
+#define hCritical() if(false) qCritical()
+#endif
+#endif
+
 class SystemManager : public QObject {
     Q_OBJECT
     // Propietat per controlar l'estat global des del HUD

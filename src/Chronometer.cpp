@@ -20,6 +20,11 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
+// #define HH_DEBUG
+#define HH_INFO
+#define HH_WARNING
+#define HH_CRITICAL
+
 #include "Chronometer.h"
 #include <QDebug>
 
@@ -43,9 +48,9 @@ void Chronometer::start(int mseconds) {
     emit elapsedMsChanged();
 
     if (m_targetMs > 0) {
-        qDebug() << "Chronometer started. Target set to:" << mseconds << "s";
+        hDebug() << "Chronometer started. Target set to:" << mseconds << "s";
     } else {
-        qDebug() << "Chronometer started (Count-up mode)";
+        hDebug() << "Chronometer started (Count-up mode)";
     }
 }
 
@@ -61,13 +66,13 @@ void Chronometer::updateTime() {
     emit elapsedMsChanged();
 
     if (m_targetMs > 0)
-        qDebug() << "[DEBUG]: Chronometer: Target: " << m_targetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Sended: " << m_targetReachedSent;
+        hDebug() << "Target: " << m_targetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Sended: " << m_targetReachedSent;
 
     if (m_targetMs > 0 && m_elapsedMs >= m_targetMs && !m_targetReachedSent) {
         m_targetReachedSent = true; // Block further emissions for this cycle
         // m_timer->stop(); // Optional: Stop automatically on reach
         emit targetReached();
-        qDebug() << "[DEBUG]: Chronometer: Target reached at" << m_targetMs << "ms";
+        hDebug() << "Target reached at" << m_targetMs << "ms";
     }
 
     // if (m_totalTime > 0) {
