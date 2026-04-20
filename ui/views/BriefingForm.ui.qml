@@ -53,7 +53,7 @@ Rectangle {
     property alias executeButton: executeButton
 
     // --- VIEW CONTENT ---
-    Column {
+    ColumnLayout {
         width: parent.width
         height: parent.height
         spacing: 10
@@ -70,12 +70,8 @@ Rectangle {
 
         Flickable {
             id: briefingScroll
-            // anchors.fill: parent
-            anchors.top: header.bottom
-            anchors.bottom: parent.bottom
-            // anchors.topMargin: 100 // Leave space for AppHeader
-            width: parent.width
-            // height: mainLayout.height // - 145
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             contentWidth: parent.width
             contentHeight: mainLayout.implicitHeight - 20
             clip: true // Critical: prevents content from bleeding outside the shard [Source 95]
@@ -84,8 +80,6 @@ Rectangle {
             // Custom Neon Scrollbar (v0.3 Fuchsia Aesthetic)
             ScrollBar.vertical: ScrollBar {
                 parent: root
-                // anchors.right: parent.right
-                // anchors.rightMargin: 2
                 policy: ScrollBar.AlwaysOn
                 width: 0
 

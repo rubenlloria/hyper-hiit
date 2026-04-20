@@ -41,8 +41,8 @@ ProtocolForm {
     }
 
     Component.onCompleted: {
-        let next = executionList[0];
-        nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
+        // let next = executionList[0];
+        // nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
     }
 
     Chronometer {
@@ -86,9 +86,9 @@ ProtocolForm {
                     progressDial.value = Math.min(elapsedMs / currentModuleDuration, 1.0);
                 }
 
-                console.log("dial updated | elapsedMS: " + elapsedMs + " | moduleDuration: " + protocolController.currentModuleDuration);
+                // console.log("dial updated | elapsedMS: " + elapsedMs + " | moduleDuration: " + protocolController.currentModuleDuration);
                 if ( unitType === 0 ) {
-                    console.log("unitType: " + unitType + ": countdown");
+                    // console.log("unitType: " + unitType + ": countdown");
                     let remainingMs = Math.max(0, currentModuleDuration - elapsedMs);
                     currentQuantity = Math.ceil(remainingMs / 1000) + "s";
                 }
@@ -117,7 +117,7 @@ ProtocolForm {
 
                 let cdProgress = (5 + protocolController.countdownTimer) / 5;
                 progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
-                console.log("Countdown value: " + progressDial.value);
+                // console.log("Countdown value: " + progressDial.value);
 
                 if (protocolController.countdownTimer === 0) {
                     // Transition to ACTIVE mission state
@@ -177,10 +177,12 @@ ProtocolForm {
      */
     function loadProtocolDetails() {
         let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
-        console.log("DEBUG: Full Model Content: " + JSON.stringify(structuredData));
+        // console.log("DEBUG: Full Model Content: " + JSON.stringify(structuredData));
         let tempSequence = [];
+        let subsystems = 0;
 
         for (let i = 0; i < structuredData.length; i++) {
+            subsystems = i + 1;
             let subsystem = structuredData[i];
             if (subsystem.modules) {
                 for (let j = 0; j < subsystem.modules.length; j++) {
@@ -193,7 +195,7 @@ ProtocolForm {
         }
 
         executionList = tempSequence;
-        console.log("Protocol sequence synchronized. Total units: " + executionList.length);
+        console.log("[INFO]: Protocol sequence synchronized | Subsystems: " + subsystems + " | Total units: " + executionList.length);
     }
 
     /**
@@ -264,6 +266,19 @@ ProtocolForm {
         }
         // Update active subsystem for the Row of Rectangles
         activeSubsystemId = entry.subId;
+        protocolController.subsystemProgress.activeSubsystemIndex = activeSubsystemId - 1;
+
+        // Filter the execution list to find modules belonging to the current subsystem
+        let modulesInCurrentSub = executionList.filter(item => item.subId === activeSubsystemId);
+        let totalModulesInSub = modulesInCurrentSub.length;
+        // We search for the current entry's position in the filtered subset
+        let currentModuleInSubPosition = modulesInCurrentSub.findIndex(item => item === entry);
+        // The fill now represents completed/active module steps instead of raw time
+        subsystemProgress.activeSubsystemProgress = currentModuleInSubPosition / totalModulesInSub;
+
+        console.log("SUBSYSTEM_SYNC: Sub " + activeSubsystemId +
+                    " | Step: " + currentModuleInSubPosition + "/" + totalModulesInSub);
+
 
         console.log("FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
         // We restart it for each new module to have a clean 0.0 -> 1.0 range
@@ -298,6 +313,7 @@ ProtocolForm {
         progressDial.dialMessage = "STOPPED";
         nextModuleText.label = "GOD_JOB!";
         nextModuleTitle.label = " ";
+        subsystemProgress.activeSubsystemProgress = 1.0;
 
         if (typeof myChrono !== "undefined") {
             myChrono.stop();

@@ -26,6 +26,7 @@ Rectangle {
     property alias header: header
     property alias mainTimer: mainTimer
     property alias progressDial: progressDial
+    property alias subsystemProgress: subsystemProgress
     property alias nextModuleText: nextModuleText
     property alias nextModuleTitle: nextModuleTitle
 
@@ -68,46 +69,11 @@ Rectangle {
             id: mainTimer
             anchors.horizontalCenter: parent.horizontalCenter
         }
-
-        Row {
+        NeonProgress {
+            id: subsystemProgress
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 3
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 1
-            }
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 0.5
-            }
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 0.5
-            }
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 0.5
-            }
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 0.5
-            }
-            Rectangle {
-                width: 50
-                height: 3
-                color: Constants.descriptionColor
-                opacity: 0.5
-            }
+            width: parent.width - 90
+            subsystemsModel: protocolDataModel
         }
 
         Column {

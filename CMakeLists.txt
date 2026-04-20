@@ -73,6 +73,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
         ui/components/NeonMetadata.ui.qml
+        ui/components/NeonProgress.ui.qml
         ui/components/NeonProtocol.ui.qml
         ui/components/NeonSubsystem.ui.qml
         ui/components/NeonText.ui.qml
