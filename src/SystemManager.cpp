@@ -24,6 +24,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 #include "SystemManager.h"
+#include "src/SystemLog.h"
 #include <QTimer>
 
 SystemManager::SystemManager(QObject *parent)
@@ -40,7 +41,7 @@ void SystemManager::setSystemReady(bool ready) {
         if (m_isSystemReady!= ready) {
             m_isSystemReady= ready;
             emit systemReadyChanged();
-            qDebug() << "isSystemReady: " << ready;
+            hDebug() << "isSystemReady: " << ready;
         }
     });
 }

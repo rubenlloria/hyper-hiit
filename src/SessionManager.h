@@ -29,7 +29,6 @@
 #include <QObject>
 #include <QDateTime>
 #include <QList>
-#include "SystemManager.h"
 
 class SessionManager : public QObject {
     Q_OBJECT

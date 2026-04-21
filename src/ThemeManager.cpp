@@ -21,7 +21,7 @@
 ****************************************************************************/
 
 #include "ThemeManager.h"
-#include <QDebug>
+#include "SystemLog.h"
 #include <QStandardPaths>
 #include <QDir>
 
@@ -49,5 +49,5 @@ void ThemeManager::loadTheme(const QString &folderName) {
     emit themeDataLoaded(obj.toVariantMap());
     emit themeChanged();
 
-    qDebug() << "Tema cargado correctamente:" << folderName;
+    hDebug() << "Tema cargado correctamente:" << folderName;
 }

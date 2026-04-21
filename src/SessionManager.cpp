@@ -24,6 +24,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 #include "SessionManager.h"
+#include "src/SystemLog.h"
 
 void SessionManager::startSession(int protocolId, int moduleCount) {
     m_protocolId = protocolId;
