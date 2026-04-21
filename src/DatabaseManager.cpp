@@ -164,6 +164,23 @@ bool DatabaseManager::createTables() {
         hCritical() << "Failed to create protocol_structure table:" << q.lastError().text();
         return false;
     }
+
+    // Stores a snapshot of each completed workout for performance analysis.
+    QString createHistoy =
+        "CREATE TABLE IF NOT EXISTS session_history ("
+            "history_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "protocol_id INTEGER, "
+            "session_timestamp INTEGER, " // Unix timestamp (seconds since epoch)
+            "session_duration INTEGER, "  // Total session time in seconds
+            "modules_duration TEXT, "     // Comma-separated module times: "90,20,80..."
+            "calories_burned REAL, "      // Calculated metabolic impact
+            "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
+            ")";
+    if (!q.exec(createHistoy)) {
+        hCritical() << "Failed to create session_history table:" << q.lastError().text();
+        return false;
+    }
+
     hInfo() << "Tables created succesfully";
     return true;
 }
@@ -583,19 +600,19 @@ int DatabaseManager::setProtocolMaxDuration() {
 }
 
 /**
- * Extracts the mapping shard for Directive -> Protocol links.
+ * Extracts the mapping shard for Directive -> Protocol links.                  TODO: DELETEME
  * Essential for the 'Master Cache' filtering strategy in v0.3 [Source 16].
  */
-QMultiMap<int, int> DatabaseManager::getDirectiveProtocolMapping() {
-    QMultiMap<int, int> map;
-    QSqlQuery q("SELECT dir_id, protocol_id FROM directives_protocols");
+// QMultiMap<int, int> DatabaseManager::getDirectiveProtocolMapping() {
+//     QMultiMap<int, int> map;
+//     QSqlQuery q("SELECT dir_id, protocol_id FROM directives_protocols");
 
-    while (q.next()) {
-        // MultiMap allows one Directive ID to point to multiple Protocol IDs
-        map.insert(q.value("dir_id").toInt(), q.value("protocol_id").toInt());
-    }
-    return map;
-}
+//     while (q.next()) {
+//         // MultiMap allows one Directive ID to point to multiple Protocol IDs
+//         map.insert(q.value("dir_id").toInt(), q.value("protocol_id").toInt());
+//     }
+//     return map;
+// }
 
 bool DatabaseManager::restoreDatabase() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
@@ -737,4 +754,24 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
                      << "not found in the current data shard. Integrity compromised.";
         }
     }
+}
+
+bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories) {
+    QSqlQuery q;
+    q.prepare("INSERT INTO session_history (protocol_id, session_timestamp, session_duration, modules_duration, calories_burned) "
+              "VALUES (:pid, :ts, :duration, :log, :kcal)");
+
+    q.bindValue(":pid", protocolId);
+    q.bindValue(":ts", timestamp);
+    q.bindValue(":duration", totalSecs);
+    q.bindValue(":log", modulesLog);
+    q.bindValue(":kcal", calories);
+
+    if (!q.exec()) {
+        hWarning() << "Critical failure saving session data: " << q.lastError().text();
+        return false;
+    }
+
+    hDebug() << "Session saved. ID: " << q.lastInsertId().toInt() << " | Duration: " << totalSecs << "s";
+    return true;
 }

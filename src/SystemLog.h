@@ -1,6 +1,6 @@
 /****************************************************************************
-** File: SystemManager.h
-** Date: 15/3/2026
+** File: SystemLog.h
+** Date: 21/4/2026
 ** Author: Rubén Llòria
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -23,30 +23,44 @@
 **
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
+#ifndef SYSTEMLOG_H
+#define SYSTEMLOG_H
 
-#ifndef SYSTEMMANAGER_H
-#define SYSTEMMANAGER_H
+#include <QDebug>
 
-#include <QObject>
+// Custom logging macros for the hyper//hiit terminal
+// They provide automatic function signature tracing via Q_FUNC_INFO.
 
-class SystemManager : public QObject {
-    Q_OBJECT
-    // Propietat per controlar l'estat global des del HUD
-    Q_PROPERTY(bool isSystemReady READ isSystemReady NOTIFY systemReadyChanged)
+#ifndef hDebug
+#ifdef HH_DEBUG
+#define hDebug() qDebug() << "[DEBUG]: " << Q_FUNC_INFO
+#else
+#define hDebug() if(false) qDebug()
+#endif
+#endif
 
-public:
-    explicit SystemManager(QObject *parent = nullptr);
+#ifndef hInfo
+#ifdef HH_INFO
+#define hInfo() qInfo() << "[INFO]: " << Q_FUNC_INFO
+#else
+#define hInfo() if(false) qInfo()
+#endif
+#endif
 
-    bool isSystemReady() const;
+#ifndef hWarning
+#ifdef HH_WARNING
+#define hWarning() qCritical() << "[WARNING]: " << Q_FUNC_INFO
+#else
+#define hWarning() if(false) qCritical()
+#endif
+#endif
 
-    // Mètode per activar el sistema des del nucli C++
-    void setSystemReady(bool ready);
+#ifndef hCritical
+#ifdef HH_CRITICAL
+#define hCritical() qCritical() << "[DEBUG]: " << Q_FUNC_INFO
+#else
+#define hCritical() if(false) qCritical()
+#endif
+#endif
 
-signals:
-    void systemReadyChanged();
-
-private:
-    bool m_isSystemReady;
-};
-
-#endif // SYSTEMMANAGER_H
+#endif // SYSTEMLOG_H
