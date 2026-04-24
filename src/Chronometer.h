@@ -23,7 +23,7 @@
 #ifndef CHRONOMETER_H
 #define CHRONOMETER_H
 
-#include "SystemManager.h"
+// #include "SystemManager.h"
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <QTimer>
@@ -50,6 +50,7 @@ public:
      * @param mseconds: If > 0, signals targetReached() upon completion.
      */
     Q_INVOKABLE void start(int mseconds);
+    Q_INVOKABLE void startFrom(int startingMs, int targetMs);
 
     /**
      * @brief Halts the periodic update timer.
@@ -78,6 +79,7 @@ private:
     // State Variables
     int m_targetMs; // Stores the limit in milliseconds
     int m_elapsedMs;
+    int m_offsetMs;
     QString m_timeText;
     bool m_targetReachedSent; // Flag to ensure single emission per start() call
 

@@ -13,6 +13,8 @@
 #include "src/SystemManager.h"
 #include "src/Chronometer.h"
 #include "src/DatabaseManager.h"
+#include "src/SystemLog.h"
+#include "src/SessionManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -69,6 +71,8 @@ int main(int argc, char *argv[])
     ModuleModel moduleModel;
     DirectiveModel directiveModel;
     ProtocolModel protocolModel(&dbManager);
+    SystemManager systemManager;
+    SessionManager sessionManager(&dbManager);
 
     if (dbManager.initDatabase()) {
         // Neural Sync: Fetching data from SQLite and injecting into the Model
@@ -81,8 +85,6 @@ int main(int argc, char *argv[])
         hDebug() << "Resuming Directive:" << activeDirId;
 
     }
-
-    SystemManager systemManager;
 
     qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
     Chronometer chronometer;
@@ -99,7 +101,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
     engine.rootContext()->setContextProperty("protocolModel", &protocolModel);
     engine.rootContext()->setContextProperty("chronometer", &chronometer);
-    engine.rootContext()->setContextProperty("SystemManager", &systemManager);
+    engine.rootContext()->setContextProperty("systemManager", &systemManager);
+    engine.rootContext()->setContextProperty("sessionManager", &sessionManager);
 
     const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
 

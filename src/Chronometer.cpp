@@ -20,12 +20,13 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-// #define HH_DEBUG
+#define HH_DEBUG
 #define HH_INFO
 #define HH_WARNING
 #define HH_CRITICAL
 
 #include "Chronometer.h"
+#include "src/SystemLog.h"
 #include <QDebug>
 
 Chronometer::Chronometer(QObject *parent)
@@ -38,9 +39,18 @@ Chronometer::Chronometer(QObject *parent)
     connect(m_timer, &QTimer::timeout, this, &Chronometer::updateTime);
 }
 
-void Chronometer::start(int mseconds) {
-    // If mseconds is 0, we treat it as an infinite count-up
-    m_targetMs = mseconds;
+void Chronometer::start(int mSeconds) {
+    // If mSeconds is 0, we treat it as an infinite count-up
+    startFrom(0, mSeconds);
+}
+
+/**
+ * Starts the chronometer from a specific time offset.
+ * Vital for recovering module telemetry during session navigation.
+ */
+void Chronometer::startFrom(int startingMs, int targetMs) {
+    m_targetMs = targetMs;
+    m_offsetMs = startingMs; // Capture the recovery time
     m_targetReachedSent = false; // Reset the flag for the new unit/module
     m_elapsedMs = 0;
     m_elapsedTimer.start(); // Resets and starts the timer from 0
@@ -48,7 +58,7 @@ void Chronometer::start(int mseconds) {
     emit elapsedMsChanged();
 
     if (m_targetMs > 0) {
-        hDebug() << "Chronometer started. Target set to:" << mseconds << "s";
+        hDebug() << "Chronometer started from: " << m_offsetMs << ". Target set to:" << targetMs << "s";
     } else {
         hDebug() << "Chronometer started (Count-up mode)";
     }
@@ -62,17 +72,19 @@ void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
     m_elapsedMs = static_cast<int>(m_elapsedTimer.elapsed());
 
+    // if (m_targetMs > 0)
+    //     hDebug() << "m_offsetMs: " << m_offsetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Total: " << m_elapsedMs + m_offsetMs;
+
+    m_elapsedMs += m_offsetMs;
+
     // Notify QML that the millisecond property has changed
     emit elapsedMsChanged();
-
-    if (m_targetMs > 0)
-        hDebug() << "Target: " << m_targetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Sended: " << m_targetReachedSent;
 
     if (m_targetMs > 0 && m_elapsedMs >= m_targetMs && !m_targetReachedSent) {
         m_targetReachedSent = true; // Block further emissions for this cycle
         // m_timer->stop(); // Optional: Stop automatically on reach
         emit targetReached();
-        hDebug() << "Target reached at" << m_targetMs << "ms";
+        hInfo() << "Target reached at" << m_targetMs << "ms";
     }
 
     // if (m_totalTime > 0) {

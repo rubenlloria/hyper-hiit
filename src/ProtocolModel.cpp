@@ -35,6 +35,7 @@
 #define HH_CRITICAL
 
 
+#include "src/SystemLog.h"
 #include "ProtocolModel.h"
 #include "src/DatabaseManager.h"
 

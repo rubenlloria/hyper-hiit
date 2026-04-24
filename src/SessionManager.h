@@ -30,6 +30,8 @@
 #include <QDateTime>
 #include <QList>
 
+class DatabaseManager;
+
 class SessionManager : public QObject {
     Q_OBJECT
     // Properties for real-time UI synchronization [Source 28]
@@ -37,13 +39,20 @@ class SessionManager : public QObject {
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
 
 public:
-    explicit SessionManager(QObject *parent = nullptr);
+    explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
 
     // Flow Control
-    Q_INVOKABLE void startSession(int protocolId, int moduleCount);
-    Q_INVOKABLE void recordModuleTime(int index, int seconds);
+    Q_INVOKABLE void startSession(int protocolId,  const QVariantList &executionList);
+    Q_INVOKABLE void recordModuleCheckpoint(int index, int globalSeconds);
     Q_INVOKABLE QString getModulesLogString() const;
     Q_INVOKABLE int getStoredTime(int index) const;
+    Q_INVOKABLE void updateSessionCalories();
+    /**
+     * @brief Persists the current session buffer to the SQL database.
+     * Converts the checkpoint array into a serialized string for Level 4 storage [Source 13, 18].
+     */
+    void extracted(QStringList &telemetryList);
+    Q_INVOKABLE void saveSession();
 
     float totalCalories() const { return m_totalCalories; }
     int activeModuleIndex() const { return m_activeModuleIndex; }
@@ -58,7 +67,9 @@ private:
     qint64 m_startTimestamp;
     int m_activeModuleIndex;
     float m_totalCalories;
+    QList<float> m_moduleMetFactors;
     QList<int> m_moduleDurations; // Stores seconds per module index
+    DatabaseManager *m_db = nullptr;
 };
 
 #endif // SESSIONMANAGER_H

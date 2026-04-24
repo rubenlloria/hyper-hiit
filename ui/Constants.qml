@@ -132,4 +132,29 @@ QtObject {
     function fontUrl(fontFileName) {
         return Qt.resolvedUrl(fontDirectory + fontFileName)
     }
+
+    /**
+     * Custom logging helpers to match the hyper//hiit backend format.
+     * Provides a unified look for terminal telemetry [Source 122].
+     */
+    function hDebug(qml, msg) {
+        if (qml === "") return;
+        console.debug("[DEBUG]:", qml+":", msg)
+    }
+
+    function hInfo(qml, msg) {
+        if (qml === "") return;
+        console.info("[INFO]:", qml+":", msg)
+    }
+
+    function hWarning(qml, msg) {
+        if (qml === "") return;
+        console.warn("[WARNING]:", qml+":", msg)
+    }
+
+    function hCritical(qml, msg) {
+        if (qml === "") return;
+        console.error("[CRITICAL]:", qml+":", msg)
+    }
+
 }

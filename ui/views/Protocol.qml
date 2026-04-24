@@ -15,6 +15,9 @@ ProtocolForm {
     unit: "s"
     currentQuantity: countdownTimer + unit
 
+    property string debugName: "Protocol.qml"
+    property string infoName: "Protocol.qml"
+
     property real startX: 0
     property real tapX: 0
     property real threshold: 50 // Minimum pixels to trigger a displacement
@@ -35,7 +38,8 @@ ProtocolForm {
             loadProtocolDetails();
             let next = executionList[0];
             let unitSymbol = unitSymbols[next.data.unit_type] || "";
-            console.log("DEBUG: " + next.module_name + " Content: " + JSON.stringify(next));
+            // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
+            // Constants.hDebug(debugName, "Protocol Content: " + JSON.stringify(executionList));
             nextModuleText.label = next.data.quantity + unitSymbol + " " + next.data.module_name;
         }
     }
@@ -46,11 +50,11 @@ ProtocolForm {
     }
 
     Chronometer {
-        id: myChrono
+        id: globalChronometer
 
         onTimeTextChanged:{
-            mainTimer.minSec = myChrono.timeText.substring(0, 5);
-            mainTimer.cents= myChrono.timeText.substring(6, 8);
+            mainTimer.minSec = globalChronometer.timeText.substring(0, 5);
+            mainTimer.cents= globalChronometer.timeText.substring(6, 8);
         }
     }
 
@@ -63,9 +67,9 @@ ProtocolForm {
 
         onTargetReached: {
             m_targetReached = true;
-            console.log("maximum time reached!");
+            Constants.hInfo(infoName, "maximum time reached!");
             if ( unitType === 0 ) {
-                console.debug("DEBUG: module time reached, switching next module...")
+                Constants.hDebug(debugName, "module time reached, switching next module...")
                 nextModule();
             }
             else {
@@ -86,9 +90,9 @@ ProtocolForm {
                     progressDial.value = Math.min(elapsedMs / currentModuleDuration, 1.0);
                 }
 
-                // console.log("dial updated | elapsedMS: " + elapsedMs + " | moduleDuration: " + protocolController.currentModuleDuration);
+                // Constants.hDebug(debugName, "dial updated | elapsedMS: " + elapsedMs + " | moduleDuration: " + protocolController.currentModuleDuration);
                 if ( unitType === 0 ) {
-                    // console.log("unitType: " + unitType + ": countdown");
+                    // Constants.hDebug(debugName, "unitType: " + unitType + ": countdown");
                     let remainingMs = Math.max(0, currentModuleDuration - elapsedMs);
                     currentQuantity = Math.ceil(remainingMs / 1000) + "s";
                 }
@@ -98,7 +102,7 @@ ProtocolForm {
 
     // Back button action
     header.settingsMouseArea.onClicked: {
-        console.log("Back to Briefing...");
+        Constants.hInfo(infoName, debugName, "Back to Briefing...");
         mainStack.pop();
     }
 
@@ -117,7 +121,7 @@ ProtocolForm {
 
                 let cdProgress = (5 + protocolController.countdownTimer) / 5;
                 progressDial.value = Math.min(Math.max(cdProgress, 0.0), 1.0);
-                // console.log("Countdown value: " + progressDial.value);
+                // Constants.hDebug(debugName, "Countdown value: " + progressDial.value);
 
                 if (protocolController.countdownTimer === 0) {
                     // Transition to ACTIVE mission state
@@ -168,8 +172,8 @@ ProtocolForm {
         } else if ( unitType  || enableSkipForward ) {
             nextModule();
         }
-        console.debug("DEBUG: Mouse tap at " + tapX);
-        // console.log("NEURAL_SYNC: Dial tapped. Validating current state.");
+        // Constants.hDebug(debugName, "Mouse tap at " + tapX);
+        // Constants.hDebug(debugName, "Dial tapped. Validating current state.");
     }
 
     /**
@@ -177,7 +181,7 @@ ProtocolForm {
      */
     function loadProtocolDetails() {
         let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
-        // console.log("DEBUG: Full Model Content: " + JSON.stringify(structuredData));
+        // Constants.hDebug(debugName, "Full Model Content: " + JSON.stringify(structuredData));
         let tempSequence = [];
         let subsystems = 0;
 
@@ -195,7 +199,7 @@ ProtocolForm {
         }
 
         executionList = tempSequence;
-        console.log("[INFO]: Protocol sequence synchronized | Subsystems: " + subsystems + " | Total units: " + executionList.length);
+        Constants.hInfo(infoName, "Protocol sequence synchronized | Subsystems: " + subsystems + " | Total units: " + executionList.length);
     }
 
     /**
@@ -206,8 +210,9 @@ ProtocolForm {
             return;
 
         isRunning = true;
-        if (typeof myChrono !== "undefined") {
-            myChrono.start(0);
+        if (typeof globalChronometer !== "undefined") {
+            sessionManager.startSession(activeProtocolId, executionList);
+            globalChronometer.start(0);
         }
         progressDial.dialMessage = "NEXT";
         loadModule(0);
@@ -217,18 +222,24 @@ ProtocolForm {
      * [NEURAL_LINK] Updates the UI shard with the current module telemetry.
      */
     function loadModule(index) {
-        console.log("executionList.length: " + executionList.length + " | index: " + index);
+        Constants.hDebug(debugName, "executionList.length: " + executionList.length + " | index: " + index);
         if (index >= executionList.length) {
             finishProtocol();
             return;
         }
 
         currentIndex = index;
-        let entry = executionList[index];
+        let entry = executionList[currentIndex];
         let unitSymbol = unitSymbols[entry.data.unit_type] || "";
-        console.log("DEBUG: " + entry.data.module_name + " Content: " + JSON.stringify(entry));
+        // Constants.hDebug(debugName, entry.data.module_name + " Content: " + JSON.stringify(entry));
 
-        elapsedMs = 0;
+        let previousCheckpointSecs = (index > 0) ? sessionManager.getStoredTime(index - 1) : 0;
+        Constants.hDebug(debugName, "previousCheckpointSecs: " + previousCheckpointSecs );
+        let currentGlobalMs = globalChronometer.elapsedMs;
+        let calculatedModuleMs = currentGlobalMs - (previousCheckpointSecs);
+
+        // elapsedMs = sessionManager.getStoredTime(currentIndex);
+        // Constants.hDebug(debugName, "elapsedMs: " + elapsedMs);
         progressDial.value = 0;
         m_targetReached = false;
         progressDial.dialBgColor = Constants.darkNeon;
@@ -255,13 +266,13 @@ ProtocolForm {
         }
 
         if (index < executionList.length -1) {
-            console.log("Let next");
+            // Constants.hDebug(debugName, "Let next");
             let next = executionList[index +1];
             let nextUnitSymbol = unitSymbols[next.data.unit_type] || "";
             nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
-            console.log("DEBUG: " + next.data.module_name + " Content: " + JSON.stringify(next));
+            // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
         } else {
-            console.log("NO Let next");
+            // Constants.hDebug(debugName, "NO Let next");
             nextModuleText.label = "Last" ;
         }
         // Update active subsystem for the Row of Rectangles
@@ -276,15 +287,15 @@ ProtocolForm {
         // The fill now represents completed/active module steps instead of raw time
         subsystemProgress.activeSubsystemProgress = currentModuleInSubPosition / totalModulesInSub;
 
-        console.log("SUBSYSTEM_SYNC: Sub " + activeSubsystemId +
-                    " | Step: " + currentModuleInSubPosition + "/" + totalModulesInSub);
+        // Constants.hDebug(debugName, "SUBSYSTEM_SYNC: Sub " + activeSubsystemId +
+        //             " | Step: " + currentModuleInSubPosition + "/" + totalModulesInSub);
 
 
-        console.log("FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
+        Constants.hDebug(debugName, "FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
         // We restart it for each new module to have a clean 0.0 -> 1.0 range
         unitChronometer.stop();
-        unitChronometer.start(currentModuleDuration);
-
+        unitChronometer.startFrom(calculatedModuleMs, currentModuleDuration);
+        Constants.hInfo(infoName, "Module " + index + " synced. Recovered Offset: " + (calculatedModuleMs / 1000) + "s");
     }
 
     /**
@@ -292,6 +303,8 @@ ProtocolForm {
      */
     function nextModule() {
         if (isRunning) {
+            let globalMS = Math.round(globalChronometer.elapsedMs);
+            sessionManager.recordModuleCheckpoint(currentIndex, globalMS);
             loadModule(currentIndex + 1);
         }
     }
@@ -315,18 +328,18 @@ ProtocolForm {
         nextModuleTitle.label = " ";
         subsystemProgress.activeSubsystemProgress = 1.0;
 
-        if (typeof myChrono !== "undefined") {
-            myChrono.stop();
-            console.debug("[DEBUG]: Session chronometer halted.");
+        if (typeof globalChronometer !== "undefined") {
+            globalChronometer.stop();
+            Constants.hInfo(infoName, "Session chronometer halted.");
         }
 
         if (typeof unitChronometer !== "undefined") {
             unitChronometer.stop();
-            console.log("[DEBUG]: Modules chronometer halted.");
+            Constants.hInfo(infoName, "Modules chronometer halted.");
         }
 
-        console.log("[DEBUG]: Execution sequence finalized and all timers stopped.");
-
+        Constants.hInfo(infoName, "Execution sequence finalized and all timers stopped.");
+        sessionManager.saveSession();
     }
 }
 

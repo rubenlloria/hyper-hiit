@@ -27,7 +27,7 @@
 
 #include <QFile>
 #include "DatabaseManager.h"
-#include "src/SystemLog.h"
+#include "SystemLog.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent) {}
 

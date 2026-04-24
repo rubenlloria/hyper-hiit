@@ -216,7 +216,7 @@ Rectangle {
         anchors.bottomMargin: 15
         label_on: "SYSTEM_ONLINE"
         label_off: "SYSTEM_OFFLINE"
-        active: SystemManager.isSystemReady
+        active: systemManager.isSystemReady
         labelColor: Constants.primaryTextColor
     }
 
