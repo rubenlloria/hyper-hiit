@@ -873,7 +873,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de Seccions:** Definició dels espais per a
     EVOLUTION_METRICS, ACTIVE_DIRECTIVE i ACHIEVEMENT_MATRIX 1.
 
-    1.  #### v0.2: Sistema de Navegació de Directives
+#### v0.2: Sistema de Navegació de Directives
 
 <!-- -->
 
@@ -890,7 +890,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de la Base de Dades:** Funcions de lectura i escritura
     bàsiques i carrega desde fitxer de dades Json.
 
-    1.  #### v0.3: Gestió de Protocols & Scroll
+#### v0.3: Gestió de Protocols & Scroll
 
 <!-- -->
 
@@ -907,7 +907,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Dades de Dificultat:** Integració de les etiquetes de rang (RANK:
     ADVANCED) a les targetes de protocol 2.
 
-    1.  #### v0.4: Motor d'Execució (MVP)
+#### v0.4: Motor d'Execució (MVP)
 
 <!-- -->
 
@@ -922,7 +922,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Cronòmetre de Missió:** Comptador de temps real per a la sessió
     actual.
 
-    1.  #### v0.5: Feedback en Temps Real
+#### v0.5: Feedback en Temps Real
 
 <!-- -->
 
@@ -930,12 +930,12 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     per a futurs analisis.
 
 -   **Barres de Progrés Dinàmiques:** Les barres de neó de les targetes
-    de protocol reflecteixen el progrés real de la sessió en curs 2, 4.
+    de protocol reflecteixen el progrés real de la sessió en curs.
 
 -   **Sincronització de Mòduls:** Actualització del comptador de mòduls
-    restants durant l'execució.
+    durant l'execució.
 
-    1.  #### v0.6: Evolution Metrics & Històric
+#### v0.6: Evolution Metrics & Històric
 
 <!-- -->
 
@@ -947,7 +947,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     percentatge d'millora (IMPROVEMENT) basat en les sessions
     completades 1.
 
-    1.  #### v0.7: Achievement Matrix
+#### v0.7: Achievement Matrix
 
 <!-- -->
 
@@ -958,7 +958,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Resum de Carrera:** Activació dels comptadors totals de SESSIONS,
     CALORIES i EFFICIENCY 1.
 
-    1.  #### v0.8: Audio Uplink & Media Control
+#### v0.8: Audio Uplink & Media Control
 
 <!-- -->
 
@@ -968,7 +968,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Progrés Musical:** Barra de progrés de neó magenta per a la pista
     d'àudio actual sense indicadors numèrics.
 
-    1.  #### v0.9: Personal Best (PB) & Benchmarks
+#### v0.9: Personal Best (PB) & Benchmarks
 
 <!-- -->
 
@@ -979,7 +979,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Optimització de Ranks:** Ajust automàtic de la dificultat
     suggerida segons el rendiment històric de l'usuari.
 
-    1.  #### v1.0: Full System Online
+#### v1.0: Full System Online
 
 <!-- -->
 
