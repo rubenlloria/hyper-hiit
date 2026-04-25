@@ -34,9 +34,11 @@ Rectangle {
     property string protocolName: "PROTOCOL_NAME"
     property color themeColor: Constants.primaryColor
     property string rank: "NEWBIE"
-    property int calories: 123
+    property string bpm: "--"
+    property int calories: 0
     property int moduleCount: 0
     property string duration: "00:00"
+    property string record: "00:00"
     property int personalBest: 0
     property var protocolDataModel: []
     // property alias subsystemRepeater: subsystemRepeater
@@ -119,15 +121,21 @@ Rectangle {
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 15
+            // NeonMetadata {
+            //     keyLabel: "HEART_RATE"
+            //     valueLabel: root.bpm
+            //     unitLabel: "BPM"
+            //     color: Constants.primaryColor
+            // }
             NeonMetadata {
-                keyLabel: "HEART_RATE"
-                valueLabel: "--"
-                unitLabel: "BPM"
+                keyLabel: "RECORD"
+                valueLabel: root.record
+                unitLabel: ""
                 color: Constants.primaryColor
             }
             NeonMetadata {
                 keyLabel: "CALORIES"
-                valueLabel: "150"
+                valueLabel: root.calories
                 unitLabel: "kcal"
                 color: Constants.primaryColor
             }

@@ -36,6 +36,7 @@ class SessionManager : public QObject {
     Q_OBJECT
     // Properties for real-time UI synchronization [Source 28]
     Q_PROPERTY(float totalCalories READ totalCalories NOTIFY telemetryChanged)
+    Q_PROPERTY(float userWeight READ userWeight WRITE setUserWeight NOTIFY userWeightChanged)
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
 
 public:
@@ -55,11 +56,14 @@ public:
     Q_INVOKABLE void saveSession();
 
     float totalCalories() const { return m_totalCalories; }
+    float userWeight() const { return m_userWeight; }
+    void setUserWeight(float weight) { m_userWeight = weight; }
     int activeModuleIndex() const { return m_activeModuleIndex; }
     void setActiveModuleIndex(int index);
 
 signals:
     void telemetryChanged();
+    void userWeightChanged();
     void activeModuleChanged();
 
 private:
@@ -67,6 +71,7 @@ private:
     qint64 m_startTimestamp;
     int m_activeModuleIndex;
     float m_totalCalories;
+    float m_userWeight;
     QList<float> m_moduleMetFactors;
     QList<int> m_moduleDurations; // Stores seconds per module index
     DatabaseManager *m_db = nullptr;

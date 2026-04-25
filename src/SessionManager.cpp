@@ -44,6 +44,7 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     }
 
     m_totalCalories = 0.0f;
+    m_userWeight= 80.0f; // TODO: load weight from config
     m_activeModuleIndex = 0;
 }
 
@@ -155,8 +156,6 @@ void SessionManager::saveSession() {
  */
 void SessionManager::updateSessionCalories() {
     float totalKcal = 0.0f;
-    float userWeight = 80.0f; // TODO: Default weight, to be retrieved from system_config [Source 17]
-
     // Iterate through checkpoints to calculate relative durations and calories
     for (int i = 0; i < m_moduleDurations.size(); ++i) {
         int checkpoint = m_moduleDurations.at(i);
@@ -172,7 +171,7 @@ void SessionManager::updateSessionCalories() {
         float metFactor = m_moduleMetFactors.at(i);
 
         // Apply standard metabolic formula [Source 19]
-        totalKcal += (metFactor * userWeight * hours);
+        totalKcal += (metFactor * m_userWeight * hours);
     }
 
     m_totalCalories = totalKcal;

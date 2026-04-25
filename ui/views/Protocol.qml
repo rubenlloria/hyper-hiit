@@ -32,6 +32,8 @@ ProtocolForm {
     property real currentModuleDuration: 10000
     property real elapsedMs: 0
     readonly property var unitSymbols: ["s", "x", "b"]
+    property real sessionStoredCalories: 0.0
+    property real userWeight: 80.0
 
     onActiveProtocolIdChanged: {
         if (activeProtocolId > 0) {
@@ -47,14 +49,37 @@ ProtocolForm {
     Component.onCompleted: {
         // let next = executionList[0];
         // nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
+        userWeight = sessionManager.userWeight;
     }
 
     Chronometer {
         id: globalChronometer
 
         onTimeTextChanged:{
-            mainTimer.minSec = globalChronometer.timeText.substring(0, 5);
             mainTimer.cents= globalChronometer.timeText.substring(6, 8);
+            let minsec = globalChronometer.timeText.substring(0, 5);
+            if (mainTimer.minSec !== minsec) {
+                mainTimer.minSec = minsec;
+
+                // Get MET Data
+                let moduleData = executionList[currentIndex].data;
+                let met = moduleData.met_factor;
+
+                // Calculate elapsed time in hours for the current module
+                // Formula: hours = milliseconds / (1000 * 3600)
+                let elapsedHours = unitChronometer.elapsedMs / 3600000.0;
+
+                // Dynamic calorie calculation
+                // Formula: MET * kg * hours
+                let sessionKcal = (sessionStoredCalories > 0 ) ? sessionStoredCalories / 1000 : 0;
+                let liveModuleKcal = met * userWeight * elapsedHours;
+                Constants.hDebug(debugName, "met: " + met + " | weight: " + userWeight + " | hours: " + elapsedHours)
+
+                // Update the UI property kcal (Stored from previous + Active module)
+                protocolController.calories = sessionKcal + liveModuleKcal;
+                Constants.hDebug(debugName, "Session cal: " + sessionKcal + " | Module cal: " + liveModuleKcal);
+
+            }
         }
     }
 
@@ -290,6 +315,9 @@ ProtocolForm {
         // Constants.hDebug(debugName, "SUBSYSTEM_SYNC: Sub " + activeSubsystemId +
         //             " | Step: " + currentModuleInSubPosition + "/" + totalModulesInSub);
 
+        // Capture the total calories accumulated in previous modules from the manager
+        sessionStoredCalories = sessionManager.totalCalories;
+        Constants.hInfo("Module " + index + " loaded. Baseline calories: " + sessionStoredCalories.toFixed(2));
 
         Constants.hDebug(debugName, "FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
         // We restart it for each new module to have a clean 0.0 -> 1.0 range
