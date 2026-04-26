@@ -776,3 +776,39 @@ bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSec
     hDebug() << "Session saved. ID: " << q.lastInsertId().toInt() << " | Duration: " << totalSecs << "s";
     return true;
 }
+
+void DatabaseManager::updateModuleData(const QString &name, double repTime, double fatigueRate) {
+    QSqlQuery query;
+
+    query.prepare("UPDATE modules SET "
+                  "rep_time = :rt, "
+                  "fatigue_rate = :fr "
+                  "WHERE mod_name = :name");
+
+    query.bindValue(":rt", repTime);
+    query.bindValue(":fr", fatigueRate);
+    query.bindValue(":name", name);
+
+    if (!query.exec()) {
+        hCritical() << "Failed to update metrics for module:" << name
+                    << "Error:" << query.lastError().text();
+    } else {
+        hInfo() << "Module calibrated | id:" << name
+                << " | Target RT:" << repTime << "s | Target FR:" << fatigueRate << "%";
+    }
+}
+
+void DatabaseManager::updateProtocolDuration(int protocolId, int duration) {
+    QSqlQuery query;
+    query.prepare("UPDATE protocols SET estimated_duration = :duration WHERE protocol_id = :id");
+    query.bindValue(":duration", duration);
+    query.bindValue(":id", protocolId);
+
+    if (!query.exec()) {
+        hCritical() << "Failed to update duration for protocol" << protocolId
+                    << "Error:" << query.lastError().text();
+    } else {
+        hInfo() << "Protocol" << protocolId << "duration updated to:" << duration << "s";
+        setProtocolMaxDuration();
+    }
+}

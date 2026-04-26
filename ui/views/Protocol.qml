@@ -73,11 +73,11 @@ ProtocolForm {
                 // Formula: MET * kg * hours
                 let sessionKcal = (sessionStoredCalories > 0 ) ? sessionStoredCalories / 1000 : 0;
                 let liveModuleKcal = met * userWeight * elapsedHours;
-                Constants.hDebug(debugName, "met: " + met + " | weight: " + userWeight + " | hours: " + elapsedHours)
+                // Constants.hDebug(debugName, "met: " + met + " | weight: " + userWeight + " | hours: " + elapsedHours)
 
                 // Update the UI property kcal (Stored from previous + Active module)
                 protocolController.calories = sessionKcal + liveModuleKcal;
-                Constants.hDebug(debugName, "Session cal: " + sessionKcal + " | Module cal: " + liveModuleKcal);
+                // Constants.hDebug(debugName, "Session cal: " + sessionKcal + " | Module cal: " + liveModuleKcal);
 
             }
         }
@@ -285,7 +285,7 @@ ProtocolForm {
         } else {
             protocolController.progressDial.messageColor = Constants.secondaryTextColor
             progressDial.dialMessage = "NEXT"
-            let baseTime = entry.data.rep_time || 2.0;
+            let baseTime = entry.data.rep_time || 2.0; // TODO: load from last session if exists
             let fatigue = entry.data.fatigue_rate || 1.0;
             protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
         }
@@ -317,7 +317,7 @@ ProtocolForm {
 
         // Capture the total calories accumulated in previous modules from the manager
         sessionStoredCalories = sessionManager.totalCalories;
-        Constants.hInfo("Module " + index + " loaded. Baseline calories: " + sessionStoredCalories.toFixed(2));
+        // Constants.hInfo("Module " + index + " loaded. Baseline calories: " + sessionStoredCalories.toFixed(2));
 
         Constants.hDebug(debugName, "FLOW_UPDATE: Subsystem " + activeSubsystemId + " | Module: " + currentModuleName);
         // We restart it for each new module to have a clean 0.0 -> 1.0 range

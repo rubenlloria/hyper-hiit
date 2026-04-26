@@ -53,6 +53,7 @@ void SessionManager::startSession(int protocolId,  const QVariantList &execution
     m_startTimestamp = QDateTime::currentSecsSinceEpoch();
     m_totalCalories = 0.0f;
     m_activeModuleIndex = 0;
+    m_executionList = executionList;
 
     // Initialize the buffer with zeros based on protocol structure
     m_moduleDurations.clear();
@@ -125,6 +126,84 @@ void SessionManager::setActiveModuleIndex(int index) {
 
 void SessionManager::saveSession() {
     if (m_moduleDurations.isEmpty()) return;
+    hInfo() << "Saving session";
+    // hDebug() << "Execution List: " << m_executionList;
+
+    // Structure to accumulate session-wide performance per module_id
+    struct ModulePerformance {
+        double firstTR = -1.0;     // Time per rep (seconds) in the first encounter
+        double totalSeconds = 0.0; // Cumulative duration across all subsystems
+        int totalQuantity = 0;     // Cumulative reps across all subsystems
+        int occurrenceCount = 0;
+    };
+    QMap<QString, ModulePerformance> analysisMap;
+
+    // 1. Analyze and accumulate telemetry data
+    for (int i = 0; i < m_moduleDurations.size(); ++i) {
+        int currentMs = m_moduleDurations.at(i);
+        int prevMs = (i > 0) ? m_moduleDurations.at(i - 1) : 0;
+        double actualDurationMs = static_cast<double>(currentMs - prevMs);
+
+        if (actualDurationMs <= 0) continue;
+
+        QVariantMap moduleData = m_executionList.at(i).toMap()["data"].toMap();
+
+        // Filter: Calibrate all modules except based on time (unit_type: 0)
+        if (moduleData["unit_type"].toInt() == 0) continue;
+
+        // hDebug() << "moduleData: " << moduleData;
+        QString m_name = moduleData["module_name"].toString();
+        int qty = moduleData["quantity"].toInt();
+        if (qty <= 0) continue;
+
+        double currentTR = (actualDurationMs / 1000.0) / qty;
+
+        // Populate analysis data
+        if (!analysisMap.contains(m_name)) {
+            analysisMap[m_name].firstTR = currentTR;
+        }
+        analysisMap[m_name].totalSeconds += (actualDurationMs / 1000.0);
+        analysisMap[m_name].totalQuantity += qty;
+        analysisMap[m_name].occurrenceCount++;
+        hDebug() << "Populating module id: " << m_name;
+    }
+
+    // 2. Compute final metrics and update database
+    for (auto it = analysisMap.begin(); it != analysisMap.end(); ++it) {
+        QString m_name = it.key();
+        ModulePerformance stats = it.value();
+
+        // Calibration requires at least two data points to establish a fatigue trend
+        if (stats.occurrenceCount < 2) continue;
+
+        // Base repetition time (from the 'fresh' first instance)
+        double calibratedRepTime = stats.firstTR;
+
+        // Average repetition time across the entire session volume
+        double averageTR = stats.totalSeconds / stats.totalQuantity;
+
+        // Fatigue rate is the percentage increase from base to average
+        double rawFatigue = averageTR / calibratedRepTime;
+        double calibratedFatigue = std::max(0.0, rawFatigue);
+
+        hDebug() << "Module Calibration [Volume Model] | NAME:" << m_name
+                 << " | Base RT:" << calibratedRepTime << "s | Avg RT:" << averageTR
+                 << "s | Fatigue:" << calibratedFatigue;
+
+
+        // Call database to update the module blueprint
+        if (m_db) {
+            m_db->updateModuleData(m_name, calibratedRepTime, calibratedFatigue);
+        }
+    }
+
+
+
+
+
+
+
+
 
     // 1. Serialize checkpoints to CSV string (e.g., "190,256,289")
     QStringList telemetryList;
@@ -134,7 +213,7 @@ void SessionManager::saveSession() {
     QString telemetryString = telemetryList.join(",");
 
     // 2. The total duration is the last checkpoint recorded
-    int totalDuration = m_moduleDurations.last();
+    int totalDuration = m_moduleDurations.last() / 1000;
 
     // 3. Final metabolic impact calculation [Source 19, 60]
     // Note: m_totalCalories has been accumulating during module transitions
@@ -147,6 +226,8 @@ void SessionManager::saveSession() {
 
     // 4. Delegate to DatabaseManager (Assuming a saveSession method exists there)
     m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories);
+    m_db->updateProtocolDuration(m_protocolId, totalDuration);
+
     // TODO: m_db->updatePersonalBest(m_protocolId);
 }
 

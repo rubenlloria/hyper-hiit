@@ -72,6 +72,7 @@ private:
     int m_activeModuleIndex;
     float m_totalCalories;
     float m_userWeight;
+    QVariantList m_executionList;
     QList<float> m_moduleMetFactors;
     QList<int> m_moduleDurations; // Stores seconds per module index
     DatabaseManager *m_db = nullptr;

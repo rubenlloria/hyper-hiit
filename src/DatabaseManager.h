@@ -66,6 +66,9 @@ public:
     Q_INVOKABLE QVariantList getProtocolExecutionDetails(int protocolId);
     int setProtocolMaxDuration();
     bool saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories);
+    void updateModuleData(const QString &name, double repTime, double fatigueRate);
+    void updateProtocolDuration(int protocol_id, int duration);
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();
