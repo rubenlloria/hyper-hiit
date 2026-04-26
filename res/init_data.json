@@ -884,6 +884,25 @@
         { "subsystem": 2, "s_order": 2, "module": "Plank", "quantity": 45, "unit": "seconds" },
         { "subsystem": 2, "s_order": 3, "module": "Glute Bridges", "quantity": 25, "unit": "reps" }
       ]
+    },
+    {
+      "protocol_name": "A_TEST",
+      "estimated_duration": 520,
+      "module_count": 9,
+      "rank": "TEST",
+      "personal_best": 0,
+      "target_directives": ["FAT_BURNING", "ENDURANCE_GRID"],
+      "structure": [
+        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 5, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Plank", "quantity": 10, "unit": "seconds" },
+        { "subsystem": 1, "s_order": 3, "module": "Glute Bridges", "quantity": 5, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 10, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Plank", "quantity": 10, "unit": "seconds" },
+        { "subsystem": 2, "s_order": 3, "module": "Glute Bridges", "quantity": 10, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Burpees", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Plank", "quantity": 10, "unit": "seconds" },
+        { "subsystem": 3, "s_order": 3, "module": "Glute Bridges", "quantity": 20, "unit": "reps" }
+      ]
     }
   ]
 }
