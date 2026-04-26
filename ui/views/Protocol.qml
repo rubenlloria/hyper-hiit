@@ -34,6 +34,7 @@ ProtocolForm {
     readonly property var unitSymbols: ["s", "x", "b"]
     property real sessionStoredCalories: 0.0
     property real userWeight: 80.0
+    property var lastSessionCheckpoints: [] // Stores the QList<int> returned from C++
 
     onActiveProtocolIdChanged: {
         if (activeProtocolId > 0) {
@@ -50,6 +51,11 @@ ProtocolForm {
         // let next = executionList[0];
         // nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
         userWeight = sessionManager.userWeight;
+
+        lastSessionCheckpoints = sessionManager.loadLastSessionData(protocolController.activeProtocolId);
+        if (lastSessionCheckpoints.length > 0) {
+            Constants.hDebug(debugName, "Historical telemetry loaded: " + lastSessionCheckpoints.length + " points.");
+        }
     }
 
     Chronometer {
@@ -280,14 +286,28 @@ ProtocolForm {
         // unit_type 0: SECONDS | 1: REPS
         if (unitType === 0) {
             protocolController.currentModuleDuration = entry.data.quantity * 1000;
-            progressDial.messageColor = Constants.primaryTextColor
-            progressDial.dialMessage = "WAIT"
+            progressDial.messageColor = Constants.primaryTextColor;
+            progressDial.dialMessage = "WAIT";
         } else {
-            protocolController.progressDial.messageColor = Constants.secondaryTextColor
-            progressDial.dialMessage = "NEXT"
-            let baseTime = entry.data.rep_time || 2.0; // TODO: load from last session if exists
-            let fatigue = entry.data.fatigue_rate || 1.0;
-            protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
+            protocolController.progressDial.messageColor = Constants.secondaryTextColor;
+            progressDial.dialMessage = "NEXT";
+
+            let lastDuration = 0;
+            if (lastSessionCheckpoints.length > index) {
+                let currentCP = lastSessionCheckpoints[index];
+                let prevCP = (index > 0) ? lastSessionCheckpoints[index - 1] : 0;
+                lastDuration = currentCP - prevCP;
+            }
+            if (lastDuration > 0) {
+                // Use real historical duration for the 'Ghost' effect
+                protocolController.currentModuleDuration = lastDuration;
+                Constants.hDebug(debugName, "Duration loaded from last session: " + lastDuration);
+            } else {
+                let baseTime = entry.data.rep_time || 2.0; // TODO: load from last session if exists
+                let fatigue = entry.data.fatigue_rate || 1.0;
+                protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
+                Constants.hDebug(debugName, "Duration calculated: " + protocolController.currentModuleDuration );
+            }
         }
 
         if (index < executionList.length -1) {

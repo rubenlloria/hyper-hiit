@@ -74,6 +74,7 @@ void SessionManager::startSession(int protocolId,  const QVariantList &execution
         hDebug() << "Met factor" << met ;
     }
     // for(int i = 0; i < moduleCount; ++i) m_moduleDurations << 0;
+    loadLastSessionData(protocolId);
 
     hInfo() << "Session Started for Protocol: " << protocolId << " | Modules: " << m_moduleDurations.size() << " | Timestamp: " << m_startTimestamp;
 }
@@ -233,7 +234,7 @@ void SessionManager::saveSession() {
 
 /**
  * @brief Recalculates total session calories based on the current checkpoint buffer.
- * Provides a robust calculation even if session navigation occurs.
+ * @meta Provides a robust calculation even if session navigation occurs.
  */
 void SessionManager::updateSessionCalories() {
     float totalKcal = 0.0f;
@@ -258,4 +259,32 @@ void SessionManager::updateSessionCalories() {
     m_totalCalories = totalKcal;
     hDebug() << "Total calories: " << m_totalCalories ;
     // emit totalCaloriesChanged();
+}
+
+/**
+ * @brief Loads and parses telemetry from the previous session to act as a benchmark.
+ * @meta Transforms the comma-separated string into a numeric buffer.
+ */
+QList<int> SessionManager::loadLastSessionData(int protocolId) {
+    m_lastSessionDurations.clear();
+
+    if (!m_db) return m_lastSessionDurations;
+
+    QString rawTelemetry = m_db->getLastSessionTelemetry(protocolId);
+
+    if (rawTelemetry.isEmpty()) {
+        hInfo() << "No previous session found for protocol:" << protocolId;
+        return m_lastSessionDurations;
+    }
+
+    // Parse the CSV string into the numeric buffer [v0.5.2 logic]
+    QStringList points = rawTelemetry.split(",");
+    for (const QString &point : std::as_const(points)) {
+        bool ok;
+        int value = point.toInt(&ok);
+        if (ok) m_lastSessionDurations.append(value);
+    }
+
+    hInfo() << "Loaded" << m_lastSessionDurations.size() << "checkpoints from last session.";
+    return m_lastSessionDurations;
 }

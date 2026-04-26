@@ -68,6 +68,7 @@ public:
     bool saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories);
     void updateModuleData(const QString &name, double repTime, double fatigueRate);
     void updateProtocolDuration(int protocol_id, int duration);
+    QString getLastSessionTelemetry(int protocolId);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

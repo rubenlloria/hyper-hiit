@@ -54,12 +54,15 @@ public:
      */
     void extracted(QStringList &telemetryList);
     Q_INVOKABLE void saveSession();
+    // Invokable from QML when entering the Briefing or starting the session
+    Q_INVOKABLE QList<int> loadLastSessionData(int protocolId);
 
     float totalCalories() const { return m_totalCalories; }
     float userWeight() const { return m_userWeight; }
     void setUserWeight(float weight) { m_userWeight = weight; }
     int activeModuleIndex() const { return m_activeModuleIndex; }
     void setActiveModuleIndex(int index);
+
 
 signals:
     void telemetryChanged();
@@ -72,10 +75,12 @@ private:
     int m_activeModuleIndex;
     float m_totalCalories;
     float m_userWeight;
+    DatabaseManager *m_db = nullptr;
     QVariantList m_executionList;
     QList<float> m_moduleMetFactors;
     QList<int> m_moduleDurations; // Stores seconds per module index
-    DatabaseManager *m_db = nullptr;
+    // Stores the checkpoints (ms) of the previous session for comparison
+    QList<int> m_lastSessionDurations;
 };
 
 #endif // SESSIONMANAGER_H

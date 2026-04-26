@@ -812,3 +812,18 @@ void DatabaseManager::updateProtocolDuration(int protocolId, int duration) {
         setProtocolMaxDuration();
     }
 }
+
+QString DatabaseManager::getLastSessionTelemetry(int protocolId) {
+    QSqlQuery query;
+    query.prepare("SELECT modules_duration FROM session_history "
+                  "WHERE protocol_id = :id "
+                  "ORDER BY session_timestamp DESC LIMIT 1");
+    query.bindValue(":id", protocolId);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+    hCritical() << "Failed to get last session telemetry for protocol" << protocolId
+                << "Error:" << query.lastError().text();
+    return QString();
+}
