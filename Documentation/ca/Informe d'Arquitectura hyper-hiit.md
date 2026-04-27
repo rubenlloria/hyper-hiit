@@ -257,118 +257,94 @@ s'apliquen els següents esquemes SQL:
 Conté la definició base de cada unitat d'entrenament, així com la zona
 de treball, la efectivitat i coeficient de fatiga.
 
+```sql
 CREATE TABLE IF NOT EXISTS modules (
-
-module_id INTEGER PRIMARY KEY,
-
-mod_name VARCHAR(100),
-
-target_zone VARCHAR(50), -- Target area (e.g., FULL BODY)
-
-difficulty INT -- 1: Begginer \| 2: Intermediate \| 3: Advanced
-
-mod_description TEXT,
-
-mod_instructions TEXT,
-
-mod_safety TEXT,
-
-mod_equipment TEXT,
-
-unit_type INTEGER NOT NULL, -- 0: SECONDS \| 1: REPS \| 2: BREATH
-
-rep_time FLOAT,
-
-met_factor FLOAT, -- Efficiency constant
-
-fatigue_rate FLOAT, -- Performance tier 1
-
+        module_id INTEGER PRIMARY KEY,
+        mod_name VARCHAR(100),
+        target_zone VARCHAR(50), -- Target area (e.g., FULL BODY)
+        difficulty INT -- 1: Begginer \| 2: Intermediate \| 3: Advanced
+        mod_description TEXT,
+        mod_instructions TEXT,
+        mod_safety TEXT,
+        mod_equipment TEXT,
+        unit_type INTEGER NOT NULL, -- 0: SECONDS \| 1: REPS \| 2: BREATH
+        rep_time FLOAT,
+        met_factor FLOAT, -- Efficiency constant
+        fatigue_rate FLOAT, -- Performance tier 1
 );
+```
 
 ### Taula: directives
 
 Conté la definició de dadascuna de les directives a seguir per
 aconseguir l’objectiu establert.
 
+```sql
+
 CREATE TABLE IF NOT EXISTS directives (
-
-dir_id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-dir_name TEXT NOT NULL,
-
-dir_description TEXT,
-
-dir_icon TEXT,
-
-dir_color TEXT
-
+        dir_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dir_name TEXT NOT NULL,
+        dir_description TEXT,
+        dir_icon TEXT,
+        dir_color TEXT
 );
+
+```
 
 ### Taula: protocols
 
 Conté la informació base dels protocols sense incloure la seua
 estructura de mòduls que s’enllaçarà en altra taula.
 
+```sql
+
 CREATE TABLE IF NOT EXISTS protocols (
-
-protocol_id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-protocol_name TEXT NOT NULL,
-
-estimated_duration INTEGER,
-
-module_count INTEGER,
-
-rank TEXT,
-
-personal_best INTEGER
-
+        protocol_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        protocol_name TEXT NOT NULL,
+        estimated_duration INTEGER,
+        module_count INTEGER,
+        rank TEXT,
+        personal_best INTEGER
 );
+
+```
 
 ### Taula de mapeig: directive_protocols
 
 Conté la relació entre el protocols i les directives que els inclouen.
 
+```sql
+
 CREATE TABLE IF NOT EXISTS directives_protocols (
-
-dp_mapping_id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-dir_id INTEGER,
-
-protocol_id INTEGER,
-
-FOREIGN KEY(dir_id) REFERENCES directives(dir_id),
-
-FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)
-
+        dp_mapping_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dir_id INTEGER,
+        protocol_id INTEGER,
+        FOREIGN KEY(dir_id) REFERENCES directives(dir_id),
+        FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)
 );
+
+```
 
 ### Taula de mapeig: protocol_structure
 
 Conté la estructura executiva del protocols definint en un llistat únic
 tots els mòduls d’un protocol.
 
+```sql
+
 CREATE TABLE IF NOT EXISTS protocol_structure (
-
-p_map_id INTEGER PRIMARY KEY,
-
-protocol_id INTEGER,
-
-subsystem INTEGER,
-
-s_order INT,
-
-module_id INTEGER,
-
-quantity INT,
-
-UNIQUE (protocol_id, protocol_order),
-
-FOREIGN KEY (protocol_id) REFERENCES protocols(protocol_id),
-
-FOREIGN KEY (module_id) REFERENCES modules(module_id)
-
+        p_map_id INTEGER PRIMARY KEY,
+        protocol_id INTEGER,
+        subsystem INTEGER,
+        s_order INT,
+        module_id INTEGER,
+        quantity INT,
+        UNIQUE (protocol_id, protocol_order),
+        FOREIGN KEY (protocol_id) REFERENCES protocols(protocol_id),
+        FOREIGN KEY (module_id) REFERENCES modules(module_id)
 );
+
+```
 
 **Nota Tècnica sobre unit_type:** Aquest camp és crític per a la lògica
 del backend. Determina si el valor quantity s'ha d'interpretar com un
