@@ -79,6 +79,5 @@ CMakeLists.txt.user*
 authors.txt
 
 *.qtds
-*.qmlproject
 CMakeLists.txt2
 ui.txt
