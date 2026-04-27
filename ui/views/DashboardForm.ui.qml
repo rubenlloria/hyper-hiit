@@ -67,5 +67,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             listThemeColor: neonAccordion.activeThemeColor
         }
+        NeonEvolution {
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 }
