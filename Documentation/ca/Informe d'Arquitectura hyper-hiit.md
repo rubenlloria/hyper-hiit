@@ -391,207 +391,123 @@ Per tal de carregar i/o exportar les dades d’una manera més fàcil
 utilitzarem un fitxer am format **JSON** amb la següent estructura
 d’exemple:
 
-{
-
-"modules": \[
+```json
 
 {
-
-"module_name": "Rest",
-
-"difficulty": 0,
-
-"target_zone": "REST"
-
-"description": "Take your time to rest",
-
-"instructions": "Take your time to rest",
-
-"safety_info": "Take your time to rest",
-
-"equipment": \["NONE"\],
-
-"unit_type": "seconds"
-
-"met_factor": 12
-
-"fatigue_rate": 6,5
-
-"rep_time": 1
-
-},
-
-{
-
-"module_name": "Burpees",
-
-"difficulty": 1,
-
-"target_zone": "FULL_BODY"
-
-"module_description": "Plank, push-up and jump",
-
-"instructions": "...",
-
-"safety_info": "Keep core tight",
-
-"equipment": \["NONE"\],
-
-"unit_type": "reps"
-
-"met_factor": 12
-
-"fatigue_rate": 6,5
-
-"rep_time": 3,7
-
-},
-
-"module_name": "Sit-ups",
-
-"difficulty": 1,
-
-"target_zone": "CORE_FLEX"
-
-"module_description": "...",
-
-"instructions": "...",
-
-"safety_info": "Keep core tight",
-
-"equipment": \["NONE"\],
-
-"unit_type": "reps"
-
-"met_factor": 4
-
-"fatigue_rate": 2
-
-"rep_time": 2,5
-
-},
-
-"module_name": "Squats",
-
-"difficulty": 1,
-
-"module_description": "...",
-
-"instructions": "...",
-
-"safety_info": "Keep core tight",
-
-"equipment": \["NONE"\],
-
-"target_zone": "LOWER_KNEE"
-
-"unit_type": "reps"
-
-"met_factor": 8
-
-"fatigue_rate": 3
-
-"rep_time": 3,25
-
+   "modules":[
+      {
+         "module_name":"Rest",
+         "difficulty":0,
+         "target_zone":"REST",
+         "description":"Take your time to rest",
+         "instructions":"Take your time to rest",
+         "safety_info":"Take your time to rest",
+         "equipment":[
+            "NONE"
+         ],
+         "unit_type":"seconds",
+         "met_factor":12,
+         "fatigue_rate":6.5,
+         "rep_time":1
+      },
+      {
+         "module_name":"Burpees",
+         "difficulty":1,
+         "target_zone":"FULL_BODY",
+         "module_description":"Plank, push-up and jump",
+         "instructions":"...",
+         "safety_info":"Keep core tight",
+         "equipment":[
+            "NONE"
+         ],
+         "unit_type":"reps",
+         "met_factor":12,
+         "fatigue_rate":6.5,
+         "rep_time":3.7
+      },
+      {
+         "module_name":"Sit-ups",
+         "difficulty":1,
+         "target_zone":"CORE_FLEX",
+         "module_description":"...",
+         "instructions":"...",
+         "safety_info":"Keep core tight",
+         "equipment":[
+            "NONE"
+         ],
+         "unit_type":"reps",
+         "met_factor":4,
+         "fatigue_rate":2,
+         "rep_time":2.5
+      },
+      {
+         "module_name":"Squats",
+         "difficulty":1,
+         "module_description":"...",
+         "instructions":"...",
+         "safety_info":"Keep core tight",
+         "equipment":[
+            "NONE"
+         ],
+         "target_zone":"LOWER_KNEE",
+         "unit_type":"reps",
+         "met_factor":8,
+         "fatigue_rate":3,
+         "rep_time":3.25
+      }
+   ],
+   "directives":[
+      {
+         "directive_name":"FAT_BURNING",
+         "directive_description":"Metabolic acceleration protocol",
+         "directive_icon":"\\ue0d2",
+         "directive_color":"#BF00FF"
+      },
+      {
+         "directive_name":"CARDIO_ENHANCEMENT",
+         "directive_description":"Cardiovascular optimization system",
+         "directive_icon":"\\ue0f2",
+         "directive_color":"#00FFF9"
+      }
+   ],
+   "protocols":[
+      {
+         "protocol_name":"ARES_STRIKE",
+         "estimated_duration":1200,
+         "module_count":8,
+         "rank":"ADVANCED",
+         "personal_best":85,
+         "target_directives":[
+            "FAT_BURNING",
+            "CARDIO_ENHANCEMENT"
+         ],
+         "structure":[
+            {
+               "order":1,
+               "subsystem":1,
+               "module":"Burpees",
+               "quantity":30,
+               "unit":"reps"
+            },
+            {
+               "order":2,
+               "subsystem":1,
+               "module":"Sit-ups",
+               "quantity":30,
+               "unit":"reps"
+            },
+            {
+               "order":3,
+               "subsystem":1,
+               "module":"Squats",
+               "quantity":30,
+               "unit":"reps"
+            }
+         ]
+      }
+   ]
 }
-
-\],
-
-"directives": \[
-
-{
-
-"directive_name": "FAT_BURNING",
-
-"directive_description": "Metabolic acceleration protocol",
-
-"directive_icon": "\\ue0d2",
-
-"directive_color": "#BF00FF"
-
-},
-
-{
-
-"directive_name": "CARDIO_ENHANCEMENT",
-
-"directive_description": "Cardiovascular optimization system",
-
-"directive_icon": "\\ue0f2",
-
-"directive_color": "#00FFF9"
-
-}
-
-\],
-
-"protocols": \[
-
-{
-
-"protocol_name": "ARES_STRIKE",
-
-"estimated_duration": 1200,
-
-"module_count": 8,
-
-"rank": "ADVANCED",
-
-"personal_best": 85,
-
-"target_directives": \["FAT_BURNING", "CARDIO_ENHANCEMENT"\],
-
-"structure": \[
-
-{
-
-"order": 1
-
-"subsystem": 1,
-
-"module": "Burpees",
-
-"quantity": 30,
-
-"unit": "reps",
-
-},
-
-{
-
-"order": 2
-
-"subsystem": 1,
-
-"module": "Sit-ups",
-
-"quantity": 30,
-
-"unit": "reps",
-
-},
-
-{
-
-"order": 3
-
-"subsystem": 1,
-
-"module": "Squats",
-
-"quantity": 30,
-
-"unit": "reps",
-
-},
-
-\]
-
-}
-
-\]
-
-}
+```
 
 # Regles d'UX i Disseny d'Interfície (Mission Flow)
 
