@@ -3,103 +3,103 @@ Rev. 39 (21/04/26)
 Taula de continguts
 
 [1. Fonaments de l'Arquitectura d'Array Estructurat
-3](#fonaments-de-larquitectura-darray-estructurat)
+](#fonaments-de-larquitectura-darray-estructurat)
 
 [2. Agrupament Visual Dinàmic via subsistema_id
-3](#agrupament-visual-dinàmic-via-subsistema_id)
+](#agrupament-visual-dinàmic-via-subsistema_id)
 
 [3. Gestió del Flux de Missió: Mòduls de Transició i Descans
-3](#gestió-del-flux-de-missió-mòduls-de-transició-i-descans)
+](#gestió-del-flux-de-missió-mòduls-de-transició-i-descans)
 
 [4. Versatilitat de Dades: El Camp unitat_tipus
-3](#versatilitat-de-dades-el-camp-unitat_tipus)
+](#versatilitat-de-dades-el-camp-unitat_tipus)
 
 [5. Càlcul Automàtic de Mètriques de Protocol
-4](#càlcul-automàtic-de-mètriques-de-protocol)
+](#càlcul-automàtic-de-mètriques-de-protocol)
 
-[6. Exemple d'Implementació: 4](#exemple-dimplementació)
+[6. Exemple d'Implementació:](#exemple-dimplementació)
 
-- [Protocol INFERNO_SEQUENCE 4](#protocol-inferno_sequence)
+- [Protocol INFERNO_SEQUENCE](#protocol-inferno_sequence)
 
-[7. Arquitectura Jeràrquica del Sistema 5](#arquitectura-jeràrquica-del-sistema)
+[7. Arquitectura Jeràrquica del Sistema](#arquitectura-jeràrquica-del-sistema)
 
-[8. Model de Dades: Taules Mestres i Relacionals 5](#model-de-dades-taules-mestres-i-relacionals)
+[8. Model de Dades: Taules Mestres i Relacionals](#model-de-dades-taules-mestres-i-relacionals)
 
-- [Taula: Modules 5](#taula-modules)
+- [Taula: Modules](#taula-modules)
 
-- [Taula: directives 5](#taula-directives)
+- [Taula: directives](#taula-directives)
 
-- [Taula: protocols 5](#taula-protocols)
+- [Taula: protocols](#taula-protocols)
 
-- [Taula de mapeig: directive_protocols 6](#taula-de-mapeig-directive_protocols)
+- [Taula de mapeig: directive_protocols](#taula-de-mapeig-directive_protocols)
 
-- [Taula de mapeig: protocol_structure 6](#taula-de-mapeig-protocol_structure)
+- [Taula de mapeig: protocol_structure](#taula-de-mapeig-protocol_structure)
 
 [9. Lògica de l'Array Estructurat i Processament de Dades
-6](#lògica-de-larray-estructurat-i-processament-de-dades)
+](#lògica-de-larray-estructurat-i-processament-de-dades)
 
 - [Algorismes de Càlcul de Mètriques
-6](#algorismes-de-càlcul-de-mètriques)
+](#algorismes-de-càlcul-de-mètriques)
 
-[10. Arquitectura del fitxer JSON 7](#arquitectura-del-fitxer-json)
+[10. Arquitectura del fitxer JSON](#arquitectura-del-fitxer-json)
 
 [11. Regles d'UX i Disseny d'Interfície (Mission Flow)
-8](#regles-dux-i-disseny-dinterfície-mission-flow)
+](#regles-dux-i-disseny-dinterfície-mission-flow)
 
-- [Flux de Missió (Mission Flux) 8](#flux-de-missió-mission-flux)
+- [Flux de Missió (Mission Flux)](#flux-de-missió-mission-flux)
 
-- [Indicadors de Rang (RANK labels) 8](#indicadors-de-rang-rank-labels)
+- [Indicadors de Rang (RANK labels)](#indicadors-de-rang-rank-labels)
 
 - [Visualització d'Eficiència i Progressió
-9](#visualització-deficiència-i-progressió)
+](#visualització-deficiència-i-progressió)
 
 - [Requisits Visuals del Sistema (System Footer)
-9](#requisits-visuals-del-sistema-system-footer)
+](#requisits-visuals-del-sistema-system-footer)
 
 [12. Exemple d'Implementació de Protocol
-9](#exemple-dimplementació-de-protocol)
+](#exemple-dimplementació-de-protocol)
 
 [13. Llistat preliminar de protocols
 10](#llistat-preliminar-de-protocols)
 
 - [A. FAT_BURNING (Metabolic acceleration protocol)
-10](#fat_burning-metabolic-acceleration-protocol)
+](#fat_burning-metabolic-acceleration-protocol)
 
 - [B. CARDIO_ENHANCEMENT (Cardiovascular optimization system)
-10](#cardio_enhancement-cardiovascular-optimization-system)
+](#cardio_enhancement-cardiovascular-optimization-system)
 
 - [C. STRENGTH_MATRIX (Muscular fortification sequence)
-10](#strength_matrix-muscular-fortification-sequence)
+](#strength_matrix-muscular-fortification-sequence)
 
 - [D. ENDURANCE_GRID (Stamina amplification framework)
-11](#endurance_grid-stamina-amplification-framework)
+](#endurance_grid-stamina-amplification-framework)
 
 - [E. NEURAL_FLOW (Neural-synaptic synchronization)
-11](#neural_flow-neural-synaptic-synchronization)
+](#neural_flow-neural-synaptic-synchronization)
 
-- [Implementació Tècnica 11](#implementació-tècnica)
+- [Implementació Tècnica](#implementació-tècnica)
 
-[14. Ruta de versions 12](#ruta-de-versions)
+[14. Ruta de versions](#ruta-de-versions)
 
-- [v0.1: Core Terminal & Shell 12](#v0.1-core-terminal-shell)
+- [v0.1: Core Terminal & Shell](#v01)
 
-- [v0.2: Sistema de Navegació de Directives 12](#v0.2-sistema-de-navegació-de-directives)
+- [v0.2: Sistema de Navegació de Directives](#v02)
 
-- [v0.3: Gestió de Protocols & Scroll 12](#v0.3-gestió-de-protocols-scroll)
+- [v0.3: Gestió de Protocols & Scroll](#v03)
 
-- [v0.4: Motor d'Execució (MVP) 13](#v0.4-motor-dexecució-mvp)
+- [v0.4: Motor d'Execució (MVP)](#v04)
 
-- [v0.5: Feedback en Temps Real 13](#v0.5-feedback-en-temps-real)
+- [v0.5: Feedback en Temps Real](#v05)
 
-- [v0.6: Evolution Metrics & Històric 13](#v0.6-evolution-metrics-històric)
+- [v0.6: Evolution Metrics & Històric](#v06)
 
-- [v0.7: Achievement Matrix 13](#v0.7-achievement-matrix)
+- [v0.7: Achievement Matrix](#v07)
 
-- [v0.8: Audio Uplink & Media Control 13](#v0.8-audio-uplink-media-control)
+- [v0.8: Audio Uplink & Media Control](#v08)
 
-- [v0.9: Personal Best (PB) & Benchmarks 13](#v0.9-personal-best-pb-benchmarks)
+- [v0.9: Personal Best (PB) & Benchmarks](#v09)
 
-- [v1.0: Full System Online 14](#v1.0-full-system-online)
+- [v1.0: Full System Online](#v10)
 
 # Fonaments de l'Arquitectura d'Array Estructurat
 
@@ -751,12 +751,13 @@ primerenques. Inicialment està dividit en 10 etapes per arantir un fluxe
 constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 (Minimum Viable Product)
 
-#### v0.1: Core Terminal & Shell
+
+#### v0.1: Core Terminal & Shell<a name="v01">:</a>
+
+<!-- -->
 
 -   **Interfície Base:** Implementació del contenidor principal amb
     estètica dark mode i colors neó (cian i magenta) 1.
-
-<!-- -->
 
 -   **Header & Footer Tècnic:** Activació del logotip hyper//hiit amb
     efecte glow i el peu de pàgina funcional amb dades de LATENCY, BUILD
@@ -765,7 +766,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de Seccions:** Definició dels espais per a
     EVOLUTION_METRICS, ACTIVE_DIRECTIVE i ACHIEVEMENT_MATRIX 1.
 
-#### v0.2: Sistema de Navegació de Directives
+#### v0.2: Sistema de Navegació de Directives<a name="v02">:</a>
 
 <!-- -->
 
@@ -782,7 +783,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de la Base de Dades:** Funcions de lectura i escritura
     bàsiques i carrega desde fitxer de dades Json.
 
-#### v0.3: Gestió de Protocols & Scroll
+#### v0.3: Gestió de Protocols & Scroll<a name="v03">:</a>
 
 <!-- -->
 
@@ -799,7 +800,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Dades de Dificultat:** Integració de les etiquetes de rang (RANK:
     ADVANCED) a les targetes de protocol 2.
 
-#### v0.4: Motor d'Execució (MVP)
+#### v0.4: Motor d'Execució (MVP)<a name="v04">:</a>
 
 <!-- -->
 
@@ -814,7 +815,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Cronòmetre de Missió:** Comptador de temps real per a la sessió
     actual.
 
-#### v0.5: Feedback en Temps Real
+#### v0.5: Feedback en Temps Real<a name="v05">:</a>
 
 <!-- -->
 
@@ -827,7 +828,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Sincronització de Mòduls:** Actualització del comptador de mòduls
     durant l'execució.
 
-#### v0.6: Evolution Metrics & Històric
+#### v0.6: Evolution Metrics & Històric<a name="v06">:</a>
 
 <!-- -->
 
@@ -839,7 +840,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     percentatge d'millora (IMPROVEMENT) basat en les sessions
     completades 1.
 
-#### v0.7: Achievement Matrix
+#### v0.7: Achievement Matrix<a name="v07">:</a>
 
 <!-- -->
 
@@ -850,7 +851,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Resum de Carrera:** Activació dels comptadors totals de SESSIONS,
     CALORIES i EFFICIENCY 1.
 
-#### v0.8: Audio Uplink & Media Control
+#### v0.8: Audio Uplink & Media Control<a name="v08">:</a>
 
 <!-- -->
 
@@ -860,7 +861,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Progrés Musical:** Barra de progrés de neó magenta per a la pista
     d'àudio actual sense indicadors numèrics.
 
-#### v0.9: Personal Best (PB) & Benchmarks
+#### v0.9: Personal Best (PB) & Benchmarks<a name="v09">:</a>
 
 <!-- -->
 
@@ -871,7 +872,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Optimització de Ranks:** Ajust automàtic de la dificultat
     suggerida segons el rendiment històric de l'usuari.
 
-#### v1.0: Full System Online
+#### v1.0: Full System Online<a name="v10">:</a>
 
 <!-- -->
 
