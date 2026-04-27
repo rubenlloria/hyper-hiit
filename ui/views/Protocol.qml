@@ -32,8 +32,8 @@ ProtocolForm {
     property real currentModuleDuration: 10000
     property real elapsedMs: 0
     readonly property var unitSymbols: ["s", "x", "b"]
-    property real sessionStoredCalories: 0.0
-    property real userWeight: 80.0
+    property double sessionStoredCalories: 0.0
+    property double userWeight: 80.0 // TODO: Default weight from system specifications
     property var lastSessionCheckpoints: [] // Stores the QList<int> returned from C++
 
     onActiveProtocolIdChanged: {
