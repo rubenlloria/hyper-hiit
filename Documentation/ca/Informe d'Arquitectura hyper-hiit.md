@@ -1,4 +1,4 @@
-Rev. 39 (21/04/26)
+Rev. 40 (27/04/26)
 
 Taula de continguts
 
