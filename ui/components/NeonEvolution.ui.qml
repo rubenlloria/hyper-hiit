@@ -27,9 +27,9 @@ Rectangle {
     property color cyanColor: "#00fff9"
     property color magentaColor: "#bf00ff"
     property int day1Value: 10
-    property int day2Value: 0
+    property int day2Value: 5
     property int day3Value: 40
-    property int day4Value: 80
+    property int day4Value: 75
     property int day5Value: 70
     property int day6Value: 20
     property int day7Value: 60
@@ -193,100 +193,103 @@ Rectangle {
                     strokeWidth: 2
                     fillColor: "transparent"
                     startX: 10
-                    startY: 80 - root.day1Value
+                    startY: chartArea.height - root.day1Value
                     strokeStyle: ShapePath.SolidLine
-                    PathLine {
-                        x: 10 + 1 * (parent.width - 20) / 6
-                        y: 80 - root.day2Value
+                    pathHints: ShapePath.PathQuadratic
+                    joinStyle: ShapePath.MiterJoin
+                    capStyle: ShapePath.RoundCap
+
+                    PathCurve {
+                        x: 10 + 1 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day2Value
                     }
-                    PathLine {
-                        x: 10 + 2 * (parent.width - 20) / 6
-                        y: 80 - root.day3Value
+                    PathCurve {
+                        x: 10 + 2 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day3Value
                     }
-                    PathLine {
-                        x: 10 + 3 * (parent.width - 20) / 6
-                        y: 80 - root.day4Value
+                    PathCurve {
+                        x: 10 + 3 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day4Value
                     }
-                    PathLine {
-                        x: 10 + 4 * (parent.width - 20) / 6
-                        y: 80 - root.day5Value
+                    PathCurve {
+                        x: 10 + 4 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day5Value
                     }
-                    PathLine {
-                        x: 10 + 5 * (parent.width - 20) / 6
-                        y: 80 - root.day6Value
+                    PathCurve {
+                        x: 10 + 5 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day6Value
                     }
-                    PathLine {
-                        x: 10 + 6 * (parent.width - 20) / 6
-                        y: 80 - root.day7Value
+                    PathCurve {
+                        x: 10 + 6 * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - root.day7Value
                     }
                 }
             }
-        }
 
-        // TODO: Interactive Points and Hover Logic
-        Repeater {
-            model: 7
-            delegate: Item {
-                // Position calculations following your formula [3]
-                x: 10 + index * (chartArea.width - 20) / 6
-                y: chartArea.height - chartArea.dayValues[index]
-                width: 8
-                height: 8
+            // TODO: Interactive Points and Hover Logic
+            Repeater {
+                model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
+                delegate: Item {
+                    // Position calculations following your formula [3]
+                    x: 6 + index * ((chartArea.width - 20) / 6)
+                    y: chartArea.height - modelData - 4
+                    width: 8
+                    height: 8
 
-                // The Neon Dot
-                Rectangle {
-                    id: dotPoint
-                    anchors.centerIn: parent
-                    width: 6
-                    height: 6
-                    radius: 3
-                    color: hoverArea.containsMouse ? root.magentaColor : root.cyanColor
-                    border.color: "#ffffff"
-                    border.width: hoverArea.containsMouse ? 1 : 0
-
-                    // Neon glow following NeonIcon pattern [4, 5]
-                    DropShadow {
-                        anchors.fill: parent
-                        source: parent
-                        color: parent.color
-                        radius: hoverArea.containsMouse ? 15 : 8
-                        samples: 15
-                        opacity: 0.8
-                    }
-                }
-
-                // Hover Detection Area
-                MouseArea {
-                    id: hoverArea
-                    anchors.fill: parent
-                    anchors.margins: -10 // Makes the hit area larger and easier to touch
-                    hoverEnabled: true
-                }
-
-                // Tooltip Popup (Visible on Hover)
-                Rectangle {
-                    id: tooltip
-                    visible: hoverArea.containsMouse
-                    y: -35 // Positioned above the dot
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 70
-                    height: 25
-                    color: "#0d0d10"
-                    border.color: root.cyanColor
-                    border.width: 1
-                    z: 100
-
-                    Text {
+                    // The Neon Dot
+                    Rectangle {
+                        id: dotPoint
                         anchors.centerIn: parent
-                        text: chartArea.dayLabels[index] + ": " + chartArea.dayValues[index]
-                        color: root.cyanColor
-                        font.family: "Share Tech Mono" // Digital font [6]
-                        font.pixelSize: 9
+                        width: 6
+                        height: 6
+                        radius: 3
+                        color: hoverArea.containsMouse ? root.magentaColor : root.cyanColor
+                        border.color: "#ffffff"
+                        border.width: hoverArea.containsMouse ? 1 : 0
+
+                        // Neon glow following NeonIcon pattern [4, 5]
+                        // DropShadow {
+                        //     anchors.fill: parent
+                        //     source: parent
+                        //     color: parent.color
+                        //     radius: hoverArea.containsMouse ? 15 : 8
+                        //     samples: 15
+                        //     opacity: 0.8
+                        // }
+                    }
+
+                    // Hover Detection Area
+                    MouseArea {
+                        id: hoverArea
+                        anchors.fill: parent
+                        anchors.margins: -10 // Makes the hit area larger and easier to touch
+                        hoverEnabled: true
+                    }
+
+                    // Tooltip Popup (Visible on Hover)
+                    Rectangle {
+                        id: tooltip
+                        visible: hoverArea.containsMouse
+                        y: -35 // Positioned above the dot
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: 70
+                        height: 25
+                        color: Constants.darkNeon
+                        border.color: Constants.primaryColor
+                        border.width: 1
+                        z: 100
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: (modelData * 10) + " Kcal "
+                            color: root.cyanColor
+                            font.family: "Share Tech Mono" // Digital font [6]
+                            font.pixelSize: 11
+                        }
                     }
                 }
             }
         }
-
         // 5. Bottom Stats Grid [7, 8]
         Row {
             width: parent.width
