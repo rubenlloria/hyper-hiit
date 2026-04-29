@@ -1,4 +1,4 @@
-Rev. 40 (27/04/26)
+Rev. 41 (29/04/26)
 
 Taula de continguts
 
@@ -93,11 +93,11 @@ Taula de continguts
 
 - [v0.6: Evolution Metrics & Històric](#v06)
 
-- [v0.7: Achievement Matrix](#v07)
+- [v0.7: Achievement Matrix and Personal Record](#v07)
 
 - [v0.8: Audio Uplink & Media Control](#v08)
 
-- [v0.9: Personal Best (PB) & Benchmarks](#v09)
+- [v0.9: CORE_CONFG & ARCHITECHT](#v09)
 
 - [v1.0: Full System Online](#v10)
 
@@ -538,8 +538,8 @@ El sistema classifica la dificultat i el perfil d'accés en tres nivells:
 ### Visualització d'Eficiència i Progressió
 
 -   **Barra de Progrés:** Renderitza l'estat actual de la missió. Ha
-    > d'incloure un marcador vertical que representi el **Personal Best
-    > (PB)** per permetre una comparativa en temps real.
+    > d'incloure un marcador vertical que representi el **Personal Record
+    > (PR)** per permetre una comparativa en temps real.
 
 -   **Eficiència:** El sistema calcula el rendiment actual respecte a la
     > millor marca (ex: 89% EFFICIENCY).
@@ -834,22 +834,26 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 
 -   **Gràfics de Rendiment:** Connexió de la secció EVOLUTION_METRICS
     amb la base de dades per mostrar l'evolució dels darrers 7 dies
-    (LAST_7\_DAYS) 1, 4.
+    (LAST_7\_DAYS).
 
 -   **Càlcul d'Impacte:** Càlcul real de AVG_SESSIONS, AVG_CALORIES i el
     percentatge d'millora (IMPROVEMENT) basat en les sessions
-    completades 1.
+    completades.
 
-#### v0.7: Achievement Matrix<a name="v07">:</a>
+#### v0.7: Achievement Matrix and Personal Record<a name="v07">:</a>
 
 <!-- -->
 
 -   **Desbloqueig de Fites:** Funcionalitat per activar les icones de la
     ACHIEVEMENT_MATRIX (com FIRE_STARTER o IRON_CORE) quan l'usuari
-    assoleix certs objectius 1, 4.
+    assoleix certs objectius.
 
 -   **Resum de Carrera:** Activació dels comptadors totals de SESSIONS,
-    CALORIES i EFFICIENCY 1.
+    CALORIES i EFFICIENCY.
+
+-   **Comparativa de Rendiment:** Implementació del marcador de PB a les
+    barres de progrés de cada protocol per comparar la sessió actual amb
+    el millor registre anterior.
 
 #### v0.8: Audio Uplink & Media Control<a name="v08">:</a>
 
@@ -861,23 +865,20 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Progrés Musical:** Barra de progrés de neó magenta per a la pista
     d'àudio actual sense indicadors numèrics.
 
-#### v0.9: Personal Best (PB) & Benchmarks<a name="v09">:</a>
+#### v0.9: CORE_CONFG & ARCHITECHT<a name="v09">:</a>
 
 <!-- -->
 
--   **Comparativa de Rendiment:** Implementació del marcador de PB a les
-    barres de progrés de cada protocol per comparar la sessió actual amb
-    el millor registre anterior.
-
--   **Optimització de Ranks:** Ajust automàtic de la dificultat
-    suggerida segons el rendiment històric de l'usuari.
+-   **Pantalla de configuració CORE_CONFIG:** Ajust de les diferents
+    opcions del sistema, així com desat a la base de dades i accés
+    a l'ARCHITECT.
+    
+-   **Pantalla de configuració ARCHITECHT:** Edició i creació de
+    directives, protocols i mòduls.
 
 #### v1.0: Full System Online<a name="v10">:</a>
 
 <!-- -->
-
--   **Mode Architect:** Activació completa de les funcions de
-    configuració a través de l'icona d'engranatge (ARCHITECT) 2.
 
 -   **Efectes Visuals Finals:** Implementació de les línies d'escaneig
     (*scanlines*) i efectes de terminal per a una immersió total.
