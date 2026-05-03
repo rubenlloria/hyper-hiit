@@ -840,6 +840,9 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     percentatge d'millora (IMPROVEMENT) basat en les sessions
     completades.
 
+-   **Resum de sessió:** Implementació de la pantalla de resum de sessió i
+    reestructuració de la navegació en acabar un protocol.
+
 #### v0.7: Achievement Matrix and Personal Record<a name="v07">:</a>
 
 <!-- -->
