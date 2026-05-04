@@ -81,7 +81,7 @@ Taula de continguts
 
 - [Implementació Tècnica](#implementació-tècnica)
 
-[14. Ruta de versions](#ruta-de-versions)
+[Ruta de versions](#ruta-de-versions)
 
 - [v0.1: Core Terminal & Shell](#v01)
 
@@ -755,9 +755,69 @@ reflectint l'estat de **NEURAL_SYNC** al 100%.
 
 -   **MIND_GRID**
 
-## 
+#  14. Mètriques d'Evolució:
 
-# 14. Ruta de versions
+## Algorisme d'IMPROVEMENT
+
+L'indicador IMPROVEMENT, visualitzat a la secció EVOLUTION_METRICS, 
+representa el creixement del rendiment tàctic i metabòlic de l'usuari
+mitjançant una comparativa de finestres lliscants de temps.
+
+### A. Principi de Càlcul (Rolling Window)
+
+El sistema no utilitza setmanes naturals, sinó una comparativa de 
+finestra lliscant de 7 dies per evitar el buidatge de dades cada dilluns:
+
+- **Segment A (Actual):** Sumatori de dades dels darrers 7 dies
+(T-0 a T-6).
+
+- **Segment B (Base):** Sumatori de dades dels 7 dies immediatament
+anteriors (T-7 a T-13).
+
+- **Regla de Validació:** Només es comptabilitzen els protocols
+finalitzats al 100% (estat COMPLETED). Les sessions parcials no computen
+per a l'evolució.
+
+### B. Fórmula de l'Índex de Potència (Puntuació de Sessió)
+
+Per a cada sessió, el backend de C++ genera una puntuació bruta basada
+en quatre vectors de rendiment:
+
+> #### Puntuació=∑Cal+(∑Ranks×K)+(MET×n_reps)+(Temps total × 1/Velocitat)
+
+-   **∑Cal:** Calories totals cremades (en nombres enters per a
+optimització d'UX).
+
+-   **∑Ranks×K:** Multiplicador de dificultat basat en el rang del protocol.
+    -   Constants de Rang (K): newbie = 1 | advanced = 5 | root = 10
+
+-   **MET×n_reps:** Volum de treball mecànic real, calculat segons el
+MET_FACTOR de cada mòdul i la seua quantity
+
+-   **Temps total×(1/Velocitat):** Factor de densitat temporal.
+
+### C. Factor de Velocitat Relativa (Speed Index)
+
+La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
+    > Velocitat=(Temps actual / Temps anterior )×100
+
+-   **V > 100:** L'usuari ha superat el seu registre anterior
+(efecte Ghost/PB).
+
+-   **V < 100:** L'usuari ha realitzat una sessió més lenta que la
+referència prèvia.
+
+### D. Generació del Percentatge d'IMPROVEMENT
+
+El valor final d'IMPROVEMENT s'obté mitjançant una regla de tres simple
+que compara el sumatori de puntuacions del Segment A respecte al Segment
+B (establert com el 100% de base).
+
+Aquesta dada alimenta la visualització de la terminal amb un format de
+percentatge d'alt contrast (ex: +23%), permetent una lectura tàctica
+immediata del progrés real del subjecte sota el sistema hyper//hiit. 
+
+# Ruta de versions
 
 Aquest full de ruta prioritza la funcionalitat del nucli de l'aplicació
 per garantir que el sistema siga usable per a l'entrenament en etapes
