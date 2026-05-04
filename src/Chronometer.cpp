@@ -27,7 +27,6 @@
 
 #include "Chronometer.h"
 #include "src/SystemLog.h"
-#include <QDebug>
 
 Chronometer::Chronometer(QObject *parent)
     : QObject(parent),
