@@ -36,7 +36,7 @@ Taula de continguts
 - [Taula de mapeig: protocol_structure](#taula-de-mapeig-protocol_structure)
 
 [9. Lògica de l'Array Estructurat i Processament de Dades
-](#lògica-de-larray-estructurat-i-processament-de-dades)
+](#9-lògica-de-larray-estructurat-i-processament-de-dades)
 
 - [Algorismes de Càlcul de Mètriques
 ](#algorismes-de-càlcul-de-mètriques)
