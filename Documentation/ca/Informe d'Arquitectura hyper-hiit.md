@@ -17,7 +17,7 @@ Taula de continguts
 [5. Càlcul Automàtic de Mètriques de Protocol
 ](#càlcul-automàtic-de-mètriques-de-protocol)
 
-[6. Exemple d'Implementació:](#exemple-dimplementació)
+[6. Exemple d'Implementació:](#6-exemple-dimplementació)
 
 - [Protocol INFERNO_SEQUENCE](#protocol-inferno_sequence)
 
