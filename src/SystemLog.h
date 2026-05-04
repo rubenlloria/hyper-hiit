@@ -49,9 +49,9 @@
 
 #ifndef hWarning
 #ifdef HH_WARNING
-#define hWarning() qCritical() << "[WARNING]: " << Q_FUNC_INFO
+#define hWarning() qWarning() << "[WARNING]: " << Q_FUNC_INFO
 #else
-#define hWarning() if(false) qCritical()
+#define hWarning() if(false) qWarning()
 #endif
 #endif
 
