@@ -3,27 +3,27 @@ Rev. 42 (04/05/26)
 Taula de continguts
 
 [1. Fonaments de l'Arquitectura d'Array Estructurat
-](#fonaments-de-larquitectura-darray-estructurat)
+](#1-fonaments-de-larquitectura-darray-estructurat)
 
 [2. Agrupament Visual Dinàmic via subsistema_id
-](#agrupament-visual-dinàmic-via-subsistema_id)
+](#2-agrupament-visual-dinàmic-via-subsistema_id)
 
 [3. Gestió del Flux de Missió: Mòduls de Transició i Descans
-](#gestió-del-flux-de-missió-mòduls-de-transició-i-descans)
+](#3-gestió-del-flux-de-missió-mòduls-de-transició-i-descans)
 
 [4. Versatilitat de Dades: El Camp unitat_tipus
-](#versatilitat-de-dades-el-camp-unitat_tipus)
+](#4-versatilitat-de-dades-el-camp-unitat_tipus)
 
 [5. Càlcul Automàtic de Mètriques de Protocol
-](#càlcul-automàtic-de-mètriques-de-protocol)
+](#5-càlcul-automàtic-de-mètriques-de-protocol)
 
-[6. Exemple d'Implementació:](#exemple-dimplementació)
+[6. Exemple d'Implementació:](#6-exemple-dimplementació)
 
 - [Protocol INFERNO_SEQUENCE](#protocol-inferno_sequence)
 
-[7. Arquitectura Jeràrquica del Sistema](#arquitectura-jeràrquica-del-sistema)
+[7. Arquitectura Jeràrquica del Sistema](#7-arquitectura-jeràrquica-del-sistema)
 
-[8. Model de Dades: Taules Mestres i Relacionals](#model-de-dades-taules-mestres-i-relacionals)
+[8. Model de Dades: Taules Mestres i Relacionals](#8-model-de-dades-taules-mestres-i-relacionals)
 
 - [Taula: Modules](#taula-modules)
 
@@ -41,10 +41,10 @@ Taula de continguts
 - [Algorismes de Càlcul de Mètriques
 ](#algorismes-de-càlcul-de-mètriques)
 
-[10. Arquitectura del fitxer JSON](#arquitectura-del-fitxer-json)
+[10. Arquitectura del fitxer JSON](#10-arquitectura-del-fitxer-json)
 
 [11. Regles d'UX i Disseny d'Interfície (Mission Flow)
-](#regles-dux-i-disseny-dinterfície-mission-flow)
+](#11-regles-dux-i-disseny-dinterfície-mission-flow)
 
 - [Flux de Missió (Mission Flux)](#flux-de-missió-mission-flux)
 
@@ -57,12 +57,12 @@ Taula de continguts
 ](#requisits-visuals-del-sistema-system-footer)
 
 [12. Exemple d'Implementació de Protocol
-](#exemple-dimplementació-de-protocol)
+](#12-exemple-dimplementació-de-protocol)
 
 - [Implementació Tècnica](#implementació-tècnica)
 
 [13. Llistat preliminar de protocols per directiva
-10](#llistat-preliminar-de-protocols-per-directiva)
+10](#13-llistat-preliminar-de-protocols-per-directiva)
 
 - [A. FAT_BURNING (Metabolic acceleration protocol)
 ](#fat_burning-metabolic-acceleration-protocol)
@@ -79,7 +79,7 @@ Taula de continguts
 - [E. NEURAL_FLOW (Neural-synaptic synchronization)
 ](#neural_flow-neural-synaptic-synchronization)
 
-- [Implementació Tècnica](#implementació-tècnica)
+[14. Mètriques d'Evolució:](#14-mètriques-devolució)
 
 [Ruta de versions](#ruta-de-versions)
 
