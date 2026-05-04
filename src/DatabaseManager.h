@@ -33,7 +33,7 @@
 #include <QtSql/QSqlError>
 #include <QStandardPaths>
 #include <QDir>
-#include <QDebug>
+// #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -70,6 +70,8 @@ public:
     void updateProtocolDuration(int protocol_id, int duration);
     QString getLastSessionTelemetry(int protocolId);
 
+    // Session Methods
+    Q_INVOKABLE QVariantList getWeeklyCalorieHistory();
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();

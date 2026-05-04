@@ -54,6 +54,7 @@ QtObject {
     readonly property string chevronLeft:   "\uE06E" // chevron-left
     readonly property string chevronRight:  "\uE06F" // chevron-right
     readonly property string chevronUp:     "\uE070" // chevron-up
+    readonly property string evolutionIcon: "\uE191" // trending-up
 
 /*
     // --- FONT CONFIGURATION ---

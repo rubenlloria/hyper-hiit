@@ -45,6 +45,7 @@ Rectangle {
     property alias neonAccordion: neonAccordion
     property alias protocols: protocols
     property alias header: header
+    property alias evolutionChart: evolutionChart
 
     Column {
         width: parent.width
@@ -68,6 +69,7 @@ Rectangle {
             listThemeColor: neonAccordion.activeThemeColor
         }
         NeonEvolution {
+            id: evolutionChart
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }

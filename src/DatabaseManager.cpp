@@ -20,7 +20,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-// #define HH_DEBUG
+#define HH_DEBUG
 #define HH_INFO
 #define HH_WARNING
 #define HH_CRITICAL
@@ -202,7 +202,7 @@ bool DatabaseManager::seedDatabase() {
     file.close();
 
     if (jsonData.isEmpty()) {
-        qWarning() << "Shard is empty. Neural Sync aborted.";
+        hWarning() << "Shard is empty. Neural Sync aborted.";
         return false;
     }
 
@@ -370,7 +370,7 @@ int DatabaseManager::getActiveDirectiveId() {
     }
 
     // Fallback if table is empty: Default to Directive 1 (FAT_BURNING)
-    qWarning() << "failed to GET active_directive_id.";
+    hWarning() << "failed to GET active_directive_id.";
     return 1;
 }
 
@@ -385,7 +385,7 @@ void DatabaseManager::setActiveDirectiveId(int dirId) {
     if (q.exec()) {
         hDebug() << "SET active_directive_id: " << dirId;
     } else {
-        qWarning() << "failed to SET active_directive_id: " << dirId;
+        hWarning() << "failed to SET active_directive_id: " << dirId;
     }
 }
 
@@ -826,4 +826,56 @@ QString DatabaseManager::getLastSessionTelemetry(int protocolId) {
     hCritical() << "Failed to get last session telemetry for protocol" << protocolId
                 << "Error:" << query.lastError().text();
     return QString();
+}
+
+/**
+ * Retrieves the sum of calories burned per day for the last 7 days.
+ * Based on the session_history table schema [v0.6 Evolution Metrics].
+ */
+QVariantList DatabaseManager::getWeeklyCalorieHistory() {
+    QVariantList historyData;
+    QMap<QString, int> calorieMap;
+    QSqlQuery query;
+
+    // 1. Fetch available telemetry from the last 7 days
+    // We group by date string (YYYY-MM-DD) to easily map values later
+    QString sql = "SELECT date(session_timestamp, 'unixepoch', 'localtime') AS raw_date, "
+                  "SUM(calories_burned) AS daily_calories "
+                  "FROM session_history "
+                  "WHERE session_timestamp >= strftime('%s', 'now', '-7 days', 'start of day') "
+                  "GROUP BY raw_date";
+
+    if (!query.exec(sql)) {
+        hCritical() << "Failed to fetch calorie history:" << query.lastError().text();
+        return historyData;
+    }
+
+    // Store database results in a temporary map for fast lookup
+    while (query.next()) {
+        calorieMap.insert(query.value("raw_date").toString(), query.value("daily_calories").toInt() / 1000);
+    }
+
+    // 2. Generate the 8-day sequence (from 7 days ago up to today)
+    QDate today = QDate::currentDate();
+
+    for (int i = 7; i >= 0; --i) {
+        QDate targetDate = today.addDays(-i);
+        QString dateKey = targetDate.toString("yyyy-MM-dd");
+
+        // Use the value from the DB if it exists, otherwise default to 0.0
+        int calories = calorieMap.value(dateKey, 0.0);
+
+        // Convert to standard 3-letter label (e.g., "MON", "TUE")
+        // Forced to Upper Case for the Tactical Overlay aesthetic
+        QString dayLabel = QLocale::c().toString(targetDate, "ddd").toUpper();
+
+        hDebug() << "Date: " << dateKey << " is: " << dayLabel << "and has: " << calories << "cal.";
+
+        QVariantMap entry;
+        entry["day"] = dayLabel;
+        entry["calories"] = calories;
+        historyData.append(entry);
+    }
+    hInfo() << "Successfully retrieved" << historyData.size() << "days of calorie history.";
+    return historyData;
 }

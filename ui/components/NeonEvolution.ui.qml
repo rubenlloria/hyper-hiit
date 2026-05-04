@@ -27,12 +27,16 @@ Rectangle {
     property color cyanColor: "#00fff9"
     property color magentaColor: "#bf00ff"
     property int day1Value: 10
-    property int day2Value: 5
+    property int day2Value: 0
     property int day3Value: 40
     property int day4Value: 75
     property int day5Value: 70
     property int day6Value: 20
     property int day7Value: 60
+    property var telemetry: []
+    property alias evolutionShape: evolutionShape
+    property alias topLabel: topLabel.text
+    property alias middleLabel: middleLabel.text
 
     // 1. Neon Glow Effect (Bloom)
     // DropShadow {
@@ -117,180 +121,275 @@ Rectangle {
 
     Column {
         anchors.fill: parent
-        anchors.margins: 15
-        spacing: 15
+        anchors.leftMargin: 15
+        anchors.rightMargin: anchors.leftMargin
+        spacing: 10
 
         // 3. Header Section
-        Row {
+        RowLayout {
             width: parent.width
-            spacing: 10
+            spacing: 5
 
-            Text {
-                text: "\uea64" // TrendingUp icon from Lucide
-                font.family: "lucide"
-                font.pixelSize: 16
-                color: root.cyanColor
+            NeonIcon {
+                glyph: Constants.evolutionIcon // TrendingUp icon from Lucide
+                size: 20
+                color: Constants.secondaryColor
+                anchors.verticalCenter: parent.verticalCenter
             }
 
-            Text {
-                text: "EVOLUTION_METRICS"
-                font.family: "Orbitron"
-                font.pixelSize: 14
-                font.bold: true
-                color: root.cyanColor
+            NeonText {
+                label: "EVOLUTION_METRICS"
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 18
+                // font.bold: true
+                labelColor: Constants.secondaryColor
+            }
+
+            Item {
                 Layout.fillWidth: true
-            }
-
-            Text {
-                text: "LAST_7_DAYS"
-                font.family: "Share Tech Mono"
-                font.pixelSize: 10
-                color: root.cyanColor
-                opacity: 0.6
+                Layout.fillHeight: true
+                Text {
+                    id: evoInfo
+                    text: "LAST_7_DAYS"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    font.family: "Share Tech Mono"
+                    font.pixelSize: 10
+                    color: root.cyanColor
+                    opacity: 0.6
+                }
             }
         }
 
         // 4. Chart Visualization Area [6, 7]
         Item {
-            id: chartArea
-            // Layout.fillWidth: true
-            // Layout.fillHeight: true
-            width: parent.width - 40
-            height: 80
+            id: graphView
+            width: parent.width - 30
+            height: 100
             anchors.right: parent.right
+            Item {
+                id: chartArea
+                // Layout.fillWidth: true
+                // Layout.fillHeight: true
+                width: parent.width - 30
+                height: 80
+                anchors.right: parent.right
 
-            // Grid Lines (Simulating the chart axes)
-            Rectangle {
-                width: 1
-                height: parent.height
-                color: root.cyanColor
-                opacity: 0.2
-                y: 0 //-parent.height
-            }
-            Rectangle {
-                width: parent.width
-                height: 1
-                color: root.cyanColor
-                opacity: 0.2
-                anchors.bottom: parent.bottom
-            }
+                // Grid Lines (Simulating the chart axes)
+                Rectangle {
+                    width: 1
+                    height: parent.height
+                    color: root.cyanColor
+                    opacity: 0.3
+                    y: -5 //-parent.height
+                }
+                Rectangle {
+                    width: parent.width + 5
+                    height: 1
+                    color: root.cyanColor
+                    opacity: 0.3
+                    anchors.top: parent.bottom
+                    anchors.topMargin: -5
+                    x: -5
+                }
 
-            // Simulated Line Chart (Sessions - Cyan)
-            Shape {
-                id: evolutionShape
-                anchors.fill: parent
-                layer.enabled: true
-                // width: 300
-                // height: 100
+                Rectangle {
+                    width: parent.width + 5
+                    height: 1
+                    color: root.cyanColor
+                    opacity: 0.2
+                    anchors.top: parent.top
+                    anchors.topMargin: parent.height / 2
+                    x: -5
+                    z: 0
+                }
 
-                // layer.effect: DropShadow {
-                //     color: root.cyanColor
-                //     radius: 8
-                //     samples: 15
-                // }
-                ShapePath {
-                    strokeColor: root.cyanColor
-                    strokeWidth: 2
-                    fillColor: "transparent"
-                    startX: 10
-                    startY: chartArea.height - root.day1Value
-                    strokeStyle: ShapePath.SolidLine
-                    pathHints: ShapePath.PathQuadratic
-                    joinStyle: ShapePath.MiterJoin
-                    capStyle: ShapePath.RoundCap
+                Rectangle {
+                    width: parent.width + 5
+                    height: 1
+                    color: root.cyanColor
+                    opacity: 0.2
+                    anchors.top: parent.top
+                    x: -5
+                    z: 0
+                }
 
-                    PathCurve {
-                        x: 10 + 1 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day2Value
-                    }
-                    PathCurve {
-                        x: 10 + 2 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day3Value
-                    }
-                    PathCurve {
-                        x: 10 + 3 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day4Value
-                    }
-                    PathCurve {
-                        x: 10 + 4 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day5Value
-                    }
-                    PathCurve {
-                        x: 10 + 5 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day6Value
-                    }
-                    PathCurve {
-                        x: 10 + 6 * ((chartArea.width - 20) / 6)
-                        y: chartArea.height - root.day7Value
+                Text {
+                    id: topLabel
+                    text: "100%"
+                    font.family: "Share Tech Mono"
+                    font.pixelSize: 10
+                    color: root.cyanColor
+                    opacity: 0.6
+                    anchors.verticalCenter: parent.top
+                    anchors.right: parent.left
+                    anchors.rightMargin: 10
+                }
+
+                Text {
+                    id: middleLabel
+                    text: "50%"
+                    font.family: "Share Tech Mono"
+                    font.pixelSize: 10
+                    color: root.cyanColor
+                    opacity: 0.6
+                    anchors.top: parent.top
+                    anchors.topMargin: parent.height / 2 - 4
+                    anchors.right: parent.left
+                    anchors.rightMargin: 10
+                }
+
+                Text {
+                    text: "0"
+                    font.family: "Share Tech Mono"
+                    font.pixelSize: 10
+                    color: root.cyanColor
+                    opacity: 0.6
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    anchors.right: parent.left
+                    anchors.rightMargin: 10
+                }
+
+                // Simulated Line Chart (Sessions - Cyan)
+                Shape {
+                    id: evolutionShape
+                    anchors.fill: parent
+                    layer.enabled: true
+                    // width: 300
+                    // height: 100
+
+                    // layer.effect: DropShadow {
+                    //     color: root.cyanColor
+                    //     radius: 8
+                    //     samples: 15
+                    // }
+                    ShapePath {
+                        strokeColor: root.cyanColor
+                        strokeWidth: 2
+                        fillColor: "transparent"
+                        startX: 10
+                        startY: chartArea.height - root.telemetry[0].barHeight - 5
+                        strokeStyle: ShapePath.SolidLine
+                        pathHints: ShapePath.PathQuadratic
+                        joinStyle: ShapePath.MiterJoin
+                        capStyle: ShapePath.RoundCap
+
+                        PathCurve {
+                            x: 10 + 1 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[1].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 2 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[2].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 3 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[3].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 4 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[4].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 5 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[5].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 6 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[6].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 7 * ((chartArea.width - 20) / 7)
+                            y: chartArea.height - root.telemetry[7].barHeight - 5
+                        }
                     }
                 }
-            }
 
-            // TODO: Interactive Points and Hover Logic
-            Repeater {
-                model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
-                delegate: Item {
-                    // Position calculations following your formula [3]
-                    x: 6 + index * ((chartArea.width - 20) / 6)
-                    y: chartArea.height - modelData - 4
-                    width: 8
-                    height: 8
+                // TODO: Interactive Points and Hover Logic
+                Repeater {
+                    // model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
+                    model: root.telemetry
+                    delegate: Item {
+                        // Position calculations following your formula [3]
+                        x: 6 + index * ((chartArea.width - 20) / 7)
+                        y: chartArea.height - modelData.barHeight - 9
+                        width: 8
+                        height: 8
 
-                    // The Neon Dot
-                    Rectangle {
-                        id: dotPoint
-                        anchors.centerIn: parent
-                        width: 6
-                        height: 6
-                        radius: 3
-                        color: hoverArea.containsMouse ? root.magentaColor : root.cyanColor
-                        border.color: "#ffffff"
-                        border.width: hoverArea.containsMouse ? 1 : 0
-
-                        // Neon glow following NeonIcon pattern [4, 5]
-                        // DropShadow {
-                        //     anchors.fill: parent
-                        //     source: parent
-                        //     color: parent.color
-                        //     radius: hoverArea.containsMouse ? 15 : 8
-                        //     samples: 15
-                        //     opacity: 0.8
-                        // }
-                    }
-
-                    // Hover Detection Area
-                    MouseArea {
-                        id: hoverArea
-                        anchors.fill: parent
-                        anchors.margins: -10 // Makes the hit area larger and easier to touch
-                        hoverEnabled: true
-                    }
-
-                    // Tooltip Popup (Visible on Hover)
-                    Rectangle {
-                        id: tooltip
-                        visible: hoverArea.containsMouse
-                        y: -35 // Positioned above the dot
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: 70
-                        height: 25
-                        color: Constants.darkNeon
-                        border.color: Constants.primaryColor
-                        border.width: 1
-                        z: 100
-
-                        Text {
+                        // The Neon Dot
+                        Rectangle {
+                            id: dotPoint
                             anchors.centerIn: parent
-                            text: (modelData * 10) + " Kcal "
-                            color: root.cyanColor
-                            font.family: "Share Tech Mono" // Digital font [6]
-                            font.pixelSize: 11
+                            width: 6
+                            height: 6
+                            radius: 3
+                            color: hoverArea.containsMouse ? root.magentaColor : root.cyanColor
+                            border.color: "#ffffff"
+                            border.width: hoverArea.containsMouse ? 1 : 0
+
+                            // Neon glow following NeonIcon pattern [4, 5]
+                            // DropShadow {
+                            //     anchors.fill: parent
+                            //     source: parent
+                            //     color: parent.color
+                            //     radius: hoverArea.containsMouse ? 15 : 8
+                            //     samples: 15
+                            //     opacity: 0.8
+                            // }
+                        }
+
+                        // Hover Detection Area
+                        MouseArea {
+                            id: hoverArea
+                            anchors.fill: parent
+                            anchors.margins: -10 // Makes the hit area larger and easier to touch
+                            hoverEnabled: true
+                        }
+
+                        // Tooltip Popup (Visible on Hover)
+                        Rectangle {
+                            id: tooltip
+                            visible: hoverArea.containsMouse
+                            y: -35 // Positioned above the dot
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: 70
+                            height: 25
+                            color: Constants.darkNeon
+                            border.color: Constants.primaryColor
+                            border.width: 1
+                            z: 100
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: (modelData.barHeight * 10) + " Kcal "
+                                color: root.cyanColor
+                                font.family: "Share Tech Mono" // Digital font
+                                font.pixelSize: 11
+                            }
                         }
                     }
                 }
             }
+            Row {
+                height: 21
+                width: parent.width - 30
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                spacing: 21
+                Repeater {
+                    model: root.telemetry
+                    Text {
+                        text: modelData.day
+                        color: root.cyanColor
+                        font.family: "Share Tech Mono" // Digital font
+                        font.pixelSize: 11
+                    }
+                }
+            }
         }
-        // 5. Bottom Stats Grid [7, 8]
+
+        // 5. Bottom Stats Grid
         Row {
             width: parent.width
             height: 50

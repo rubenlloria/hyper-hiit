@@ -12,6 +12,9 @@ import ".."
 DashboardForm {
     id: dashboardView
 
+    property string debugName: "Dashboard.qml"
+    property string infoName: "Dashboard.qml"
+
     // Definim el model buit per evitar l'error de ListElement
     // ListModel {
     //     id: directivesModel
@@ -23,8 +26,8 @@ DashboardForm {
     neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
     neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
     neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
-
-    console.log("NEURAL_SYNC: Dashboard resumed with Directive ID " + activeId);
+    updateCharts();
+    Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
     }
 
     // Connexió per obrir/tancar l'acordió
@@ -65,7 +68,7 @@ DashboardForm {
                 // 3. Collapse shard for optimal tactical overlay space [Source 6]
                 neonAccordion.isOpen = false;
 
-                console.log("NEURAL_SYNC: Active Directive updated to " + model.name);
+                Constants.hInfo(infoName, "Active Directive updated to " + model.name);
             }
         }
     }
@@ -104,7 +107,7 @@ DashboardForm {
         //            (model.rank === "ADVANCED") ? Constants.cyanNeon : "#ffffff"
 
         itemMouseArea.onClicked: {
-            console.log("NEURAL_SYNC: Initializing " + model.name);
+            Constants.hInfo(infoName, "Initializing " + model.name);
 
             mainStack.push("Briefing.qml", {
                 "activeProtocolId": model.id,
@@ -121,9 +124,63 @@ DashboardForm {
     }
 
     header.settingsMouseArea.onClicked: {
-        console.log("Navigating to System Config...");
+        Constants.hInfo(infoName, "Navigating to System Config...");
         // Aquí aniria la crida al StackView o al controlador C++
         mainStack.push("Architect.qml");
     }
 
+    function updateCharts() {
+        // 1. Retrieve raw historical telemetry (Level 4)
+        let rawHistory = dbManager.getWeeklyCalorieHistory();
+        // if (rawHistory.length === 0) return;
+
+        // const maxGraphHeight = 80; // Buffer height in pixels
+        let maxGraphHeight = evolutionChart.evolutionShape.height;
+        Constants.hDebug(debugName, "maxGraphHeight: " + maxGraphHeight);
+        let processedData = [];
+        let peakKcal = 0;
+
+        // First pass: Convert to kcal integers and identify the maximum value (kcalTarget)
+        for (let i = 0; i < rawHistory.length; i++) {
+            let kcalValue = rawHistory[i].calories;
+            if (kcalValue > peakKcal) peakKcal = kcalValue;
+
+            // Temporarily store the integer value to avoid double conversion
+            processedData.push({
+                "day": rawHistory[i].day,
+                "calories": kcalValue
+            });
+        }
+
+        // Safety check: Avoid division by zero if no calories were burned
+        // 2. Calculate the Rounded Target (Safety Margin)
+        // We choose a step based on the magnitude of the peak
+        let step = 100;
+        if (peakKcal < 500) step = 50;  // For smaller values, round to nearest 50
+        if (peakKcal < 100) step = 20;  // For very low activity, round to nearest 20
+        let kcalTarget = (peakKcal > 0) ? (Math.floor(peakKcal / step) + 1) * step  : 1000;
+
+        // Second pass: Calculate scaled height based on the dynamic kcalTarget
+        for (let j = 0; j < processedData.length; j++) {
+            let entry = processedData[j];
+
+            // Height = (Current kcal / Max kcal) * maxPixels
+            let scaledHeight = Math.floor((entry.calories * maxGraphHeight) / kcalTarget);
+
+            // Update the object with the final UI metrics
+            processedData[j] = {
+                "day": entry.day,
+                "kcal": entry.calories,
+                "barHeight": Math.min(scaledHeight, maxGraphHeight)
+            };
+            Constants.hDebug(debugName, "day: " + entry.day + " | dataPoint:" + scaledHeight);
+        }
+
+        // 2. Synchronize with the UI component
+        evolutionChart.telemetry = processedData;
+        evolutionChart.topLabel = kcalTarget;
+        evolutionChart.middleLabel= kcalTarget / 2;
+
+        Constants.hDebug(debugName, "Charts updated. Dynamic kcalTarget set to: " + kcalTarget);
+    }
 }
