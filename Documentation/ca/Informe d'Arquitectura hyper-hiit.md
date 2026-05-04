@@ -783,15 +783,15 @@ per a l'evolució.
 Per a cada sessió, el backend de C++ genera una puntuació bruta basada
 en quatre vectors de rendiment:
 
-> #### Puntuació=∑Cal+(∑Ranks×K)+(MET×n_reps)+(Temps total × 1/Velocitat)
+> #### Puntuació=∑Cal + ( ∑Ranks × K ) + ( MET × n_reps ) + ( Temps total × ( 1 / Velocitat ) )
 
 -   **∑Cal:** Calories totals cremades (en nombres enters per a
 optimització d'UX).
 
--   **∑Ranks×K:** Multiplicador de dificultat basat en el rang del protocol.
+-   **∑Ranks × K:** Multiplicador de dificultat basat en el rang del protocol.
     -   Constants de Rang (K): newbie = 1 | advanced = 5 | root = 10
 
--   **MET×n_reps:** Volum de treball mecànic real, calculat segons el
+-   **MET × n_reps:** Volum de treball mecànic real, calculat segons el
 MET_FACTOR de cada mòdul i la seua quantity
 
 -   **Temps total×(1/Velocitat):** Factor de densitat temporal.
