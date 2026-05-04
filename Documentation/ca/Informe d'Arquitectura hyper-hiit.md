@@ -1,4 +1,4 @@
-Rev. 41 (29/04/26)
+Rev. 42 (04/05/26)
 
 Taula de continguts
 
@@ -59,8 +59,10 @@ Taula de continguts
 [12. Exemple d'Implementació de Protocol
 ](#exemple-dimplementació-de-protocol)
 
-[13. Llistat preliminar de protocols
-10](#llistat-preliminar-de-protocols)
+- [Implementació Tècnica](#implementació-tècnica)
+
+[13. Llistat preliminar de protocols per directiva
+10](#llistat-preliminar-de-protocols-per-directiva)
 
 - [A. FAT_BURNING (Metabolic acceleration protocol)
 ](#fat_burning-metabolic-acceleration-protocol)
@@ -101,7 +103,7 @@ Taula de continguts
 
 - [v1.0: Full System Online](#v10)
 
-# Fonaments de l'Arquitectura d'Array Estructurat
+# 1. Fonaments de l'Arquitectura d'Array Estructurat
 
 L'esquelet operatiu del sistema hyper//hiit s'articula mitjançant una
 arquitectura d'array estructurat basada en un mapeig relacional d'alta
@@ -112,20 +114,23 @@ extrema.
 
 L'ús d'aquesta estructura garanteix els següents avantatges competitius:
 
--   **Escalabilitat sense Canvis de Codi:** L'addició de nous exercicis
+-   **Escalabilitat sense Canvis de Codi:**
+    > L'addició de nous exercicis
     > o mòduls tàctics només requereix una nova entrada a la taula de
     > mapeig, sense necessitat de modificar el motor de renderitzat en
     > C++.
 
--   **Integració de Baixa Latència amb el Backend:** El motor en C++
+-   **Integració de Baixa Latència amb el Backend:**
+    > El motor en C++
     > processa l'array de forma nativa, assegurant una sincronització
     > biomètrica en temps real (Neural Sync).
 
--   **Llegibilitat Tàctica:** L'estructura de dades permet una jerarquia
+-   **Llegibilitat Tàctica:**
+    > L'estructura de dades permet una jerarquia
     > visual neta, prioritzant la informació crítica per mantenir el
     > rendiment sota pressió física.
 
-# Agrupament Visual Dinàmic via subsistema_id
+# 2. Agrupament Visual Dinàmic via subsistema_id
 
 El camp subsistema_id actua com el motor de segmentació del sistema. La
 interfície utilitza aquesta clau per generar automàticament separadors i
@@ -139,7 +144,7 @@ presenta com un objectiu tàctic segmentat. Aquest disseny facilita la
 navegació visual ràpida durant protocols d'alta intensitat on l'atenció
 de l'usuari és limitada.
 
-# Gestió del Flux de Missió: Mòduls de Transició i Descans
+# 3. Gestió del Flux de Missió: Mòduls de Transició i Descans
 
 Una de les decisions d'arquitectura d'UX més estratègiques ha estat la
 integració de períodes de descans i transicions mitjançant un module_id
@@ -150,14 +155,16 @@ a lògiques separades.
 
 Els avantatges d'aquest disseny inclouen:
 
--   **Integritat Cronomètrica:** El cronòmetre de la missió és continu,
+-   **Integritat Cronomètrica:**
+    > El cronòmetre de la missió és continu,
     > garantint una telemetria precisa de la sessió completa.
 
--   **Continuïtat del Flux:** L'usuari rep instruccions clares de
+-   **Continuïtat del Flux:**
+    > L'usuari rep instruccions clares de
     > **"REST"** o **"TRANSIT"** com a part orgànica de la seqüència,
     > evitant trencar el ritme operatiu.
 
-# Versatilitat de Dades: El Camp unitat_tipus
+# 4. Versatilitat de Dades: El Camp unitat_tipus
 
 El camp unitat_tipus és fonamental per a la rigorositat de la base de
 dades i la seva alineació amb la sincronització biomètrica. Aquest
@@ -170,22 +177,24 @@ sistema interprete correctament l'esforç requerit per a cada mòdul.
 | 30            | repeticions  | Execució física de 30 unitats (ex: Burpees)   |
 | 30            | segons       | Durada temporal de 30s (ex: Planxa o Descans) |
 
-# Càlcul Automàtic de Mètriques de Protocol
+# 5. Càlcul Automàtic de Mètriques de Protocol
 
 El backend de C++ realitza una extracció de dades en temps real de
 l'array per generar les mètriques d'execució que es mostren a la
 interfície d'usuari:
 
-1.  **MODULES:** Realitza un comptatge simple de les entrades (files) de
+1.  **MODULES:**
+    > Realitza un comptatge simple de les entrades (files) de
     > l'array assignades a un protocol específic.
 
-2.  **DURATION:** Executa la suma del producte de cada valor de
+2.  **DURATION:**
+    > Executa la suma del producte de cada valor de
     > repetició pel seu **temps base** corresponent. Aquest "temps base"
     > es recupera mitjançant una cerca relacional a la base de dades
     > utilitzant el module_id com a clau primària, garantint una
     > estimació temporal exacta.
 
-# Exemple d'Implementació: 
+# 6. Exemple d'Implementació: 
 
 -   ## Protocol INFERNO_SEQUENCE
 
@@ -216,38 +225,40 @@ Basat en la telemetria de la interfície actual sota la directiva
 
     -   30x Burpees, 30x Situps, 30x Jacks.
 
-## 
-
 Aquest document estableix l'especificació d'enginyeria per al terminal
 d'alta tecnologia **hyper//hiit**. Com a Lead Solutions Architect,
 l'objectiu és garantir una estructura de dades robusta sota una
 interfície de tipus *Tactical Overlay* que maximitzi l'eficiència
 operativa de l'usuari final.
 
-# Arquitectura Jeràrquica del Sistema
+# 7.Arquitectura Jeràrquica del Sistema
 
 L'arquitectura del sistema s'ha dissenyat com una pila jeràrquica de
 quatre nivells, optimitzada per al processament en temps real pel motor
 de dades de C++.
 
--   **Level 1: Directive:** El node superior de l'arbre. Defineix el
+-   **Level 1: Directive:**
+    > El node superior de l'arbre. Defineix el
     > propòsit de la missió (ex: FAT_BURNING o STRENGTH_MATRIX). El
     > sistema manté un estat de ACTIVE_DIRECTIVE per filtrar els
     > protocols disponibles a la interfície.
 
--   **Level 2: Protocol:** Seqüències operatives vinculades a una
+-   **Level 2: Protocol:**
+    > Seqüències operatives vinculades a una
     > *Directive*. Exemples verificats: INFERNO_SEQUENCE (8 mòduls),
     > TORCH_PROTOCOL (6 mòduls).
 
--   **Level 3: Subsystem:** Segmentació lògica del flux de dades. Permet
+-   **Level 3: Subsystem:**
+    > Segmentació lògica del flux de dades. Permet
     > agrupar mòduls en fases (Warm-up, Peak, Cool-down) facilitant un
     > "Agrupament Visual Dinàmic" a la UI sense sobrecarregar la base de
     > dades relacional.
 
--   **Level 4: Module:** La unitat atòmica d'execució. Representa una
+-   **Level 4: Module:**
+    > La unitat atòmica d'execució. Representa una
     > acció física (Burpees) o un estat del sistema (REST).
 
-# Model de Dades: Taules Mestres i Relacionals
+# 8. Model de Dades: Taules Mestres i Relacionals
 
 Per garantir la integritat del *Neural Link* i la persistència de dades,
 s'apliquen els següents esquemes SQL:
@@ -351,7 +362,7 @@ del backend. Determina si el valor quantity s'ha d'interpretar com un
 enter de repeticions (ex: 30 Burpees) o com un comptador de temps en
 segons (ex: 60 segons de Plank o de transició).
 
-# Lògica de l'Array Estructurat i Processament de Dades
+# 9. Lògica de l'Array Estructurat i Processament de Dades
 
 El backend de C++ genera un array dinàmic que la interfície utilitza per
 renderitzar el flux de missió.
@@ -361,20 +372,24 @@ renderitzar el flux de missió.
 Les següents fórmules s'apliquen per processar les dades abans de la
 visualització:
 
--   **MODULE_COUNT:** Count = Total_Entries(Array) where protocol_id ==
+-   **MODULE_COUNT:**
+    > Count = Total_Entries(Array) where protocol_id ==
     > active_protocol *(Exemple: INFERNO_SEQUENCE retorna 8).*
 
--   **DURATION:** TotalDuration = Σ (quantity_i \* base_time_i) *On
+-   **DURATION:**
+    > TotalDuration = Σ (quantity_i \* base_time_i) *On
     > base_time* *es recupera de la taula de Modules* *per a cada
     > module_id.*
 
--   **FATIGUE_RATE:** Es un percentatge per a calcular el temps total
+-   **FATIGUE_RATE:**
+    > Es un percentatge per a calcular el temps total
     > aproximat del modul multiplicant aquest pel nombre de repeticións
     > i el resultat pel temps de repetició. Quan s’importa desde JSON es
     > passa de percentatge a multiplicador (6.5% = 1,065). Per exemple:
     > module_time = estimated_duration \* (quantity \* fatigue_rate)
 
--   **MET_FACTOR:** és una unitat que s'utilitza per mesurar la
+-   **MET_FACTOR:**
+    > És una unitat que s'utilitza per mesurar la
     > intensitat de l'activitat física i el consum d'oxigen. Per
     > definició, 1 MET equival al consum d'energia d'una persona en
     > repòs absolut (el metabolisme basal). Per calcular les
@@ -385,7 +400,7 @@ L'ús de subsystem_id permet injectar separadors visuals a la UI de forma
 automàtica, marcant les transicions entre fases d'intensitat sense
 necessitat de lògica addicional al frontend.
 
-# Arquitectura del fitxer JSON
+# 10. Arquitectura del fitxer JSON
 
 Per tal de carregar i/o exportar les dades d’una manera més fàcil
 utilitzarem un fitxer am format **JSON** amb la següent estructura
@@ -509,7 +524,7 @@ d’exemple:
 }
 ```
 
-# Regles d'UX i Disseny d'Interfície (Mission Flow)
+# 11. Regles d'UX i Disseny d'Interfície (Mission Flow)
 
 La interfície s'ha concebut com una *Neural Interface* d'alt contrast,
 seguint l'estètica cyberpunk funcional.
@@ -521,8 +536,7 @@ de la missió mai s'atura. Això s'aconsegueix mitjançant el següent:
 
 -   Injecció de module_id especials de tipus **REST** o **TRANSIT**.
 
--   Durant aquests mòduls, la UI mostra avisos de recuperació o
-    > preparació, però el rellotge de missió roman actiu.
+-   Durant aquests mòduls, la UI mostra avisos de recuperació o preparació, però el rellotge de missió roman actiu.
 
 ### Indicadors de Rang (RANK labels)
 
@@ -530,18 +544,19 @@ El sistema classifica la dificultat i el perfil d'accés en tres nivells:
 
 -   newbie: Usuaris en fase d'iniciació.
 
--   advanced: Nivell d'elit (verificat en la vista STRENGTH_MATRIX de la
-    > versió actual).
+-   advanced: Nivell d'elit (verificat en la vista STRENGTH_MATRIX de la versió actual).
 
 -   root: Màxim domini del sistema.
 
 ### Visualització d'Eficiència i Progressió
 
--   **Barra de Progrés:** Renderitza l'estat actual de la missió. Ha
+-   **Barra de Progrés:** 
+    > Renderitza l'estat actual de la missió. Ha
     > d'incloure un marcador vertical que representi el **Personal Record
     > (PR)** per permetre una comparativa en temps real.
 
--   **Eficiència:** El sistema calcula el rendiment actual respecte a la
+-   **Eficiència:** 
+    > El sistema calcula el rendiment actual respecte a la
     > millor marca (ex: 89% EFFICIENCY).
 
 ### Requisits Visuals del Sistema (System Footer)
@@ -553,10 +568,9 @@ del sistema al peu de pàgina:
 
 -   **LATENCY:** Temps de resposta (Requisit: \<1ms).
 
--   **BUILD:** Versió de l'entorn (Actual: v0.2.1-alpha, consultar
-    > document “Ruta de versions”).
+-   **BUILD:** Versió de l'entorn, consultar document “Ruta de versions”).
 
-# Exemple d'Implementació de Protocol
+# 12. Exemple d'Implementació de Protocol
 
 Estructura d'un array de protocol complet segmentat per subsistemes:
 
@@ -601,14 +615,14 @@ precises, mantenint el flux constant necessari per a l'experiència
 Cadascun d'aquests noms actua com un protocol_id en la teva
 **arquitectura d'array estructurat**. Recorda que:
 
--   El backend de C++ utilitzarà aquests noms per consultar la taula
+-   > El backend de C++ utilitzarà aquests noms per consultar la taula
     > protocol_structure i calcular automàticament els **MODULES** i la
     > **DURATION** que es mostren a la interfície.
 
--   Podràs assignar-los un **RANK** (newbie, advanced o root) per
+-   > Podràs assignar-los un **RANK** (newbie, advanced o root) per
     > diferenciar la dificultat visualment amb les etiquetes cian.
 
-# Llistat preliminar de protocols
+# 13. Llistat preliminar de protocols per directiva
 
 A continuació, tens les propostes de **10 protocols per a cada
 directiva** activa al sistema **hyper//hiit**, mantenint el rigor visual
@@ -743,7 +757,7 @@ reflectint l'estat de **NEURAL_SYNC** al 100%.
 
 ## 
 
-# Ruta de versions
+# 14. Ruta de versions
 
 Aquest full de ruta prioritza la funcionalitat del nucli de l'aplicació
 per garantir que el sistema siga usable per a l'entrenament en etapes
