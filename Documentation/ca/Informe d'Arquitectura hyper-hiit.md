@@ -109,6 +109,10 @@
 
 - [v1.0: Full System Online](#v10)
 
+&nbsp;
+
+&nbsp;
+
 # 1. Fonaments de l'Arquitectura d'Array Estructurat
 
 L'esquelet operatiu del sistema hyper//hiit s'articula mitjançant una
