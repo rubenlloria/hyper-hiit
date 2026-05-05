@@ -53,6 +53,8 @@ void SessionManager::startSession(int protocolId,  const QVariantList &execution
     m_startTimestamp = QDateTime::currentSecsSinceEpoch();
     m_totalCalories = 0.0f;
     m_activeModuleIndex = 0;
+    m_totalMetScore = 0.0;
+    m_speed = 0.0;
     m_executionList = executionList;
 
     // Initialize the buffer with zeros based on protocol structure
@@ -156,6 +158,11 @@ void SessionManager::saveSession() {
         QString m_name = moduleData["module_name"].toString();
         int qty = moduleData["quantity"].toInt();
         if (qty <= 0) continue;
+        double metFactor = moduleData["met_factor"].toDouble();
+
+        // Accumulate Mechanical Volume (MET Score) for all modules
+        m_totalMetScore += (metFactor * qty);
+
 
         double currentTR = (actualDurationMs / 1000.0) / qty;
 
@@ -167,6 +174,18 @@ void SessionManager::saveSession() {
         analysisMap[m_name].totalQuantity += qty;
         analysisMap[m_name].occurrenceCount++;
         hDebug() << "Populating module id: " << m_name;
+    }
+
+    m_speed= 100.0; // Default if no previous session exists
+
+    if (!m_lastSessionDurations.isEmpty()) {
+        int currentTotalMs = m_moduleDurations.last();
+        int previousTotalMs = m_lastSessionDurations.last();
+
+        if (currentTotalMs > 0) {
+            m_speed= (static_cast<double>(previousTotalMs) / currentTotalMs) * 100.0;
+            hDebug() << "m_speed: " << m_speed;
+        }
     }
 
     // 2. Compute final metrics and update database
@@ -223,10 +242,12 @@ void SessionManager::saveSession() {
             << " | Timestamp: " << m_startTimestamp
             << " | Duration: " << totalDuration
             << "s | Data: [" << telemetryString << "]"
-            << "Calories: " << m_totalCalories;
+            << " | speed: " << m_speed
+            << " | metScore: " << m_totalMetScore
+            << " | Calories: " << m_totalCalories;
 
     // 4. Delegate to DatabaseManager (Assuming a saveSession method exists there)
-    m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories);
+    m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
     m_db->updateProtocolDuration(m_protocolId, totalDuration);
 
     // TODO: m_db->updatePersonalBest(m_protocolId);

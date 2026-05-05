@@ -75,6 +75,8 @@ private:
     int m_activeModuleIndex;
     float m_totalCalories;
     float m_userWeight;
+    double m_totalMetScore;
+    double m_speed;
     DatabaseManager *m_db = nullptr;
     QVariantList m_executionList;
     QList<float> m_moduleMetFactors;

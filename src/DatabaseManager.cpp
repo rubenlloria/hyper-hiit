@@ -175,6 +175,8 @@ bool DatabaseManager::createTables() {
             "session_duration INTEGER, "  // Total session time in seconds
             "modules_duration TEXT, "     // Comma-separated module times: "90,20,80..."
             "calories_burned REAL, "      // Calculated metabolic impact
+            "session_speed REAL, "
+            "met_score REAL, "
             "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
             ")";
     if (!q.exec(createHistoy)) {
@@ -757,16 +759,19 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
     }
 }
 
-bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories) {
+bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog,
+                                  float calories, double speed, double met_score) {
     QSqlQuery q;
-    q.prepare("INSERT INTO session_history (protocol_id, session_timestamp, session_duration, modules_duration, calories_burned) "
-              "VALUES (:pid, :ts, :duration, :log, :kcal)");
+    q.prepare("INSERT INTO session_history (protocol_id, session_timestamp, session_duration, modules_duration, calories_burned, session_speed, met_score) "
+              "VALUES (:pid, :ts, :duration, :log, :kcal, :speed, :met)");
 
     q.bindValue(":pid", protocolId);
     q.bindValue(":ts", timestamp);
     q.bindValue(":duration", totalSecs);
     q.bindValue(":log", modulesLog);
     q.bindValue(":kcal", calories);
+    q.bindValue(":speed", speed);
+    q.bindValue(":met", met_score);
 
     if (!q.exec()) {
         hWarning() << "Critical failure saving session data: " << q.lastError().text();
