@@ -1,6 +1,10 @@
-Rev. 42 (04/05/26)
+# Informe d'Arquitectura hyper//hiit
 
-Taula de continguts
+>    Rev. 43 (05/05/26)
+
+&nbsp;
+
+## Taula de continguts
 
 [1. Fonaments de l'Arquitectura d'Array Estructurat
 ](#1-fonaments-de-larquitectura-darray-estructurat)
@@ -233,7 +237,7 @@ l'objectiu és garantir una estructura de dades robusta sota una
 interfície de tipus *Tactical Overlay* que maximitzi l'eficiència
 operativa de l'usuari final.
 
-# 7.Arquitectura Jeràrquica del Sistema
+# 7. Arquitectura Jeràrquica del Sistema
 
 L'arquitectura del sistema s'ha dissenyat com una pila jeràrquica de
 quatre nivells, optimitzada per al processament en temps real pel motor
@@ -801,23 +805,12 @@ anteriors (T-7 a T-13).
 finalitzats al 100% (estat COMPLETED). Les sessions parcials no computen
 per a l'evolució.
 
-### B. Factor de Velocitat Relativa (Speed Index)
-
-La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
->   Velocitat = ( Temps anterior / Temps actual ) × 100
-
--   **V > 100:** L'usuari ha superat el seu registre anterior
-(efecte Ghost/PB).
-
--   **V < 100:** L'usuari ha realitzat una sessió més lenta que la
-referència prèvia.
-
-### C. Fórmula de l'Índex de Potència (Puntuació de Sessió)
+### B. Fórmula de l'Índex de Potència (Puntuació de Sessió)
 
 Per a cada sessió, el backend de C++ genera una puntuació bruta basada
 en quatre vectors de rendiment:
 
->   Puntuació = ∑Cal + ( ∑Ranks × K ) + ( MET × n_reps ) + ( Temps total × ( 1 / Velocitat ) )
+>   Puntuació = ∑Cal + ( ∑Ranks × K ) + ( MET × n_reps ) + ( Temps total × Velocitat )
 
 -   **∑Cal:** Calories totals cremades (en nombres enters per a
 optimització d'UX).
@@ -828,7 +821,18 @@ optimització d'UX).
 -   **MET × n_reps:** Volum de treball mecànic real, calculat segons el
 MET_FACTOR de cada mòdul i la seua quantity
 
--   **Temps total×(1/Velocitat):** Factor de densitat temporal.
+-   **Temps total × Velocitat:** Factor de densitat temporal.
+
+### C. Factor de Velocitat Relativa (Speed Factor)
+
+La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
+>   Velocitat = ( Temps anterior / Temps actual )
+
+-   **V > 1:** L'usuari ha superat el seu registre anterior
+(efecte Ghost/PB).
+
+-   **V < 1:** L'usuari ha realitzat una sessió més lenta que la
+referència prèvia.
 
 ### D. Generació del Percentatge d'IMPROVEMENT
 
