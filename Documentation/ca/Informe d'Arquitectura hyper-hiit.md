@@ -35,6 +35,8 @@ Taula de continguts
 
 - [Taula de mapeig: protocol_structure](#taula-de-mapeig-protocol_structure)
 
+- [Taula session_history](#taula-session_history)
+
 [9. Lògica de l'Array Estructurat i Processament de Dades
 ](#9-lògica-de-larray-estructurat-i-processament-de-dades)
 
@@ -361,6 +363,27 @@ CREATE TABLE IF NOT EXISTS protocol_structure (
 del backend. Determina si el valor quantity s'ha d'interpretar com un
 enter de repeticions (ex: 30 Burpees) o com un comptador de temps en
 segons (ex: 60 segons de Plank o de transició).
+
+### Taula session_history
+
+Conté la informació de les sessions executades i dades per a les
+mètriques i estadistiques.
+
+```sql
+
+CREATE TABLE session_history (
+    history_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    protocol_id INTEGER,
+    session_timestamp INTEGER,
+    session_duration INTEGER,
+    modules_duration TEXT,
+    calories_burned REAL,   -- StringList of module timelapse
+    session_speed REAL,     -- Speed Index vs Ghost
+    met_score REAL,         -- Accumulated MET * reps volume
+    FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)
+);
+
+```
 
 # 9. Lògica de l'Array Estructurat i Processament de Dades
 
@@ -778,12 +801,23 @@ anteriors (T-7 a T-13).
 finalitzats al 100% (estat COMPLETED). Les sessions parcials no computen
 per a l'evolució.
 
-### B. Fórmula de l'Índex de Potència (Puntuació de Sessió)
+### B. Factor de Velocitat Relativa (Speed Index)
+
+La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
+>   Velocitat = ( Temps anterior / Temps actual ) × 100
+
+-   **V > 100:** L'usuari ha superat el seu registre anterior
+(efecte Ghost/PB).
+
+-   **V < 100:** L'usuari ha realitzat una sessió més lenta que la
+referència prèvia.
+
+### C. Fórmula de l'Índex de Potència (Puntuació de Sessió)
 
 Per a cada sessió, el backend de C++ genera una puntuació bruta basada
 en quatre vectors de rendiment:
 
-> #### Puntuació=∑Cal + ( ∑Ranks × K ) + ( MET × n_reps ) + ( Temps total × ( 1 / Velocitat ) )
+>   Puntuació = ∑Cal + ( ∑Ranks × K ) + ( MET × n_reps ) + ( Temps total × ( 1 / Velocitat ) )
 
 -   **∑Cal:** Calories totals cremades (en nombres enters per a
 optimització d'UX).
@@ -795,17 +829,6 @@ optimització d'UX).
 MET_FACTOR de cada mòdul i la seua quantity
 
 -   **Temps total×(1/Velocitat):** Factor de densitat temporal.
-
-### C. Factor de Velocitat Relativa (Speed Index)
-
-La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
-    > Velocitat=(Temps actual / Temps anterior )×100
-
--   **V > 100:** L'usuari ha superat el seu registre anterior
-(efecte Ghost/PB).
-
--   **V < 100:** L'usuari ha realitzat una sessió més lenta que la
-referència prèvia.
 
 ### D. Generació del Percentatge d'IMPROVEMENT
 
