@@ -141,7 +141,7 @@ void SessionManager::saveSession() {
     };
     QMap<QString, ModulePerformance> analysisMap;
 
-    // 1. Analyze and accumulate telemetry data
+    // Analyze and accumulate telemetry data
     for (int i = 0; i < m_moduleDurations.size(); ++i) {
         int currentMs = m_moduleDurations.at(i);
         int prevMs = (i > 0) ? m_moduleDurations.at(i - 1) : 0;
@@ -176,19 +176,19 @@ void SessionManager::saveSession() {
         hDebug() << "Populating module id: " << m_name;
     }
 
-    m_speed= 100.0; // Default if no previous session exists
+    m_speed= 1.0; // Default if no previous session exists
 
     if (!m_lastSessionDurations.isEmpty()) {
         int currentTotalMs = m_moduleDurations.last();
         int previousTotalMs = m_lastSessionDurations.last();
 
         if (currentTotalMs > 0) {
-            m_speed= (static_cast<double>(previousTotalMs) / currentTotalMs) * 100.0;
+            m_speed= (static_cast<double>(previousTotalMs) / currentTotalMs);
             hDebug() << "m_speed: " << m_speed;
         }
     }
 
-    // 2. Compute final metrics and update database
+    // Compute final metrics
     for (auto it = analysisMap.begin(); it != analysisMap.end(); ++it) {
         QString m_name = it.key();
         ModulePerformance stats = it.value();
@@ -217,25 +217,17 @@ void SessionManager::saveSession() {
         }
     }
 
-
-
-
-
-
-
-
-
-    // 1. Serialize checkpoints to CSV string (e.g., "190,256,289")
+    // Serialize checkpoints to CSV string (e.g., "190,256,289")
     QStringList telemetryList;
     for (int checkpoint : std::as_const(m_moduleDurations)) {
         telemetryList << QString::number(checkpoint);
     }
     QString telemetryString = telemetryList.join(",");
 
-    // 2. The total duration is the last checkpoint recorded
+    // The total duration is the last checkpoint recorded
     int totalDuration = m_moduleDurations.last() / 1000;
 
-    // 3. Final metabolic impact calculation [Source 19, 60]
+    // Final metabolic impact calculation
     // Note: m_totalCalories has been accumulating during module transitions
 
     hInfo() << "Persisting Session | Protocol: " << m_protocolId
@@ -246,11 +238,13 @@ void SessionManager::saveSession() {
             << " | metScore: " << m_totalMetScore
             << " | Calories: " << m_totalCalories;
 
-    // 4. Delegate to DatabaseManager (Assuming a saveSession method exists there)
+    // Delegate to DatabaseManager
     m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
     m_db->updateProtocolDuration(m_protocolId, totalDuration);
 
     // TODO: m_db->updatePersonalBest(m_protocolId);
+
+    emit sessionSaved();
 }
 
 /**

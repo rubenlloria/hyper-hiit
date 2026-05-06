@@ -68,6 +68,7 @@ signals:
     void telemetryChanged();
     void userWeightChanged();
     void activeModuleChanged();
+    void sessionSaved();
 
 private:
     int m_protocolId;
