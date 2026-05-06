@@ -886,7 +886,7 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory() {
     QString sql = "SELECT date(session_timestamp, 'unixepoch', 'localtime') AS raw_date, "
                   "SUM(calories_burned) AS daily_calories "
                   "FROM session_history "
-                  "WHERE session_timestamp >= strftime('%s', 'now', '-7 days', 'start of day') "
+                  "WHERE session_timestamp >= strftime('%s', 'now', '-6 days', 'start of day') "
                   "GROUP BY raw_date";
 
     if (!query.exec(sql)) {
@@ -899,10 +899,10 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory() {
         calorieMap.insert(query.value("raw_date").toString(), query.value("daily_calories").toInt() / 1000);
     }
 
-    // 2. Generate the 8-day sequence (from 7 days ago up to today)
+    // 2. Generate the 7-day sequence (from 6 days ago up to today)
     QDate today = QDate::currentDate();
 
-    for (int i = 7; i >= 0; --i) {
+    for (int i = 6; i >= 0; --i) {
         QDate targetDate = today.addDays(-i);
         QString dateKey = targetDate.toString("yyyy-MM-dd");
 
@@ -946,4 +946,50 @@ QVariantMap DatabaseManager::getRankLabels() {
 
     hInfo() << "Rank labels synchronized. Total entries:" << rankMap.size();
     return rankMap;
+}
+
+double DatabaseManager::getPowerScore(int startDay, int windowSize) {
+    QSqlQuery query;
+    const int rankMultiplierK = 3;
+
+    // Segment calculation based on start of day to avoid hourly bias [Source 18]
+    QString sql = QString(
+                      "SELECT SUM("
+                      "  CAST(h.calories_burned AS INTEGER) + "
+                      "  (p.rank * %1) + "
+                      "  h.met_score + "
+                      "  (h.session_duration * h.session_speed)"
+                      ") as segment_score "
+                      "FROM session_history h "
+                      "JOIN protocols p ON h.protocol_id = p.protocol_id "
+                      "WHERE h.session_timestamp >= strftime('%s', 'now', '-%2 days', 'start of day') "
+                      "AND h.session_timestamp <= strftime('%s', 'now', '-%3 days', '+1 day', 'start of day')")
+                      .arg(rankMultiplierK)
+                      .arg(startDay + windowSize)
+                      .arg(startDay);
+
+    if (query.exec(sql) && query.next()) {
+        return query.value("segment_score").toDouble();
+    }
+    return 0.0;
+}
+
+int DatabaseManager::getImprovementPercentage() {
+    // Segment A: T-0 to T-6 | Segment B: T-7 to T-13 [Source 19]
+    double scoreA = getPowerScore(0, 7);
+    double scoreB = getPowerScore(7, 7);
+
+    hDebug() << "Evolution Metrics - ScoreA:" << scoreA << "| ScoreB:" << scoreB;
+
+    if (scoreB <= 0.0) {
+        return (scoreA > 0.0) ? 100 : 0; // 100% boost if starting from zero
+    }
+
+    // Ratio comparison: ((Current / Previous) - 1) * 100 [Source 21]
+    double improvement = ((scoreA / scoreB) - 1.0) * 100.0;
+
+    hInfo() << "Evolution Metrics - ScoreA:" << scoreA << "| ScoreB:" << scoreB
+            << "| Delta:" << static_cast<int>(improvement) << "%";
+
+    return static_cast<int>(improvement);
 }

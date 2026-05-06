@@ -195,5 +195,10 @@ DashboardForm {
         evolutionChart.middleLabel= kcalTarget / 2;
 
         Constants.hDebug(debugName, "Charts updated. Dynamic kcalTarget set to: " + kcalTarget);
+
+        /////// GET IMPROVEMENT ///////
+        let delta = dbManager.getImprovementPercentage();
+        // Formatting the Tactical Overlay
+        evolutionChart.improvement = (delta > 0 ? "+" : "") + delta;
     }
 }

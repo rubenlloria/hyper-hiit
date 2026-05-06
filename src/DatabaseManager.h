@@ -72,6 +72,13 @@ public:
 
     // Session Methods
     Q_INVOKABLE QVariantList getWeeklyCalorieHistory();
+    /**
+ * @brief Calculates the final IMPROVEMENT percentage comparing Segment A vs Segment B.
+ * @return integer (e.g., 23 for +23% or -5 for -5%).
+ */
+    Q_INVOKABLE int getImprovementPercentage();
+
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();
@@ -97,6 +104,12 @@ private:
     int resolveUnitType(const QJsonValue &unitValue);
     void linkProtocol(int protocolId, const QJsonArray &targetDirectives);
     void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);
+    /**
+ * @brief Internal helper to retrieve the Power Index for a specific time window.
+ * @param startDay: Days offset from now (0 for today).
+ * @param windowSize: Number of days to include in the sum.
+ */
+    double getPowerScore(int startDay, int windowSize);
 };
 
 #endif

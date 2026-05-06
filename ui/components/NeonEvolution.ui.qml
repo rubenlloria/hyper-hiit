@@ -22,7 +22,8 @@ Rectangle {
     // --- Technical Properties for Data Binding ---
     property string avgSessions: "2.1"
     property string avgCalories: "514"
-    property string improvement: "+23%"
+    property string improvement: "+23"
+    property string efficiency: "+48"
     property color cornerColor: Constants.secondaryColor
     property color cyanColor: "#00fff9"
     property color magentaColor: "#bf00ff"
@@ -275,32 +276,28 @@ Rectangle {
                         capStyle: ShapePath.RoundCap
 
                         PathCurve {
-                            x: 10 + 1 * ((chartArea.width - 20) / 7)
+                            x: 10 + 1 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[1].barHeight - 5
                         }
                         PathCurve {
-                            x: 10 + 2 * ((chartArea.width - 20) / 7)
+                            x: 10 + 2 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[2].barHeight - 5
                         }
                         PathCurve {
-                            x: 10 + 3 * ((chartArea.width - 20) / 7)
+                            x: 10 + 3 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[3].barHeight - 5
                         }
                         PathCurve {
-                            x: 10 + 4 * ((chartArea.width - 20) / 7)
+                            x: 10 + 4 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[4].barHeight - 5
                         }
                         PathCurve {
-                            x: 10 + 5 * ((chartArea.width - 20) / 7)
+                            x: 10 + 5 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[5].barHeight - 5
                         }
                         PathCurve {
-                            x: 10 + 6 * ((chartArea.width - 20) / 7)
+                            x: 10 + 6 * ((chartArea.width - 20) / 6)
                             y: chartArea.height - root.telemetry[6].barHeight - 5
-                        }
-                        PathCurve {
-                            x: 10 + 7 * ((chartArea.width - 20) / 7)
-                            y: chartArea.height - root.telemetry[7].barHeight - 5
                         }
                     }
                 }
@@ -311,7 +308,7 @@ Rectangle {
                     model: root.telemetry
                     delegate: Item {
                         // Position calculations following your formula [3]
-                        x: 6 + index * ((chartArea.width - 20) / 7)
+                        x: 6 + index * ((chartArea.width - 20) / 6)
                         y: chartArea.height - modelData.barHeight - 9
                         width: 8
                         height: 8
@@ -370,15 +367,16 @@ Rectangle {
                     }
                 }
             }
-            Row {
+            RowLayout {
                 height: 21
                 width: parent.width - 30
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                spacing: 21
+                spacing: 28
                 Repeater {
                     model: root.telemetry
                     Text {
+                        Layout.fillWidth: true
                         text: modelData.day
                         color: root.cyanColor
                         font.family: "Share Tech Mono" // Digital font
@@ -389,10 +387,11 @@ Rectangle {
         }
 
         // 5. Bottom Stats Grid
-        Row {
+        RowLayout {
             width: parent.width
             height: 50
-            spacing: 92
+            // spacing: 43
+            // Layout.fillWidth: true
             Column {
                 Layout.fillWidth: true
                 spacing: 2
@@ -440,16 +439,38 @@ Rectangle {
                 spacing: 2
                 Text {
                     text: "IMPROVEMENT"
-                    color: root.cyanColor
+                    color: Constants.primaryTextColor
                     opacity: 0.7
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 Text {
-                    text: root.improvement
-                    color: root.cyanColor
-                    font.family: "Orbitron"
+                    text: root.improvement + "%"
+                    color: root.improvement
+                           > 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
+                    font.family: Constants.mainFont.family
+                    font.pixelSize: 18
+                    font.bold: true
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
+            Column {
+                Layout.fillWidth: true
+                spacing: 2
+                Text {
+                    text: "EFFICIENCY"
+                    color: Constants.primaryTextColor
+                    opacity: 0.7
+                    font.family: Constants.techFont.family
+                    font.pixelSize: 8
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Text {
+                    text: root.efficiency + "%"
+                    color: root.efficiency
+                           > 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
+                    font.family: Constants.mainFont.family
                     font.pixelSize: 18
                     font.bold: true
                     anchors.horizontalCenter: parent.horizontalCenter
