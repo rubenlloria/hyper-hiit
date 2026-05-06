@@ -57,7 +57,7 @@
 
 #ifndef hCritical
 #ifdef HH_CRITICAL
-#define hCritical() qCritical() << "[DEBUG]: " << Q_FUNC_INFO
+#define hCritical() qCritical() << "[CRITICAL]: " << Q_FUNC_INFO
 #else
 #define hCritical() if(false) qCritical()
 #endif
