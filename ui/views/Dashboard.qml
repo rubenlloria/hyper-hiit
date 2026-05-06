@@ -136,7 +136,7 @@ DashboardForm {
         target: sessionManager
 
         // This handler triggers when the C++ signal is emitted
-        onSessionSaved: {
+        function onSessionSaved() {
             Constants.hDebug("Dashboard", "Session synchronization detected. Refreshing charts.");
             updateCharts();
         }
