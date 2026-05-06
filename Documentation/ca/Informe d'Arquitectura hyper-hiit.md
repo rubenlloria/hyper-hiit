@@ -354,7 +354,7 @@ tots els mòduls d’un protocol.
 ```sql
 
 CREATE TABLE IF NOT EXISTS protocol_structure (
-        p_map_id INTEGER PRIMARY KEY,
+        p_map_id INTEGER PRIMARY KEY AUTOINCREMENT,
         protocol_id INTEGER,
         subsystem INTEGER,
         s_order INT,
@@ -372,7 +372,21 @@ del backend. Determina si el valor quantity s'ha d'interpretar com un
 enter de repeticions (ex: 30 Burpees) o com un comptador de temps en
 segons (ex: 60 segons de Plank o de transició).
 
-### Taula session_history
+### Taula: ranks
+
+Conté els noms dels diferents nivells (nomalment tres) dels protocols
+i s'importarà des del json.
+
+```sql
+
+CREATE TABLE IF NOT EXISTS ranks(
+        rank_level INTEGER PRIMARY KEY,
+        rank_name TEXT NOT NULL UNIQUE
+);
+
+```
+
+### Taula: session_history
 
 Conté la informació de les sessions executades i dades per a les
 mètriques i estadistiques.
@@ -551,6 +565,20 @@ d’exemple:
             }
          ]
       }
+   ],
+   "ranks": [
+     {
+       "rank_level": 1,
+       "rank_name": "NEWBIE"
+     },
+     {
+       "rank_level": 2,
+       "rank_name": "ADVANCED"
+     },
+     {
+       "rank_level": 3,
+       "rank_name": "ROOT"
+     }
    ]
 }
 ```

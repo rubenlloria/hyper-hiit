@@ -315,7 +315,7 @@
       "module_name": "Hollow Rock",
       "difficulty": 3,
       "target_zone": "CORE",
-      "description": "Advanced core stabilization rocking.",
+      "description": "ADVANCED core stabilization rocking.",
       "instructions": "Maintain hollow hold and rock back and forth.",
       "safety_info": "Lower back must stay pressed against the floor.",
       "equipment": ["NONE"],
@@ -552,7 +552,7 @@
       "protocol_name": "STRIKE",
       "estimated_duration": 840,
       "module_count": 9,
-      "rank": "ADVANCED",
+      "rank": 2,
       "personal_best": 800,
       "target_directives": ["FAT_BURNING"],
       "structure": [
@@ -571,7 +571,7 @@
       "protocol_name": "METABOLIX",
       "estimated_duration": 540,
       "module_count": 12,
-      "rank": "ADVANCED",
+      "rank": 2,
       "personal_best": 600,
       "target_directives": ["FAT_BURNING"],
       "structure": [
@@ -593,7 +593,7 @@
       "protocol_name": "PYROGEN",
       "estimated_duration": 660,
       "module_count": 12,
-      "rank": "ROOT",
+      "rank": 3,
       "personal_best": 0,
       "target_directives": ["FAT_BURNING"],
       "structure": [
@@ -615,7 +615,7 @@
       "protocol_name": "AEROBYTE",
       "estimated_duration": 720,
       "module_count": 12,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
@@ -637,7 +637,7 @@
       "protocol_name": "PULSE_ID",
       "estimated_duration": 600,
       "module_count": 12,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
@@ -659,7 +659,7 @@
       "protocol_name": "VO2_MAX_ST",
       "estimated_duration": 540,
       "module_count": 9,
-      "rank": "root",
+      "rank": 3,
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
@@ -678,7 +678,7 @@
       "protocol_name": "TITANIUM",
       "estimated_duration": 1140,
       "module_count": 9,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
@@ -697,7 +697,7 @@
       "protocol_name": "GOLIATH",
       "estimated_duration": 780,
       "module_count": 15,
-      "rank": "root",
+      "rank": 3,
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
@@ -722,7 +722,7 @@
       "protocol_name": "IRON_STORM",
       "estimated_duration": 1080,
       "module_count": 12,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
@@ -744,7 +744,7 @@
       "protocol_name": "REINFORCE",
       "estimated_duration": 900,
       "module_count": 9,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
@@ -763,7 +763,7 @@
       "protocol_name": "STEEL_CORE",
       "estimated_duration": 1740,
       "module_count": 15,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
@@ -788,7 +788,7 @@
       "protocol_name": "STAMINA",
       "estimated_duration": 1740,
       "module_count": 15,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
@@ -813,7 +813,7 @@
       "protocol_name": "STEADFAST",
       "estimated_duration": 1260,
       "module_count": 15,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
@@ -838,7 +838,7 @@
       "protocol_name": "LASTING",
       "estimated_duration": 1200,
       "module_count": 9,
-      "rank": "root",
+      "rank": 3,
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
@@ -857,7 +857,7 @@
       "protocol_name": "STABILIZER",
       "estimated_duration": 480,
       "module_count": 6,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
@@ -873,7 +873,7 @@
       "protocol_name": "METABOLIC_ISO",
       "estimated_duration": 520,
       "module_count": 6,
-      "rank": "advanced",
+      "rank": 2,
       "personal_best": 0,
       "target_directives": ["FAT_BURNING", "ENDURANCE_GRID"],
       "structure": [
@@ -889,7 +889,7 @@
       "protocol_name": "A_TEST",
       "estimated_duration": 520,
       "module_count": 9,
-      "rank": "TEST",
+      "rank": "1",
       "personal_best": 0,
       "target_directives": ["FAT_BURNING", "ENDURANCE_GRID"],
       "structure": [
@@ -903,6 +903,20 @@
         { "subsystem": 3, "s_order": 2, "module": "Plank", "quantity": 10, "unit": "seconds" },
         { "subsystem": 3, "s_order": 3, "module": "Glute Bridges", "quantity": 20, "unit": "reps" }
       ]
+    }
+  ],
+  "ranks": [
+    {
+      "rank_level": 1,
+      "rank_name": "NEWBIE"
+    },
+    {
+      "rank_level": 2,
+      "rank_name": "ADVANCED"
+    },
+    {
+      "rank_level": 3,
+      "rank_name": "ROOT"
     }
   ]
 }

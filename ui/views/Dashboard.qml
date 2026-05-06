@@ -14,6 +14,7 @@ DashboardForm {
 
     property string debugName: "Dashboard.qml"
     property string infoName: "Dashboard.qml"
+    property var rankNames: ({})
 
     // Definim el model buit per evitar l'error de ListElement
     // ListModel {
@@ -26,6 +27,8 @@ DashboardForm {
     neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
     neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
     neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
+    rankNames = dbManager.getRankLabels();
+    Constants.hDebug(debugName, "rankNames: " + rankNames);
     updateCharts();
     Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
     }
@@ -94,7 +97,7 @@ DashboardForm {
         protocolName: model.name
         estimatedDuration: formatTime(model.duration)
         moduleCount: model.moduleCount
-        rankLabel: model.rank
+        rankLabel: rankNames[model.rank]
         personalBest: (model.personalBest === 0)
                       ? model.duration / protocolModel.maxDuration
                       : model.personalBest / protocolModel.maxDuration
@@ -113,7 +116,7 @@ DashboardForm {
                 "activeProtocolId": model.id,
                 "protocolName": model.name,
                 "themeColor": neonAccordion.activeThemeColor,
-                "rank": model.rank,
+                "rank": rankNames[model.rank],
                 // "calories": model.calories,
                 "moduleCount": model.moduleCount,
                 "duration": formatTime(model.duration),
@@ -127,6 +130,16 @@ DashboardForm {
         Constants.hInfo(infoName, "Navigating to System Config...");
         // Aquí aniria la crida al StackView o al controlador C++
         mainStack.push("Architect.qml");
+    }
+
+    Connections {
+        target: sessionManager
+
+        // This handler triggers when the C++ signal is emitted
+        onSessionSaved: {
+            Constants.hDebug("Dashboard", "Session synchronization detected. Refreshing charts.");
+            updateCharts();
+        }
     }
 
     function updateCharts() {

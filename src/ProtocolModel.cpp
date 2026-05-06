@@ -75,7 +75,7 @@ QVariant ProtocolModel::data(const QModelIndex &index, int role) const
     case NameRole:        return protocol.name.toUpper(); // HUD Aesthetic
     case DurationRole:    return protocol.estimatedDuration;
     case ModuleCountRole: return protocol.moduleCount;
-    case RankRole:        return protocol.rank.toUpper(); // RANK label sync
+    case RankRole:        return protocol.rank;
     case PBRole:          return protocol.personalBest;
     default:              return QVariant();
     }

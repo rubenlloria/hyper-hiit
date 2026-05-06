@@ -33,7 +33,6 @@
 #include <QtSql/QSqlError>
 #include <QStandardPaths>
 #include <QDir>
-// #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -69,6 +68,7 @@ public:
     void updateModuleData(const QString &name, double repTime, double fatigueRate);
     void updateProtocolDuration(int protocol_id, int duration);
     QString getLastSessionTelemetry(int protocolId);
+    Q_INVOKABLE QVariantMap getRankLabels();
 
     // Session Methods
     Q_INVOKABLE QVariantList getWeeklyCalorieHistory();
@@ -92,7 +92,8 @@ private:
                      // const QString &equipment,
                      int unit, float met, float f_rate, float rep_time);
     int insertDirective(const QString &name, const QString &desc, const QString &icon, const QString &color);
-    int insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb);
+    int insertProtocol(const QString &name, int duration, int modules, int rank, int pb);
+    int insertRank(int rank_id, const QString &rank_name);
     int resolveUnitType(const QJsonValue &unitValue);
     void linkProtocol(int protocolId, const QJsonArray &targetDirectives);
     void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);

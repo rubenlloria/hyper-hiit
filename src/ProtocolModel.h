@@ -41,11 +41,11 @@ class DatabaseManager;
 
 struct Protocol {
     int id;
-    QString name;           // Aesthetic Persistence: UPPERCASE [Source 13]
-    int estimatedDuration;  // Σ (quantity * base_time) [Source 18]
-    int moduleCount;        // Total entries in protocol_structure [Source 18]
-    QString rank;           // NEWBIE, ADVANCED, or ROOT [Source 26]
-    int personalBest;       // PB marker for efficiency bar [Source 27]
+    QString name;           // Aesthetic Persistence: UPPERCASE
+    int estimatedDuration;  // Σ (quantity * base_time)
+    int moduleCount;        // Total entries in protocol_structure
+    int rank;           // 1=NEWBIE, 2=ADVANCED, or 3=ROOT
+    int personalBest;       // PB marker for efficiency bar
 };
 
 class ProtocolModel : public QAbstractListModel

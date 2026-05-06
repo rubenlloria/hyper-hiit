@@ -118,16 +118,16 @@ bool DatabaseManager::createTables() {
         return false;
     }
 
-     // 3. Protocols table: linked to directives
+    // 3. Protocols table: linked to directives
     QString createProtocols =
         "CREATE TABLE IF NOT EXISTS protocols ("
-            "protocol_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "protocol_name TEXT NOT NULL, "
-            "estimated_duration INTEGER, "
-            "module_count INTEGER, "
-            "rank TEXT, "
-            "personal_best INTEGER"
-            ");";
+        "protocol_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "protocol_name TEXT NOT NULL, "
+        "estimated_duration INTEGER, "
+        "module_count INTEGER, "
+        "rank INTEGER, "
+        "personal_best INTEGER"
+        ");";
 
     if (!q.exec(createProtocols)) {
         hCritical() << "Failed to create protocols table:" << q.lastError().text();
@@ -163,6 +163,18 @@ bool DatabaseManager::createTables() {
             ");";
     if (!q.exec(createStructure)) {
         hCritical() << "Failed to create protocol_structure table:" << q.lastError().text();
+        return false;
+    }
+
+    // Rank labels
+    QString createRanks=
+        "CREATE TABLE IF NOT EXISTS ranks ("
+        "rank_level INTEGER PRIMARY KEY, "
+        "rank_name TEXT NOT NULL UNIQUE"
+        ");";
+
+    if (!q.exec(createRanks)) {
+        hCritical() << "Failed to create ranks table:" << q.lastError().text();
         return false;
     }
 
@@ -213,6 +225,7 @@ bool DatabaseManager::seedDatabase() {
     QJsonArray modulesArr = root["modules"].toArray();
     QJsonArray directivesArr = root["directives"].toArray();
     QJsonArray protocolsArr = root["protocols"].toArray();
+    QJsonArray ranksArr = root["ranks"].toArray();
     // QJsonArray mappingArr = root["mapping"].toArray();
 
     // Start SQL Transaction to maximize performance and ensure Neural Sync integrity
@@ -277,7 +290,7 @@ bool DatabaseManager::seedDatabase() {
             protocolName,
             d.value("estimated_duration").toDouble(),
             d.value("module_count").toInt(),
-            d.value("rank").toString(),
+            d.value("rank").toInt(),
             d.value("personal_best").toDouble()
             );
         if (id != -1) {
@@ -302,6 +315,18 @@ bool DatabaseManager::seedDatabase() {
             // }
         }
     }
+
+    ///////////////// RANKS ///////////////////
+    for (const QJsonValue &value : std::as_const(ranksArr)) {
+        QJsonObject d = value.toObject();
+        QString rankName= d.value("rank_name").toString();
+        hInfo() << "inserting rank " << rankName;
+        int id = insertRank(
+            d.value("rank_level").toInt(0),
+            rankName
+            );
+    }
+
     hInfo() << "Tables seeded succesfully";
 
     if (m_db.commit()) {
@@ -406,7 +431,7 @@ QList<Protocol> DatabaseManager::getAllProtocols() {
         p.name = q.value("protocol_name").toString();
         p.estimatedDuration = q.value("estimated_duration").toInt();
         p.moduleCount = q.value("module_count").toInt();
-        p.rank = q.value("rank").toString(); // newbie, advanced, or root [Source 26]
+        p.rank = q.value("rank").toInt();
         p.personalBest = q.value("personal_best").toInt();
 
         hDebug() << "Append protocol " << p.name;
@@ -436,7 +461,7 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
             p.name = q.value("protocol_name").toString();
             p.estimatedDuration = q.value("estimated_duration").toInt();
             p.moduleCount = q.value("module_count").toInt();
-            p.rank = q.value("rank").toString();
+            p.rank = q.value("rank").toInt();
             p.personalBest = q.value("personal_best").toInt();
 
             hDebug() << "Append protocol " << p.name;
@@ -687,13 +712,13 @@ int DatabaseManager::insertDirective(const QString &name, const QString &desc, c
     return q.lastInsertId().toInt();
 }
 
-int DatabaseManager::insertProtocol(const QString &name, int duration, int modules, const QString &rank, int pb) {
+int DatabaseManager::insertProtocol(const QString &name, int duration, int modules, int rank, int pb) {
     QSqlQuery q;
 
     q.prepare("INSERT OR IGNORE INTO protocols (protocol_name, estimated_duration, module_count, rank, personal_best) "
               "VALUES (:name, :duration, :count, :rank, :pb)");
     q.bindValue(":name", name);
-    q.bindValue(":duration", duration); // 20 minutes in seconds [11]
+    q.bindValue(":duration", duration);
     q.bindValue(":count", modules);
     q.bindValue(":rank", rank);
     q.bindValue(":pb", pb);
@@ -702,6 +727,20 @@ int DatabaseManager::insertProtocol(const QString &name, int duration, int modul
         return -1;
     }
     setProtocolMaxDuration();
+    return q.lastInsertId().toInt();
+}
+
+int DatabaseManager::insertRank(int rank_level, const QString &rank_name) {
+    QSqlQuery q;
+
+    q.prepare("INSERT OR IGNORE INTO ranks (rank_level, rank_name) "
+              "VALUES (:id, :name)");
+    q.bindValue(":id", rank_level);
+    q.bindValue(":name", rank_name);
+    if (!q.exec()) {
+        hCritical() << "Failed seeding rank " << rank_name << ":" << q.lastError().text();
+        return -1;
+    }
     return q.lastInsertId().toInt();
 }
 
@@ -883,4 +922,28 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory() {
     }
     hInfo() << "Successfully retrieved" << historyData.size() << "days of calorie history.";
     return historyData;
+}
+
+/**
+ * @brief Retrieves all rank labels from the database.
+ * Used to populate the UI rank cache and avoid hardcoded strings.
+ * @return A map of rank_value (int) to rank_name (string).
+ */
+QVariantMap DatabaseManager::getRankLabels() {
+    QVariantMap rankMap;
+    QSqlQuery query("SELECT rank_level, rank_name FROM ranks ORDER BY rank_level ASC");
+
+    if (!query.exec()) {
+        hCritical() << "Failed to fetch rank labels:" << query.lastError().text();
+        return rankMap;
+    }
+
+    while (query.next()) {
+        QString value = query.value("rank_level").toString();
+        QString name = query.value("rank_name").toString();
+        rankMap.insert(value, name);
+    }
+
+    hInfo() << "Rank labels synchronized. Total entries:" << rankMap.size();
+    return rankMap;
 }
