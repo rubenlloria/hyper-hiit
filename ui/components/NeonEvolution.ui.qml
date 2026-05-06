@@ -134,14 +134,13 @@ Rectangle {
                 glyph: Constants.evolutionIcon // TrendingUp icon from Lucide
                 size: 20
                 color: Constants.secondaryColor
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
             }
 
             NeonText {
                 label: "EVOLUTION_METRICS"
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
-                // font.bold: true
                 labelColor: Constants.secondaryColor
             }
 
