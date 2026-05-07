@@ -142,63 +142,64 @@ DashboardForm {
         }
     }
 
-    function updateCharts() {
-        // 1. Retrieve raw historical telemetry (Level 4)
-        let rawHistory = dbManager.getWeeklyCalorieHistory();
-        // if (rawHistory.length === 0) return;
-
+    function updateCharts() { // TODO: Get last week too
         // const maxGraphHeight = 80; // Buffer height in pixels
         let maxGraphHeight = evolutionChart.evolutionShape.height;
         Constants.hDebug(debugName, "maxGraphHeight: " + maxGraphHeight);
-        let processedData = [];
-        let peakKcal = 0;
 
-        // First pass: Convert to kcal integers and identify the maximum value (kcalTarget)
-        for (let i = 0; i < rawHistory.length; i++) {
-            let kcalValue = rawHistory[i].calories;
-            if (kcalValue > peakKcal) peakKcal = kcalValue;
+        // Retrieve raw historical telemetry (Level 4)
+        let currentRaw = dbManager.getWeeklyCalorieHistory(0, 7);
+        let ghostRaw = dbManager.getWeeklyCalorieHistory(7, 7);
+        // if (rawHistory.length === 0) return;
 
-            // Temporarily store the integer value to avoid double conversion
-            processedData.push({
-                "day": rawHistory[i].day,
-                "calories": kcalValue
-            });
-        }
+        // 2. Determine global peak across both weeks for consistent scaling
+        let globalPeak = 0;
+        const findPeak = (data) => {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].calories > globalPeak) globalPeak = data[i].calories;
+            }
+        };
+        findPeak(currentRaw);
+        findPeak(ghostRaw);
 
-        // Safety check: Avoid division by zero if no calories were burned
-        // 2. Calculate the Rounded Target (Safety Margin)
-        // We choose a step based on the magnitude of the peak
-        let step = 100;
-        if (peakKcal < 500) step = 50;  // For smaller values, round to nearest 50
-        if (peakKcal < 100) step = 20;  // For very low activity, round to nearest 20
-        let kcalTarget = (peakKcal > 0) ? (Math.floor(peakKcal / step) + 1) * step  : 1000;
+        // 3. Calculate common scale (kcalTarget)
+        let step = globalPeak < 500 ? (globalPeak < 100 ? 20 : 50) : 100;
+        let kcalTarget = (globalPeak > 0) ? (Math.floor(globalPeak / step) + 1) * step : 1000;
 
-        // Second pass: Calculate scaled height based on the dynamic kcalTarget
-        for (let j = 0; j < processedData.length; j++) {
-            let entry = processedData[j];
-
-            // Height = (Current kcal / Max kcal) * maxPixels
-            let scaledHeight = Math.floor((entry.calories * maxGraphHeight) / kcalTarget);
-
-            // Update the object with the final UI metrics
-            processedData[j] = {
-                "day": entry.day,
-                "kcal": entry.calories,
-                "barHeight": Math.min(scaledHeight, maxGraphHeight)
-            };
-            Constants.hDebug(debugName, "day: " + entry.day + " | dataPoint:" + scaledHeight);
-        }
+        // 4. Process and assign to UI components
+        evolutionChart.telemetry = processTelemetry(currentRaw, kcalTarget, maxGraphHeight);
+        evolutionChart.lastTelemetry = processTelemetry(ghostRaw, kcalTarget, maxGraphHeight);
 
         // 2. Synchronize with the UI component
-        evolutionChart.telemetry = processedData;
+        // evolutionChart.telemetry = processedData;
         evolutionChart.topLabel = kcalTarget;
         evolutionChart.middleLabel= kcalTarget / 2;
 
         Constants.hDebug(debugName, "Charts updated. Dynamic kcalTarget set to: " + kcalTarget);
 
         /////// GET IMPROVEMENT ///////
-        let delta = dbManager.getImprovementPercentage();
+        let q_improvement = dbManager.getImprovementPercentage();
         // Formatting the Tactical Overlay
-        evolutionChart.improvement = (delta > 0 ? "+" : "") + delta;
+        evolutionChart.improvement = (q_improvement > 0 ? "+" : "") + q_improvement;
+
+        /////// GET EFFICIENCY ///////
+        let q_efficiency = dbManager.getEfficiency();
+        evolutionChart.efficiency = (q_efficiency > 0 ? "+" : "") + q_efficiency;
     }
+
+    function processTelemetry(rawHistory, kcalTarget, maxPixels) {
+        let processed = [];
+        for (let i = 0; i < rawHistory.length; i++) {
+            let entry = rawHistory[i];
+            let scaledHeight = Math.floor((entry.calories * maxPixels) / kcalTarget);
+
+            processed.push({
+                "day": entry.day,
+                "kcal": entry.calories,
+                "barHeight": Math.min(scaledHeight, maxPixels)
+            });
+        }
+        return processed;
+    }
+
 }

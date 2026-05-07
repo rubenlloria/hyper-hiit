@@ -896,18 +896,21 @@ QString DatabaseManager::getLastSessionTelemetry(int protocolId) {
  * Retrieves the sum of calories burned per day for the last 7 days.
  * Based on the session_history table schema [v0.6 Evolution Metrics].
  */
-QVariantList DatabaseManager::getWeeklyCalorieHistory() {
+QVariantList DatabaseManager::getWeeklyCalorieHistory(int startDay, int windowSize) {
     QVariantList historyData;
     QMap<QString, int> calorieMap;
     QSqlQuery query;
 
     // 1. Fetch available telemetry from the last 7 days
     // We group by date string (YYYY-MM-DD) to easily map values later
-    QString sql = "SELECT date(session_timestamp, 'unixepoch', 'localtime') AS raw_date, "
+    QString sql = QString("SELECT date(session_timestamp, 'unixepoch', 'localtime') AS raw_date, "
                   "SUM(calories_burned) AS daily_calories "
                   "FROM session_history "
-                  "WHERE session_timestamp >= strftime('%s', 'now', '-6 days', 'start of day') "
-                  "GROUP BY raw_date";
+                  "WHERE session_timestamp >= strftime('%s', 'now', '-%1 days', 'start of day') "
+                  "AND session_timestamp < strftime('%s', 'now', '-%2 days', '+1 day', 'start of day') "
+                  "GROUP BY raw_date")
+                  .arg(startDay + windowSize - 1)
+                  .arg(startDay);
 
     if (!query.exec(sql)) {
         hCritical() << "Failed to fetch calorie history:" << query.lastError().text();
@@ -922,8 +925,8 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory() {
     // 2. Generate the 7-day sequence (from 6 days ago up to today)
     QDate today = QDate::currentDate();
 
-    for (int i = 6; i >= 0; --i) {
-        QDate targetDate = today.addDays(-i);
+    for (int i = windowSize; i >= 0; --i) {
+        QDate targetDate = today.addDays(-(startDay + i));
         QString dateKey = targetDate.toString("yyyy-MM-dd");
 
         // Use the value from the DB if it exists, otherwise default to 0.0
@@ -1012,4 +1015,44 @@ int DatabaseManager::getImprovementPercentage() {
             << "| Delta:" << static_cast<int>(improvement) << "%";
 
     return static_cast<int>(improvement);
+}
+
+int DatabaseManager::getAverageEfficiency(int startDay, int windowSize) {
+    QSqlQuery query;
+
+    // Using the same rolling window logic as IMPROVEMENT to include "today"
+    QString sql = QString(
+                      "SELECT AVG(h.session_speed) as avg_speed "
+                      "FROM session_history h "
+                      "WHERE h.session_timestamp >= strftime('%s', 'now', '-%1 days', 'start of day') "
+                      "AND h.session_timestamp < strftime('%s', 'now', '-%2 days', '+1 day', 'start of day');")
+                      .arg(startDay + windowSize - 1)
+                      .arg(startDay);
+
+    if (query.exec(sql) && query.next()) {
+        double avg = query.value("avg_speed").toDouble();
+        // Efficiency is expressed as a percentage of the reference speed (1.0 = 100%)
+        return static_cast<int>(avg * 100.0);
+    }
+    return 0;
+}
+
+int DatabaseManager::getEfficiency() {
+    double effA = getAverageEfficiency(0, 7);
+    double effB = getAverageEfficiency(7, 7);
+
+    hDebug() << "Evolution Metrics - EfficiencyA:" << effA << " | EfficiencyB:" << effB;
+
+    if (effB <= 0) {
+        hDebug() << "No previous efficiency data";
+        return (effA > 0) ? 100 : 0; // 100% boost if no previous data
+    }
+
+    // Trend = ((Current / Previous) - 1) * 100
+    double trend = ((effA / effB) - 1.0) * 100.0;
+
+    hDebug() << "Efficiency Sync | Current:" << effA << "% | Previous:" << effB
+            << "% | Trend:" << static_cast<int>(trend) << "%";
+
+    return static_cast<int>(trend);
 }

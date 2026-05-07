@@ -72,13 +72,18 @@ public:
     Q_INVOKABLE QVariantMap getRankLabels();
 
     // Session Methods
-    Q_INVOKABLE QVariantList getWeeklyCalorieHistory();
+    Q_INVOKABLE QVariantList getWeeklyCalorieHistory(int startDay, int windowSize);
     /**
  * @brief Calculates the final IMPROVEMENT percentage comparing Segment A vs Segment B.
  * @return integer (e.g., 23 for +23% or -5 for -5%).
  */
     Q_INVOKABLE int getImprovementPercentage();
 
+    /**
+ * @brief Calculates the EFFICIENCY trend comparing Segment A vs Segment B.
+ * @return the delta percentage (e.g., +5 if efficiency rose from 100% to 105%).
+ */
+    Q_INVOKABLE int getEfficiency();
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
@@ -106,12 +111,22 @@ private:
     int resolveUnitType(const QJsonValue &unitValue);
     void linkProtocol(int protocolId, const QJsonArray &targetDirectives);
     void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);
+
     /**
  * @brief Internal helper to retrieve the Power Index for a specific time window.
  * @param startDay: Days offset from now (0 for today).
  * @param windowSize: Number of days to include in the sum.
  */
     double getPowerScore(int startDay, int windowSize);
+
+    /**
+ * @brief Retrieves the average efficiency (based on speed_index) for a given window.
+ * @param startDay: Days offset from now (0 for today).
+ * @param windowSize: Number of days to include in the sum.
+ * @return a percentage (e.g., 105 for 105% efficiency).
+ */
+    int getAverageEfficiency(int startDay, int windowSize);
+
 };
 
 #endif
