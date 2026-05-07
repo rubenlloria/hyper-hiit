@@ -40,6 +40,7 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 
+#define DB_SCHEMA_VERSION 1
 
 class DatabaseManager : public QObject {
     Q_OBJECT
@@ -85,6 +86,7 @@ public:
 
 private:
     QSqlDatabase m_db;
+    int m_dbSchema = 0;
     const QMap<QString, int> m_unitMap = {
         {"seconds", 0},
         {"reps",    1},

@@ -60,6 +60,13 @@ bool DatabaseManager::initDatabase() {
         if (!seedDatabase()) return false;
     }
 
+    QSqlQuery query("PRAGMA user_version;");
+    if (query.next()) {
+        m_dbSchema = query.value(0).toInt();
+        hInfo() << "Current database file schema version:" << m_dbSchema;
+    } else {
+        hCritical() << "Could not retrieve schema version.";
+    }
 
     hInfo() << "Database system online.";
     return true;
@@ -196,9 +203,17 @@ bool DatabaseManager::createTables() {
         return false;
     }
 
+    QString versionQuery = QString("PRAGMA user_version = %1;").arg(DB_SCHEMA_VERSION);
+    // Set the schema version to 1
+    if (!q.exec(versionQuery)) {
+        hDebug() << "Error setting initial schema version:" << q.lastError().text();
+    } else {
+        hInfo() << "set current database schema: " << DB_SCHEMA_VERSION;
+    }
+
     hInfo() << "Tables created succesfully";
     return true;
-}
+} // createTables()
 
 bool DatabaseManager::seedDatabase() {
     QSqlQuery q;
@@ -320,11 +335,16 @@ bool DatabaseManager::seedDatabase() {
     for (const QJsonValue &value : std::as_const(ranksArr)) {
         QJsonObject d = value.toObject();
         QString rankName= d.value("rank_name").toString();
-        hInfo() << "inserting rank " << rankName;
         int id = insertRank(
             d.value("rank_level").toInt(0),
             rankName
             );
+        if (id < 0) {
+            hCritical() << "Failed to insert rank " << rankName
+                        << " with id: " << d.value("rank_level").toInt(0);
+        } else {
+            hInfo() << "inserted rank " << rankName;
+        }
     }
 
     hInfo() << "Tables seeded succesfully";
