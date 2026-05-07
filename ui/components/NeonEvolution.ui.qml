@@ -35,6 +35,7 @@ Rectangle {
     property int day6Value: 20
     property int day7Value: 60
     property var telemetry: []
+    property var lastTelemetry: []
     property alias evolutionShape: evolutionShape
     property alias topLabel: topLabel.text
     property alias middleLabel: middleLabel.text
@@ -249,6 +250,84 @@ Rectangle {
                     anchors.bottomMargin: 0
                     anchors.right: parent.left
                     anchors.rightMargin: 10
+                }
+
+                // Simulated Line Chart (Sessions - Cyan)
+                Shape {
+                    id: lastShape
+                    anchors.fill: parent
+                    layer.enabled: true
+                    opacity: 0.3
+                    // width: 300
+                    // height: 100
+
+                    // layer.effect: DropShadow {
+                    //     color: root.cyanColor
+                    //     radius: 8
+                    //     samples: 15
+                    // }
+                    ShapePath {
+                        strokeColor: Constants.primaryColor
+                        strokeWidth: 2
+                        fillColor: "transparent"
+                        startX: 10
+                        startY: chartArea.height - root.lastTelemetry[0].barHeight - 5
+                        strokeStyle: ShapePath.SolidLine
+                        pathHints: ShapePath.PathQuadratic
+                        joinStyle: ShapePath.MiterJoin
+                        capStyle: ShapePath.RoundCap
+
+                        PathCurve {
+                            x: 10 + 1 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[1].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 2 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[2].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 3 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[3].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 4 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[4].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 5 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[5].barHeight - 5
+                        }
+                        PathCurve {
+                            x: 10 + 6 * ((chartArea.width - 20) / 6)
+                            y: chartArea.height - root.lastTelemetry[6].barHeight - 5
+                        }
+                    }
+                }
+
+                // TODO: Interactive Points and Hover Logic
+                Repeater {
+                    // model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
+                    model: root.lastTelemetry
+                    delegate: Item {
+                        // Position calculations following your formula [3]
+                        x: 6 + index * ((chartArea.width - 20) / 6)
+                        y: chartArea.height - modelData.barHeight - 9
+                        width: 8
+                        height: 8
+
+                        // The Neon Dot
+                        Rectangle {
+                            id: lastDotPoint
+                            anchors.centerIn: parent
+                            width: 6
+                            height: 6
+                            radius: 3
+                            color: Constants.secondaryColor
+                            opacity: 0.3
+                            border.color: "#ffffff"
+                            border.width: 0
+                        }
+                    }
                 }
 
                 // Simulated Line Chart (Sessions - Cyan)
