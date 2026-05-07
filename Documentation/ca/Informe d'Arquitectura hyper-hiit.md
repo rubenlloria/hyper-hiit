@@ -39,6 +39,8 @@
 
 - [Taula de mapeig: protocol_structure](#taula-de-mapeig-protocol_structure)
 
+- [Taula: ranks](#taula-ranks)
+
 - [Taula session_history](#taula-session_history)
 
 [9. Lògica de l'Array Estructurat i Processament de Dades
@@ -86,6 +88,36 @@
 ](#neural_flow-neural-synaptic-synchronization)
 
 [14. Mètriques d'Evolució:](#14-mètriques-devolució)
+
+- [Algorisme d'IMPROVEMENT
+](algorisme-dimprovement)
+
+   - [A. Principi de Càlcul (Rolling Window)
+](a-principi-de-càlcul-rolling-window)
+
+   - [B. Fórmula de l'Índex de Potència (Puntuació de Sessió)
+](b-fórmula-de-lÍndex-de-potència-puntuació-de-sessió)
+
+   - [C. Factor de Velocitat Relativa (Speed Factor)
+](c-factor-de-velocitat-relativa-speed-factor)
+
+   - [D. Generació del Percentatge d'IMPROVEMENT
+](d-generació-del-percentatge-dimprovement)
+
+- [Algorisme d'EFFICIENCY
+](algorisme-defficiency)
+
+   - [A. Fonament de l'Eficiència Tàctica
+](a-fonament-de-leficiència-tàctica)
+
+   - [B. Càlcul Setmanal (Dashboard Integration)
+](b-càlcul-setmanal-dashboard-integration)
+
+   - [C. Jerarquia Visual i UX
+](c-jerarquia-visual-i-ux)
+
+   - [D. Implementació de Baixa Latència
+](d-implementació-de-baixa-latència)
 
 [Ruta de versions](#ruta-de-versions)
 
@@ -412,7 +444,7 @@ CREATE TABLE session_history (
 El backend de C++ genera un array dinàmic que la interfície utilitza per
 renderitzar el flux de missió.
 
-### Algorismes de Càlcul de Mètriques
+## Algorismes de Càlcul de Mètriques
 
 Les següents fórmules s'apliquen per processar les dades abans de la
 visualització:
@@ -857,7 +889,9 @@ MET_FACTOR de cada mòdul i la seua quantity
 
 ### C. Factor de Velocitat Relativa (Speed Factor)
 
-La velocitat és una mètrica comparativa desada a session_history que mesura l'eficiència temporal respecte a l'últim registre del mateix protocol_id:
+La velocitat és una mètrica comparativa desada a *session_history* que mesura
+l'eficiència temporal respecte a l'últim registre del mateix *protocol_id*:
+
 >   Velocitat = ( Temps anterior / Temps actual )
 
 -   **V > 1:** L'usuari ha superat el seu registre anterior
@@ -876,6 +910,65 @@ Aquesta dada alimenta la visualització de la terminal amb un format de
 percentatge d'alt contrast (ex: +23%), permetent una lectura tàctica
 immediata del progrés real del subjecte sota el sistema hyper//hiit. 
 
+## Algorisme d'EFFICIENCY
+
+L'indicador EFFICIENCY, situat al bloc EVOLUTION_METRICS del dashboard
+principal, mesura la consistència tàctica i la qualitat de l'execució
+temporal de l'usuari en les seues missions recents. A diferència del
+Personal Best (PB), que és una mètrica històrica absoluta,
+l'eficiència se centra en el rendiment comparatiu sessió a sessió.
+
+### A. Fonament de l'Eficiència Tàctica
+
+L'eficiència es calcula mitjançant el Factor de Velocitat Relativa
+(Speed Index) emmagatzemat a la taula session_history. Aquest
+factor compara el temps de la sessió actual amb el de la sessió
+immediatament anterior del mateix *protocol_id*.
+
+-   Fórmula d'Eficiència de Sessió:
+
+>   Eficiència = ( Temps actual / Temps anterior ) × 100
+
+-   Interpretació de Valors:
+
+    -   **=100%:** Consistència total respecte a l'última execució.
+    -   **>100%:** Increment d'eficiència (overclocking del sistema).
+    -   **<100%:** Pèrdua de ritme o fatiga acumulada detectada pel sistema.
+    
+### B. Càlcul Setmanal (Dashboard Integration)
+
+El valor percentual mostrat a la interfície (ex: 89% EFFICIENCY
+o +48% segons la darrera telemetria) representa la mitjana aritmètica
+de les eficiències de totes les sessions completades en el segment
+actual de 7 dies.
+
+-   **Algorisme de Comparativa:** De la mateixa manera que l'IMPROVEMENT,
+el sistema compara la mitjana d'eficiència del Segment A (T-0 a T-6) amb
+la del Segment B (T-7 a T-13) per determinar si la tendència de
+consistència és positiva o negativa.
+
+### C. Jerarquia Visual i UX
+
+Per evitar la sobrecàrrega cognitiva, el sistema separa clarament els
+tres indicadors de rendiment temporal:
+
+1. **Barra Horitzontal (Targeta de Protocol):** Indica la càrrega o durada
+total estimada del protocol.
+
+2. **Marcador Vertical (Personal Best):** Indica el rècord històric absolut
+(PR) gravat a la taula protocols.
+
+3. **Etiqueta EFFICIENCY (Evolution Metrics):** Indica la capacitat de l'usuari
+per mantenir o millorar el seu ritme de treball actual respecte a les seues
+darreres intervencions.
+
+### D. Implementació de Baixa Latència
+
+El càlcul de l'eficiència es realitza en el backend de C++ en tancar cada
+sessió (estat COMPLETED), actualitzant el camp speed_index a la base de
+dades. Això garanteix que la visualització al dashboard es realitze amb
+una latència menor a 1ms, complint els requisits tècnics del sistema.
+
 # Ruta de versions
 
 Aquest full de ruta prioritza la funcionalitat del nucli de l'aplicació
@@ -885,7 +978,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 (Minimum Viable Product)
 
 
-#### v0.1: Core Terminal & Shell<a name="v01">:</a>
+## v0.1: Core Terminal & Shell<a name="v01">:</a>
 
 <!-- -->
 
@@ -899,7 +992,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de Seccions:** Definició dels espais per a
     EVOLUTION_METRICS, ACTIVE_DIRECTIVE i ACHIEVEMENT_MATRIX 1.
 
-#### v0.2: Sistema de Navegació de Directives<a name="v02">:</a>
+## v0.2: Sistema de Navegació de Directives<a name="v02">:</a>
 
 <!-- -->
 
@@ -916,7 +1009,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Estructura de la Base de Dades:** Funcions de lectura i escritura
     bàsiques i carrega desde fitxer de dades Json.
 
-#### v0.3: Gestió de Protocols & Scroll<a name="v03">:</a>
+## v0.3: Gestió de Protocols & Scroll<a name="v03">:</a>
 
 <!-- -->
 
@@ -933,7 +1026,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Dades de Dificultat:** Integració de les etiquetes de rang (RANK:
     ADVANCED) a les targetes de protocol 2.
 
-#### v0.4: Motor d'Execució (MVP)<a name="v04">:</a>
+## v0.4: Motor d'Execució (MVP)<a name="v04">:</a>
 
 <!-- -->
 
@@ -948,7 +1041,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Cronòmetre de Missió:** Comptador de temps real per a la sessió
     actual.
 
-#### v0.5: Feedback en Temps Real<a name="v05">:</a>
+## v0.5: Feedback en Temps Real<a name="v05">:</a>
 
 <!-- -->
 
@@ -961,7 +1054,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Sincronització de Mòduls:** Actualització del comptador de mòduls
     durant l'execució.
 
-#### v0.6: Evolution Metrics & Històric<a name="v06">:</a>
+## v0.6: Evolution Metrics & Històric<a name="v06">:</a>
 
 <!-- -->
 
@@ -976,7 +1069,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Resum de sessió:** Implementació de la pantalla de resum de sessió i
     reestructuració de la navegació en acabar un protocol.
 
-#### v0.7: Achievement Matrix and Personal Record<a name="v07">:</a>
+## v0.7: Achievement Matrix and Personal Record<a name="v07">:</a>
 
 <!-- -->
 
@@ -991,7 +1084,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     barres de progrés de cada protocol per comparar la sessió actual amb
     el millor registre anterior.
 
-#### v0.8: Audio Uplink & Media Control<a name="v08">:</a>
+## v0.8: Audio Uplink & Media Control<a name="v08">:</a>
 
 <!-- -->
 
@@ -1001,7 +1094,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Progrés Musical:** Barra de progrés de neó magenta per a la pista
     d'àudio actual sense indicadors numèrics.
 
-#### v0.9: CORE_CONFG & ARCHITECHT<a name="v09">:</a>
+## v0.9: CORE_CONFG & ARCHITECHT<a name="v09">:</a>
 
 <!-- -->
 
@@ -1012,7 +1105,7 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
 -   **Pantalla de configuració ARCHITECHT:** Edició i creació de
     directives, protocols i mòduls.
 
-#### v1.0: Full System Online<a name="v10">:</a>
+## v1.0: Full System Online<a name="v10">:</a>
 
 <!-- -->
 
