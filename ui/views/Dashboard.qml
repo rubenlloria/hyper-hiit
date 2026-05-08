@@ -173,7 +173,7 @@ DashboardForm {
         // 2. Synchronize with the UI component
         // evolutionChart.telemetry = processedData;
         evolutionChart.topLabel = kcalTarget;
-        evolutionChart.middleLabel= kcalTarget / 2;
+        evolutionChart.centerLabel= kcalTarget / 2;
 
         Constants.hDebug(debugName, "Charts updated. Dynamic kcalTarget set to: " + kcalTarget);
 
@@ -185,6 +185,18 @@ DashboardForm {
         /////// GET EFFICIENCY ///////
         let q_efficiency = dbManager.getEfficiency();
         evolutionChart.efficiency = (q_efficiency > 0 ? "+" : "") + q_efficiency;
+
+        /////// GET AVG_SESSIONS ///////
+        let q_avg_sessions = dbManager.getAverageDailySessions(0, 7);
+        evolutionChart.avgSessions = q_avg_sessions.toFixed(2);
+        let q_ghost_sessions = dbManager.getAverageDailySessions(7, 7);
+        evolutionChart.ghostSessions = q_ghost_sessions.toFixed(2);
+
+        /////// GET AVG_KCAL ///////
+        let q_avg_kcal = dbManager.getAverageDailyCalories(0, 7);
+        evolutionChart.avgCalories = q_avg_kcal;
+        let q_ghost_kcal = dbManager.getAverageDailyCalories(7, 7);
+        evolutionChart.ghostCalories = q_ghost_kcal;
     }
 
     function processTelemetry(rawHistory, kcalTarget, maxPixels) {

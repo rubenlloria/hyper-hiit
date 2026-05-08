@@ -925,7 +925,7 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory(int startDay, int windowSi
     // 2. Generate the 7-day sequence (from 6 days ago up to today)
     QDate today = QDate::currentDate();
 
-    for (int i = windowSize; i >= 0; --i) {
+    for (int i = (windowSize -1); i >= 0; --i) {
         QDate targetDate = today.addDays(-(startDay + i));
         QString dateKey = targetDate.toString("yyyy-MM-dd");
 
@@ -936,7 +936,7 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory(int startDay, int windowSi
         // Forced to Upper Case for the Tactical Overlay aesthetic
         QString dayLabel = QLocale::c().toString(targetDate, "ddd").toUpper();
 
-        hDebug() << "Date: " << dateKey << " is: " << dayLabel << "and has: " << calories << "cal.";
+        hDebug() << "Date: " << dateKey << " is: " << dayLabel << "and has: " << calories << "kcal.";
 
         QVariantMap entry;
         entry["day"] = dayLabel;
@@ -1055,4 +1055,42 @@ int DatabaseManager::getEfficiency() {
             << "% | Trend:" << static_cast<int>(trend) << "%";
 
     return static_cast<int>(trend);
+}
+
+int DatabaseManager::getAverageDailyCalories(int startDay, int windowSize) {
+    QSqlQuery query;
+    // Window: From 6 days ago (start of day) to the end of today (start of tomorrow)
+    QString sql = QString(
+                      "SELECT SUM(calories_burned) / 7.0 as avg_cal "
+                      "FROM session_history "
+                      "WHERE session_timestamp >= strftime('%s', 'now', '-%1 days', 'start of day') "
+                      "AND session_timestamp < strftime('%s', 'now', '-%2 days', '+1 day', 'start of day')")
+                      .arg(startDay + windowSize -1)
+                      .arg(startDay);
+
+    if (query.exec(sql) && query.next()) {
+        double rawAvg = query.value("avg_cal").toDouble();
+        return qRound(rawAvg/1000);
+    }
+    return 0;
+}
+
+/**
+ * Calculates the daily session average for the current 7-day segment.
+ */
+double DatabaseManager::getAverageDailySessions(int startDay, int windowSize) {
+    QSqlQuery query;
+    // Counting all records in the 7-day window and dividing by the 7-day period
+    QString sql = QString(
+                      "SELECT COUNT(*) / 7.0 as avg_sessions "
+                      "FROM session_history "
+                      "WHERE session_timestamp >= strftime('%s', 'now', '-%1 days', 'start of day') "
+                      "AND session_timestamp < strftime('%s', 'now', '-%2 days', '+1 day', 'start of day')")
+                      .arg(startDay + windowSize -1)
+                      .arg(startDay);
+
+    if (query.exec(sql) && query.next()) {
+        return query.value("avg_sessions").toDouble();
+    }
+    return 0.0;
 }

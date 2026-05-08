@@ -20,6 +20,8 @@ Rectangle {
     opacity: 0.9
 
     // --- Technical Properties for Data Binding ---
+    property string ghostSessions: "3"
+    property string ghostCalories: "300"
     property string avgSessions: "2.1"
     property string avgCalories: "514"
     property string improvement: "+23"
@@ -38,7 +40,7 @@ Rectangle {
     property var lastTelemetry: []
     property alias evolutionShape: evolutionShape
     property alias topLabel: topLabel.text
-    property alias middleLabel: middleLabel.text
+    property alias centerLabel: centerLabel.text
 
     // 1. Neon Glow Effect (Bloom)
     // DropShadow {
@@ -154,7 +156,7 @@ Rectangle {
                     text: "LAST_7_DAYS"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 10
                     color: root.cyanColor
                     opacity: 0.6
@@ -185,6 +187,7 @@ Rectangle {
                     y: -5 //-parent.height
                 }
                 Rectangle {
+                    id: bottomLine
                     width: parent.width + 5
                     height: 1
                     color: root.cyanColor
@@ -195,22 +198,25 @@ Rectangle {
                 }
 
                 Rectangle {
+                    id: centerLine
                     width: parent.width + 5
                     height: 1
                     color: root.cyanColor
                     opacity: 0.2
                     anchors.top: parent.top
-                    anchors.topMargin: parent.height / 2
+                    anchors.topMargin: parent.height / 2 - 5
                     x: -5
                     z: 0
                 }
 
                 Rectangle {
+                    id: topLine
                     width: parent.width + 5
                     height: 1
                     color: root.cyanColor
                     opacity: 0.2
                     anchors.top: parent.top
+                    anchors.topMargin: -5
                     x: -5
                     z: 0
                 }
@@ -218,35 +224,35 @@ Rectangle {
                 Text {
                     id: topLabel
                     text: "100%"
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 10
                     color: root.cyanColor
                     opacity: 0.6
-                    anchors.verticalCenter: parent.top
+                    anchors.verticalCenter: topLine.verticalCenter
+                    anchors.topMargin: -50
                     anchors.right: parent.left
                     anchors.rightMargin: 10
                 }
 
                 Text {
-                    id: middleLabel
+                    id: centerLabel
                     text: "50%"
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 10
                     color: root.cyanColor
                     opacity: 0.6
-                    anchors.top: parent.top
-                    anchors.topMargin: parent.height / 2 - 4
+                    anchors.verticalCenter: centerLine.verticalCenter
                     anchors.right: parent.left
                     anchors.rightMargin: 10
                 }
 
                 Text {
                     text: "0"
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 10
                     color: root.cyanColor
                     opacity: 0.6
-                    anchors.bottom: parent.bottom
+                    anchors.verticalCenter: bottomLine.verticalCenter
                     anchors.bottomMargin: 0
                     anchors.right: parent.left
                     anchors.rightMargin: 10
@@ -426,7 +432,7 @@ Rectangle {
                         Rectangle {
                             id: tooltip
                             visible: hoverArea.containsMouse
-                            y: -35 // Positioned above the dot
+                            y: -45 // Positioned above the dot
                             anchors.horizontalCenter: parent.horizontalCenter
                             width: 70
                             height: 25
@@ -437,9 +443,9 @@ Rectangle {
 
                             Text {
                                 anchors.centerIn: parent
-                                text: (modelData.barHeight * 10) + " Kcal "
+                                text: modelData.kcal + " Kcal "
                                 color: root.cyanColor
-                                font.family: "Share Tech Mono" // Digital font
+                                font.family: Constants.techFont.family // Digital font
                                 font.pixelSize: 11
                             }
                         }
@@ -458,7 +464,7 @@ Rectangle {
                         Layout.fillWidth: true
                         text: modelData.day
                         color: root.cyanColor
-                        font.family: "Share Tech Mono" // Digital font
+                        font.family: Constants.techFont.family // Digital font
                         font.pixelSize: 11
                     }
                 }
@@ -476,16 +482,16 @@ Rectangle {
                 spacing: 2
                 Text {
                     text: "AVG_SESSIONS"
-                    color: root.cyanColor
+                    color: Constants.primaryTextColor
                     opacity: 0.7
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
-                Text {
-                    text: root.avgSessions
-                    color: root.cyanColor
-                    font.family: "Orbitron"
+                NeonText {
+                    label: root.avgSessions
+                    labelColor: root.avgSessions >= root.ghostSessions ? Constants.primaryTextColor : Constants.secondaryTextColor
+                    font.family: Constants.mainFont.family
                     font.pixelSize: 18
                     font.bold: true
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -497,16 +503,16 @@ Rectangle {
                 spacing: 2
                 Text {
                     text: "AVG_CALORIES"
-                    color: root.magentaColor
+                    color: Constants.primaryTextColor
                     opacity: 0.7
-                    font.family: "Share Tech Mono"
+                    font.family: Constants.techFont.family
                     font.pixelSize: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
-                Text {
-                    text: root.avgCalories
-                    color: root.magentaColor
-                    font.family: "Orbitron"
+                NeonText {
+                    label: root.avgCalories + "k"
+                    labelColor: root.avgCalories >= root.ghostCalories ? Constants.primaryTextColor : Constants.secondaryTextColor
+                    font.family: Constants.mainFont.family
                     font.pixelSize: 18
                     font.bold: true
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -524,10 +530,10 @@ Rectangle {
                     font.pixelSize: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
-                Text {
-                    text: root.improvement + "%"
-                    color: root.improvement
-                           > 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
+                NeonText {
+                    label: root.improvement + "%"
+                    labelColor: root.improvement
+                                > 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
                     font.family: Constants.mainFont.family
                     font.pixelSize: 18
                     font.bold: true
@@ -545,10 +551,10 @@ Rectangle {
                     font.pixelSize: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
-                Text {
-                    text: root.efficiency + "%"
-                    color: root.efficiency
-                           > 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
+                NeonText {
+                    label: root.efficiency + "%"
+                    labelColor: root.efficiency
+                                >= 0 ? Constants.primaryTextColor : Constants.secondaryTextColor
                     font.family: Constants.mainFont.family
                     font.pixelSize: 18
                     font.bold: true

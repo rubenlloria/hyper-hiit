@@ -85,6 +85,19 @@ public:
  */
     Q_INVOKABLE int getEfficiency();
 
+    /**
+ * @brief Retrieves the average calories burned per day over the last 7 days.
+ * @return double kcal (e.g., 513 or 826)
+ */
+    Q_INVOKABLE int getAverageDailyCalories(int startDay, int windowSize);
+
+    /**
+ * @brief Retrieves the average number of sessions completed per day over the last 7 days.
+ * @return double  (e.g., 0.9 or 1.2)
+ */
+    Q_INVOKABLE double getAverageDailySessions(int startDay, int windowSize);
+
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();

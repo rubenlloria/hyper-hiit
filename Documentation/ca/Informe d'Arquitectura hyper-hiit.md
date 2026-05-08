@@ -119,6 +119,15 @@
    - [D. Implementació de Baixa Latència
 ](d-implementació-de-baixa-latència)
 
+- [AVG_SESSIONS i AVG_CALORIES
+](avg_sessions-i-avg_calories)
+
+   - [A. Definició i Càlcul Matemàtic
+](a-definició-i-càlcul-matemàtic)
+
+   - [B. Implementació Tècnica
+](b-implementació-tècnica)
+
 [Ruta de versions](#ruta-de-versions)
 
 - [v0.1: Core Terminal & Shell](#v01)
@@ -968,6 +977,47 @@ El càlcul de l'eficiència es realitza en el backend de C++ en tancar cada
 sessió (estat COMPLETED), actualitzant el camp speed_index a la base de
 dades. Això garanteix que la visualització al dashboard es realitze amb
 una latència menor a 1ms, complint els requisits tècnics del sistema.
+
+## AVG_SESSIONS i AVG_CALORIES
+
+Aquestes mètriques proporcionen una lectura de la intensitat i la constància
+basal de l'usuari, complementant la informació visual del gràfic de 7 dies
+amb dades quantitatives de mitjana diària.
+
+### A. Definició i Càlcul Matemàtic
+
+A diferència d'altres sistemes que mostren sumatoris totals, hyper//hiit
+utilitza la mitjana aritmètica (mean) sobre el Segment A (darrers 7 dies)
+per a garantir una telemetria precisa que permeta valors decimals:
+
+-   **AVG_SESSIONS** (Mitjana de sessions per dia): 
+
+>   AVG_SESSIONS = ∑SessionsCOMPLETED(T-0 a T-6) / 7
+​
+    - Nota d'UX: L'ús de la mitjana permet mostrar decimals (ex: 2.14),
+    oferint una visió de la freqüència d'entrenament més enllà dels dies
+    actius visibles al gràfic.
+    
+-   **AVG_CALORIES** (Mitjana de calories per dia):
+
+>   AVG_CALORIES = ∑CaloriesCOMPLETED(T-0 a T-6) / 7
+​
+    - Nota d'UX: Representa la potència metabòlica diària. En dividir
+    pel total de dies del segment (7), la dada és independent de si
+    l'usuari ha entrenat un dia concret o no, reflectint el nivell
+    d'activitat global setmanal.
+    
+### B. Implementació Tècnica
+
+-   **Processament:** El backend de C++ realitza el sumatori i la
+divisió asíncronament en carregar el dashboard o en tancar una sessió.
+
+-   **Latència:** El resultat es serveix a la interfície QML com a valor
+numèric d'alt contrast, mantenint el requisit de resposta de sistema de <1ms.
+
+-   **Coherència:** Aquestes dades s'actualitzen automàticament amb la
+finestra lliscant de 7 dies, assegurant que el "Tactical Overlay" estiga
+sempre sincronitzat amb el rendiment més recent del subjecte.
 
 # Ruta de versions
 
