@@ -1113,8 +1113,8 @@ constant de desenvolupament. S’establirà la versió 0.4 com a MVP
     (LAST_7\_DAYS).
 
 -   **Càlcul d'Impacte:** Càlcul real de AVG_SESSIONS, AVG_CALORIES i el
-    percentatge d'millora (IMPROVEMENT) basat en les sessions
-    completades.
+    percentatge de millora (IMPROVEMENT) i eficiència (EFFICIENCY)
+    basat en les sessions completades.
 
 -   **Resum de sessió:** Implementació de la pantalla de resum de sessió i
     reestructuració de la navegació en acabar un protocol.
