@@ -1,10 +1,12 @@
-# Informe d'Arquitectura hyper//hiit
+Informe d'Arquitectura hyper//hiit
+==================================
 
->    Rev. 43 (05/05/26)
+>    Rev. 44 (09/05/26)
 
 &nbsp;
 
-## Taula de continguts
+Taula de continguts
+-------------------
 
 [1. Fonaments de l'Arquitectura d'Array Estructurat
 ](#1-fonaments-de-larquitectura-darray-estructurat)
