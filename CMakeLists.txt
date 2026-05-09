@@ -19,6 +19,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 3. Buscar paquetes de Qt 6
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 
+# --- Documentation Section ---
+# Recursively find all documentation files
+file(GLOB_RECURSE DOC_FILES "Documentation/*")
+
+# Organize into virtual folders in the IDE, mimicking the physical file system
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Documentation"
+             PREFIX "Documentation"
+             FILES ${DOC_FILES})
+
+
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
     src/SessionManager.h
@@ -42,7 +52,10 @@ set(PROJECT_SOURCES
 )
 
 # 5. Definir el ejecutable base (Solo con main.cpp)
-qt_add_executable(hyper-hiit main.cpp)
+qt_add_executable(hyper-hiit
+    main.cpp
+    ${DOC_FILES}
+)
 
 # 6. Registrar el módulo QML vinculado al ejecutable
 # Definimos el RESOURCE_PREFIX para que coincida con la carga en main.cpp
