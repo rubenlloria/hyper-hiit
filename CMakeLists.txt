@@ -19,16 +19,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 3. Buscar paquetes de Qt 6
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 
-# --- Documentation Section ---
-# Recursively find all documentation files
-file(GLOB_RECURSE DOC_FILES "Documentation/*")
-
-# Organize into virtual folders in the IDE, mimicking the physical file system
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Documentation"
-             PREFIX "Documentation"
-             FILES ${DOC_FILES})
-
-
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
     src/SessionManager.h
@@ -52,10 +42,7 @@ set(PROJECT_SOURCES
 )
 
 # 5. Definir el ejecutable base (Solo con main.cpp)
-qt_add_executable(hyper-hiit
-    main.cpp
-    ${DOC_FILES}
-)
+qt_add_executable(hyper-hiit main.cpp)
 
 # 6. Registrar el módulo QML vinculado al ejecutable
 # Definimos el RESOURCE_PREFIX para que coincida con la carga en main.cpp
@@ -79,6 +66,7 @@ qt_add_qml_module(hyper-hiit
         ui/views/Testboard.qml
         ui/views/Protocol.qml
         ui/views/ProtocolForm.ui.qml
+        ui/views/SummaryForm.ui.qml
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
@@ -101,11 +89,18 @@ qt_add_qml_module(hyper-hiit
         gpl2_header.txt
         authors.txt
         ui/qmldir
+        # assets
         ui/assets/fonts/Orbitron-VariableFont_wght.ttf
         ui/assets/fonts/OrbitronMono-Black.ttf
         ui/assets/fonts/lucide.ttf
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
+        # Documentation
+        "Documentation/ca/Informe d'Arquitectura hyper-hiit.md"
+        "Documentation/ca/Manual Tècnic d'Entrenament.md"
+        "Documentation/es/github_prefixes.md"
+        Documentation/es/InformeArquitecturaHyper-hiit.md
+        RESOURCES Documentation/en/markdownFormat.md
 )
 
 # [SYNC_FIX] Make src/ directory headers visible to the QML registration generator
