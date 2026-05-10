@@ -141,6 +141,7 @@ Item {
             font.letterSpacing: 4
             font.bold: true
             anchors.horizontalCenter: parent.horizontalCenter
+            cornerWidth: 1
         }
     }
 

@@ -146,6 +146,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
                 labelColor: Constants.secondaryColor
+                cornerWidth: 1
             }
 
             Item {

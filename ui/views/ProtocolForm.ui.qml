@@ -65,6 +65,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             label: protocolName
             size: 35
+            cornerWidth: 2
         }
 
         NeonTimer {
@@ -86,6 +87,7 @@ Rectangle {
                 size: 30
                 label: root.currentModuleName
                 labelColor: Constants.primaryTextColor
+                cornerWidth: 1
             }
 
             NeonDial {

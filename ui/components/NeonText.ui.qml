@@ -22,6 +22,8 @@ Item {
     property alias labelColor: label.color
     property alias size: label.font.pixelSize
     property alias font: label.font
+    property int cornerSize: label.font.pixelSize / 2 - 1
+    property int cornerWidth: 0
 
     // FontLoader {
     //     id: internalShareTecFont
@@ -46,5 +48,75 @@ Item {
         samples: 25
         spread: 0.3
         transparentBorder: true
+    }
+    Item {
+        id: techCorners
+        anchors.fill: label
+        opacity: 0.7
+        // Top-Left
+        Rectangle {
+            width: root.cornerSize
+            height: root.cornerWidth
+            color: label.color
+            x: -root.cornerWidth
+            y: -root.cornerWidth
+        }
+        Rectangle {
+            width: root.cornerWidth
+            height: root.cornerSize
+            color: label.color
+            x: -root.cornerWidth
+            y: -root.cornerWidth
+        }
+        // Top-Right
+        Rectangle {
+            width: root.cornerSize
+            height: root.cornerWidth
+            color: label.color
+            // x: label.width - 8
+            anchors.right: parent.right
+            anchors.rightMargin: -root.cornerWidth
+            y: -root.cornerWidth
+        }
+        Rectangle {
+            width: root.cornerWidth
+            height: root.cornerSize
+            color: label.color
+            anchors.left: parent.right
+            y: -root.cornerWidth
+        }
+        // Bottom-Left
+        Rectangle {
+            width: root.cornerSize
+            height: root.cornerWidth
+            color: label.color
+            x: -root.cornerWidth
+            anchors.top: parent.bottom
+        }
+        Rectangle {
+            width: root.cornerWidth
+            height: root.cornerSize
+            color: label.color
+            x: -root.cornerWidth
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -root.cornerWidth
+        }
+        // Bottom-Right
+        Rectangle {
+            width: root.cornerSize
+            height: root.cornerWidth
+            color: label.color
+            anchors.right: parent.right
+            anchors.rightMargin: -root.cornerWidth
+            anchors.top: parent.bottom
+        }
+        Rectangle {
+            width: root.cornerWidth
+            height: root.cornerSize
+            color: label.color
+            anchors.left: parent.right
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -root.cornerWidth
+        }
     }
 }
