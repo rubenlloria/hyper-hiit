@@ -18,6 +18,8 @@ QtObject {
     // --- COLOR PALETTE (Centralized for Neon Theme) ---
     readonly property color blackNeon:          "#030213"
     readonly property color darkNeon:           "#1a1a1f"
+    readonly property color darkMagenta:        "#1a0b1a"
+    readonly property color darkBlue:           "#0d0d20"
     readonly property color whiteNeon:          "#ffffff"
     readonly property color greyNeon:           "#808090"
     readonly property color cyanNeon:           "#00fff9"
