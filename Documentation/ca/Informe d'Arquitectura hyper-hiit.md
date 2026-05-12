@@ -92,43 +92,43 @@ Taula de continguts
 [14. Mètriques d'Evolució:](#14-mètriques-devolució)
 
 - [Algorisme d'IMPROVEMENT
-](algorisme-dimprovement)
+](#algorisme-dimprovement)
 
    - [A. Principi de Càlcul (Rolling Window)
-](a-principi-de-càlcul-rolling-window)
+](#a-principi-de-càlcul-rolling-window)
 
    - [B. Fórmula de l'Índex de Potència (Puntuació de Sessió)
-](b-fórmula-de-lÍndex-de-potència-puntuació-de-sessió)
+](#b-fórmula-de-lÍndex-de-potència-puntuació-de-sessió)
 
    - [C. Factor de Velocitat Relativa (Speed Factor)
-](c-factor-de-velocitat-relativa-speed-factor)
+](#c-factor-de-velocitat-relativa-speed-factor)
 
    - [D. Generació del Percentatge d'IMPROVEMENT
-](d-generació-del-percentatge-dimprovement)
+](#d-generació-del-percentatge-dimprovement)
 
 - [Algorisme d'EFFICIENCY
-](algorisme-defficiency)
+](#algorisme-defficiency)
 
    - [A. Fonament de l'Eficiència Tàctica
-](a-fonament-de-leficiència-tàctica)
+](#a-fonament-de-leficiència-tàctica)
 
    - [B. Càlcul Setmanal (Dashboard Integration)
-](b-càlcul-setmanal-dashboard-integration)
+](#b-càlcul-setmanal-dashboard-integration)
 
    - [C. Jerarquia Visual i UX
-](c-jerarquia-visual-i-ux)
+](#c-jerarquia-visual-i-ux)
 
    - [D. Implementació de Baixa Latència
-](d-implementació-de-baixa-latència)
+](#d-implementació-de-baixa-latència)
 
 - [AVG_SESSIONS i AVG_CALORIES
-](avg_sessions-i-avg_calories)
+](#avg_sessions-i-avg_calories)
 
    - [A. Definició i Càlcul Matemàtic
-](a-definició-i-càlcul-matemàtic)
+](#a-definició-i-càlcul-matemàtic)
 
    - [B. Implementació Tècnica
-](b-implementació-tècnica)
+](#b-implementació-tècnica)
 
 [Ruta de versions](#ruta-de-versions)
 

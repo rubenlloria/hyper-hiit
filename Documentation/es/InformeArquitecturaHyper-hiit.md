@@ -92,43 +92,43 @@ Tabla de contenidos
 [14. Métricas de Evolución:](#14-métricas-de-evolución)
 
 - [Algoritmo de IMPROVEMENT
-](algoritmo-de-improvement)
+](#algoritmo-de-improvement)
 
    - [A. Principio de Cálculo (Rolling Window)
-](a-principio-de-cálculo-rolling-window)
+](#a-principio-de-cálculo-rolling-window)
 
    - [B. Fórmula del Índice de Potencia (Puntuación de Sesión)
-](b-fórmula-del-índice-de-potencia-puntuación-de-sesión)
+](#b-fórmula-del-índice-de-potencia-puntuación-de-sesión)
 
    - [C. Factor de Velocidad Relativa (Speed Factor)
-](c-factor-de-velocidad-relativa-speed-factor)
+](#c-factor-de-velocidad-relativa-speed-factor)
 
    - [D. Generación del Porcentaje de IMPROVEMENT
-](d-generación-del-porcentaje-de-improvement)
+](#d-generación-del-porcentaje-de-improvement)
 
 - [Algoritmo de EFFICIENCY
-](algoritmo-de-efficiency)
+](#algoritmo-de-efficiency)
 
    - [A. Fundamento de la Eficiencia Táctica
-](a-fundamento-de-la-eficiencia-táctica)
+](#a-fundamento-de-la-eficiencia-táctica)
 
    - [B. Cálculo Semanal (Dashboard Integration)
-](b-cálculo-semanal-dashboard-integration)
+](#b-cálculo-semanal-dashboard-integration)
 
    - [C. Jerarquía Visual y UX
-](c-jerarquía-visual-y-ux)
+](#c-jerarquía-visual-y-ux)
 
    - [D. Implementación de Baja Latencia
-](d-implementación-de-baja-latencia)
+](#d-implementación-de-baja-latencia)
 
 - [AVG_SESSIONS y AVG_CALORIES
-](avg_sessions-y-avg_calories)
+](#avg_sessions-y-avg_calories)
 
    - [A. Definición y Cálculo Matemático
-](a-definición-y-cálculo-matemático)
+](#a-definición-y-cálculo-matemático)
 
    - [B. Implementación Técnica
-](b-implementación-técnica)
+](#b-implementación-técnica)
 
 [Hoja de ruta de versiones](#hoja-de-ruta-de-versiones)
 
