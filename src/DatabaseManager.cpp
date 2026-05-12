@@ -68,6 +68,13 @@ bool DatabaseManager::initDatabase() {
         hCritical() << "Could not retrieve schema version.";
     }
 
+    if (m_dbSchema > DB_SCHEMA_VERSION) {
+        hCritical() << "Database file is newer than this application version!";
+    } else if (m_dbSchema < DB_SCHEMA_VERSION) {
+        hWarning() << "Older schema version detected (" << m_dbSchema << "). Migrating...";
+        runMigrations(m_dbSchema);
+    }
+
     hInfo() << "Database system online.";
     return true;
 }
@@ -164,6 +171,7 @@ bool DatabaseManager::createTables() {
             "s_order INT,"
             "module_id INTEGER,"
             "quantity INT,"
+            "unit_type INT,"
             "UNIQUE (protocol_id, subsystem, s_order),"
             "FOREIGN KEY (protocol_id) REFERENCES protocols(protocol_id),"
             "FOREIGN KEY (module_id) REFERENCES modules(module_id)"
@@ -237,6 +245,16 @@ bool DatabaseManager::seedDatabase() {
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     QJsonObject root = doc.object();
+
+    QString versionStr = root["version"].toString();
+    float version = versionStr.toFloat();
+
+    if (version < MIN_JSON_VERSION) {
+        hCritical() << "Incompatible Data Packet: Detected version" << versionStr
+                    << "but system requires at least" << MIN_JSON_VERSION;
+        return false;
+    }
+
     QJsonArray modulesArr = root["modules"].toArray();
     QJsonArray directivesArr = root["directives"].toArray();
     QJsonArray protocolsArr = root["protocols"].toArray();
@@ -519,7 +537,7 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
             // STEP 2: Fetch modules for this subsystem
             QVariantList modulesInSub;
             QSqlQuery modQuery;
-            modQuery.prepare("SELECT m.mod_name, ps.quantity, m.unit_type "
+            modQuery.prepare("SELECT m.mod_name, ps.quantity, ps.unit_type "
                              "FROM protocol_structure ps "
                              "JOIN Modules m ON ps.module_id = m.module_id "
                              "WHERE ps.protocol_id = :p_id AND ps.subsystem = :sub_id "
@@ -567,8 +585,8 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
 
     // SQL JOIN to fetch Level 4 metadata: rep_time, met_factor, and fatigue_rate
     query.prepare(
-        "SELECT ps.subsystem, ps.quantity, "
-        "m.mod_name, m.unit_type, m.rep_time, m.met_factor, m.fatigue_rate "
+        "SELECT ps.subsystem, ps.quantity, ps.unit_type, "
+        "m.mod_name, m.rep_time, m.met_factor, m.fatigue_rate "
         "FROM protocol_structure ps "
         "JOIN modules m ON ps.module_id = m.module_id "
         "WHERE ps.protocol_id = :protId "
@@ -793,7 +811,7 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
     QSqlQuery q;
     // Prepare the structure insertion for the Protocol Matrix [4, 6]
     q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity) "
-              "VALUES (:prot_id, :subsystem, :s_order, :mod_id, :quantity)");
+              "VALUES (:prot_id, :subsystem, :s_order, :mod_id, :quantity, :unit)");
 
     for (const QJsonValue &val : std::as_const(structureArr)) {
         QJsonObject s = val.toObject();
@@ -806,6 +824,7 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
             q.bindValue(":s_order", s.value("s_order").toInt());     // Execution sequence [6]
             q.bindValue(":mod_id", nameToModuleId[moduleName.toLower()]);   // Resolved Module ID [4]
             q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
+            q.bindValue(":unit", resolveUnitType(s.value("unit")));
 
             if (!q.exec()) {
                 hCritical() << "Failed to link module" << moduleName
@@ -1093,4 +1112,95 @@ double DatabaseManager::getAverageDailySessions(int startDay, int windowSize) {
         return query.value("avg_sessions").toDouble();
     }
     return 0.0;
+}
+
+int DatabaseManager::getProtocolIdByName(const QString &name) {
+    QSqlQuery query;
+    query.prepare("SELECT protocol_id FROM protocols WHERE protocol_name = :name");
+    query.bindValue(":name", name);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();
+    }
+
+    return -1; // Return -1 if the protocol does not exist in the master table
+}
+
+void DatabaseManager::runMigrations(int oldVersion) {
+    QSqlQuery query;
+
+    if (oldVersion < 2) {
+        hInfo() << "Starting Migration V2: Structure unit_type decoupling...";
+
+        // Add the unit_type column to the mapping table
+        // DEFAULT 1 (reps) ensures legacy protocols remain functional
+        QString sql = "ALTER TABLE protocol_structure ADD COLUMN unit_type INTEGER DEFAULT 1";
+
+        if (!query.exec(sql)) {
+            hCritical() << "Migration V2 failed:" << query.lastError().text();
+            return;
+        } else {
+            QFile file(":/qt/qml/org/aic/hyperhiit/res/init_data.json");
+            if (!file.open(QIODevice::ReadOnly)) return;
+
+            QByteArray jsonData = file.readAll();
+            file.close();
+
+            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+            QJsonObject root = doc.object();
+
+            QString versionStr = root["version"].toString();
+            float version = versionStr.toFloat();
+
+            if (version < MIN_JSON_VERSION) {
+                hCritical() << "Incompatible Data Packet: Detected version" << version
+                            << "but system requires at least" << MIN_JSON_VERSION;
+                return;
+            }
+
+            QJsonArray protocolsArr = root["protocols"].toArray();
+
+
+            QSqlQuery q;
+            for (const QJsonValue &pVal : std::as_const(protocolsArr)) {
+                QJsonObject pObj = pVal.toObject();
+                QString protocolName = pObj["protocol_name"].toString();
+                QJsonArray structure = pObj["structure"].toArray();
+
+                // Retrieve the internal ID for this protocol
+                hDebug() << "Upgrading " << protocolName;
+                int protocolId = getProtocolIdByName(protocolName);
+                if (protocolId == -1) continue;
+
+                for (const QJsonValue &sVal : std::as_const(structure)) {
+                    QJsonObject sObj = sVal.toObject();
+                    QString moduleName = sObj["module"].toString();
+                    int subsystem = sObj["subsystem"].toInt();
+                    int sOrder = sObj["s_order"].toInt();
+                    int unitId = resolveUnitType(sObj["unit"]); // Map "seconds" -> 0, "reps" -> 1
+
+                    // Precise update using the composite key of the structure mapping
+                    q.prepare("UPDATE protocol_structure SET unit_type = :unit "
+                              "WHERE protocol_id = :pid AND subsystem = :sub AND s_order = :ord");
+                    q.bindValue(":unit", unitId);
+                    q.bindValue(":pid", protocolId);
+                    q.bindValue(":sub", subsystem);
+                    q.bindValue(":ord", sOrder);
+                    q.exec();
+                    // After executing the query
+                    hDebug() << "UPDATE protocol_structure SET"
+                                " unit_type = "
+                             << unitId << " WHERE protocol_id = " << protocolId
+                             << " AND subsystem = " << subsystem
+                             << " AND s_order = " << sOrder;
+                }
+            }
+            hInfo() << "Protocol units updated from JSON definition.";
+        }
+
+        // Update the internal SQLite version tracker
+        if (query.exec("PRAGMA user_version = 2")) {
+            hInfo() << "Migration V2 completed successfully. Schema synchronized.";
+        }
+    }
 }

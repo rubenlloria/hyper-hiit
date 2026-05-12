@@ -40,7 +40,8 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 
-#define DB_SCHEMA_VERSION 1
+#define DB_SCHEMA_VERSION 2
+#define MIN_JSON_VERSION 0.5
 
 class DatabaseManager : public QObject {
     Q_OBJECT
@@ -108,7 +109,8 @@ private:
     const QMap<QString, int> m_unitMap = {
         {"seconds", 0},
         {"reps",    1},
-        {"breaths", 2}
+        {"breaths", 2},
+        {"meters", 3}
     };
     QMap<QString, int> nameToModuleId;
     QMap<QString, int> nameToDirectiveId;
@@ -139,6 +141,19 @@ private:
  * @return a percentage (e.g., 105 for 105% efficiency).
  */
     int getAverageEfficiency(int startDay, int windowSize);
+
+    /**
+ * @brief Resolves a protocol ID by its unique name using a direct database query.
+ * @param name: Name of protocol to find.
+ * @return <int> id of protocol
+ */
+    int getProtocolIdByName(const QString &name);
+
+    /**
+ * @brief Executes incremental schema updates based on the current user_version.
+ * @param oldVersion The version detected in the database file.
+ */
+    void runMigrations(int oldVersion);
 
 };
 

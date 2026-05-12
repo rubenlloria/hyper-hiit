@@ -1,5 +1,5 @@
 {
-  "version": "0.4",
+  "version": "0.5",
   "author": "Rubén Llòria",
   "modules": [
     {
@@ -556,15 +556,15 @@
       "personal_best": 800,
       "target_directives": ["FAT_BURNING"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 30 },
-        { "subsystem": 1, "s_order": 2, "module": "Sit-ups", "quantity": 30 },
-        { "subsystem": 1, "s_order": 3, "module": "Lunges", "quantity": 30 },
-        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 15 },
-        { "subsystem": 2, "s_order": 2, "module": "Sit-ups", "quantity": 15 },
-        { "subsystem": 2, "s_order": 3, "module": "Lunges", "quantity": 15 },
-        { "subsystem": 3, "s_order": 1, "module": "Burpees", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "Sit-ups", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "Lunges", "quantity": 30 }
+        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Sit-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Lunges", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Sit-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Lunges", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Burpees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Sit-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Lunges", "quantity": 30, "unit": "reps" }
       ]
     },
     {
@@ -575,18 +575,18 @@
       "personal_best": 600,
       "target_directives": ["FAT_BURNING"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Jumping Jacks", "quantity": 20 },
-        { "subsystem": 1, "s_order": 2, "module": "Squat Thrusts", "quantity": 20 },
-        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 20 },
-        { "subsystem": 2, "s_order": 1, "module": "Jumping Jacks", "quantity": 20 },
-        { "subsystem": 2, "s_order": 2, "module": "Squat Thrusts", "quantity": 20 },
-        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 20 },
-        { "subsystem": 3, "s_order": 1, "module": "Jumping Jacks", "quantity": 20 },
-        { "subsystem": 3, "s_order": 2, "module": "Squat Thrusts", "quantity": 20 },
-        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 20 },
-        { "subsystem": 4, "s_order": 1, "module": "Jumping Jacks", "quantity": 20 },
-        { "subsystem": 4, "s_order": 2, "module": "Squat Thrusts", "quantity": 20 },
-        { "subsystem": 4, "s_order": 3, "module": "Mountain Climbers", "quantity": 20 }
+        { "subsystem": 1, "s_order": 1, "module": "Jumping Jacks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Squat Thrusts", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Jumping Jacks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Squat Thrusts", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Jumping Jacks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Squat Thrusts", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Jumping Jacks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Squat Thrusts", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Mountain Climbers", "quantity": 20, "unit": "reps" }
       ]
     },
     {
@@ -597,18 +597,18 @@
       "personal_best": 0,
       "target_directives": ["FAT_BURNING"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Lateral Skaters", "quantity": 40 },
-        { "subsystem": 1, "s_order": 2, "module": "Reverse Lunges", "quantity": 40 },
-        { "subsystem": 1, "s_order": 3, "module": "Bicycle Crunches", "quantity": 40 },
-        { "subsystem": 2, "s_order": 1, "module": "Lateral Skaters", "quantity": 30 },
-        { "subsystem": 2, "s_order": 2, "module": "Reverse Lunges", "quantity": 30 },
-        { "subsystem": 2, "s_order": 3, "module": "Bicycle Crunches", "quantity": 30 },
-        { "subsystem": 3, "s_order": 1, "module": "Lateral Skaters", "quantity": 20 },
-        { "subsystem": 3, "s_order": 2, "module": "Reverse Lunges", "quantity": 20 },
-        { "subsystem": 3, "s_order": 3, "module": "Bicycle Crunches", "quantity": 20 },
-        { "subsystem": 4, "s_order": 1, "module": "Lateral Skaters", "quantity": 10 },
-        { "subsystem": 4, "s_order": 2, "module": "Reverse Lunges", "quantity": 10 },
-        { "subsystem": 4, "s_order": 3, "module": "Bicycle Crunches", "quantity": 10 }
+        { "subsystem": 1, "s_order": 1, "module": "Lateral Skaters", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Reverse Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Bicycle Crunches", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Lateral Skaters", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Reverse Lunges", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Bicycle Crunches", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Lateral Skaters", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Reverse Lunges", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Bicycle Crunches", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Lateral Skaters", "quantity": 10, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Reverse Lunges", "quantity": 10, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Bicycle Crunches", "quantity": 10, "unit": "reps" }
       ]
     },
     {
@@ -619,18 +619,18 @@
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Jumping Jacks", "quantity": 30 },
-        { "subsystem": 1, "s_order": 2, "module": "High Knees", "quantity": 30 },
-        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 30 },
-        { "subsystem": 2, "s_order": 1, "module": "Jumping Jacks", "quantity": 30 },
-        { "subsystem": 2, "s_order": 2, "module": "High Knees", "quantity": 30 },
-        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 30 },
-        { "subsystem": 3, "s_order": 1, "module": "Jumping Jacks", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "High Knees", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 30 },
-        { "subsystem": 4, "s_order": 1, "module": "Jumping Jacks", "quantity": 30 },
-        { "subsystem": 4, "s_order": 2, "module": "High Knees", "quantity": 30 },
-        { "subsystem": 4, "s_order": 3, "module": "Mountain Climbers", "quantity": 30 }
+        { "subsystem": 1, "s_order": 1, "module": "Jumping Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "High Knees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Jumping Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "High Knees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Jumping Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "High Knees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 30, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Jumping Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "High Knees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Mountain Climbers", "quantity": 30, "unit": "reps" }
       ]
     },
     {
@@ -641,18 +641,18 @@
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Lateral Shuffles", "quantity": 40 },
-        { "subsystem": 1, "s_order": 2, "module": "Butt Kicks", "quantity": 40 },
-        { "subsystem": 1, "s_order": 3, "module": "Cross Jacks", "quantity": 40 },
-        { "subsystem": 2, "s_order": 1, "module": "Lateral Shuffles", "quantity": 30 },
-        { "subsystem": 2, "s_order": 2, "module": "Butt Kicks", "quantity": 30 },
-        { "subsystem": 2, "s_order": 3, "module": "Cross Jacks", "quantity": 30 },
-        { "subsystem": 3, "s_order": 1, "module": "Lateral Shuffles", "quantity": 20 },
-        { "subsystem": 3, "s_order": 2, "module": "Butt Kicks", "quantity": 20 },
-        { "subsystem": 3, "s_order": 3, "module": "Cross Jacks", "quantity": 20 },
-        { "subsystem": 4, "s_order": 1, "module": "Lateral Shuffles", "quantity": 10 },
-        { "subsystem": 4, "s_order": 2, "module": "Butt Kicks", "quantity": 10 },
-        { "subsystem": 4, "s_order": 3, "module": "Cross Jacks", "quantity": 10 }
+        { "subsystem": 1, "s_order": 1, "module": "Lateral Shuffles", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Butt Kicks", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Cross Jacks", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Lateral Shuffles", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Butt Kicks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Cross Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Lateral Shuffles", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Butt Kicks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Cross Jacks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Lateral Shuffles", "quantity": 10, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Butt Kicks", "quantity": 10, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Cross Jacks", "quantity": 10, "unit": "reps" }
       ]
     },
     {
@@ -663,15 +663,15 @@
       "personal_best": 0,
       "target_directives": ["CARDIO_ENHANCEMENT"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Seal Jacks", "quantity": 15 },
-        { "subsystem": 1, "s_order": 2, "module": "Shadow Boxing", "quantity": 15 },
-        { "subsystem": 1, "s_order": 3, "module": "Fast Feet", "quantity": 15 },
-        { "subsystem": 2, "s_order": 1, "module": "Seal Jacks", "quantity": 30 },
-        { "subsystem": 2, "s_order": 2, "module": "Shadow Boxing", "quantity": 30 },
-        { "subsystem": 2, "s_order": 3, "module": "Fast Feet", "quantity": 30 },
-        { "subsystem": 3, "s_order": 1, "module": "Seal Jacks", "quantity": 45 },
-        { "subsystem": 3, "s_order": 2, "module": "Shadow Boxing", "quantity": 45 },
-        { "subsystem": 3, "s_order": 3, "module": "Fast Feet", "quantity": 45 }
+        { "subsystem": 1, "s_order": 1, "module": "Seal Jacks", "quantity": 15, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Shadow Boxing", "quantity": 15, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Fast Feet", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Seal Jacks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Shadow Boxing", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Fast Feet", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Seal Jacks", "quantity": 45, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Shadow Boxing", "quantity": 45, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Fast Feet", "quantity": 45, "unit": "reps" }
       ]
     },
     {
@@ -682,15 +682,15 @@
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Diamond Push-ups", "quantity": 30 },
-        { "subsystem": 1, "s_order": 2, "module": "Archer Squats", "quantity": 30 },
-        { "subsystem": 1, "s_order": 3, "module": "V-Ups", "quantity": 30 },
-        { "subsystem": 2, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15 },
-        { "subsystem": 2, "s_order": 2, "module": "Archer Squats", "quantity": 15 },
-        { "subsystem": 2, "s_order": 3, "module": "V-Ups", "quantity": 15 },
-        { "subsystem": 3, "s_order": 1, "module": "Diamond Push-ups", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "Archer Squats", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "V-Ups", "quantity": 30 }
+        { "subsystem": 1, "s_order": 1, "module": "Diamond Push-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Archer Squats", "quantity": 30, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "V-Ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Archer Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "V-Ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Diamond Push-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Archer Squats", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "V-Ups", "quantity": 30, "unit": "reps" }
       ]
     },
     {
@@ -701,21 +701,21 @@
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Pike Push-ups", "quantity": 20 },
-        { "subsystem": 1, "s_order": 2, "module": "Archer Squats", "quantity": 20 },
-        { "subsystem": 1, "s_order": 3, "module": "Hollow Rock", "quantity": 20 },
-        { "subsystem": 2, "s_order": 1, "module": "Pike Push-ups", "quantity": 15 },
-        { "subsystem": 2, "s_order": 2, "module": "Archer Squats", "quantity": 15 },
-        { "subsystem": 2, "s_order": 3, "module": "Hollow Rock", "quantity": 15 },
-        { "subsystem": 3, "s_order": 1, "module": "Pike Push-ups", "quantity": 10 },
-        { "subsystem": 3, "s_order": 2, "module": "Archer Squats", "quantity": 10 },
-        { "subsystem": 3, "s_order": 3, "module": "Hollow Rock", "quantity": 10 },
-        { "subsystem": 4, "s_order": 1, "module": "Pike Push-ups", "quantity": 8 },
-        { "subsystem": 4, "s_order": 2, "module": "Archer Squats", "quantity": 8 },
-        { "subsystem": 4, "s_order": 3, "module": "Hollow Rock", "quantity": 8 },
-        { "subsystem": 5, "s_order": 1, "module": "Pike Push-ups", "quantity": 5 },
-        { "subsystem": 5, "s_order": 2, "module": "Archer Squats", "quantity": 5 },
-        { "subsystem": 5, "s_order": 3, "module": "Hollow Rock", "quantity": 5 }
+        { "subsystem": 1, "s_order": 1, "module": "Pike Push-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Archer Squats", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Hollow Rock", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Pike Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Archer Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Hollow Rock", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Pike Push-ups", "quantity": 10, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Archer Squats", "quantity": 10, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Hollow Rock", "quantity": 10, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Pike Push-ups", "quantity": 8, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Archer Squats", "quantity": 8, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Hollow Rock", "quantity": 8, "unit": "reps" },
+        { "subsystem": 5, "s_order": 1, "module": "Pike Push-ups", "quantity": 5, "unit": "reps" },
+        { "subsystem": 5, "s_order": 2, "module": "Archer Squats", "quantity": 5, "unit": "reps" },
+        { "subsystem": 5, "s_order": 3, "module": "Hollow Rock", "quantity": 5, "unit": "reps" }
       ]
     },
     {
@@ -726,18 +726,18 @@
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15 },
-        { "subsystem": 1, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15 },
-        { "subsystem": 1, "s_order": 3, "module": "Plank Jacks", "quantity": 15 },
-        { "subsystem": 2, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15 },
-        { "subsystem": 2, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15 },
-        { "subsystem": 2, "s_order": 3, "module": "Plank Jacks", "quantity": 15 },
-        { "subsystem": 3, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15 },
-        { "subsystem": 3, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15 },
-        { "subsystem": 3, "s_order": 3, "module": "Plank Jacks", "quantity": 15 },
-        { "subsystem": 4, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15 },
-        { "subsystem": 4, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15 },
-        { "subsystem": 4, "s_order": 3, "module": "Plank Jacks", "quantity": 15 }
+        { "subsystem": 1, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Plank Jacks", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Plank Jacks", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Plank Jacks", "quantity": 15, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Diamond Push-ups", "quantity": 15, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Bulgarian Split Squats", "quantity": 15, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Plank Jacks", "quantity": 15, "unit": "reps" }
       ]
     },
     {
@@ -748,15 +748,15 @@
       "personal_best": 0,
       "target_directives": ["STRENGTH_MATRIX"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Decline Push-ups", "quantity": 10 },
-        { "subsystem": 1, "s_order": 2, "module": "Sumo Squats", "quantity": 10 },
-        { "subsystem": 1, "s_order": 3, "module": "Leg Raises", "quantity": 10 },
-        { "subsystem": 2, "s_order": 1, "module": "Decline Push-ups", "quantity": 20 },
-        { "subsystem": 2, "s_order": 2, "module": "Sumo Squats", "quantity": 20 },
-        { "subsystem": 2, "s_order": 3, "module": "Leg Raises", "quantity": 20 },
-        { "subsystem": 3, "s_order": 1, "module": "Decline Push-ups", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "Sumo Squats", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "Leg Raises", "quantity": 30 }
+        { "subsystem": 1, "s_order": 1, "module": "Decline Push-ups", "quantity": 10, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Sumo Squats", "quantity": 10, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Leg Raises", "quantity": 10, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Decline Push-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Sumo Squats", "quantity": 20, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Leg Raises", "quantity": 20, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Decline Push-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Sumo Squats", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Leg Raises", "quantity": 30, "unit": "reps" }
       ]
     },
     {
@@ -767,21 +767,21 @@
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 50 },
-        { "subsystem": 1, "s_order": 2, "module": "Air Squats", "quantity": 50 },
-        { "subsystem": 1, "s_order": 3, "module": "Sit-ups", "quantity": 50 },
-        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 40 },
-        { "subsystem": 2, "s_order": 2, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 2, "s_order": 3, "module": "Sit-ups", "quantity": 40 },
-        { "subsystem": 3, "s_order": 1, "module": "Burpees", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "Air Squats", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "Sit-ups", "quantity": 30 },
-        { "subsystem": 4, "s_order": 1, "module": "Burpees", "quantity": 20 },
-        { "subsystem": 4, "s_order": 2, "module": "Air Squats", "quantity": 20 },
-        { "subsystem": 4, "s_order": 3, "module": "Sit-ups", "quantity": 20 },
-        { "subsystem": 5, "s_order": 1, "module": "Burpees", "quantity": 10 },
-        { "subsystem": 5, "s_order": 2, "module": "Air Squats", "quantity": 10 },
-        { "subsystem": 5, "s_order": 3, "module": "Sit-ups", "quantity": 10 }
+        { "subsystem": 1, "s_order": 1, "module": "Burpees", "quantity": 50, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Air Squats", "quantity": 50, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Sit-ups", "quantity": 50, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Burpees", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Burpees", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Air Squats", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Sit-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Burpees", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Air Squats", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Sit-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 5, "s_order": 1, "module": "Burpees", "quantity": 10, "unit": "reps" },
+        { "subsystem": 5, "s_order": 2, "module": "Air Squats", "quantity": 10, "unit": "reps" },
+        { "subsystem": 5, "s_order": 3, "module": "Sit-ups", "quantity": 10, "unit": "reps" }
       ]
     },
     {
@@ -792,21 +792,21 @@
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 1, "s_order": 2, "module": "Alternating Lunges", "quantity": 40 },
-        { "subsystem": 1, "s_order": 3, "module": "Sit-ups", "quantity": 40 },
-        { "subsystem": 2, "s_order": 1, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 2, "s_order": 2, "module": "Alternating Lunges", "quantity": 40 },
-        { "subsystem": 2, "s_order": 3, "module": "Sit-ups", "quantity": 40 },
-        { "subsystem": 3, "s_order": 1, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 3, "s_order": 2, "module": "Alternating Lunges", "quantity": 40 },
-        { "subsystem": 3, "s_order": 3, "module": "Sit-ups", "quantity": 40 },
-        { "subsystem": 4, "s_order": 1, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 4, "s_order": 2, "module": "Alternating Lunges", "quantity": 40 },
-        { "subsystem": 4, "s_order": 3, "module": "Sit-ups", "quantity": 40 },
-        { "subsystem": 5, "s_order": 1, "module": "Air Squats", "quantity": 40 },
-        { "subsystem": 5, "s_order": 2, "module": "Alternating Lunges", "quantity": 40 },
-        { "subsystem": 5, "s_order": 3, "module": "Sit-ups", "quantity": 40 }
+        { "subsystem": 1, "s_order": 1, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Alternating Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Alternating Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Alternating Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Alternating Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 5, "s_order": 1, "module": "Air Squats", "quantity": 40, "unit": "reps" },
+        { "subsystem": 5, "s_order": 2, "module": "Alternating Lunges", "quantity": 40, "unit": "reps" },
+        { "subsystem": 5, "s_order": 3, "module": "Sit-ups", "quantity": 40, "unit": "reps" }
       ]
     },
     {
@@ -817,21 +817,21 @@
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Step-ups", "quantity": 50 },
-        { "subsystem": 1, "s_order": 2, "module": "Push-ups", "quantity": 50 },
-        { "subsystem": 1, "s_order": 3, "module": "Scissor Kicks", "quantity": 50 },
-        { "subsystem": 2, "s_order": 1, "module": "Step-ups", "quantity": 40 },
-        { "subsystem": 2, "s_order": 2, "module": "Push-ups", "quantity": 40 },
-        { "subsystem": 2, "s_order": 3, "module": "Scissor Kicks", "quantity": 40 },
-        { "subsystem": 3, "s_order": 1, "module": "Step-ups", "quantity": 30 },
-        { "subsystem": 3, "s_order": 2, "module": "Push-ups", "quantity": 30 },
-        { "subsystem": 3, "s_order": 3, "module": "Scissor Kicks", "quantity": 30 },
-        { "subsystem": 4, "s_order": 1, "module": "Step-ups", "quantity": 20 },
-        { "subsystem": 4, "s_order": 2, "module": "Push-ups", "quantity": 20 },
-        { "subsystem": 4, "s_order": 3, "module": "Scissor Kicks", "quantity": 20 },
-        { "subsystem": 5, "s_order": 1, "module": "Step-ups", "quantity": 10 },
-        { "subsystem": 5, "s_order": 2, "module": "Push-ups", "quantity": 10 },
-        { "subsystem": 5, "s_order": 3, "module": "Scissor Kicks", "quantity": 10 }
+        { "subsystem": 1, "s_order": 1, "module": "Step-ups", "quantity": 50, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Push-ups", "quantity": 50, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Scissor Kicks", "quantity": 50, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Step-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Push-ups", "quantity": 40, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Scissor Kicks", "quantity": 40, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Step-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Push-ups", "quantity": 30, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Scissor Kicks", "quantity": 30, "unit": "reps" },
+        { "subsystem": 4, "s_order": 1, "module": "Step-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 2, "module": "Push-ups", "quantity": 20, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Scissor Kicks", "quantity": 20, "unit": "reps" },
+        { "subsystem": 5, "s_order": 1, "module": "Step-ups", "quantity": 10, "unit": "reps" },
+        { "subsystem": 5, "s_order": 2, "module": "Push-ups", "quantity": 10, "unit": "reps" },
+        { "subsystem": 5, "s_order": 3, "module": "Scissor Kicks", "quantity": 10, "unit": "reps" }
       ]
     },
     {
@@ -842,15 +842,15 @@
       "personal_best": 0,
       "target_directives": ["ENDURANCE_GRID"],
       "structure": [
-        { "subsystem": 1, "s_order": 1, "module": "Butt Kicks", "quantity": 60 },
-        { "subsystem": 1, "s_order": 2, "module": "Glute Bridges", "quantity": 60 },
-        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 60 },
-        { "subsystem": 2, "s_order": 1, "module": "Butt Kicks", "quantity": 60 },
-        { "subsystem": 2, "s_order": 2, "module": "Glute Bridges", "quantity": 60 },
-        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 60 },
-        { "subsystem": 3, "s_order": 1, "module": "Butt Kicks", "quantity": 60 },
-        { "subsystem": 3, "s_order": 2, "module": "Glute Bridges", "quantity": 60 },
-        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 60 }
+        { "subsystem": 1, "s_order": 1, "module": "Butt Kicks", "quantity": 60, "unit": "reps" },
+        { "subsystem": 1, "s_order": 2, "module": "Glute Bridges", "quantity": 60, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Mountain Climbers", "quantity": 60, "unit": "reps" },
+        { "subsystem": 2, "s_order": 1, "module": "Butt Kicks", "quantity": 60, "unit": "reps" },
+        { "subsystem": 2, "s_order": 2, "module": "Glute Bridges", "quantity": 60, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Mountain Climbers", "quantity": 60, "unit": "reps" },
+        { "subsystem": 3, "s_order": 1, "module": "Butt Kicks", "quantity": 60, "unit": "reps" },
+        { "subsystem": 3, "s_order": 2, "module": "Glute Bridges", "quantity": 60, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Mountain Climbers", "quantity": 60, "unit": "reps" }
       ]
     },
     {
