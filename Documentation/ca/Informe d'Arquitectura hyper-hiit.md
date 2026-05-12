@@ -1,7 +1,7 @@
 Informe d'Arquitectura hyper//hiit
 ==================================
 
->    Rev. 44 (09/05/26)
+>    Rev. 45 (12/05/26)
 
 &nbsp;
 
@@ -331,12 +331,18 @@ CREATE TABLE IF NOT EXISTS modules (
         mod_instructions TEXT,
         mod_safety TEXT,
         mod_equipment TEXT,
-        unit_type INTEGER NOT NULL, -- 0: SECONDS \| 1: REPS \| 2: BREATH
+        unit_type INTEGER NOT NULL, -- 0: SECONDS \| 1: REPS \| 2: BREATH \| 3: METERS
         rep_time FLOAT,
         met_factor FLOAT, -- Efficiency constant
         fatigue_rate FLOAT, -- Performance tier 1
 );
 ```
+
+>   **Unit_type:**  
+>   0: segons  
+>   1: repeticions  
+>   2: respiracions  
+>   3: metres
 
 ### Taula: directives
 
@@ -403,6 +409,7 @@ CREATE TABLE IF NOT EXISTS protocol_structure (
         s_order INT,
         module_id INTEGER,
         quantity INT,
+        unit_type INT,
         UNIQUE (protocol_id, protocol_order),
         FOREIGN KEY (protocol_id) REFERENCES protocols(protocol_id),
         FOREIGN KEY (module_id) REFERENCES modules(module_id)
@@ -410,10 +417,10 @@ CREATE TABLE IF NOT EXISTS protocol_structure (
 
 ```
 
-**Nota Tècnica sobre unit_type:** Aquest camp és crític per a la lògica
-del backend. Determina si el valor quantity s'ha d'interpretar com un
-enter de repeticions (ex: 30 Burpees) o com un comptador de temps en
-segons (ex: 60 segons de Plank o de transició).
+> **Nota Tècnica sobre unit_type:** Aquest camp és crític per a la lògica
+> del backend. Determina si el valor quantity s'ha d'interpretar com un
+> enter de repeticions (ex: 30 Burpees) o com un comptador de temps en
+> segons (ex: 60 segons de Plank o de transició).
 
 ### Taula: ranks
 
