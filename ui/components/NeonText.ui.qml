@@ -52,6 +52,10 @@ Item {
     Item {
         id: techCorners
         anchors.fill: label
+        // anchors.topMargin: -spacing
+        // anchors.bottomMargin: -spacing
+        anchors.leftMargin: -(label.font.pixelSize / 3)
+        anchors.rightMargin: anchors.leftMargin
         opacity: 0.7
         // Top-Left
         Rectangle {

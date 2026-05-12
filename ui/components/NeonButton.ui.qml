@@ -70,41 +70,41 @@ Item {
 
     // 3. Tech Corners (Terminal Brackets)
     // Replicates the .tech-corners logic from cyberpunk.css [2, 7]
-    Item {
-        anchors.fill: parent
+    // Item {
+    //     anchors.fill: parent
 
-        // Top-Left Bracket
-        Rectangle {
-            width: 12
-            height: 2
-            color: buttonRoot.themeColor
-            x: 10
-            y: 12
-        }
-        Rectangle {
-            width: 2
-            height: 12
-            color: buttonRoot.themeColor
-            x: 10
-            y: 2
-        }
+    //     // Top-Left Bracket
+    //     Rectangle {
+    //         width: 12
+    //         height: 2
+    //         color: buttonRoot.themeColor
+    //         x: 10
+    //         y: 12
+    //     }
+    //     Rectangle {
+    //         width: 2
+    //         height: 12
+    //         color: buttonRoot.themeColor
+    //         x: 10
+    //         y: 2
+    //     }
 
-        // Top-Right Bracket
-        Rectangle {
-            width: 12
-            height: 2
-            color: buttonRoot.themeColor
-            x: parent.width - 22
-            y: 12
-        }
-        Rectangle {
-            width: 2
-            height: 12
-            color: buttonRoot.themeColor
-            x: parent.width - 12
-            y: 2
-        }
-    }
+    //     // Top-Right Bracket
+    //     Rectangle {
+    //         width: 12
+    //         height: 2
+    //         color: buttonRoot.themeColor
+    //         x: parent.width - 22
+    //         y: 12
+    //     }
+    //     Rectangle {
+    //         width: 2
+    //         height: 12
+    //         color: buttonRoot.themeColor
+    //         x: parent.width - 12
+    //         y: 2
+    //     }
+    // }
 
     // 4. Content Row (Icon + Text)
     RowLayout {
@@ -121,7 +121,6 @@ Item {
             size: 20
             // anchors.verticalCenter: parent.verticalCenter
             Layout.alignment: Qt.AlignVCenter
-
         }
 
         NeonText {
@@ -131,7 +130,7 @@ Item {
             size: 14
             // anchors.verticalCenter: parent.verticalCenter
             Layout.alignment: Qt.AlignVCenter
-
+            cornerWidth: 1
         }
     }
 

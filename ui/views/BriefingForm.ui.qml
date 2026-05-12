@@ -109,13 +109,14 @@ Rectangle {
                         font.family: Constants.techFont.family
                         font.pixelSize: 12
                     }
-                    Text {
+                    NeonText {
                         id: protocolTitle
-                        text: root.protocolName
-                        color: root.themeColor
+                        label: root.protocolName
+                        labelColor: root.themeColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 28
                         font.bold: true
+                        cornerWidth: 1
                     }
                 }
 

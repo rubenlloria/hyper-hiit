@@ -41,6 +41,8 @@ Rectangle {
     property alias evolutionShape: evolutionShape
     property alias topLabel: topLabel.text
     property alias centerLabel: centerLabel.text
+    property alias evolutionTitle: evoTitle.label
+    property alias evolutionInfo: evoInfo.text
 
     // 1. Neon Glow Effect (Bloom)
     // DropShadow {
@@ -142,6 +144,7 @@ Rectangle {
             }
 
             NeonText {
+                id: evoTitle
                 label: "EVOLUTION_METRICS"
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
