@@ -59,14 +59,15 @@ qt_add_qml_module(hyper-hiit
         # screens
         ui/views/Architect.qml
         ui/views/ArchitectForm.ui.qml
-        ui/views/BriefingForm.ui.qml
         ui/views/Briefing.qml
+        ui/views/BriefingForm.ui.qml
         ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
-        ui/views/Testboard.qml
         ui/views/Protocol.qml
         ui/views/ProtocolForm.ui.qml
+        ui/views/Summary.qml
         ui/views/SummaryForm.ui.qml
+        ui/views/Testboard.qml
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
@@ -83,7 +84,9 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonSubsystem.ui.qml
         ui/components/NeonText.ui.qml
         ui/components/NeonTimer.ui.qml
+        ui/components/NeonTitle.ui.qml
         ui/components/ProtocolList.ui.qml
+        ui/components/SummaryList.ui.qml
     RESOURCES
         res/init_data.json
         gpl2_header.txt
@@ -100,7 +103,7 @@ qt_add_qml_module(hyper-hiit
         "Documentation/ca/Manual Tècnic d'Entrenament.md"
         "Documentation/es/github_prefixes.md"
         Documentation/es/InformeArquitecturaHyper-hiit.md
-        RESOURCES Documentation/en/markdownFormat.md
+        Documentation/en/markdownFormat.md
 )
 
 # [SYNC_FIX] Make src/ directory headers visible to the QML registration generator

@@ -69,15 +69,19 @@
         <file>ui/components/NeonButton.ui.qml</file>
         <file>ui/components/NeonDial.ui.qml</file>
         <file>ui/components/NeonDirective.ui.qml</file>
+        <file>ui/components/NeonEvolution.ui.qml</file>
         <file>ui/components/NeonFooter.ui.qml</file>
         <file>ui/components/NeonIcon.ui.qml</file>
         <file>ui/components/NeonIndicator.ui.qml</file>
         <file>ui/components/NeonMetadata.ui.qml</file>
+        <file>ui/components/NeonProgress.ui.qml</file>
         <file>ui/components/NeonProtocol.ui.qml</file>
         <file>ui/components/NeonSubsystem.ui.qml</file>
         <file>ui/components/NeonText.ui.qml</file>
         <file>ui/components/NeonTimer.ui.qml</file>
+        <file>ui/components/NeonTitle.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
+        <file>ui/components/SummaryList.ui.qml</file>
         <file>ui/main.qml</file>
         <file>ui/qmldir</file>
         <file>ui/views/Architect.qml</file>
@@ -88,6 +92,8 @@
         <file>ui/views/DashboardForm.ui.qml</file>
         <file>ui/views/Protocol.qml</file>
         <file>ui/views/ProtocolForm.ui.qml</file>
+        <file>ui/views/Summary.qml</file>
+        <file>ui/views/SummaryForm.ui.qml</file>
         <file>ui/views/Testboard.qml</file>
     </qresource>
 </RCC>

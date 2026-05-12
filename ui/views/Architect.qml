@@ -14,4 +14,8 @@ ArchitectForm {
         console.log("Restoring database...");
         dbManager.restoreDatabase();
     }
+    summaryButton.interactionArea.onClicked: {
+        console.log("Navigate to Summary...");
+        mainStack.push("Summary.qml");
+    }
 }
