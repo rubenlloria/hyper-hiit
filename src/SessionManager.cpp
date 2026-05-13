@@ -226,7 +226,7 @@ int SessionManager::saveSession() {
     QString telemetryString = telemetryList.join(",");
 
     // The total duration is the last checkpoint recorded
-    int totalDuration = m_moduleDurations.last() / 1000;
+    int totalDuration = m_moduleDurations.last();
 
     // Final metabolic impact calculation
     // Note: m_totalCalories has been accumulating during module transitions
