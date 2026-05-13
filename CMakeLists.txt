@@ -99,11 +99,12 @@ qt_add_qml_module(hyper-hiit
         ui/assets/fonts/Orbit-Regular.ttf
         ui/assets/fonts/ShareTechMono-Regular.ttf
         # Documentation
-        "Documentation/ca/Informe d'Arquitectura hyper-hiit.md"
-        "Documentation/ca/Manual Tècnic d'Entrenament.md"
-        "Documentation/es/github_prefixes.md"
-        Documentation/es/InformeArquitecturaHyper-hiit.md
+        Documentation/ca/architecture-report.ca.md
+        Documentation/ca/training-technical-manual.ca.md
+        Documentation/es/github_prefixes.md
+        Documentation/es/architecture-report.es.md
         Documentation/en/markdownFormat.md
+        Documentation/en/architecture-report.md
 )
 
 # [SYNC_FIX] Make src/ directory headers visible to the QML registration generator
