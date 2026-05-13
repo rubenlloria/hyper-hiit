@@ -17,6 +17,6 @@ ArchitectForm {
     summaryButton.interactionArea.onClicked: {
         console.log("Navigate to Summary...");
         mainStack.push("Summary.qml",{
-                       "activeSessionId": 20});
+                       "activeSessionId": 9});
     }
 }

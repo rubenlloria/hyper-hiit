@@ -38,7 +38,7 @@ class SessionManager : public QObject {
     Q_PROPERTY(float totalCalories READ totalCalories NOTIFY telemetryChanged)
     Q_PROPERTY(float userWeight READ userWeight WRITE setUserWeight NOTIFY userWeightChanged)
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
-    Q_PROPERTY(int activeSessionId READ m_sessionId)
+    Q_PROPERTY(int activeSessionId READ activeSessionId)
 
 public:
     explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
@@ -63,6 +63,7 @@ public:
     void setUserWeight(float weight) { m_userWeight = weight; }
     int activeModuleIndex() const { return m_activeModuleIndex; }
     void setActiveModuleIndex(int index);
+    int activeSessionId() const { return m_sessionId; }
 
 
 signals:

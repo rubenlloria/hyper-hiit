@@ -18,7 +18,7 @@ ProtocolForm {
     property string debugName: "Protocol.qml"
     property string infoName: "Protocol.qml"
 
-    property int activeSsessionId: 0
+    property int activeSessionId: 0
     property real startX: 0
     property real tapX: 0
     property real threshold: 50 // Minimum pixels to trigger a displacement
@@ -394,7 +394,7 @@ ProtocolForm {
         }
 
         Constants.hInfo(infoName, "Execution sequence finalized and all timers stopped.");
-        activeSsessionId = sessionManager.saveSession();
+        activeSessionId = sessionManager.saveSession();
         header.buttonLabel ="SUMMARY";
         header.buttonGlyph = Constants.summaryIcon;
         header.buttonLink = "summary";
