@@ -18,6 +18,7 @@ ProtocolForm {
     property string debugName: "Protocol.qml"
     property string infoName: "Protocol.qml"
 
+    property int activeSsessionId: 0
     property real startX: 0
     property real tapX: 0
     property real threshold: 50 // Minimum pixels to trigger a displacement
@@ -134,7 +135,12 @@ ProtocolForm {
     // Back button action
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, debugName, "Back to Briefing...");
-        mainStack.pop();
+        if ( header.buttonLink === "back"){
+            mainStack.pop();
+        } else{
+            mainStack.push("Summary.qml",{
+                           "activeSessionId": activeSessionId});
+        }
     }
 
     // Internal timer for the 5-second countdown
@@ -388,7 +394,10 @@ ProtocolForm {
         }
 
         Constants.hInfo(infoName, "Execution sequence finalized and all timers stopped.");
-        sessionManager.saveSession();
+        activeSsessionId = sessionManager.saveSession();
+        header.buttonLabel ="SUMMARY";
+        header.buttonGlyph = Constants.summaryIcon;
+        header.buttonLink = "summary";
     }
 }
 

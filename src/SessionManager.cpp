@@ -46,6 +46,7 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     m_totalCalories = 0.0f;
     m_userWeight= 80.0f; // TODO: load weight from config
     m_activeModuleIndex = 0;
+    m_sessionId = 0;
 }
 
 void SessionManager::startSession(int protocolId,  const QVariantList &executionList) {
@@ -127,8 +128,8 @@ void SessionManager::setActiveModuleIndex(int index) {
     m_activeModuleIndex = index;
 }
 
-void SessionManager::saveSession() {
-    if (m_moduleDurations.isEmpty()) return;
+int SessionManager::saveSession() {
+    if (m_moduleDurations.isEmpty()) return 0;
     hInfo() << "Saving session";
     // hDebug() << "Execution List: " << m_executionList;
 
@@ -239,12 +240,13 @@ void SessionManager::saveSession() {
             << " | Calories: " << m_totalCalories;
 
     // Delegate to DatabaseManager
-    m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
+    m_sessionId = m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
     m_db->updateProtocolDuration(m_protocolId, totalDuration);
 
     // TODO: m_db->updatePersonalBest(m_protocolId);
 
     emit sessionSaved();
+    return m_sessionId;
 }
 
 /**

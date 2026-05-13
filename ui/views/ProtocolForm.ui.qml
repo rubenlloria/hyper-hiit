@@ -58,6 +58,7 @@ Rectangle {
             titlePart1: "sys"
             titlePart2: "protocol"
             buttonLabel: "BACK     "
+            buttonLink: "back"
             buttonGlyph: Constants.backIcon
         }
 

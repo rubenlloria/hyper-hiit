@@ -66,7 +66,7 @@ public:
     Q_INVOKABLE QVariantList getProtocolStructure(int protocolId);
     Q_INVOKABLE QVariantList getProtocolExecutionDetails(int protocolId);
     int setProtocolMaxDuration();
-    bool saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories, double speed, double met_score);
+    int saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories, double speed, double met_score);
     void updateModuleData(const QString &name, double repTime, double fatigueRate);
     void updateProtocolDuration(int protocol_id, int duration);
     QString getLastSessionTelemetry(int protocolId);

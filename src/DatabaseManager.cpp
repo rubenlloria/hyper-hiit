@@ -837,7 +837,7 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
     }
 }
 
-bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog,
+int DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog,
                                   float calories, double speed, double met_score) {
     QSqlQuery q;
     q.prepare("INSERT INTO session_history (protocol_id, session_timestamp, session_duration, modules_duration, calories_burned, session_speed, met_score) "
@@ -856,8 +856,10 @@ bool DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSec
         return false;
     }
 
-    hDebug() << "Session saved. ID: " << q.lastInsertId().toInt() << " | Duration: " << totalSecs << "s";
-    return true;
+    int sessionId = q.lastInsertId().toInt();
+
+    hDebug() << "Session saved. ID: " << sessionId << " | Duration: " << totalSecs << "s";
+    return sessionId;
 }
 
 void DatabaseManager::updateModuleData(const QString &name, double repTime, double fatigueRate) {

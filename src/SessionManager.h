@@ -38,6 +38,7 @@ class SessionManager : public QObject {
     Q_PROPERTY(float totalCalories READ totalCalories NOTIFY telemetryChanged)
     Q_PROPERTY(float userWeight READ userWeight WRITE setUserWeight NOTIFY userWeightChanged)
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
+    Q_PROPERTY(int activeSessionId READ m_sessionId)
 
 public:
     explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
@@ -53,7 +54,7 @@ public:
      * Converts the checkpoint array into a serialized string for Level 4 storage [Source 13, 18].
      */
     void extracted(QStringList &telemetryList);
-    Q_INVOKABLE void saveSession();
+    Q_INVOKABLE int saveSession();
     // Invokable from QML when entering the Briefing or starting the session
     Q_INVOKABLE QList<int> loadLastSessionData(int protocolId);
 
@@ -72,6 +73,7 @@ signals:
 
 private:
     int m_protocolId;
+    int m_sessionId;
     qint64 m_startTimestamp;
     int m_activeModuleIndex;
     float m_totalCalories;
