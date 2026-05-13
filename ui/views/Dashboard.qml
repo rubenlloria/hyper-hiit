@@ -22,15 +22,16 @@ DashboardForm {
     // }
 
     Component.onCompleted: {
-    var activeId = dbManager.getActiveDirectiveId() -1;
-    neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
-    neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
-    neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
-    neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
-    rankNames = dbManager.getRankLabels();
-    Constants.hDebug(debugName, "rankNames: " + rankNames);
-    updateCharts();
-    Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
+        var activeId = dbManager.getActiveDirectiveId() -1;
+        neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
+        neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
+        neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
+        neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
+        rankNames = dbManager.getRankLabels();
+        mainWindow.currentDirectiveColor = neonAccordion.activeThemeColor;
+        Constants.hDebug(debugName, "rankNames: " + rankNames);
+        updateCharts();
+        Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
     }
 
     // Connexió per obrir/tancar l'acordió

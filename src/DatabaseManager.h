@@ -127,6 +127,18 @@ public:
     Q_INVOKABLE QVariantList getSessionDetailedAnalysis(int historyId);
 
 
+    /**
+ * @brief Retrieves the core metrics for the session summary cards.
+ *
+ * Aggregates rank, volume, duration, and performance deltas (Improvement/Efficiency).
+ *
+ * @param historyId The unique ID of the saved session.
+ * @return A QVariantMap containing the 6 primary metrics.
+ */
+    Q_INVOKABLE QVariantMap getSessionSummaryMetrics(int historyId);
+
+
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();

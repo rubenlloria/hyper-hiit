@@ -22,14 +22,25 @@ Rectangle {
     property alias header: header
     property alias totalsRepeater: totalsRepeater
     property alias analysisRepeater: analysisRepeater
+    property alias rankMetadata: rankMetadata.valueLabel
+    property alias countMetadata: countMetadata.valueLabel
+    property alias durationMetadata: durationMetadata.valueLabel
+    property alias caloriesMetadata: caloriesMetadata.valueLabel
+    property alias improvementMetadata: improvementMetadata.valueLabel
+    property alias efficiencyMetadata: efficiencyMetadata.valueLabel
+
     property int activeSessionId: 0
     property string protocolName: "PROTOCOL_NAME"
+    property string sessionDate: "01/01/1970 00:00h"
 
     property int activeProtocolId: 0
     property string rank: "NEWBIE"
     property int calories: 123
     property int moduleCount: 0
+    property bool hasGhost: true
     property string duration: "00:00"
+    property int timeDiff: 0
+    property string timeDiffString: "+hh:mm"
     property int efficiency: 96
     property int improvement: 46
 
@@ -45,8 +56,8 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
             titlePart1: "sys"
             titlePart2: "summary"
-            buttonLabel: "BACK     "
-            buttonGlyph: Constants.backIcon
+            buttonLabel: "DASHBOARD"
+            buttonGlyph: Constants.dashboardIcon
         }
 
         Flickable {
@@ -90,7 +101,7 @@ Rectangle {
 
                 NeonText {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    label: "01/01/1970 00:00h"
+                    label: sessionDate //"01/01/1970 00:00h"
                     size: 20
                     cornerWidth: 1
                 }
@@ -104,39 +115,53 @@ Rectangle {
                     columns: 2
                     spacing: 15
                     NeonMetadata {
+                        id: rankMetadata
                         keyLabel: "RANK"
                         valueLabel: root.rank
                         width: parent.width * 0.48
                         unitLabel: ""
                     }
                     NeonMetadata {
+                        id: countMetadata
                         keyLabel: "MODULE_COUNT"
                         valueLabel: root.moduleCount
                         width: parent.width * 0.48
                         unitLabel: ""
                     }
                     NeonMetadata {
+                        id: durationMetadata
                         keyLabel: "DURATION"
-                        valueLabel: root.duration
+                        valueLabel: root.hasGhost ? root.duration + " "
+                                                    + root.timeDiffString : root.duration
                         width: parent.width * 0.48
+                        color: timeDiff
+                               > 0 ? Constants.secondaryTextColor : Constants.primaryTextColor
                         unitLabel: "mm:ss"
+                        valueSize: 22
                     }
                     NeonMetadata {
+                        id: caloriesMetadata
                         keyLabel: "CALORIES"
                         valueLabel: root.calories
                         width: parent.width * 0.48
                         unitLabel: "kcal"
                     }
                     NeonMetadata {
+                        id: improvementMetadata
                         keyLabel: "IMPROVEMENT"
                         valueLabel: root.improvement + "%"
                         width: parent.width * 0.48
+                        color: improvement
+                               < 0 ? Constants.secondaryTextColor : Constants.primaryTextColor
                         unitLabel: ""
                     }
                     NeonMetadata {
+                        id: efficiencyMetadata
                         keyLabel: "EFFICIENCY"
                         valueLabel: root.efficiency + "%"
                         width: parent.width * 0.48
+                        color: efficiency
+                               < 0 ? Constants.secondaryTextColor : Constants.primaryTextColor
                         unitLabel: ""
                     }
                 }
@@ -201,92 +226,6 @@ Rectangle {
                             color: Constants.cyanNeon
                         }
                     }
-                    // SummaryList {
-                    //     id: summaryList
-                    // }
-
-                    // RowLayout {
-                    //     width: parent.width
-                    //     NeonText {
-                    //         label: "50x"
-                    //         labelColor: Constants.primaryTextColor
-                    //         size: 18
-                    //     }
-                    //     NeonText {
-                    //         // TODO: Add maxWidth
-                    //         label: "Burpees"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.fillWidth: true
-                    //         Layout.alignment: Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: "15:23"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: " +21:02"
-                    //         size: 14
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    // }
-                    // RowLayout {
-                    //     width: parent.width
-                    //     NeonText {
-                    //         label: "50x"
-                    //         labelColor: Constants.primaryTextColor
-                    //         size: 18
-                    //     }
-                    //     NeonText {
-                    //         label: "Bulgarian Split Squats"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.fillWidth: true
-                    //         Layout.alignment: Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: "15:23"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: " -0:02"
-                    //         size: 14
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    // }
-                    // RowLayout {
-                    //     width: parent.width
-                    //     NeonText {
-                    //         label: "50x"
-                    //         labelColor: Constants.primaryTextColor
-                    //         size: 18
-                    //     }
-                    //     NeonText {
-                    //         label: "Squats"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.fillWidth: true
-                    //         Layout.alignment: Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: "15:23"
-                    //         size: 16
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    //     NeonText {
-                    //         label: " +1:02"
-                    //         size: 14
-                    //         labelColor: Constants.primaryTextColor
-                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                    //     }
-                    // }
                 }
 
                 Column {

@@ -1215,7 +1215,7 @@ QVariantList DatabaseManager::getSessionTotals(int sessionId) {
     query.prepare("SELECT protocol_id FROM session_history WHERE history_id = :id");
     query.bindValue(":id", sessionId);
     if (!query.exec() || !query.next()){
-        hCritical() << "No protocol foud for session" << sessionId;
+        hCritical() << "No protocol found for session" << sessionId;
         return totalsList;
     }
     int protocolId = query.value(0).toInt();
@@ -1363,4 +1363,106 @@ QString DatabaseManager::formatDuration(int ms) {
         .arg(sign)
         .arg(mins, 2, 10, QChar('0'))
         .arg(secs, 2, 10, QChar('0'));
+}
+
+QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
+    QVariantMap metrics;
+    QSqlQuery query;
+
+    // Fetch session telemetry joined with protocol metadata
+    query.prepare("SELECT p.protocol_name, h.session_timestamp, h.protocol_id, "
+                  "p.rank, p.module_count, h.session_duration, "
+                  "h.calories_burned, h.session_speed, h.met_score "
+                  "FROM session_history h "
+                  "JOIN protocols p ON h.protocol_id = p.protocol_id "
+                  "WHERE h.history_id = :id");
+    query.bindValue(":id", historyId);
+
+    if (!query.exec() || !query.next()) {
+        hWarning() << "Failed to retrieve summary metrics for ID:" << historyId;
+        return metrics;
+    }
+
+    // Protocol Name
+    metrics["protocolName"] = query.value("protocol_name").toString();
+
+    // Session Date: Convert Unix timestamp to "dd/MM/yyyy HH:mmh"
+    qint64 timestamp = query.value("session_timestamp").toLongLong();
+    QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestamp);
+    metrics["sessionDate"] = dateTime.toString("dd/MM/yyyy HH:mm") + "h";
+
+    int protocolId = query.value("protocol_id").toInt();
+    int currentDuration = query.value("session_duration").toInt();
+    double currentMetScore = query.value("met_score").toDouble();
+    double currentSpeed = query.value("session_speed").toDouble();
+
+    // Map values to the response object
+    // RANK: Protocol difficulty level (NEWBIE, ADVANCED, ROOT)
+    // metrics["rank"] = unitSymbols.value(query.value("rank").toInt(), "NEWBIE");
+    metrics["rank"] = query.value("rank").toInt();
+
+    // MODULE_COUNT: Total modules defined in the protocol
+    metrics["moduleCount"] = query.value("module_count").toInt();
+
+    // DURATION: Formatted time from the actual session duration (ms)
+    int durationMs = query.value("session_duration").toInt();
+    metrics["duration"] = formatDuration(durationMs);
+    hDebug() << "durationMs: " << durationMs << " | metrics[duration]: " << metrics["duration"];
+
+    // CALORIES: Total kcal burned (rounded for UX clarity)
+    metrics["calories"] = qRound(query.value("calories_burned").toDouble()/1000);
+
+    // Fetch "Ghost" session (the most recent previous session of the same protocol)
+    query.prepare("SELECT session_duration, met_score, session_speed FROM session_history "
+                  "WHERE protocol_id = :pid AND history_id < :hid "
+                  "ORDER BY session_timestamp DESC LIMIT 1");
+    query.bindValue(":pid", protocolId);
+    query.bindValue(":hid", historyId);
+
+    int prevDuration = 0;
+    double prevMetScore = 0.0;
+    double prevSpeed= 0.0;
+    bool hasGhost = false;
+
+    if (query.exec() && query.next()) {
+        prevDuration = query.value("session_duration").toInt();
+        prevMetScore = query.value("met_score").toDouble();
+        prevSpeed = query.value("session_speed").toDouble();
+        hasGhost = true;
+    } else {
+        hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId;
+    }
+
+    // 3. Calculate Comparative Metrics
+
+    // EFFICIENCY: Based on the stored speed index (prev_time / current_time)
+    // 1.0 means consistent, >1.0 means faster than last time.
+    // double efficiencyValue = (( currentSpeed * 100.0 ) / prevSpeed) - 100;
+    double efficiencyValue = (( currentSpeed - prevSpeed ) / prevSpeed) * 100;
+    metrics["efficiency"] = qRound(efficiencyValue);
+    hDebug() << "currentSpeed:" << currentSpeed << " | prevSpeed:" << prevSpeed;
+
+    // IMPROVEMENT: Delta between MET scores (Real mechanical work progression)
+    // If no ghost exists, we show 0% or a base improvement.
+    double improvementDelta = 0.0;
+    if (hasGhost && prevMetScore > 0) {
+        improvementDelta = ((currentMetScore - prevMetScore) / prevMetScore) * 100.0;
+        hDebug() << "currentMetScore:" << currentMetScore << " | prevMetScore:" << prevMetScore;
+    }
+    metrics["improvement"] = improvementDelta;
+
+    // TIME DIFFERENCE: Relative time gain/loss compared to the ghost
+    metrics["hasGhost"] = hasGhost;
+
+    if (hasGhost) {
+        int timeDiff = currentDuration - prevDuration;
+        hDebug() << "timeDiff: " << timeDiff;
+        metrics["timeDiff"] = timeDiff;
+        metrics["timeDiffString"] = formatDuration(timeDiff); // Signs handled by formatDuration
+    } else {
+        metrics["timeDiff"] = 0;
+        metrics["timeDiffString"] = "";
+    }
+
+    return metrics;
 }

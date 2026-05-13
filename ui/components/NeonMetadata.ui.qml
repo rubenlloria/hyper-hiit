@@ -24,6 +24,7 @@ Item {
     // Public properties for data binding
     property string keyLabel: "METADATA"
     property string valueLabel: "Value"
+    property int valueSize: 25
     property string unitLabel: "unit"
     property string directiveGlyph: "\ue0d2"
     property color color: Constants.primaryTextColor // Default cyan neon
@@ -54,7 +55,7 @@ Item {
             id: labelDescription
             label: root.valueLabel
             labelColor: root.color
-            size: 25
+            size: root.valueSize
         }
         Text {
             id: labelUnit
