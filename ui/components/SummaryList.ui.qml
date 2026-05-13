@@ -19,21 +19,21 @@ Item {
     property color color: Constants.secondaryTextColor
     property int subsystemId: 0
     property var modulesModel: []
-    property int repetitions: 50 // TODO: DELETEME: For test only
 
     Column {
         id: subsystemColumn
         spacing: 5
+        topPadding: 10
         Rectangle {
             width: root.width
             height: 1
-            color: root.color
+            color: mainWindow.currentDirectiveColor
             opacity: 0.2
         }
 
         NeonText {
             label: "SUBSYSTEM_0" + root.subsystemId + ":"
-            labelColor: Constants.primaryTextColor
+            labelColor: mainWindow.currentDirectiveColor
             font.family: Constants.mainFont.family
             font.pixelSize: 12
             cornerWidth: 1
@@ -66,7 +66,8 @@ Item {
                 NeonText {
                     label: " " + modelData.delta
                     size: 14
-                    labelColor: Constants.primaryTextColor
+                    labelColor: modelData.diff
+                                > 0 ? Constants.secondaryTextColor : Constants.primaryTextColor
                     Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                 }
             }

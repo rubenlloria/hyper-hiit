@@ -33,12 +33,16 @@ import "."      // Import current directory to access Constants singleton
 
 Window {
     id: mainWindow
+
+    property color currentDirectiveColor: Constants.primaryTextColor
+
     width: Constants.designWidth    // Value 412 defined in Constants.qml
     height: Constants.designHeight  // Value 865 defined in Constants.qml
     visible: true
     title: "HyperHIIT - System Interface"
     color: Constants.backgroundColor // Background color from Constants.qml
     visibility: Qt.platform.os === "android" ? Window.FullScreen : Window.Windowed
+
 
     // Logic to update the scale factor dynamically
     onWidthChanged: {

@@ -67,6 +67,7 @@ DashboardForm {
                 neonAccordion.activeDirectiveDesc = model.description;
                 neonAccordion.activeIconGlyph = model.icon;
                 neonAccordion.activeThemeColor = model.color;
+                mainWindow.currentDirectiveColor = model.color;
 
                 // 3. Collapse shard for optimal tactical overlay space [Source 6]
                 neonAccordion.isOpen = false;
