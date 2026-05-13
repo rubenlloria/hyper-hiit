@@ -1204,3 +1204,161 @@ void DatabaseManager::runMigrations(int oldVersion) {
         }
     }
 }
+
+QVariantList DatabaseManager::getSessionTotals(int sessionId) {
+    QVariantList totalsList;
+    QSqlQuery query;
+
+    // 1. Resolve protocol_id from session
+    query.prepare("SELECT protocol_id FROM session_history WHERE history_id = :id");
+    query.bindValue(":id", sessionId);
+    if (!query.exec() || !query.next()){
+        hCritical() << "No protocol foud for session" << sessionId;
+        return totalsList;
+    }
+    int protocolId = query.value(0).toInt();
+    hDebug() << "protocolId:" << protocolId;
+
+    // 2. Aggregate quantities grouping by module and unit_type
+    // We join with modules to get the human-readable name
+    query.prepare("SELECT m.mod_name, SUM(ps.quantity) as total_qty, ps.unit_type "
+                  "FROM protocol_structure ps "
+                  "JOIN modules m ON ps.module_id = m.module_id "
+                  "WHERE ps.protocol_id = :pid "
+                  "GROUP BY ps.module_id, ps.unit_type "
+                  "ORDER BY ps.s_order ASC");
+    query.bindValue(":pid", protocolId);
+
+    if (!query.exec()) {
+        hCritical() << "Totals Aggregation Error:" << query.lastError().text();
+        return totalsList;
+    }
+
+    const QStringList unitSymbols = {"s", "x", "b"}; // TODO: Get symbol from ModuleModel
+
+    while (query.next()) {
+        QVariantMap entry;
+        entry["name"] = query.value("mod_name").toString().toUpper();
+        entry["quantity"] = query.value("total_qty").toInt();
+        entry["unit"] = unitSymbols.value(query.value("unit_type").toInt(), "x");
+
+        totalsList.append(entry);
+        hDebug() << "TOALS LIST:" << entry;
+    }
+
+    return totalsList;
+}
+
+QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
+    QVariantList analysisData;
+    QSqlQuery query;
+
+    // 1. Get current session metadata and the raw performance log (cumulative MS)
+    query.prepare("SELECT protocol_id, modules_duration FROM session_history WHERE history_id = :id");
+    query.bindValue(":id", historyId);
+    if (!query.exec() || !query.next()) return analysisData;
+
+    int protocolId = query.value("protocol_id").toInt();
+    QStringList currentLog = query.value("modules_duration").toString().split(",");
+
+    // 2. Fetch the "Ghost" log (the most recent previous session of the same protocol)
+    query.prepare("SELECT modules_duration FROM session_history "
+                  "WHERE protocol_id = :pid AND history_id < :hid "
+                  "ORDER BY session_timestamp DESC LIMIT 1");
+    query.bindValue(":pid", protocolId);
+    query.bindValue(":hid", historyId);
+
+    QStringList ghostLog;
+    if (query.exec() && query.next()) {
+        ghostLog = query.value("modules_duration").toString().split(",");
+    }
+
+    // 3. Fetch Protocol Structure joined with Module names and the specific unit_type
+    query.prepare("SELECT ps.subsystem, ps.quantity, ps.unit_type, m.mod_name "
+                  "FROM protocol_structure ps "
+                  "JOIN modules m ON ps.module_id = m.module_id "
+                  "WHERE ps.protocol_id = :pid "
+                  "ORDER BY ps.subsystem ASC, ps.s_order ASC");
+    query.bindValue(":pid", protocolId);
+
+    if (!query.exec()) return analysisData;
+
+    int currentSubId = -1;
+    QVariantMap subsystemMap;
+    QVariantList modulesInSubsystem;
+    int moduleIdx = 0;
+
+    const QStringList unitSymbols = {"s", "x", "b"}; // TODO: Get symbol from ModuleModel
+
+    while (query.next()) {
+        int subId = query.value("subsystem").toInt();
+
+        // Detect subsystem transition
+        if (subId != currentSubId) {
+            if (currentSubId != -1) {
+                subsystemMap["modulesModel"] = modulesInSubsystem;
+                analysisData.append(subsystemMap);
+            }
+            currentSubId = subId;
+            subsystemMap = QVariantMap();
+            subsystemMap["subsystemId"] = subId;
+            modulesInSubsystem = QVariantList();
+        }
+
+        // Calculate relative duration: Current Checkpoint - Previous Checkpoint
+        int currentCP = (moduleIdx < currentLog.size()) ? currentLog[moduleIdx].toInt() : 0;
+        int prevCP = (moduleIdx > 0) ? currentLog[moduleIdx - 1].toInt() : 0;
+        int moduleDuration = currentCP - prevCP;
+
+        // Calculate Delta against Ghost
+        QString deltaText = "--:--";
+        int diff = 0;
+        if (!ghostLog.isEmpty() && moduleIdx < ghostLog.size()) {
+            int gCurrentCP = ghostLog[moduleIdx].toInt();
+            int gPrevCP = (moduleIdx > 0) ? ghostLog[moduleIdx - 1].toInt() : 0;
+            int ghostDur = gCurrentCP - gPrevCP;
+            diff = moduleDuration - ghostDur;
+            deltaText = (diff > 0 ? "+" : "") + formatDuration(diff);
+            deltaText = (diff == 0 ? " " : "") + deltaText;
+            hDebug() << "moduleDuration:" << moduleDuration << " | ghostDur:" << ghostDur << " | diff:" << diff;
+        }
+
+        // Build the module object for the inner Repeater
+        QVariantMap modEntry;
+        modEntry["name"] = query.value("mod_name").toString().toUpper();
+        modEntry["quantity"] = query.value("quantity").toInt();
+        modEntry["unit"] = unitSymbols.value(query.value("unit_type").toInt(), "x");
+        modEntry["time"] = formatDuration(moduleDuration);
+        modEntry["delta"] = deltaText;
+        modEntry["diff"] = diff;
+
+        modulesInSubsystem.append(modEntry);
+        moduleIdx++;
+    }
+
+    // Append final subsystem shard
+    if (currentSubId != -1) {
+        subsystemMap["modulesModel"] = modulesInSubsystem;
+        analysisData.append(subsystemMap);
+    }
+
+    return analysisData;
+}
+
+QString DatabaseManager::formatDuration(int ms) {
+    // 1. Determine sign: Only negative deltas get an explicit sign prefix
+    // Positive deltas will be "painted" with a '+' or color in QML side.
+    QString sign = (ms < 0) ? "-" : "";
+
+    // 2. Use absolute value for calculations to ensure correct zero-padding (e.g., 00:05)
+    // Removing qAbs here would cause issues like "00:-05" in negative deltas.
+    int totalSecs = qAbs(ms) / 1000;
+    int mins = totalSecs / 60;
+    int secs = totalSecs % 60;
+
+    // 3. Return formatted string [sign][mm]:[ss]
+    return QString("%1%2:%3")
+        .arg(sign)
+        .arg(mins, 2, 10, QChar('0'))
+        .arg(secs, 2, 10, QChar('0'));
+}

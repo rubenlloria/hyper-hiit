@@ -80,23 +80,51 @@ public:
  */
     Q_INVOKABLE int getImprovementPercentage();
 
+
     /**
  * @brief Calculates the EFFICIENCY trend comparing Segment A vs Segment B.
+ *
  * @return the delta percentage (e.g., +5 if efficiency rose from 100% to 105%).
  */
     Q_INVOKABLE int getEfficiency();
 
+
     /**
  * @brief Retrieves the average calories burned per day over the last 7 days.
+ *
  * @return double kcal (e.g., 513 or 826)
  */
     Q_INVOKABLE int getAverageDailyCalories(int startDay, int windowSize);
 
+
     /**
  * @brief Retrieves the average number of sessions completed per day over the last 7 days.
+ *
  * @return double  (e.g., 0.9 or 1.2)
  */
     Q_INVOKABLE double getAverageDailySessions(int startDay, int windowSize);
+
+
+    /**
+ * @brief Retrieves the aggregated totals for each unique module performed in a session.
+ *
+ * Groups by module and unit type to sum up the total volume (e.g., 150x Burpees).
+ *
+ * @param sessionId The ID of the session to analyze.
+ * @return A QVariantList of maps with "name", "quantity", and "unit".
+ */
+    Q_INVOKABLE QVariantList getSessionTotals(int sessionId);
+
+
+    /**
+ * @brief Retrieves a detailed analysis of a session grouped by subsystems.
+ *
+ * Computes individual module durations and deltas against the "ghost" session.
+ *
+ * @param historyId The unique ID of the session record.
+ * @return A nested QVariantList for the UI Repeaters.
+ */
+    Q_INVOKABLE QVariantList getSessionDetailedAnalysis(int historyId);
 
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
@@ -154,6 +182,15 @@ private:
  * @param oldVersion The version detected in the database file.
  */
     void runMigrations(int oldVersion);
+
+    /**
+ * @brief Formats a duration in milliseconds to a readable mm:ss string.
+ *
+ * @param ms duration in milliseconds
+ * @return a readable String in format mm:ss h.
+ */
+    QString formatDuration(int ms);
+
 
 };
 

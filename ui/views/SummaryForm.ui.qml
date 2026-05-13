@@ -20,9 +20,12 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.darkMagenta // Color de fondo del theme.css
     property alias header: header
+    property alias totalsRepeater: totalsRepeater
+    property alias analysisRepeater: analysisRepeater
+    property int activeSessionId: 0
+    property string protocolName: "PROTOCOL_NAME"
 
     property int activeProtocolId: 0
-    property string protocolName: "PROTOCOL_NAME"
     property string rank: "NEWBIE"
     property int calories: 123
     property int moduleCount: 0
@@ -148,67 +151,32 @@ Rectangle {
                         fontSize: 14
                     }
 
-                    // RowLayout {
-                    //     Rectangle {
-                    //         height: 2
-                    //     }
+                    Repeater {
+                        id: totalsRepeater
 
-                    //     NeonText {
-                    //         label: "TOTALS"
-                    //         labelColor: Constants.secondaryTextColor
-                    //         size: 14
-                    //         cornerWidth: 1
-                    //     }
-                    // }
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "150x"
-                            labelColor: Constants.primaryTextColor
-                            size: 22
-                        }
-                        NeonText {
-                            // TODO: Add maxWidth
-                            label: "Burpees"
-                            labelColor: Constants.primaryTextColor
-                            size: 22
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
-                        }
-                    }
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "150x"
-                            labelColor: Constants.primaryTextColor
-                            size: 22
-                        }
-                        NeonText {
-                            label: "Bulgarian Split Squats"
-                            size: 22
-                            labelColor: Constants.primaryTextColor
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
-                        }
-                    }
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "150x"
-                            labelColor: Constants.primaryTextColor
-                            size: 22
-                        }
-                        NeonText {
-                            label: "Squats"
-                            size: 22
-                            labelColor: Constants.primaryTextColor
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
+                        RowLayout {
+                            width: parent.width
+
+                            NeonText {
+                                // Combines quantity and unit (e.g., "150x")
+                                label: modelData.quantity + modelData.unit
+                                labelColor: Constants.primaryTextColor
+                                size: 22
+                            }
+
+                            NeonText {
+                                label: modelData.name
+                                labelColor: Constants.primaryTextColor
+                                size: 22
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignBottom
+                            }
                         }
                     }
                 }
 
                 Column {
+                    id: analysisContainer
                     width: parent.width * 0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     // Layout.alignment: Qt.AlignHCenter
@@ -218,92 +186,107 @@ Rectangle {
                         fontSize: 14
                     }
 
-                    SummaryList {
-                        id: summaryList
-                    }
+                    Repeater {
+                        id: analysisRepeater
 
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "50x"
-                            labelColor: Constants.primaryTextColor
-                            size: 18
-                        }
-                        NeonText {
-                            // TODO: Add maxWidth
-                            label: "Burpees"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: "15:23"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: " +21:02"
-                            size: 14
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                        // This is your SummaryList.ui.qml component
+                        SummaryList {
+                            width: analysisContainer.width
+
+                            // Map the C++ VariantMap keys to your component properties
+                            subsystemId: modelData.subsystemId
+                            modulesModel: modelData.modulesModel
+
+                            // Optional: The line color can be customized per directive theme
+                            color: Constants.cyanNeon
                         }
                     }
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "50x"
-                            labelColor: Constants.primaryTextColor
-                            size: 18
-                        }
-                        NeonText {
-                            label: "Bulgarian Split Squats"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: "15:23"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: " -0:02"
-                            size: 14
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                        }
-                    }
-                    RowLayout {
-                        width: parent.width
-                        NeonText {
-                            label: "50x"
-                            labelColor: Constants.primaryTextColor
-                            size: 18
-                        }
-                        NeonText {
-                            label: "Squats"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: "15:23"
-                            size: 16
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                        }
-                        NeonText {
-                            label: " +1:02"
-                            size: 14
-                            labelColor: Constants.primaryTextColor
-                            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                        }
-                    }
+                    // SummaryList {
+                    //     id: summaryList
+                    // }
+
+                    // RowLayout {
+                    //     width: parent.width
+                    //     NeonText {
+                    //         label: "50x"
+                    //         labelColor: Constants.primaryTextColor
+                    //         size: 18
+                    //     }
+                    //     NeonText {
+                    //         // TODO: Add maxWidth
+                    //         label: "Burpees"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.fillWidth: true
+                    //         Layout.alignment: Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: "15:23"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: " +21:02"
+                    //         size: 14
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    // }
+                    // RowLayout {
+                    //     width: parent.width
+                    //     NeonText {
+                    //         label: "50x"
+                    //         labelColor: Constants.primaryTextColor
+                    //         size: 18
+                    //     }
+                    //     NeonText {
+                    //         label: "Bulgarian Split Squats"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.fillWidth: true
+                    //         Layout.alignment: Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: "15:23"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: " -0:02"
+                    //         size: 14
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    // }
+                    // RowLayout {
+                    //     width: parent.width
+                    //     NeonText {
+                    //         label: "50x"
+                    //         labelColor: Constants.primaryTextColor
+                    //         size: 18
+                    //     }
+                    //     NeonText {
+                    //         label: "Squats"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.fillWidth: true
+                    //         Layout.alignment: Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: "15:23"
+                    //         size: 16
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    //     NeonText {
+                    //         label: " +1:02"
+                    //         size: 14
+                    //         labelColor: Constants.primaryTextColor
+                    //         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    //     }
+                    // }
                 }
 
                 Column {
@@ -317,12 +300,11 @@ Rectangle {
                     }
                 }
 
-                NeonEvolution {
-                    id: evolutionChart
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    evolutionInfo: "LAST_SESSIONS"
-                }
-
+                // NeonEvolution {
+                //     id: evolutionChart
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     evolutionInfo: "LAST_SESSIONS"
+                // }
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
                     height: 30

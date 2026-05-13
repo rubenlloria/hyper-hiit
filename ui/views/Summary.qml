@@ -10,10 +10,16 @@ import ".."
 SummaryForm{
     id: summaryView
 
-    // property int activeProtocolId: 0
+    property string debugName: "Dashboard.qml"
+    property string infoName: "Dashboard.qml"
 
-    onActiveProtocolIdChanged: {
-        if (activeProtocolId > 0) {
+    // property int activeSessionId: 0
+
+    onActiveSessionIdChanged: {
+        Constants.hDebug(debugName, "activeSessionId: " + activeSessionId)
+        if (activeSessionId > 0) {
+            Constants.hDebug(debugName, "activeSessionId > 0");
+            refreshData(activeSessionId);
             // We call the C++ DatabaseManager to get the nested array
             // This is assigned to the model of your outer Repeater
             // let data = dbManager.getProtocolStructure(activeProtocolId);
@@ -27,4 +33,12 @@ SummaryForm{
         console.log("Back to dashboard...");
         mainStack.pop();
     }
-}
+
+    function refreshData(sessionId) {
+        Constants.hDebug(debugName, "Getting session totals");
+
+        totalsRepeater.model = dbManager.getSessionTotals(sessionId);
+        analysisRepeater.model = dbManager.getSessionDetailedAnalysis(sessionId);
+    }
+
+    }
