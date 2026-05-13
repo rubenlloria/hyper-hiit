@@ -59,8 +59,8 @@ Item {
             label: "TITLE"
             labelColor: root.titleColor
             size: root.fontSize
-            anchors.verticalCenter: parent.verticalCenter
             cornerWidth: 1
+            Layout.alignment: Qt.AlignVCenter
         }
 
         // 3. Línia Dreta (Degradat de color a transparent)
