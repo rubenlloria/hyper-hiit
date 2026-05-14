@@ -560,6 +560,9 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
                     case 2:
                         mod["unit"] = "b";
                         break;
+                    case 3:
+                        mod["unit"] = "m";
+                        break;
                     default:
                         mod["type"] = "";
                         break;
