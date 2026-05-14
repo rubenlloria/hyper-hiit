@@ -1,914 +1,627 @@
-Rev. 18 (23/03/26)
+Manual Tècnic Esportiu — HYPER//HIIT
+====================================
+
+>  **Revisió:** 19 · **Data:** 2026-05-14  
+
+&nbsp;
+
+**Àmbit:** Fisiologia de l'esforç, protocols d'entrenament i model de despesa calòrica.  
+**Nota:** Aquest document és la referència esportiva i fisiològica del projecte. La documentació de l'arquitectura de l'aplicació, les estructures de dades i la lògica de programació es troben al *whitepaper* tècnic.
+
+---
+
+&nbsp;
 
 Taula de continguts
+-------------------
 
-[1. Fonaments del HIIT (Entrenament d'Alta Intensitat per Intervals)
-3](#fonaments-del-hiit-entrenament-dalta-intensitat-per-intervals)
+1. [Fonaments del HIIT](#1-fonaments-del-hiit)
+2. [Protocols Fisiològics Principals](#2-protocols-fisiològics-principals)
+3. [Model de Despesa Calòrica](#3-model-de-despesa-calòrica)
+4. [Equilibri Biomecànic i Categorització d'Exercicis](#4-equilibri-biomecànic-i-categorització-dexercicis)
+5. [Intensitat Subjectiva: Escala RPE de Borg Modificada](#5-intensitat-subjectiva-escala-rpe-de-borg-modificada)
+6. [Protocols Basats en Volum (Repeticions)](#6-protocols-basats-en-volum-repeticions)
+   - [FAT\_BURNING: STRIKE](#fat_burning-strike)
+   - [FAT\_BURNING: METABOLIX](#fat_burning-metabolix)
+   - [FAT\_BURNING: PYROGEN](#fat_burning-pyrogen)
+   - [CARDIO\_ENHANCEMENT: AEROBYTE](#cardio_enhancement-aerobyte)
+   - [CARDIO\_ENHANCEMENT: PULSE\_ID](#cardio_enhancement-pulse_id)
+   - [CARDIO\_ENHANCEMENT: VO2\_MAX\_ST](#cardio_enhancement-vo2_max_st)
+   - [STRENGTH\_MATRIX: TITANIUM](#strength_matrix-titanium)
+   - [STRENGTH\_MATRIX: GOLIATH](#strength_matrix-goliath)
+   - [STRENGTH\_MATRIX: IRON\_STORM](#strength_matrix-iron_storm)
+   - [STRENGTH\_MATRIX: REINFORCE](#strength_matrix-reinforce)
+   - [ENDURANCE\_GRID: STEEL\_CORE](#endurance_grid-steel_core)
+   - [ENDURANCE\_GRID: STAMINA](#endurance_grid-stamina)
+   - [ENDURANCE\_GRID: STEADFAST](#endurance_grid-steadfast)
+   - [ENDURANCE\_GRID: LASTING](#endurance_grid-lasting)
+7. [Lògica de Programació de Protocols](#7-lògica-de-programació-de-protocols)
 
-[2. Protocols Fisiològics Principals
-3](#protocols-fisiològics-principals)
+---
 
-[A. El Protocol AFAP (L'estàndard de "Volum i Densitat")
-3](#a.-el-protocol-afap-lestàndard-de-volum-i-densitat)
+## 1. Fonaments del HIIT
 
-[B. El Protocol AMRAP (L'estàndard de "Màxima Eficiència")
-3](#b.-el-protocol-amrap-lestàndard-de-màxima-eficiència)
+L'entrenament d'alta intensitat per intervals (HIIT, *High-Intensity Interval Training*) es defineix per sessions repetides d'esforç supramàxim o d'alta intensitat, separades per períodes de recuperació activa o passiva de baixa intensitat. Les adaptacions fisiològiques principals que persegueix HYPER//HIIT són:
 
-[C. El Protocol Tabata (L'estàndard "Elit")
-4](#c.-el-protocol-tabata-lestàndard-elit)
+- **Cardiovasculars:** Millora del volum sistòlic, de la densitat capil·lar i del *VO₂* màx.
+- **Metabòliques:** Augment de la densitat mitocondrial, sensibilitat a la insulina i oxidació de substrats lipídics.
+- **Neuromusculars:** Millora del reclutament d'unitats motores i de la resistència a la fatiga muscular local.
 
-[D. El Mètode Gibala/Little (L'estàndard "Intermedi")
-4](#d.-el-mètode-gibalalittle-lestàndard-intermedi)
+L'objectiu del sistema és maximitzar aquestes adaptacions en el mínim temps possible mitjançant protocols estructurats i progressius.
 
-[3. Equilibri Biomecànic i Categorització d'Exercicis
-4](#equilibri-biomecànic-i-categorització-dexercicis)
-
-[4. Intensitat Subjectiva: Escala RPE de Borg Modificada
-5](#intensitat-subjectiva-escala-rpe-de-borg-modificada)
-
-[5. Protocols Basats en Volum (Repeticions)
-5](#protocols-basats-en-volum-repeticions)
-
-[A. Protocol AFAP (*As Fast As Possible*)
-5](#a.-protocol-afap-as-fast-as-possible)
-
-[B. Rigor Biomecànic en Protocols de Repeticions
-5](#b.-rigor-biomecànic-en-protocols-de-repeticions)
-
-[C. Exemples AFAP: 6](#c.-exemples-afap)
-
-[FAT_BURNING: STRIKE 6](#fat_burning-strike)
-
-[Desglossament de l’Entrenament (Rondes 30 - 15 - 30)
-7](#desglossament-de-lentrenament-rondes-30---15---30)
-
-[Anàlisi del Factor Fatiga 7](#anàlisi-del-factor-fatiga)
-
-[FAT_BURNING: METABOLIX 8](#fat_burning-metabolix)
-
-[El Circuit de "Metabolització Sostinguda" (4 Rondes de 20-20-20)
-8](#el-circuit-de-metabolització-sostinguda-4-rondes-de-20-20-20)
-
-[FAT_BURNING: PYROGEN 9](#fat_burning-pyrogen)
-
-[L'Escala "Quema-Greix" (Piràmide Descendent: 40-30-20-10)
-9](#lescala-quema-greix-piràmide-descendent-40-30-20-10)
-
-[Per què funcionen per a "Fat Burning"?
-9](#per-què-funcionen-per-a-fat-burning)
-
-[CARDIO_ENHANCEMENT: AEROBYTE 10](#cardio_enhancement-aerobyte)
-
-[El Circuit de Ritme Sostingut (4 Rondes de 30-30-30)
-10](#el-circuit-de-ritme-sostingut-4-rondes-de-30-30-30)
-
-[CARDIO_ENHANCEMENT: PULSE_ID 11](#cardio_enhancement-pulse_id)
-
-[La Piràmide Descendent Cardiovascular (40-30-20-10)
-11](#la-piràmide-descendent-cardiovascular-40-30-20-10)
-
-[CARDIO_ENHANCEMENT: VO2_MAX_ST 12](#cardio_enhancement-vo2_max_st)
-
-[L'Escala d'Ajust Cardiovascular (Ascendent 15-30-45)
-12](#lescala-dajust-cardiovascular-ascendent-15-30-45)
-
-[Per què "Cardio Enhancement"? 12](#per-què-cardio-enhancement)
-
-[STRENGTH_MATRIX: TITANIUM 13](#strength_matrix-titanium)
-
-[Piràmide de Força Tècnica (30 - 15 - 30)
-13](#piràmide-de-força-tècnica-30---15---30)
-
-[Per què aquestes i no les anteriors?
-13](#per-què-aquestes-i-no-les-anteriors)
-
-[Diferència en la despesa Calòrica
-13](#diferència-en-la-despesa-calòrica)
-
-[STRENGTH_MATRIX: GOLIATH 14](#strength_matrix-goliath)
-
-[Piràmide de Tensió 14](#piràmide-de-tensió)
-
-[Per què aquest format? 14](#per-què-aquest-format)
-
-[STRENGTH_MATRIX: IRON_STORM 15](#strength_matrix-iron_storm)
-
-[Bloc Isomètric (4 Rondes de 15-15-15)
-15](#bloc-isomètric-4-rondes-de-15-15-15)
-
-[STRENGTH_MATRIX :REINFORCE 16](#strength_matrix-reinforce)
-
-[Escala de Potència (Piràmide Ascendent: 10-20-30)
-16](#escala-de-potència-piràmide-ascendent-10-20-30)
-
-[Consell de Peer (Companys): 16](#consell-de-peer-companys)
-
-[ENDURANCE_GRID: STEEL_CORE 17](#endurance_grid-steel_core)
-
-[Workout: 50-40-30-20-10 (Burpees, Squats, Sit-ups)
-17](#workout-50-40-30-20-10-burpees-squats-sit-ups)
-
-[Anàlisi de l'esforç 17](#anàlisi-de-lesforç)
-
-[ENDURANCE_GRID: STAMINA 18](#endurance_grid-stamina)
-
-[La Quadrícula de Resistència (5 Rondes de 40-40-40)
-18](#la-quadrícula-de-resistència-5-rondes-de-40-40-40)
-
-[ENDURANCE_GRID: STEADFAST 19](#endurance_grid-steadfast)
-
-[El Desgast Piramidal (50-40-30-20-10)
-19](#el-desgast-piramidal-50-40-30-20-10)
-
-[ENDURANCE_GRID: LASTING 20](#endurance_grid-lasting)
-
-[L'Acumulador Sostingut (3 Rondes de 60-60-60)
-20](#lacumulador-sostingut-3-rondes-de-60-60-60)
-
-[Anàlisi de l'Endurance Grid 20](#anàlisi-de-lendurance-grid)
-
-[6. Lògica de Programació per a HYPER//HIIT
-21](#lògica-de-programació-per-a-hyperhiit)
-
-##  
-
-## 1. Fonaments del HIIT (Entrenament d'Alta Intensitat per Intervals)
-
-El HIIT es caracteritza per sessions repetides d'exercici d'alta
-intensitat separades per períodes de recuperació de baixa intensitat.
-L'objectiu de **HYPER//HIIT** és maximitzar les adaptacions
-cardiovasculars i metabòliques en el mínim temps possible.
+---
 
 ## 2. Protocols Fisiològics Principals
 
-### A. El Protocol AFAP (L'estàndard de "Volum i Densitat")
+El sistema implementa quatre protocols com a marcs fisiològics de referència. Cada protocol de la biblioteca d'entrenaments deriva d'un d'aquests quatre estàndards.
 
--   **Font:** Metodologia de l'entrenament de resistència metabòlica
-    > (Cross-Training contemporani).
+### A. Protocol AFAP (*As Fast As Possible*) — Estàndard de Volum i Densitat
 
--   **Ràtio Treball/Descans:** No hi ha descansos programats. L'usuari
-    > gestiona les pauses de forma personal amb l'objectiu de no aturar
-    > el moviment completament (*Rest-pause*).
+- **Font:** Metodologia de resistència metabòlica (*cross-training* contemporani).
+- **Ràtio Treball/Descans:** Sense descans programat. L'usuari gestiona les pauses de manera autònoma amb l'objectiu de no aturar el moviment completament (*rest-pause*).
+- **Estructura:** Variable basada en repeticions (piràmide descendent, piràmide ascendent o rondes fixes). El temps total és la variable dependent i la mètrica de rendiment.
+- **Intensitat Objectiu:** Llindar de lactat elevat (80–90% de la *FC*màx). L'objectiu és mantenir una potència de sortida constant malgrat la fatiga acumulada.
+- **Adaptació principal:** Resistència muscular, tolerància a l'àcid làctic i resiliència mental. La progressió es mesura completant el mateix volum de treball en menys temps (millora de la *densitat d'entrenament*).
 
--   **Estructura:** Variable basada en repeticions (ex: Piràmide
-    > 50-40-30-20-10 o Rèvols fixos). El temps total és la variable
-    > dependent.
+### B. Protocol AMRAP (*As Many Rounds As Possible*) — Estàndard de Màxima Eficiència
 
--   **Intensitat Objectiu:** Llindar de lactat elevat (80-90% de la
-    > $FC\_{màx}$). Es busca mantenir una potència de sortida constant
-    > malgrat la fatiga acumulada.
+- **Font:** Protocols de condicionament metabòlic (MetCon).
+- **Ràtio Treball/Descans:** Treball continu durant un temps fix preestablert.
+- **Estructura:** Finestra temporal fixa (10, 15 o 20 minuts). L'usuari ha de completar el màxim nombre de voltes o repeticions possible.
+- **Intensitat Objectiu:** Esforç submàxim constant. S'optimitza el "ritme de creuer" sense arribar a l'esgotament total prematur.
+- **Adaptació principal:** Capacitat de treball aeròbic-anaeròbic sostingut. Permet mesurar objectivament la millora en completar més rondes en sessions successives.
 
--   **Lògica del Sistema:** Aquest protocol es centra en la resistència
-    > muscular i la resiliència mental. La progressió no es mesura per
-    > aguantar més temps, sinó per completar la mateixa càrrega de
-    > treball en un temps menor (millora de la densitat de
-    > l'entrenament).
+### C. Protocol Tabata — Estàndard Elit
 
-### B. El Protocol AMRAP (L'estàndard de "Màxima Eficiència")
+- **Font:** Izumi Tabata et al. (1996). *Medicine & Science in Sports & Exercise.*
+- **Ràtio Treball/Descans:** 20 s de treball d'ultra-alta intensitat / 10 s de descans passiu.
+- **Estructura:** 8 rondes (durada total: 4 minuts).
+- **Intensitat Objectiu:** ~170% del *VO₂* màx (esforç supramàxim).
+- **Adaptació principal:** Capacitat anaeròbica i *VO₂* màx. Protocol estrictament per a usuaris d'un nivell avançat consolidat, atès que l'esforç supramàxim requereix una base cardiovascular i neuromuscular sòlida per evitar lesions.
 
--   **Font:** Protocols de condicionament metabòlic (MetCon).
+### D. Mètode Gibala/Little — Estàndard Intermedi
 
--   **Ràtio Treball/Descans:** Treball continu durant un temps fix
-    > preestablert.
+- **Font:** Martin Gibala i Jonathan Little (2009–2010). *Journal of Physiology.*
+- **Ràtio Treball/Descans:** 60 s d'alta intensitat / 75 s de recuperació de baixa intensitat.
+- **Estructura:** De 8 a 12 rondes.
+- **Intensitat Objectiu:** ~95% de la *FC*màx.
+- **Adaptació principal:** Densitat mitocondrial i sensibilitat a la insulina, sense l'estrès metabòlic extrem dels protocols supramaximals. Adequat com a pas previ al Tabata.
 
--   **Estructura:** Un temps fix (ex: 10, 15 o 20 minuts). L'usuari ha
-    > de completar tantes voltes o repeticions com sigui possible (*As
-    > Many Rounds As Possible*).
+---
 
--   **Intensitat Objectiu:** Gestió de l'esforç submàxim constant. Es
-    > busca el "ritme de creuer" més alt possible sense arribar a
-    > l'esgotament total abans d'hora.
+## 3. Model de Despesa Calòrica
 
--   **Lògica del Sistema:** Ideal per mesurar la capacitat de treball
-    > total. Permet a usuaris de diferents nivells entrenar junts, ja
-    > que cadascú adapta el volum a la seva capacitat dins del mateix
-    > límit de temps.
+### 3.1. Fórmula de càlcul
 
-### C. El Protocol Tabata (L'estàndard "Elit")
+El sistema utilitza la fórmula estàndard derivada de la taula MET (*Metabolic Equivalent of Task*, Ainsworth et al., 2011), corregida per un factor de fatiga específic de cada exercici i un corrector demogràfic d'edat i sexe:
 
--   **Font:** Izumi Tabata et al. (1996).
+```
+kcal = MET × pes_kg × (durada_s / 3600) × factor_fatiga × corrector_demogràfic
+```
 
--   **Ràtio Treball/Descans:** 20 segons de treball d'ultra-alta
-    > intensitat / 10 segons de descans passiu.
+### 3.2. Paràmetres
 
--   **Estructura:** 8 rondes (Temps total: 4 minuts).
+**MET (Equivalent Metabòlic de la Tasca)**
+Representa el cost energètic d'un exercici en múltiples del metabolisme basal en repòs (1 MET ≈ 3,5 ml O₂/kg/min). Els valors de referència emprats procedeixen del *Compendium of Physical Activities* (Ainsworth et al., 2011). Valors de referència principals:
 
--   **Intensitat Objectiu:** \~170% del $VO\_{2}$ màx (esforç
-    > supramaximal).
+| Exercici | MET |
+|---|---|
+| Burpees (intensitat alta) | 11.0 |
+| High Knees / Shadow Boxing intens | 9.0 |
+| Mountain Climbers / Seal Jacks | 8.0 |
+| Squat Thrusts / Jumping Jacks / Fast Feet | 8.0 |
+| Lateral Skaters / Shadow Boxing | 7.5–7.0 |
+| Archer Squats / Bulgarian Split Squats | 7.0 |
+| Diamond / Decline Push-ups | 6.5–6.0 |
+| Lunges / Step-ups | 6.0–5.5 |
+| Air Squats / Sumo Squats | 5.5–5.0 |
+| Plank Jacks / Mountain Climbers (lents) | 5.0 |
+| Hollow Rocks / exercicis isomètrics | 3.5 |
+| Glute Bridges | 3.5 |
+| Sit-ups / Crunches | 3.0 |
 
--   **Lògica del Sistema:** Aquest protocol és estrictament per a
-    > usuaris avançats. Es centra en la capacitat anaeròbica i el consum
-    > màxim d'oxigen.
+**Factor de fatiga**
+Coeficient adimensional que modela la variació del cost metabòlic real respecte al valor MET teòric en condicions de fatiga acumulada. Un exercici de gran demanda neuromuscular té un factor superior a 1.0; els períodes de recuperació activa o exercicis isomètrics estàtics poden tenir un factor inferior a 1.0.
 
-### D. El Mètode Gibala/Little (L'estàndard "Intermedi")
+| Tipus d'exercici | Factor de fatiga típic |
+|---|---|
+| Full body explosiu (burpees, squat thrusts) | 1.15–1.25 |
+| Salts i moviments de alta coordinació | 1.10–1.15 |
+| Força dinàmica (push-ups, squats) | 1.00–1.05 |
+| Core dinàmic (sit-ups, mountain climbers) | 0.95–1.00 |
+| Recuperació activa / isomètrics | 0.75–0.85 |
 
--   **Font:** Martin Gibala i Jonathan Little (2009/2010).
+**Corrector demogràfic**
+Modela les diferències en la despesa calòrica atribuïbles al sexe i l'edat, normalitzades sobre una referència de 30 anys:
 
--   **Ràtio Treball/Descans:** 60 segons de treball d'alta intensitat /
-    > 75 segons de recuperació de baixa intensitat.
+```
+corrector = 1.0 + factor_sexe + factor_edat
 
--   **Estructura:** De 8 a 12 rondes.
+factor_sexe  = +0.05 (home) o −0.05 (dona)
+factor_edat  = clamp( (30 − edat) × 0.003, −0.15, +0.10 )
+```
 
--   **Intensitat Objectiu:** \~95% de la freqüència cardíaca màxima
-    > ($FC\_{màx}$).
+El factor d'edat aplica una correcció de ±0.3% per any respecte als 30 anys, limitada a un rang de [−15%, +10%] per evitar extrapolacions no fisiològiques en edats extremes.
 
--   **Lògica del Sistema:** Més accessible que el Tabata. Millora la
-    > densitat mitocondrial i la sensibilitat a la insulina sense
-    > l'estrès metabòlic extrem dels protocols supramaximals.
+### 3.3. Efecte EPOC
 
-## 3. Equilibri Biomecànic i Categorització d'Exercicis
+El consum d'oxigen en excés postexercici (EPOC, *Excess Post-exercise Oxygen Consumption*) pot representar entre un 6% i un 15% addicional de la despesa calòrica total, en funció de la intensitat i la durada de la sessió. Les estimacions de despesa total (exercici + recuperació) que apareixen en les fitxes de protocol inclouen aquest factor de manera orientativa.
 
-Per prevenir el sobreentrenament i assegurar la integritat estructural,
-el sistema ha de rotar els exercicis a través de cinc patrons de
-moviment primaris.
+> **Nota:** Les calories indicades a cada protocol s'han calculat per a un perfil de referència neutre (adult, 75 kg, 30 anys) amb l'objectiu de facilitar la comparació entre protocols. L'aplicació recalcula aquests valors amb el perfil real de cada usuari.
 
-| **Patró**            | **Descripció**                                | **Exemples d'Exercicis**                         |
-|----------------------|-----------------------------------------------|--------------------------------------------------|
-| **Push (Empenta)**   | Moure pes lluny del cos (Tren superior).      | Flexions (Push-ups), Pike push-ups, Fons (Dips). |
-| **Pull (Tracció)**   | Estirar pes cap al cos (Tren superior).       | Dominades (Pull-ups), Rem invertit, Supermans.   |
-| **Squat (Asseguda)** | Moviment de tren inferior dominant de genoll. | Sentadilles, Salts verticals, Goblet squats.     |
-| **Hinge (Bisagra)**  | Moviment de tren inferior dominant de maluc.  | Kettlebell swings, Pont de gluti, Pes mort.      |
-| **Lunge (Estocada)** | Moviment de tren inferior unilateral.         | Estocades endavant, Split squats búlgars.        |
+---
 
-**Restricció del Sistema:** Una rutina generada mai hauria de tenir més
-de dos exercicis consecutius de la mateixa categoria per evitar la
-fatiga muscular localitzada i l'estrès articular.
+## 4. Equilibri Biomecànic i Categorització d'Exercicis
 
-### Full Body (Cos Sencer)
+### 4.1. Patrons de moviment primaris
 
-Són exercicis "multiarticulars" que involucren tant el tren superior com
-l'inferior i requereixen una gran demanda cardiovascular.
+Per prevenir el sobreentrenament i assegurar la integritat estructural de les sessions, el sistema classifica tots els exercicis en cinc patrons de moviment primaris:
 
--   **Funció:** Elevació ràpida de les pulsacions i despesa calòrica
-    > màxima.
+| Patró | Descripció | Exemples |
+|---|---|---|
+| **Push (Empenta)** | Moviment de tren superior allunyant pes del cos. | Flexions, Pike push-ups, Fons. |
+| **Pull (Tracció)** | Moviment de tren superior acostant pes al cos. | Dominades, Rem invertit, Supermans. |
+| **Squat (Genoll dominant)** | Moviment de tren inferior on l'articulació dominant és el genoll. | Sentadilles, Salts verticals, Goblet squats. |
+| **Hinge (Maluc dominant)** | Moviment de tren inferior on l'articulació dominant és el maluc. | Pont de gluti, Kettlebell swings, Pes mort. |
+| **Lunge (Unilateral)** | Moviment de tren inferior unilateral. | Estocades, Split squats búlgars, Step-ups. |
 
--   **Exemples:** Burpees, Thrusters, Mountain Climbers, Jumping Jacks.
+A més, s'afegeix una sisena categoria transversal:
 
--   **Ús en l'App:** Són els "motors" dels protocols Tabata i AFAP.
+| Patró | Descripció | Exemples |
+|---|---|---|
+| **Full Body** | Exercicis multiarticulars que involucren simultàniament tren superior, inferior i core. Generen la major demanda cardiovascular. | Burpees, Mountain Climbers, Jumping Jacks, Squat Thrusts. |
 
-### Upper Body (Tren Superior)
+### 4.2. Subcategorització per zona muscular
 
-Es divideix en dos sub-patrons crítics per no esgotar les espatlles:
+Cada patró es desglossa en zones funcionals per al sistema d'etiquetes intern:
 
--   **Push (Empenta):** Treball de pit, espatlles i tríceps. (Ex:
-    > Push-ups, Pike push-ups).
+| Tag | Zona | Descripció |
+|---|---|---|
+| `FULL_BODY` | Cos sencer | Exercicis globals de màxima intensitat cardiovascular. |
+| `UPPER_PUSH` | Pit, espatlles, tríceps | Moviments d'empenta de tren superior. |
+| `UPPER_PULL` | Esquena, bíceps | Moviments de tracció de tren superior. |
+| `LOWER_KNEE` | Quàdriceps | Exercicis de tren inferior centrats en el genoll. |
+| `LOWER_HINGE` | Gluti, isquiotibials | Exercicis de tren inferior centrats en el maluc. |
+| `CORE` | Nucli | Estabilitat, antiextensió i flexió de tronc. |
 
--   **Pull (Tracció):** Treball de l'esquena i bíceps. (Ex: Pull-ups,
-    > Rem invertit).
+### 4.3. Regles d'equilibri estructural
 
--   **Rigor:** Si una rutina té 3 exercicis d'Upper Body, l'app hauria
-    > d'intentar que no siguin tots de "Push".
+1. **Regla de consecutivitat:** Un protocol no pot incloure més de dos exercicis consecutius de la mateixa categoria `target_zone`. Això evita la fatiga muscular localitzada i l'estrès articular repetitiu.
+2. **Regla d'equilibri push/pull:** Si un protocol inclou tres o més exercicis d'`UPPER_PUSH`, com a mínim un d'ells ha de tenir un exercici de contrapart `UPPER_PULL` en la mateixa sessió setmanal.
+3. **Regla d'alternança genoll/maluc:** En protocols de tren inferior llargs (≥ 4 exercicis), s'ha d'alternar `LOWER_KNEE` i `LOWER_HINGE` per evitar la sobrecàrrega de l'articulació del genoll.
 
-### Lower Body (Tren Inferior)
+### 4.4. Algoritme d'equilibri per a protocols de 5 exercicis
 
-També es divideix en dos per l'articulació dominant:
+La distribució de referència per a un protocol equilibrat de cinc exercicis és:
 
--   **Knee Dominant (Quàdriceps):** Exercicis on el genoll fa el
-    > recorregut principal. (Ex: Squats, Lunges, Step-ups).
+1. `FULL_BODY` — motor cardiovascular central.
+2. `LOWER_KNEE` — treball de quàdriceps.
+3. `UPPER_PUSH` — tren superior d'empenta.
+4. `LOWER_HINGE` — treball de gluti i isquis.
+5. `CORE` — estabilitat com a recuperació activa.
 
--   **Hip Dominant / Hinge (Gluti i Isquis):** Exercicis on el maluc fa
-    > la "bisagra". (Ex: Kettlebell Swings, Pont de gluti, Pes mort).
+---
 
--   **Rigor:** Alternar entre genoll i maluc evita la sobrecàrrega de
-    > l'articulació del genoll en sessions llargues.
+## 5. Intensitat Subjectiva: Escala RPE de Borg Modificada
 
-### Core (Nucli / Estabilitat)
+El sistema utilitza l'escala de valoració de l'esforç percebut (RPE, *Rating of Perceived Exertion*) de Borg modificada en una escala de l'1 al 10 per calibrar la intensitat de les sessions i personalitzar futures recomanacions en funció del feedback de l'usuari.
 
-No és només "fer abdominals", és l'estabilització de la columna.
+| RPE | Classificació | Indicadors observables |
+|---|---|---|
+| 1–3 | Lleuger | Respiració còmoda; conversa fluida sense cap dificultat. |
+| 4–6 | Moderat | Respiració profunda; es pot parlar en frases curtes. |
+| 7–8 | Dur | Respiració molt pesada; dificultat notable per parlar. |
+| 9 | Molt dur | Buscant l'aire; només es pot pronunciar una paraula. |
+| 10 | Esforç màxim | Límit absolut; impossible parlar; esgotament complet. |
 
--   **Antiextensió/Antirotació:** Exercicis on el Core evita que el cos
-    > es moli. (Ex: Plank, Deadbug, Hollow hold).
+---
 
--   **Flexió de tronc:** (Ex: Sit-ups, Crunches).
+## 6. Protocols Basats en Volum (Repeticions)
 
--   **Ús en l'App:** Ideal com a "recuperació activa" entre blocs d'alta
-    > intensitat.
+A diferència dels protocols basats en el temps (Tabata/Gibala), els protocols de volum mesuren el rendiment per la **densitat de treball**: completar una càrrega de treball mecànica fixa en el menor temps possible.
 
-### Proposta d'Etiquetes (Tags) per a la teva Base de Dades
+**Mètrica de progrés (*Personal Record*):** La millora es demostra executant el mateix protocol en menys temps en sessions successives.
 
-Perquè el teu codi pugui filtrar exercicis, cada exercici a la taula
-Exercises hauria de tenir un camp target_zone amb aquestes opcions:
+**Regla de tècnica (*Form Breakdown*):** La velocitat d'execució no és una mètrica vàlida si es produeix degradació de la tècnica. La qualitat del moviment té prioritat sobre el temps.
 
-| **Categoria**      | **Tag en C++/SQL** | **Descripció per a l'usuari**           |
-|--------------------|--------------------|-----------------------------------------|
-| **Cos Sencer**     | FULL_BODY          | Exercicis globals de màxima intensitat. |
-| **Pit/Braços**     | UPPER_PUSH         | Moviments d'empenta de braços.          |
-| **Esquena**        | UPPER_PULL         | Moviments de tracció.                   |
-| **Cames (Genoll)** | LOWER_KNEE         | Exercicis centrats en quàdriceps.       |
-| **Cames (Maluc)**  | LOWER_HINGE        | Exercicis centrats en gluti/isquis.     |
-| **Abdominals**     | CORE               | Estabilitat i control central.          |
+**Regla d'alternança articular:** En protocols de volum alt (≥ 100 repeticions per exercici), no s'han de combinar dos exercicis que carreguen la mateixa articulació de forma dominant (per exemple, evitar Jump Squats i Lunges en la mateixa piràmide).
 
-### El "Rigor" del Programador: L'Algoritme d'Equilibri
+> **Llegenda de les taules:** Les calories estimades s'han calculat amb la fórmula de la secció 3, usant el perfil de referència neutre (75 kg, 30 anys, corrector = 1.0). El factor de fatiga de cada ronda reflecteix l'increment del cost metabòlic per unitat de temps a mesura que s'acumula la fatiga.
 
-Si vas a generar una rutina de 5 exercicis, hauries de seguir aquesta
-lògica:
+---
 
-1.  Triar 1 FULL_BODY.
+### FAT\_BURNING: STRIKE
 
-2.  Triar 1 LOWER_KNEE.
+**Categoria:** Fat Burning · **Format:** Piràmide 30-15-30 · **Protocol base:** AFAP
 
-3.  Triar 1 UPPER_PUSH.
+**Estructura:**
 
-4.  Triar 1 LOWER_HINGE.
+| Subsistema | Exercici | Reps |
+|---|---|---|
+| SUBSYSTEM 1 | Burpees | 30 |
+| | Sit-ups | 30 |
+| | Lunges | 30 |
+| SUBSYSTEM 2 | Burpees | 15 |
+| | Sit-ups | 15 |
+| | Lunges | 15 |
+| SUBSYSTEM 3 | Burpees | 30 |
+| | Sit-ups | 30 |
+| | Lunges | 30 |
 
-5.  Triar 1 CORE.
+**Desglossament calòric (perfil de referència, 75 kg, 30 anys):**
 
-D'aquesta manera, l'usuari treballa **tot el cos** sense esgotar cap
-zona específica abans d'hora.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **RONDA 1** | Burpees | 30 | 2:30 min | 11.0 | 1.20 | 30.6 |
+| (30 reps) | Sit-ups | 30 | 1:20 min | 3.0 | 0.95 | 5.3 |
+| | Lunges | 30 | 1:15 min | 5.5 | 1.00 | 7.6 |
+| **RONDA 2** | Burpees | 15 | 1:15 min | 11.0 | 1.20 | 15.3 |
+| (15 reps) | Sit-ups | 15 | 0:40 min | 3.0 | 0.95 | 2.7 |
+| | Lunges | 15 | 0:40 min | 5.5 | 1.00 | 4.1 |
+| **RONDA 3** | Burpees | 30 | 3:00 min | 11.0 | 1.25 | 38.2 |
+| (30 reps, fatiga) | Sit-ups | 30 | 1:30 min | 3.0 | 1.00 | 5.6 |
+| | Lunges | 30 | 1:30 min | 5.5 | 1.05 | 9.7 |
+| **TOTALS** | | **225 reps** | **~14 min** | | | **~119 kcal** |
 
-## 4. Intensitat Subjectiva: Escala RPE de Borg Modificada
+> A la ronda 3, el temps per repetició augmenta a causa de la fatiga làctica, la qual cosa incrementa la despesa calòrica total en mantenir la freqüència cardíaca en zona anaeròbica durant més temps. Incloent l'efecte EPOC (~10–12%), la despesa total estimada se situa entre **130 i 140 kcal**.
 
-El sistema utilitza una escala de valoració de l'esforç percebut (RPE)
-de l'1 al 10 per calibrar futures sessions basades en el feedback de
-l'usuari.
+**Racionalitat fisiològica:** La combinació de burpees (full body, MET 11.0), lunges (lower knee) i sit-ups (core) respecta l'equilibri biomecànic i manté la freqüència cardíaca per sobre del 80% de la *FC*màx durant tota la sessió, maximitzant la oxidació de substrats.
 
--   **RPE 1-3 (Lleuger):** Respiració còmoda; es pot parlar fàcilment.
+---
 
--   **RPE 4-6 (Moderat):** Respiració profunda; es pot parlar en frases
-    > curtes.
+### FAT\_BURNING: METABOLIX
 
--   **RPE 7-8 (Dur):** Respiració molt pesada; difícil parlar.
+**Categoria:** Fat Burning · **Format:** Rondes iguals 20×4 · **Protocol base:** AFAP
 
--   **RPE 9 (Molt dur):** Buscant l'aire; només es pot dir una paraula.
+**Exercicis:** Jumping Jacks (`FULL_BODY`) · Squat Thrusts (`FULL_BODY`) · Mountain Climbers (`CORE/FULL_BODY`)
 
--   **RPE 10 (Esforç Màxim):** Límit absolut; no es pot parlar;
-    > esgotament complet.
+**Racionalitat:** El format de rondes iguals permet mantenir un ritme de treball constant (*steady-state metabòlic*). La combinació de tres exercicis de tipus full body manté la demanda cardiovascular uniformement elevada, buscant el que s'anomena *metabolic conditioning*: maximitzar el consum d'oxigen per unitat de temps.
 
-## 5. Protocols Basats en Volum (Repeticions)
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Jumping Jacks | 20 | 0:30 min | 8.0 | 1.00 | 4.4 |
+| | Squat Thrusts | 20 | 1:00 min | 9.0 | 1.10 | 9.9 |
+| | Mountain Climbers | 20/20 | 0:45 min | 8.0 | 1.05 | 7.0 |
+| **Rondes 2–4** | (Igual que R1) | 3 × 120 | ~7:45 min | ~8.3 | 1.10–1.20 | ~65.1 |
+| **TOTALS** | | **320 reps** | **~10 min** | | | **~86 kcal** |
 
-A diferència dels protocols basats en el temps (Tabata/Gibala), els
-protocols de volum es centren en la **densitat de treball**. L'objectiu
-no és sobreviure a un cronòmetre, sinó completar una tasca mecànica
-específica en el menor temps possible.
+> Despesa total estimada incloent EPOC (~12%): **~96 kcal**.
 
-### A. Protocol AFAP (*As Fast As Possible*)
+---
 
-En aquest mètode, el rendiment es mesura pel temps total d'execució
-(*Time Cap*).
+### FAT\_BURNING: PYROGEN
 
--   **Mètrica d'Èxit:** El "Personal Record" (PR) de temps. La
-    > progressió es dóna en realitzar el mateix volum de treball en
-    > menys segons/minuts.
+**Categoria:** Fat Burning · **Format:** Piràmide descendent 40-30-20-10 · **Protocol base:** AFAP
 
--   **Adaptació Fisiològica:** Resistència a l'àcid làctic, llindar de
-    > fatiga muscular i fortalesa mental (resiliència).
+**Exercicis:** Lateral Skaters (`FULL_BODY`) · Reverse Lunges (`LOWER_KNEE`) · Bicycle Crunches (`CORE`)
 
-### B. Rigor Biomecànic en Protocols de Repeticions
+**Racionalitat:** La piràmide descendent és psicològicament eficaç: la ronda més exigent es realitza quan el cos és fresc, i el volum decreix a mesura que s'acumula la fatiga, permetent mantenir la intensitat d'execució alta al llarg de tota la sessió. Els *Reverse Lunges* s'utilitzen en lloc dels endavant per reduir el moment de força sobre el genoll, afavorint la seguretat articular en sessions d'alt volum.
 
-A causa de l'alta repetició d'un mateix moviment en poc temps, el
-sistema ha d'aplicar les següents regles:
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Lateral Skaters | 40 | 1:30 min | 7.5 | 1.15 | 19.4 |
+| | Reverse Lunges | 40 | 2:00 min | 5.5 | 1.00 | 15.4 |
+| | Bicycle Crunches | 40 | 1:00 min | 3.0 | 0.95 | 4.0 |
+| **Ronda 2** | Lateral Skaters | 30 | 1:10 min | 7.5 | 1.15 | 15.0 |
+| | Reverse Lunges | 30 | 1:30 min | 5.5 | 1.05 | 12.1 |
+| | Bicycle Crunches | 30 | 0:45 min | 3.0 | 0.95 | 3.0 |
+| **Ronda 3** | Lateral Skaters | 20 | 0:45 min | 7.5 | 1.15 | 9.6 |
+| | Reverse Lunges | 20 | 1:00 min | 5.5 | 1.05 | 8.1 |
+| | Bicycle Crunches | 20 | 0:30 min | 3.0 | 0.95 | 2.0 |
+| **Ronda 4** | Lateral Skaters | 10 | 0:25 min | 7.5 | 1.15 | 5.4 |
+| | Reverse Lunges | 10 | 0:30 min | 5.5 | 1.05 | 4.0 |
+| | Bicycle Crunches | 10 | 0:15 min | 3.0 | 0.95 | 1.0 |
+| **TOTALS** | | **300 reps** | **~11 min** | | | **~99 kcal** |
 
-1.  **Regla de la Tècnica (*Form Breakdown*):** L'usuari ha de
-    > prioritzar la qualitat sobre la velocitat. Si la tècnica es
-    > degrada, el "temps" deixa de ser una mètrica vàlida.
+> Despesa total estimada incloent EPOC (~15% per la intensitat dels salts laterals): **~114 kcal**.
 
-2.  **Alternança de Cadenes:** En una piràmide de 150 repeticions totals
-    > per exercici, mai s'han de combinar dos exercicis que utilitzin la
-    > mateixa articulació principal de forma dominant (ex: evitar fer
-    > Jump Squats i Lunges en la mateixa piràmide).
+---
 
-### C. Exemples AFAP:
+### CARDIO\_ENHANCEMENT: AEROBYTE
 
-#### FAT_BURNING: STRIKE
+**Categoria:** Cardio Enhancement · **Format:** Rondes iguals 30×4 · **Protocol base:** AFAP
 
-| **ARES_STRIKE** |              |
-| **Module**      | **Quantity** |
-|-----------------|--------------|
-| SUBSYSTEM 1     |              |
-| Burpees         | 30           |
-| Situps          | 30           |
-| Lunges          | 30           |
-| SUBSYSTEM 2     |              |
-| Burpees         | 15           |
-| Situps          | 15           |
-| Lunges          | 15           |
-| SUBSYSTEM 3     |              |
-| Burpees         | 30           |
-| Situps          | 30           |
-| Lunges          | 30           |
+**Exercicis:** Jumping Jacks (`FULL_BODY`) · High Knees (`FULL_BODY`) · Mountain Climbers (`CORE/FULL_BODY`)
 
-Desglossament detallat per a un home de **45 anys, 175 cm y 80 kg**,
-considerant la fatiga acumulada que alenteix el ritme a l'última ronda i
-manté el MET elevat.
+**Racionalitat:** A diferència del Fat Burning (que busca pics d'intensitat), Cardio Enhancement persegueix mantenir la freqüència cardíaca en zona aeròbica alta (75–85% *FC*màx) de forma sostinguda. Aquesta zona optimitza el desenvolupament del *VO₂* màx i la capacitat aeròbica de base. El volum total de 360 repeticions amb tres exercicis de baix impacte muscular i alta demanda cardiovascular produeix el que es coneix com a *fatiga central* (cor i pulmons) minimitzant la *fatiga perifèrica* (muscular local).
 
-##### Desglossament de l’Entrenament (Rondes 30 - 15 - 30)
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Jumping Jacks | 30 | 0:45 min | 8.0 | 1.00 | 6.7 |
+| | High Knees | 30/30 | 1:00 min | 9.0 | 1.10 | 9.9 |
+| | Mountain Climbers | 30/30 | 1:00 min | 8.0 | 1.05 | 9.3 |
+| **Ronda 2** | Jumping Jacks | 30 | 0:45 min | 8.0 | 1.05 | 7.0 |
+| | High Knees | 30/30 | 1:00 min | 9.0 | 1.10 | 9.9 |
+| | Mountain Climbers | 30/30 | 1:00 min | 8.0 | 1.10 | 9.8 |
+| **Ronda 3** | Jumping Jacks | 30 | 0:50 min | 8.0 | 1.05 | 7.7 |
+| | High Knees | 30/30 | 1:15 min | 9.0 | 1.10 | 12.4 |
+| | Mountain Climbers | 30/30 | 1:15 min | 8.0 | 1.10 | 12.2 |
+| **Ronda 4** | Jumping Jacks | 30 | 1:00 min | 8.0 | 1.10 | 9.8 |
+| | High Knees | 30/30 | 1:15 min | 9.0 | 1.15 | 12.9 |
+| | Mountain Climbers | 30/30 | 1:15 min | 8.0 | 1.15 | 12.8 |
+| **TOTALS** | | **360 reps** | **~12 min** | | | **~120 kcal** |
 
-| Ronda       | Exercici | Reps    | Temps Est.   | MET   | Caloríes Est.\* |
-|-------------|----------|---------|--------------|-------|-----------------|
-| **RONDA 1** | Burpees  | 30      | 2:30 min     | 11.0  | 38.5 kcal       |
-| (30 reps)   | Sit-ups  | 30      | 1:20 min     | 3.8   | 7.1 kcal        |
-|             | Lunges   | 30      | 1:15 min     | 5.0   | 8.8 kcal        |
-| **RONDA 2** | Burpees  | 15      | 1:15 min     | 11.0  | 19.3 kcal       |
-| (15 reps)   | Sit-ups  | 15      | 0:40 min     | 3.8   | 3.5 kcal        |
-|             | Lunges   | 15      | 0:40 min     | 5.0   | 4.7 kcal        |
-| **RONDA 3** | Burpees  | 30      | 3:00 min     | 11.0  | 46.2 kcal\*\*   |
-| (30 reps)   | Sit-ups  | 30      | 1:30 min     | 3.8   | 8.0 kcal        |
-|             | Lunges   | 30      | 1:30 min     | 5.0   | 10.5 kcal       |
-| **TOTALS**  |          | **225** | **\~14 min** | **-** | **\~147 kcal**  |
+---
 
-> *\*Càlcul basat en la fórmula: (MET × 3.5 × 80 kg / 200) per minut.*  
-> *\*\*Nota: A la ronda 3, el temps augmenta per la fatiga, cosa que
-> incrementa la despesa calòrica total per sessió en mantenir les
-> pulsacions altes durant més temps.*
+### CARDIO\_ENHANCEMENT: PULSE\_ID
 
-##### Anàlisi del Factor Fatiga
+**Categoria:** Cardio Enhancement · **Format:** Piràmide descendent 40-30-20-10 · **Protocol base:** AFAP
 
-> Com que és un entrenament tipus HIIT, la **despesa real és més gran**
-> que el càlcul matemàtic simple:
+**Exercicis:** Lateral Shuffles (`FULL_BODY`) · Butt Kicks (`FULL_BODY`) · Cross Jacks (`FULL_BODY`)
 
-1.  **MPOC (Efecte Post-Combustió):** A causa de la intensitat dels
-    > burpees als 45 anys, el teu cos continuarà cremant entre un **10%
-    > i 15% addicional** (unes 20-25 kcal extres) durant les 2 hores
-    > següents per recuperar l'homeòstasi.
+**Racionalitat:** La piràmide descendent en exercicis cardiovasculars permet iniciar amb el major volum quan la capacitat aeròbica és màxima, i anar guanyant velocitat d'execució a mesura que decreixen les repeticions. El resultat és una intensitat percebuda relativament constant al llarg de tota la sessió, una característica desitjable per a l'entrenament de la zona aeròbica.
 
-2.  **Freqüència Cardíaca:** A la tercera ronda, entraràs en una zona de
-    > treball anaeròbic on el cost metabòlic per repetició és
-    > lleugerament superior.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Lateral Shuffles | 40 | 1:30 min | 7.5 | 1.00 | 12.5 |
+| (40 reps) | Butt Kicks | 40/40 | 1:15 min | 8.0 | 1.00 | 11.1 |
+| | Cross Jacks | 40 | 1:00 min | 8.0 | 1.00 | 8.9 |
+| **Ronda 2** | Lateral Shuffles | 30 | 1:10 min | 7.5 | 1.05 | 10.2 |
+| (30 reps) | Butt Kicks | 30/30 | 1:00 min | 8.0 | 1.05 | 9.3 |
+| | Cross Jacks | 30 | 0:45 min | 8.0 | 1.05 | 7.0 |
+| **Ronda 3** | Lateral Shuffles | 20 | 0:50 min | 7.5 | 1.05 | 7.3 |
+| (20 reps) | Butt Kicks | 20/20 | 0:40 min | 8.0 | 1.05 | 6.2 |
+| | Cross Jacks | 20 | 0:30 min | 8.0 | 1.05 | 4.7 |
+| **Ronda 4** | Lateral Shuffles | 10 | 0:25 min | 7.5 | 1.05 | 3.6 |
+| (10 reps) | Butt Kicks | 10/10 | 0:20 min | 8.0 | 1.05 | 3.1 |
+| | Cross Jacks | 10 | 0:15 min | 8.0 | 1.05 | 2.3 |
+| **TOTALS** | | **300 reps** | **~10 min** | | | **~86 kcal** |
 
-> **Despesa Total Estimada (Exercici + Recuperació): 170 - 180 kcal.**
+---
 
-1.  #### **FAT_BURNING: METABOLIX**
+### CARDIO\_ENHANCEMENT: VO2\_MAX\_ST
 
-    1.  ##### El Circuit de "Metabolització Sostinguda" (4 Rondes de 20-20-20)
+**Categoria:** Cardio Enhancement · **Format:** Piràmide ascendent 15-30-45 · **Protocol base:** AFAP
 
-> Per a la directiva **Fat Burning**, el secret no és només la força,
-> sinó mantenir la **frequència cardíaca alta** i involucrar grans
-> cadenes musculars simultàniament. Aquí busquem el que s'anomena
-> "metabolic conditioning".
->
-> Aquest format de rondes iguals permet mantenir un ritme constant. La
-> combinació d'un exercici de salt, un de cames i un de core manté la
-> bomba de sang en marxa.
->
-> **Exercicis:**
+**Exercicis:** Seal Jacks (`FULL_BODY`) · Shadow Boxing (`UPPER_PUSH/FULL_BODY`) · Fast Feet (`FULL_BODY`)
 
-1.  **Jumping Jacks** (Cardio explosiu)
+**Racionalitat:** La piràmide ascendent és especialment eficaç per a l'entrenament del *VO₂* màx perquè obliga el sistema cardiovascular a adaptar-se progressivament a una demanda d'oxigen creixent. En iniciar amb baix volum, el cos s'escalfa adequadament i la intensitat d'execució de les últimes rondes —quan el volum és màxim— pot ser realment alta.
 
-2.  **Squat Thrusts** (Com un burpee, però sense fer la flexió ni el
-    > salt vertical final)
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Seal Jacks | 15 | 0:25 min | 8.0 | 1.00 | 3.7 |
+| (15 reps) | Shadow Boxing | 15/15 | 0:30 min | 7.0 | 1.00 | 4.0 |
+| | Fast Feet | 15/15 | 0:20 min | 8.0 | 1.00 | 3.0 |
+| **Ronda 2** | Seal Jacks | 30 | 0:50 min | 8.0 | 1.05 | 7.7 |
+| (30 reps) | Shadow Boxing | 30/30 | 1:00 min | 7.0 | 1.05 | 8.2 |
+| | Fast Feet | 30/30 | 0:45 min | 8.0 | 1.05 | 7.0 |
+| **Ronda 3** | Seal Jacks | 45 | 1:20 min | 8.0 | 1.10 | 13.6 |
+| (45 reps) | Shadow Boxing | 45/45 | 1:45 min | 7.0 | 1.10 | 15.9 |
+| | Fast Feet | 45/45 | 1:15 min | 8.0 | 1.10 | 13.8 |
+| **TOTALS** | | **270 reps** | **~9 min** | | | **~77 kcal** |
 
-3.  **Mountain Climbers** (Core dinàmic – 20 repeticions per cama)
+---
 
-| Ronda          | Exercici             | Reps         | Temps Est.  | MET   | Calories Est.  |
-|----------------|----------------------|--------------|-------------|-------|----------------|
-| **Ronda 1**    | Jumping Jacks        | 20           | 0:30 min    | 8.0   | 5.6 kcal       |
-|                | Squat Thrusts        | 20           | 1:00 min    | 9.0   | 12.6 kcal      |
-|                | Mountain Climbers    | 20/20        | 0:45 min    | 8.0   | 8.4 kcal       |
-| **Rondes 2-4** | (Repeteix el mateix) | x3 rondes    | 6:45 min    | \~8.3 | 78.0 kcal      |
-| **TOTALS**     |                      | **320 reps** | **\~9 min** | **-** | **\~105 kcal** |
+### STRENGTH\_MATRIX: TITANIUM
 
-####  
+**Categoria:** Strength Matrix · **Format:** Piràmide 30-15-30 · **Protocol base:** AFAP
 
-1.  #### FAT_BURNING: PYROGEN
+**Exercicis:** Diamond Push-ups (`UPPER_PUSH`) · Archer Squats (`LOWER_KNEE`) · V-Ups (`CORE`)
 
-    1.  ##### L'Escala "Quema-Greix" (Piràmide Descendent: 40-30-20-10)
+**Racionalitat:**
+- **Diamond Push-ups:** La posició tancada de mans concentra la càrrega sobre el cap esternal del pectoral i els tríceps, incrementant la tensió mecànica respecte a les flexions convencionals.
+- **Archer Squats:** Variant unilateral progressiva de la *Pistol Squat*. En desplaçar el 70–80% del pes cap a una sola cama, la tensió mecànica sobre el quàdriceps i el gluti és significativament superior a la del squat bilateral.
+- **V-Ups:** Requereixen una contracció sinèrgica explosiva dels flexors de maluc i els rectes abdominals, amb major implicació de la cadena anterior que el sit-up convencional.
 
-> Aquest format és psicològicament molt potent: la ronda més dura és la
-> primera, i a mesura que et vas cansant, el nombre de repeticions
-> baixa, permetent-te mantenir la intensitat alta.
->
-> **Exercicis:**
+La ronda 2 (15 repeticions) s'executa amb èmfasi en el control excèntric (baixada de 3 s) per maximitzar el dany muscular i l'estímul de hipertròfia.
 
-1.  **Lateral Skaters** (Salts laterals com si patinessis – gran despesa
-    > calòrica)
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Diamond Push-ups | 30 | 2:00 min | 6.0 | 1.00 | 13.3 |
+| (30 reps) | Archer Squats | 30 | 2:00 min | 6.5 | 1.00 | 14.4 |
+| | V-Ups | 30 | 1:30 min | 3.5 | 0.95 | 7.0 |
+| **Ronda 2** | Diamond Push-ups | 15 | 1:30 min | 6.5 | 1.00 | 10.8 |
+| (15 reps, lent) | Archer Squats | 15 | 1:15 min | 7.0 | 1.00 | 9.8 |
+| | V-Ups | 15 | 1:00 min | 3.5 | 0.95 | 4.7 |
+| **Ronda 3** | Diamond Push-ups | 30 | 2:30 min | 6.0 | 1.05 | 17.5 |
+| (30 reps, fatiga) | Archer Squats | 30 | 2:15 min | 6.5 | 1.05 | 17.1 |
+| | V-Ups | 30 | 1:45 min | 3.5 | 1.00 | 8.6 |
+| **TOTALS** | | **225 reps** | **~18 min** | | | **~103 kcal** |
 
-2.  **Reverse Lunges** (Estocades enrere – més segures per als genolls a
-    > partir dels 40)
+> Tot i que la despesa calòrica és inferior a la dels protocols de Fat Burning, l'estímul de hipertròfia i el dany muscular estructural produït generen un efecte metabòlic residual (augment del metabolisme basal) que es manté durant 24–72 hores.
 
-3.  **Bicycle Crunches** (Abdominals de bicicleta – molt metabòlics)
+---
 
-| Ronda       | Exercici                   | Reps         | Temps Est.   | MET   | Calories Est.  |
-|-------------|----------------------------|--------------|--------------|-------|----------------|
-| **RONDA 1** | Skaters / Lunges / Bicycle | 40/40/40     | 4:30 min     | 8.0   | 50.4 kcal      |
-| **RONDA 2** | Skaters / Lunges / Bicycle | 30/30/30     | 3:30 min     | 8.0   | 39.2 kcal      |
-| **RONDA 3** | Skaters / Lunges / Bicycle | 20/20/20     | 2:15 min     | 8.0   | 25.2 kcal      |
-| **RONDA 4** | Skaters / Lunges / Bicycle | 10/10/10     | 1:15 min     | 8.0   | 14.0 kcal      |
-| **TOTALS**  |                            | **300 reps** | **\~11 min** | **-** | **\~129 kcal** |
+### STRENGTH\_MATRIX: GOLIATH
 
-##### Per què funcionen per a "Fat Burning"?
+**Categoria:** Strength Matrix · **Format:** Piràmide descendent 20-15-10-8-5 · **Protocol base:** AFAP
 
--   **Densitat de treball:** Hi ha molt poc temps de descans real entre
-    > exercicis.
+**Exercicis:** Pike Push-ups (`UPPER_PUSH`) · Archer Squats (`LOWER_KNEE`) · Hollow Rocks (`CORE`)
 
--   **Grans grups:** Els *Skaters* i els *Squat Thrusts* mouen tot el
-    > cos, disparant el consum d'oxigen.
+**Racionalitat:** En la Strength Matrix, reduir el nombre de repeticions per ronda permet centrar l'esforç en la qualitat d'execució i la generació de força màxima per repetició, en lloc de delegar en la resistència cardiovascular. La piràmide descendent preserva la tècnica al llarg de tota la sessió, ja que el volum decreix a mesura que s'acumula la fatiga neuromuscular. Es recomana un descans actiu de 60–90 s entre rondes per permetre la ressíntesi parcial d'ATP i garantir la qualitat de la ronda següent.
 
--   **Efecte EPOC:** En acabar aquests 10-15 minuts, el teu cos seguirà
-    > cremant unes **30-50 kcal extres** durant la recuperació a causa
-    > de la intensitat.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Pike Push-ups | 20 | 1:30 min | 6.5 | 1.00 | 10.8 |
+| (20 reps) | Archer Squats | 20 | 1:15 min | 7.0 | 1.00 | 9.8 |
+| | Hollow Rocks | 20 | 1:00 min | 3.5 | 0.95 | 4.7 |
+| **Ronda 2** | Pike Push-ups | 15 | 1:10 min | 6.5 | 1.00 | 8.4 |
+| (15 reps) | Archer Squats | 15 | 1:00 min | 7.0 | 1.00 | 7.8 |
+| | Hollow Rocks | 15 | 0:45 min | 3.5 | 0.95 | 3.5 |
+| **Ronda 3** | Pike Push-ups | 10 | 0:50 min | 6.5 | 1.00 | 6.0 |
+| (10 reps) | Archer Squats | 10 | 0:45 min | 7.0 | 1.00 | 5.9 |
+| | Hollow Rocks | 10 | 0:30 min | 3.5 | 0.95 | 2.3 |
+| **Ronda 4** | Pike Push-ups | 8 | 0:40 min | 6.5 | 1.00 | 4.8 |
+| (8 reps) | Archer Squats | 8 | 0:35 min | 7.0 | 1.00 | 4.6 |
+| | Hollow Rocks | 8 | 0:25 min | 3.5 | 0.95 | 1.9 |
+| **Ronda 5** | Pike Push-ups | 5 | 0:30 min | 6.5 | 1.00 | 3.6 |
+| (5 reps) | Archer Squats | 5 | 0:25 min | 7.0 | 1.00 | 3.2 |
+| | Hollow Rocks | 5 | 0:20 min | 3.5 | 0.95 | 1.2 |
+| **TOTALS** | | **174 reps** | **~13 min** | | | **~78 kcal** |
 
-> **Despesa total estimat (amb post-crema):** Entre **150 i 180 kcal**
-> per sessió.
+---
 
-####  
+### STRENGTH\_MATRIX: IRON\_STORM
 
-1.  #### CARDIO_ENHANCEMENT: **AEROBYTE**
+**Categoria:** Strength Matrix · **Format:** Rondes iguals 15×4 · **Protocol base:** AFAP
 
-    1.  ##### El Circuit de Ritme Sostingut (4 Rondes de 30-30-30)
+**Exercicis:** Diamond Push-ups (`UPPER_PUSH`) · Bulgarian Split Squats (`LOWER_KNEE`) · Plank Jacks (`CORE`)
 
-Per a la directiva Cardio Enhancement, l'objectiu principal és millorar
-la teva capacitat aeròbica i el $VO_2$ max. A diferència del Fat Burning
-(on busquem pics d'intensitat), aquí busquem mantenir el cor a
-pulsacions altes de forma sostinguda durant tot el temps de treball.
+**Racionalitat:** El format de rondes iguals facilita la planificació de l'esforç i afavoreix la consistència tècnica. Els *Bulgarian Split Squats* (15 repeticions per cama) generen una tensió unilateral molt superior al squat bilateral equivalent, activant de forma prioritzada el gluti i el quàdriceps de la cama de davant. Els *Plank Jacks* serveixen com a recuperació activa de tren superior entre les rondes d'`UPPER_PUSH` i `LOWER_KNEE`.
 
-Aquest format de repeticions altes i iguals és ideal per entrar en "zona
-de cardio". El volum total és de 360 repeticions.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Diamond Push-ups | 15 | 1:00 min | 6.5 | 1.00 | 7.2 |
+| | Bulgarian Split Squats | 15/cama | 2:00 min | 7.0 | 1.00 | 15.6 |
+| | Plank Jacks | 15 | 0:45 min | 5.0 | 0.95 | 5.0 |
+| **Ronda 2** | Diamond Push-ups | 15 | 1:05 min | 6.5 | 1.05 | 7.8 |
+| | Bulgarian Split Squats | 15/cama | 2:10 min | 7.0 | 1.05 | 17.8 |
+| | Plank Jacks | 15 | 0:50 min | 5.0 | 1.00 | 5.6 |
+| **Ronda 3** | Diamond Push-ups | 15 | 1:10 min | 6.5 | 1.05 | 8.4 |
+| | Bulgarian Split Squats | 15/cama | 2:20 min | 7.0 | 1.10 | 20.1 |
+| | Plank Jacks | 15 | 0:55 min | 5.0 | 1.00 | 6.1 |
+| **Ronda 4** | Diamond Push-ups | 15 | 1:15 min | 6.5 | 1.10 | 9.5 |
+| | Bulgarian Split Squats | 15/cama | 2:30 min | 7.0 | 1.10 | 21.5 |
+| | Plank Jacks | 15 | 1:00 min | 5.0 | 1.00 | 6.7 |
+| **TOTALS** | | **240 reps** | **~18 min** | | | **~131 kcal** |
 
-| Ronda       | Exercici                       | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|--------------------------------|---------|--------------|-------|----------------|
-| **RONDA 1** | **Jumping Jacks**              | 30      | 0:45 min     | 8.0   | 8.4 kcal       |
-|             | **High Knees** (Genolls amunt) | 30/30   | 1:00 min     | 9.0   | 12.6 kcal      |
-|             | **Mountain Climbers**          | 30/30   | 1:00 min     | 8.0   | 11.2 kcal      |
-| **RONDA 2** | Jumping Jacks                  | 30      | 0:45 min     | 8.0   | 8.4 kcal       |
-|             | High Knees                     | 30/30   | 1:00 min     | 9.0   | 12.6 kcal      |
-|             | Mountain Climbers              | 30/30   | 1:00 min     | 8.0   | 11.2 kcal      |
-| **RONDA 3** | Jumping Jacks                  | 30      | 0:45 min     | 8.0   | 8.4 kcal       |
-|             | High Knees                     | 30/30   | 1:15 min     | 9.0   | 15.7 kcal      |
-|             | Mountain Climbers              | 30/30   | 1:15 min     | 8.0   | 14.0 kcal      |
-| **RONDA 4** | Jumping Jacks                  | 30      | 1:00 min     | 8.0   | 11.2 kcal      |
-|             | High Knees                     | 30/30   | 1:15 min     | 9.0   | 15.7 kcal      |
-|             | Mountain Climbers              | 30/30   | 1:15 min     | 8.0   | 14.0 kcal      |
-| **TOTALS**  |                                | **360** | **\~12 min** | **-** | **\~133 kcal** |
+---
 
-##  
+### STRENGTH\_MATRIX: REINFORCE
 
-2.  #### **CARDIO_ENHANCEMENT: PULSE_ID**
+**Categoria:** Strength Matrix · **Format:** Piràmide ascendent 10-20-30 · **Protocol base:** AFAP
 
-    1.  ##### La Piràmide Descendent Cardiovascular (40-30-20-10)
+**Exercicis:** Decline Push-ups (`UPPER_PUSH`) · Sumo Squats amb pols (`LOWER_KNEE/HINGE`) · Leg Raises (`CORE`)
 
-> Aquest format permet començar amb molt de volum quan el cor està fresc
-> i anar guanyant velocitat a mesura que baixen les reps.
+**Racionalitat:** La piràmide ascendent en el context de la Strength Matrix utilitza la ronda inicial (10 reps) com a activació neuromuscular pesada: permet establir la connexió ment-múscul i calibrar la tècnica quan la fatiga és mínima. La ronda final (30 reps) arriba a la fatiga total dels grups musculars diana, combinant el treball de força amb la resistència muscular. Els *Decline Push-ups* (peus elevats) desplacen la càrrega cap a la porció clavicular del pectoral i les espatlles.
 
-| Ronda       | Exercici                                 | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|------------------------------------------|---------|--------------|-------|----------------|
-| **RONDA 1** | **Lateral Shuffles** (Desplaçament lat.) | 40      | 1:30 min     | 7.5   | 15.7 kcal      |
-| (40 reps)   | **Butt Kicks** (Talons al cul)           | 40/40   | 1:15 min     | 8.0   | 14.0 kcal      |
-|             | **Cross Jacks** (Jacks creuant braços)   | 40      | 1:00 min     | 8.0   | 11.2 kcal      |
-| **RONDA 2** | Lateral Shuffles                         | 30      | 1:10 min     | 7.5   | 12.2 kcal      |
-| (30 reps)   | Butt Kicks                               | 30/30   | 1:00 min     | 8.0   | 11.2 kcal      |
-|             | Cross Jacks                              | 30      | 0:45 min     | 8.0   | 8.4 kcal       |
-| **RONDA 3** | Lateral Shuffles                         | 20      | 0:50 min     | 7.5   | 8.7 kcal       |
-| (20 reps)   | Butt Kicks                               | 20/20   | 0:40 min     | 8.0   | 7.5 kcal       |
-|             | Cross Jacks                              | 20      | 0:30 min     | 8.0   | 5.6 kcal       |
-| **RONDA 4** | Lateral Shuffles                         | 10      | 0:25 min     | 7.5   | 4.4 kcal       |
-| (10 reps)   | Butt Kicks                               | 10/10   | 0:20 min     | 8.0   | 3.7 kcal       |
-|             | Cross Jacks                              | 10      | 0:15 min     | 8.0   | 2.8 kcal       |
-| **TOTALS**  |                                          | **300** | **\~10 min** | **-** | **\~105 kcal** |
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Decline Push-ups | 10 | 0:45 min | 7.0 | 1.00 | 5.8 |
+| (10 reps) | Sumo Squats amb pols | 10 | 0:40 min | 5.5 | 1.00 | 4.1 |
+| | Leg Raises | 10 | 0:40 min | 3.0 | 0.95 | 2.7 |
+| **Ronda 2** | Decline Push-ups | 20 | 1:40 min | 7.0 | 1.05 | 12.9 |
+| (20 reps) | Sumo Squats amb pols | 20 | 1:30 min | 5.5 | 1.00 | 9.2 |
+| | Leg Raises | 20 | 1:30 min | 3.0 | 0.95 | 6.0 |
+| **Ronda 3** | Decline Push-ups | 30 | 2:45 min | 7.0 | 1.10 | 23.5 |
+| (30 reps) | Sumo Squats amb pols | 30 | 2:15 min | 5.5 | 1.05 | 14.5 |
+| | Leg Raises | 30 | 2:15 min | 3.0 | 1.00 | 9.6 |
+| **TOTALS** | | **180 reps** | **~14 min** | | | **~88 kcal** |
 
-##  
+---
 
-3.  #### **CARDIO_ENHANCEMENT: VO2_MAX_ST**
+### ENDURANCE\_GRID: STEEL\_CORE
 
-    1.  ##### L'Escala d'Ajust Cardiovascular (Ascendent 15-30-45)
+**Categoria:** Endurance Grid · **Format:** Piràmide descendent 50-40-30-20-10 · **Protocol base:** AFAP
 
-> Molt eficaç per a **Cardio Enhancement** perquè obligues el cor a
-> adaptar-se a una demanda creixent d'oxigen.
+**Exercicis:** Burpees (`FULL_BODY`) · Air Squats (`LOWER_KNEE`) · Sit-ups (`CORE`)
 
-| Ronda       | Exercici                            | Reps    | Temps Est.  | MET   | Calories Est. |
-|-------------|-------------------------------------|---------|-------------|-------|---------------|
-| **RONDA 1** | **Seal Jacks** (Obrir/tancar pit)   | 15      | 0:25 min    | 8.0   | 4.6 kcal      |
-| (15 reps)   | **Shadow Boxing** (Cops a l'aire)   | 15/15   | 0:30 min    | 7.0   | 4.9 kcal      |
-|             | **Fast Feet** (Peus ràpids al lloc) | 15/15   | 0:20 min    | 8.5   | 4.0 kcal      |
-| **RONDA 2** | Seal Jacks                          | 30      | 0:50 min    | 8.0   | 9.3 kcal      |
-| (30 reps)   | Shadow Boxing                       | 30/30   | 1:00 min    | 7.0   | 9.8 kcal      |
-|             | Fast Feet                           | 30/30   | 0:45 min    | 8.5   | 8.9 kcal      |
-| **RONDA 3** | Seal Jacks                          | 45      | 1:20 min    | 8.0   | 14.9 kcal     |
-| (45 reps)   | Shadow Boxing                       | 45/45   | 1:45 min    | 7.0   | 17.1 kcal     |
-|             | Fast Feet                           | 45/45   | 1:15 min    | 8.5   | 14.9 kcal     |
-| **TOTALS**  |                                     | **270** | **\~9 min** | **-** | **\~88 kcal** |
+**Racionalitat:** Amb 450 repeticions totals, STEEL_CORE és un repte de volum alt que persegueix la resistència muscular i cardiovascular pura. L'estructura piramidal descendent és clau: les primeres rondes consumeixen el 60% del volum total quan la capacitat de treball és màxima. A partir de la tercera ronda, el factor de fatiga làctica s'incrementa de forma notable: la cadència de burpees pot descendir de 11 reps/min (ronda 1) a 7–8 reps/min (rondes 4–5), mantenint la freqüència cardíaca prop del màxim durant més temps.
 
-##### Per què "Cardio Enhancement"?
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Burpees | 50 | 4:30 min | 11.0 | 1.20 | 66.0 |
+| (50 reps) | Air Squats | 50 | 2:00 min | 5.0 | 1.00 | 11.1 |
+| | Sit-ups | 50 | 2:15 min | 3.0 | 0.95 | 9.0 |
+| **Ronda 2** | Burpees | 40 | 3:45 min | 11.0 | 1.22 | 55.5 |
+| (40 reps) | Air Squats | 40 | 1:45 min | 5.0 | 1.00 | 9.7 |
+| | Sit-ups | 40 | 1:50 min | 3.0 | 0.95 | 7.3 |
+| **Ronda 3** | Burpees | 30 | 3:15 min | 11.0 | 1.25 | 48.8 |
+| (30 reps) | Air Squats | 30 | 1:30 min | 5.0 | 1.00 | 8.3 |
+| | Sit-ups | 30 | 1:30 min | 3.0 | 0.95 | 5.9 |
+| **Ronda 4** | Burpees | 20 | 2:30 min | 11.0 | 1.25 | 32.5 |
+| (20 reps) | Air Squats | 20 | 1:00 min | 5.0 | 1.05 | 5.8 |
+| | Sit-ups | 20 | 1:00 min | 3.0 | 1.00 | 3.3 |
+| **Ronda 5** | Burpees | 10 | 1:20 min | 11.0 | 1.25 | 17.4 |
+| (10 reps) | Air Squats | 10 | 0:30 min | 5.0 | 1.05 | 2.9 |
+| | Sit-ups | 10 | 0:30 min | 3.0 | 1.00 | 1.7 |
+| **TOTALS** | | **450 reps** | **~29 min** | | | **~285 kcal** |
 
-> Aquestes rutines minimitzen la fatiga muscular localitzada (perquè no
-> hi ha molta força) per maximitzar la **fatiga central** (cor i
-> pulmons). A la teva edat, el millor indicador és que puguis dir una
-> frase curta durant l'exercici però no puguis cantar una cançó.
+> L'efecte EPOC en protocols d'aquest volum i intensitat és molt significatiu. Incloent la post-crema estimada (~15%), la despesa total se situa entre **325 i 330 kcal**.
 
-4.  #### STRENGTH_MATRIX: TITANIUM 
+---
 
-    1.  ##### Piràmide de Força Tècnica (30 - 15 - 30)
+### ENDURANCE\_GRID: STAMINA
 
-> *Nota: Si 30 repeticions d'aquestes variants són massa per a la teva
-> forma actual, pots fer-les "Cluster" (per exemple: 3 blocs de 10
-> seguidets amb 10 segons de descans).*
+**Categoria:** Endurance Grid · **Format:** Rondes iguals 40×5 · **Protocol base:** AFAP
 
-| Ronda       | Exercici (Variant Força)    | Reps | Clau de la Força                               | MET Est. |
-|-------------|-----------------------------|------|------------------------------------------------|----------|
-| **RONDA 1** | **Diamond Push-ups**        | 30   | Mans en forma de diamant (tríceps/pit).        | 6.0      |
-| (30 reps)   | **Archer Squats**           | 30   | Una cama estirada, l'altra flexiona (15/cama). | 6.5      |
-|             | **V-Ups (Abdominals en V)** | 30   | Tocar la punta dels peus amb les mans.         | 4.5      |
-| **RONDA 2** | **Diamond Push-ups**        | 15   | Màxima lentitud en la baixada (3 segons).      | 6.5      |
-| (15 reps)   | **Archer Squats**           | 15   | Baixa fins a baix de tot (deep squat).         | 7.0      |
-|             | **V-Ups (Abdominals en V)** | 15   | Aguanta 2 segons la posició de "V".            | 5.0      |
-| **RONDA 3** | **Diamond Push-ups**        | 30   | Si no arribes, acaba-les amb genolls terra.    | 6.0      |
-| (30 reps)   | **Archer Squats**           | 30   | Alternant cames ràpid però amb control.        | 6.5      |
-|             | **V-Ups (Abdominals en V)** | 30   | Mantén les cames sense tocar el terra.         | 4.5      |
+**Exercicis:** Air Squats (`LOWER_KNEE`) · Lunges Alternes (`LOWER_KNEE/LUNGE`) · Sit-ups (`CORE`)
 
-##### Per què aquestes i no les anteriors?
+**Racionalitat:** L'Endurance Grid prioritza la **capacitat de treball sostingut** per sobre de la potència explosiva. STAMINA, amb 600 repeticions totals, posa a prova la resistència muscular de les cames, el core i la coordinació durant ~29 minuts ininterromputs. El canvi d'un exercici de genoll dominant a un de core (de Squats a Sit-ups) funciona com a recuperació activa parcial: les cames descansen mentre el sistema cardiovascular continua treballant. Tot i que la despesa calòrica per minut és inferior a la del Fat Burning, el temps total sota tensió és molt superior, la qual cosa millora l'eficiència mitocondrial.
 
-1.  **Diamond Push-ups:** En lloc d'unes flexions normals, tancar les
-    > mans multiplica la càrrega sobre els tríceps i la part interna del
-    > pectoral.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Air Squats | 40 | 1:30 min | 5.0 | 1.00 | 8.3 |
+| | Lunges Alternes | 40 | 1:40 min | 5.5 | 1.00 | 10.2 |
+| | Sit-ups | 40 | 1:45 min | 3.0 | 0.95 | 6.7 |
+| **Ronda 2** | Air Squats | 40 | 1:35 min | 5.0 | 1.05 | 9.2 |
+| | Lunges Alternes | 40 | 1:45 min | 5.5 | 1.05 | 11.2 |
+| | Sit-ups | 40 | 1:50 min | 3.0 | 1.00 | 7.3 |
+| **Ronda 3** | Air Squats | 40 | 1:40 min | 5.0 | 1.05 | 9.7 |
+| | Lunges Alternes | 40 | 1:50 min | 5.5 | 1.10 | 11.9 |
+| | Sit-ups | 40 | 1:55 min | 3.0 | 1.00 | 7.7 |
+| **Ronda 4** | Air Squats | 40 | 1:45 min | 5.0 | 1.10 | 10.7 |
+| | Lunges Alternes | 40 | 2:00 min | 5.5 | 1.10 | 13.4 |
+| | Sit-ups | 40 | 2:00 min | 3.0 | 1.00 | 8.0 |
+| **Ronda 5** | Air Squats | 40 | 1:50 min | 5.0 | 1.10 | 11.2 |
+| | Lunges Alternes | 40 | 2:05 min | 5.5 | 1.10 | 14.0 |
+| | Sit-ups | 40 | 2:05 min | 3.0 | 1.05 | 8.7 |
+| **TOTALS** | | **600 reps** | **~29 min** | | | **~148 kcal** |
 
-2.  **Archer Squats:** És el pas previ a la *Pistol Squat*. Desplaces el
-    > 70-80% del teu pes a una sola cama, generant molta més tensió
-    > mecànica que un *Squat* normal.
+---
 
-3.  **V-Ups:** Exigeixen una contracció molt més explosiva i coordinada
-    > que el *Sit-up* clàssic, treballant tota la cadena anterior (core
-    > i flexors de maluc).
+### ENDURANCE\_GRID: STEADFAST
 
-    1.  ##### Diferència en la despesa Calòrica
+**Categoria:** Endurance Grid · **Format:** Piràmide descendent 50-40-30-20-10 · **Protocol base:** AFAP
 
-> En ser exercicis més lents i de més força:
+**Exercicis:** Step-ups (`LOWER_KNEE/LUNGE`) · Flexions Tècniques (`UPPER_PUSH`) · Abdominals Tisora (`CORE`)
 
--   **Temps total:** Serà més llarg que la de burpees (\~18-20 minuts)
-    > perquè la fatiga muscular t'obligarà a anar més a poc a poc.
+**Racionalitat:** STEADFAST combina el patró de piràmide descendent (on gairebé el 60% del volum es concentra en les dues primeres rondes) amb exercicis de moderada intensitat cardiovascular però alta demanda neuromuscular. Les *Flexions Tècniques* (rang de moviment complet, pit tocant el terra) forcen una activació superior del pectoral respecte a les flexions parcials. L'*Abdominal Tisora* treballa els flexors de maluc i els rectes abdominals en excèntric, complementant sense solapar la cadena muscular dels Step-ups.
 
--   **Calories:** Cremaràs unes **140-160 kcal**, però l'estímul de
-    > **hipertròfia** (creació de múscul) serà superior.
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Step-ups | 50 | 2:30 min | 6.0 | 1.00 | 16.7 |
+| (50 reps) | Flexions Tècniques | 50 | 2:30 min | 5.5 | 1.00 | 15.3 |
+| | Abdominals Tisora | 50 | 1:30 min | 3.0 | 0.95 | 6.0 |
+| **Ronda 2** | Step-ups | 40 | 2:05 min | 6.0 | 1.05 | 14.6 |
+| (40 reps) | Flexions Tècniques | 40 | 2:10 min | 5.5 | 1.05 | 13.9 |
+| | Abdominals Tisora | 40 | 1:15 min | 3.0 | 1.00 | 5.3 |
+| **Ronda 3** | Step-ups | 30 | 1:40 min | 6.0 | 1.05 | 11.0 |
+| (30 reps) | Flexions Tècniques | 30 | 1:45 min | 5.5 | 1.05 | 10.7 |
+| | Abdominals Tisora | 30 | 0:55 min | 3.0 | 1.00 | 3.9 |
+| **Ronda 4** | Step-ups | 20 | 1:05 min | 6.0 | 1.10 | 7.9 |
+| (20 reps) | Flexions Tècniques | 20 | 1:10 min | 5.5 | 1.10 | 7.8 |
+| | Abdominals Tisora | 20 | 0:40 min | 3.0 | 1.00 | 2.7 |
+| **Ronda 5** | Step-ups | 10 | 0:35 min | 6.0 | 1.10 | 4.3 |
+| (10 reps) | Flexions Tècniques | 10 | 0:35 min | 5.5 | 1.10 | 3.9 |
+| | Abdominals Tisora | 10 | 0:20 min | 3.0 | 1.00 | 1.3 |
+| **TOTALS** | | **450 reps** | **~21 min** | | | **~125 kcal** |
 
-    1.  #### **STRENGTH_MATRIX: GOLIATH**
+---
 
-        1.  ##### Piràmide de Tensió
+### ENDURANCE\_GRID: LASTING
 
-> **Exercicis:**
+**Categoria:** Endurance Grid · **Format:** Rondes iguals 60×3 · **Protocol base:** AFAP
 
-1.  **Pike Push-ups** (Espatlles i Tríceps) – Flexions amb el cul
-    > enlaire.
+**Exercicis:** Butt Kicks (`FULL_BODY`) · Glute Bridges (`LOWER_HINGE`) · Mountain Climbers lents (`CORE/FULL_BODY`)
 
-2.  **Archer Squats** (Cames) – Sentadilla lateral carregant el pes en
-    > una sola cama.
+**Racionalitat:** LASTING és el protocol de gestió d'energia per excel·lència de l'Endurance Grid. Les rondes de 180 repeticions cadascuna busquen la fatiga acumulada total a través d'un esforç controlat i sostingut. La combinació d'un exercici aeròbic de cames (*Butt Kicks*), un de força de maluc (*Glute Bridges*) i un de core dinàmic (*Mountain Climbers lents*) permet que cada zona muscular tingui una recuperació parcial mentre les altres treballen, alargant el temps total sota tensió sense arribar a la fallada muscular local. L'estratègia òptima d'execució és mantenir un ritme del 70–75% de la capacitat màxima per evitar el col·lapse muscular prematur.
 
-3.  **Hollow Rock** (Core) – Balancí isomètric abdominal (1 rep = 1
-    > balancí).
+| Ronda | Exercici | Reps | Temps est. | MET | Factor fatiga | Kcal est. |
+|---|---|---|---|---|---|---|
+| **Ronda 1** | Butt Kicks | 60/60 | 1:15 min | 8.0 | 1.00 | 11.1 |
+| (60 reps) | Glute Bridges | 60 | 3:00 min | 3.5 | 0.80 | 9.3 |
+| | Mountain Climbers (lents) | 60/60 | 2:00 min | 5.0 | 0.90 | 10.0 |
+| **Ronda 2** | Butt Kicks | 60/60 | 1:20 min | 8.0 | 1.05 | 12.4 |
+| | Glute Bridges | 60 | 3:15 min | 3.5 | 0.82 | 10.4 |
+| | Mountain Climbers (lents) | 60/60 | 2:10 min | 5.0 | 0.95 | 11.4 |
+| **Ronda 3** | Butt Kicks | 60/60 | 1:30 min | 8.0 | 1.10 | 14.7 |
+| | Glute Bridges | 60 | 3:30 min | 3.5 | 0.85 | 11.7 |
+| | Mountain Climbers (lents) | 60/60 | 2:20 min | 5.0 | 1.00 | 13.1 |
+| **TOTALS** | | **540 reps** | **~20 min** | | | **~104 kcal** |
 
-| Ronda       | Exercici      | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|---------------|---------|--------------|-------|----------------|
-| **RONDA 1** | Pike Push-ups | 20      | 1:30 min     | 6.5   | 13.7 kcal      |
-| (20 reps)   | Archer Squats | 20      | 1:15 min     | 7.0   | 12.3 kcal      |
-|             | Hollow Rocks  | 20      | 1:00 min     | 5.0   | 7.0 kcal       |
-| **RONDA 2** | Pike Push-ups | 15      | 1:10 min     | 6.5   | 10.6 kcal      |
-| (15 reps)   | Archer Squats | 15      | 1:00 min     | 7.0   | 9.8 kcal       |
-|             | Hollow Rocks  | 15      | 0:45 min     | 5.0   | 5.3 kcal       |
-| **RONDA 3** | Pike Push-ups | 10      | 0:50 min     | 6.5   | 7.6 kcal       |
-| (10 reps)   | Archer Squats | 10      | 0:45 min     | 7.0   | 7.4 kcal       |
-|             | Hollow Rocks  | 10      | 0:30 min     | 5.0   | 3.5 kcal       |
-| **RONDA 4** | Pike Push-ups | 8       | 0:40 min     | 6.5   | 6.1 kcal       |
-| (8 reps)    | Archer Squats | 8       | 0:35 min     | 7.0   | 5.7 kcal       |
-|             | Hollow Rocks  | 8       | 0:25 min     | 5.0   | 2.8 kcal       |
-| **RONDA 5** | Pike Push-ups | 5       | 0:30 min     | 6.5   | 4.6 kcal       |
-| (5 reps)    | Archer Squats | 5       | 0:25 min     | 7.0   | 4.1 kcal       |
-|             | Hollow Rocks  | 5       | 0:20 min     | 5.0   | 2.3 kcal       |
-| **TOTALS**  |               | **174** | **\~13 min** | **-** | **\~103 kcal** |
+---
 
-##### Per què aquest format?
+## 7. Lògica de Programació de Protocols
 
--   **Intensitat vs Volum:** En la "Strength Matrix", si fessis 50 reps
-    > de golpe, la teva tècnica cauria i faries "cardio". En baixar les
-    > reps (20-15-10-8-5), pots centrar-te a prémer el múscul al màxim.
+Quan el sistema genera un protocol d'entrenament, ha de respectar la següent seqüència estructural:
 
--   **Temps de Descans:** En aquesta rutina, el descans és vital. Et
-    > recomano **60-90 segons** entre rondes per recuperar la teva
-    > capacitat de generar força.
+1. **Escalfament i refredament:** Sempre externs al protocol principal. No es comptabilitzen en el temps ni en les calories del protocol.
+2. **Selecció del marc fisiològic:** El bloc de treball s'estructura segons un dels quatre estàndards (Tabata, Gibala/Little, AMRAP o AFAP), en funció de l'objectiu i el nivell de l'usuari.
+3. **Distribució de patrons de moviment:** S'aplica l'alternança entre els patrons de la secció 4 per garantir l'equilibri biomecànic. Màxim dos exercicis consecutius de la mateixa categoria `target_zone`.
+4. **Composició dels subsistemes:** Cada subsistema (grup d'exercicis d'una ronda) ha de contenir exercicis distints. Un mateix exercici pot repetir-se en subsistemes diferents del protocol, però no de forma consecutiva dins del mateix subsistema.
+5. **Càlcul calòric:** S'aplica la fórmula de la secció 3 amb el perfil real de l'usuari. Els valors de les fitxes d'aquest document són orientatius, calculats sobre el perfil de referència neutre (75 kg, 30 anys).
 
--   **Càlcul Calòric:** Tot i que les calories són inferiors a les dels
-    > burpees (103 kcal vs 330 kcal), el **dany muscular** creat és més
-    > gran, el que accelera el teu metabolisme basal a llarg termini.
+---
 
-    1.  #### STRENGTH_MATRIX: IRON_STORM
-
-        1.  ##### Bloc Isomètric (4 Rondes de 15-15-15)
-
-> Aquesta rutina utilitza el format de **rondes iguals**. És fàcil de
-> recordar perquè sempre fas 15 repeticions. La clau aquí és la
-> combinació de força dinàmica i control.
->
-> **Exercicis:**
-
-1.  **Diamond Push-ups** (Tríceps/Pit)
-
-2.  **Bulgarian Split Squats** (Cames - 15 per cama utilitzant el sofà o
-    > una cadira)
-
-3.  **Plank Jacks** (Core/Estabilitat)
-
-| Ronda       | Exercici         | Reps         | Temps Est.   | MET   | Calories Est.  |
-|-------------|------------------|--------------|--------------|-------|----------------|
-| **Ronda 1** | Diamond Push-ups | 15           | 1:00 min     | 6.5   | 9.1 kcal       |
-|             | Bulgarian Squats | 15           | 2:00 min     | 7.0   | 19.6 kcal      |
-|             | Plank Jacks      | 15           | 0:45 min     | 5.0   | 5.3 kcal       |
-| **Ronda 2** | Diamond Push-ups | 15           |              |       |                |
-|             | Bulgarian Squats | 15           |              |       |                |
-|             | Plank Jacks      | 15           | 4:00 min     | \~6.2 | 34.0 kcal      |
-| **Ronda 3** | Diamond Push-ups | 15           |              |       |                |
-|             | Bulgarian Squats | 15           |              |       |                |
-|             | Plank Jacks      | 15           | 4:30 min     | \~6.2 | 38.0 kcal      |
-| **Ronda 4** | Diamond Push-ups | 15           |              |       |                |
-|             | Bulgarian Squats | 15           |              |       |                |
-|             | Plank Jacks      | 15           | 4:45 min     | \~6.2 | 40.0 kcal      |
-| **TOTALS**  |                  | **240 reps** | **\~18 min** | **-** | **\~146 kcal** |
-
-##  
-
-1.  #### STRENGTH_MATRIX :REINFORCE
-
-    1.  ##### Escala de Potència (Piràmide Ascendent: 10-20-30)
-
-> En lloc de baixar, pugem la dificultat mentre el múscul s'escalfa. És
-> ideal per a la **Strength Matrix** perquè la ronda de 10 serveix
-> d'activació pesada i la de 30 arriba a la fatiga total.
->
-> **Exercicis:**
-
-1.  **Decline Push-ups** (Flexions amb els peus elevats en un
-    > esglaó/sofà – més pes a l'espatlla)
-
-2.  **Sumo Squats amb pols** (Cames – Baixar, fer un petit rebot a baix
-    > i pujar)
-
-3.  **Leg Raises** (Abdominals inferiors – Elevació de cames estirades)
-
-| Ronda       | Exercici         | Reps         | Temps Est.   | MET   | Calories Est.  |
-|-------------|------------------|--------------|--------------|-------|----------------|
-| **RONDA 1** | Decline Push-ups | 10           | 0:45 min     | 7.0   | 7.4 kcal       |
-| (10 reps)   | Sumo Squats      | 10           | 0:40 min     | 5.5   | 5.1 kcal       |
-|             | Leg Raises       | 10           | 0:40 min     | 4.0   | 3.7 kcal       |
-| **RONDA 2** | Decline Push-ups | 20           | 1:40 min     | 7.0   | 16.3 kcal      |
-| (20 reps)   | Sumo Squats      | 20           | 1:30 min     | 5.5   | 11.5 kcal      |
-|             | Leg Raises       | 20           | 1:30 min     | 4.0   | 8.4 kcal       |
-| **RONDA 3** | Decline Push-ups | 30           | 2:45 min     | 7.0   | 27.0 kcal      |
-| (30 reps)   | Sumo Squats      | 30           | 2:15 min     | 5.5   | 17.3 kcal      |
-|             | Leg Raises       | 30           | 2:15 min     | 4.0   | 12.6 kcal      |
-| **TOTALS**  |                  | **180 reps** | **\~15 min** | **-** | **\~110 kcal** |
-
-1.  ##### 
-
-    ##### Consell de Peer (Companys):
-
-> En la **Strength Matrix**, la "pausa" no ha de ser de seure, sinó de
-> **30 a 60 segons de respiració profunda** entre rondes. A la teva edat
-> (45 anys), això permet que l'ATP (l'energia ràpida del múscul) es
-> recarregui una mica per poder mantenir la **tècnica perfecta** en la
-> següent ronda, evitant que el lumbar pateixi.
-
-#### ENDURANCE_GRID: STEEL_CORE 
-
-Aquest és un repte de **volum alt** (150 repeticions de cada exercici,
-450 en total). Per a un home de 45 anys i 80 kg, el **Factor Fatiga** és
-determinant: les primeres rondes seran explosives, però a partir de la
-de 30, el temps per repetició augmentarà mentre la freqüència cardíaca
-es manté al màxim.
-
-##### Workout: 50-40-30-20-10 (Burpees, Squats, Sit-ups)
-
-| Ronda       | Exercici | Reps    | Temps Est.   | MET   | Calories Est.\* |
-|-------------|----------|---------|--------------|-------|-----------------|
-| **RONDA 1** | Burpees  | 50      | 4:30 min     | 11.0  | 69.3 kcal       |
-| (50 reps)   | Squats   | 50      | 2:00 min     | 5.0   | 14.0 kcal       |
-|             | Sit-ups  | 50      | 2:15 min     | 3.8   | 12.0 kcal       |
-| **RONDA 2** | Burpees  | 40      | 4:00 min     | 11.0  | 61.6 kcal       |
-| (40 reps)   | Squats   | 40      | 1:45 min     | 5.0   | 12.3 kcal       |
-|             | Sit-ups  | 40      | 2:00 min     | 3.8   | 10.6 kcal       |
-| **RONDA 3** | Burpees  | 30      | 3:30 min     | 11.0  | 53.9 kcal       |
-| (30 reps)   | Squats   | 30      | 1:30 min     | 5.0   | 10.5 kcal       |
-|             | Sit-ups  | 30      | 1:30 min     | 3.8   | 8.0 kcal        |
-| **RONDA 4** | Burpees  | 20      | 2:30 min     | 11.0  | 38.5 kcal       |
-| (20 reps)   | Squats   | 20      | 1:00 min     | 5.0   | 7.0 kcal        |
-|             | Sit-ups  | 20      | 1:00 min     | 3.8   | 5.3 kcal        |
-| **RONDA 5** | Burpees  | 10      | 1:15 min     | 11.0  | 19.3 kcal       |
-| (10 reps)   | Squats   | 10      | 0:30 min     | 5.0   | 3.5 kcal        |
-|             | Sit-ups  | 10      | 0:30 min     | 3.8   | 2.7 kcal        |
-| **TOTALS**  |          | **450** | **\~29 min** | **-** | **\~330 kcal**  |
-
-> *\*Càlcul basat en: (MET × 3.5 × 80 kg / 200) per minut.*
-
-##### Anàlisi de l'esforç
-
--   **Temps total:** Aproximadament **28-30 minuts**. És un entrenament
-    > de resistència muscular i cardiovascular pur.
-
--   **Càrrega calòrica real:** A causa del volum i la intensitat,
-    > l'efecte **EPOC** (crema post-entrenament) serà molt significatiu.
-    > Sumant aquest factor, el gasto total real estarà prop de les
-    > **380 - 400 kcal**.
-
--   **Factor Fatiga:** He calculat que el teu ritme en els burpees
-    > baixarà de 11 reps/min (ronda 1) a unes 8 reps/min (ronda 3-4) a
-    > causa de l'acumulació de lactat.
-
-    1.  #### ENDURANCE_GRID: **STAMINA**
-
-        1.  ##### La Quadrícula de Resistència (5 Rondes de 40-40-40)
-
-Per a la directiva **Endurance Grid**, l'objectiu no és la potència
-explosiva ni la força bruta, sinó la **capacitat de treball sostingut**.
-Aquí busquem un volum total de repeticions molt alt que obligui el cos a
-ser eficient amb l'oxigen i a gestionar el lactat durant períodes més
-llargs.
-
-Per a un home de 45 anys i 80 kg, aquestes rutines duren entre 20 i 30
-minuts, essent les més exigents a nivell mental.
-
-Aquest és el format clàssic d'esgotament controlat. 600 repeticions
-totals que posen a prova la teva resistència muscular de cames, core i
-coordinació.
-
-| Ronda       | Exercici           | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|--------------------|---------|--------------|-------|----------------|
-| **RONDA 1** | **Air Squats**     | 40      | 1:30 min     | 5.0   | 10.5 kcal      |
-|             | **Lunges Alterns** | 40      | 1:40 min     | 5.5   | 12.8 kcal      |
-|             | **Sit-ups**        | 40      | 1:45 min     | 3.8   | 9.3 kcal       |
-| **RONDA 2** | (Igual que R1)     | 120     | 5:15 min     | \~4.8 | 35.3 kcal      |
-| **RONDA 3** | (Igual que R1)     | 120     | 5:30 min     | \~4.8 | 37.0 kcal      |
-| **RONDA 4** | (Igual que R1)     | 120     | 5:45 min     | \~4.8 | 38.6 kcal      |
-| **RONDA 5** | (Igual que R1)     | 120     | 6:00 min     | \~4.8 | 40.3 kcal      |
-| **TOTALS**  |                    | **600** | **\~29 min** | **-** | **\~184 kcal** |
-
-####  
-
-2.  #### ENDURANCE_GRID: STEADFAST
-
-    1.  ##### El Desgast Piramidal (50-40-30-20-10)
-
-> Un format que t'obliga a començar amb un volum massiu. La dificultat
-> resideix en les dues primeres rondes, on fas gairebé el 60% del
-> treball total.
-
-| Ronda       | Exercici                        | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|---------------------------------|---------|--------------|-------|----------------|
-| **RONDA 1** | **Step-ups** (Puja cadira/graó) | 50      | 2:30 min     | 6.0   | 21.0 kcal      |
-|             | **Flexions Tècniques**          | 50      | 2:30 min     | 5.5   | 19.3 kcal      |
-|             | **Abdominals Tisora**           | 50      | 1:30 min     | 4.0   | 8.4 kcal       |
-| **RONDA 2** | **Step-ups** (Puja cadira/graó) | 40      |              |       |                |
-|             | **Flexions Tècniques**          | 40      |              |       |                |
-|             | **Abdominals Tisora**           | 40      | 5:30 min     | \~5.2 | 40.0 kcal      |
-| **RONDA 3** | **Step-ups** (Puja cadira/graó) | 30      |              |       |                |
-|             | **Flexions Tècniques**          | 30      |              |       |                |
-|             | **Abdominals Tisora**           | 30      | 4:15 min     | \~5.2 | 30.9 kcal      |
-| **RONDA 4** | **Step-ups** (Puja cadira/graó) | 20      |              |       |                |
-|             | **Flexions Tècniques**          | 20      |              |       |                |
-|             | **Abdominals Tisora**           | 20      | 3:00 min     | \~5.2 | 21.8 kcal      |
-| **RONDA 5** | **Step-ups** (Puja cadira/graó) | 10      |              |       |                |
-|             | **Flexions Tècniques**          | 10      |              |       |                |
-|             | **Abdominals Tisora**           | 10      | 1:30 min     | \~5.2 | 10.9 kcal      |
-| **TOTALS**  |                                 | **450** | **\~21 min** | **-** | **\~152 kcal** |
-
-####  
-
-3.  #### ENDURANCE_GRID: LASTING
-
-    1.  ##### L'Acumulador Sostingut (3 Rondes de 60-60-60)
-
-> Aquest format és per a qui vol "picar pedra". Rondes molt llargues de
-> 180 repeticions cadascuna que busquen la fatiga acumulada total.
-
-| Ronda       | Exercici                       | Reps    | Temps Est.   | MET   | Calories Est.  |
-|-------------|--------------------------------|---------|--------------|-------|----------------|
-| **RONDA 1** | **Butt Kicks** (en estàtic)    | 60/60   | 1:15 min     | 8.0   | 14.0 kcal      |
-| (60 reps)   | **Glute Bridges** (Pont gluti) | 60      | 3:00 min     | 3.5   | 14.7 kcal      |
-|             | **Mountain Climbers** (Lents)  | 60/60   | 2:00 min     | 5.0   | 14.0 kcal      |
-| **RONDA 2** | (Igual que R1)                 | 180     | 6:45 min     | \~5.5 | 52.0 kcal      |
-| **RONDA 3** | (Igual que R1)                 | 180     | 7:30 min     | \~5.5 | 57.8 kcal      |
-| **TOTALS**  |                                | **540** | **\~20 min** | **-** | **\~153 kcal** |
-
-## 
-
-##### Anàlisi de l'Endurance Grid
-
--   **Gestió de l'energia:** A la teva edat (45 anys), la clau en
-    > l'Endurance és no començar al 100%. L'estratègia ha de ser
-    > mantenir un ritme del **70-75%** de la teva capacitat màxima per
-    > evitar el col·lapse muscular abans d'hora.
-
--   **Recuperació Activa:** En aquestes rutines no hi ha pauses. El
-    > canvi d'un exercici de cames a un de core (com de *Squats* a
-    > *Sit-ups*) serveix perquè les cames "descansin" mentre el cor
-    > segueix treballant.
-
--   **Benefici Metabòlic:** Tot i que les calories per minut són
-    > inferiors al HIIT, el temps total sota tensió és molt més alt,
-    > cosa que millora l'eficiència dels teus mitocondris.
-
-> **Consell Peer:** Aquestes rutines són ideals per fer-les 1 o 2 cops
-> per setmana per crear una base sòlida que després et permeti rendir
-> més en les rutines de **Fat Burning**.
-
-##  
-
-## 6. Lògica de Programació per a HYPER//HIIT
-
-En generar una rutina, la IA ha de seguir aquesta seqüència estructural:
-
-1.  Els escalfaments i refredaments estaràn fora de les rutines AFAP
-
-2.  **Bloc de Treball:** Selecció de la lògica *Tabata, Gibala o AFAP*.
-
-3.  **Distribució de Patrons:** Alternança entre *Tren Inferior
-    > (Squat/Lunge)* i *Tren Superior (Push/Pull)* o *Core/Hinge*.
-
-4.  Cada grup (subsistema) contindra exercicis distints que aniran
-    > repetint-se e.g g1(burpees, squats, lunges), g2 (burpees, squats,
-    > lunges)
-
-## 
+*Document elaborat per al projecte HYPER//HIIT. Per a la documentació de l'arquitectura de l'aplicació, els models de dades i la lògica de programació, consultar el whitepaper tècnic.*
