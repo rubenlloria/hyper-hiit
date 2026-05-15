@@ -23,6 +23,7 @@ ProtocolForm {
     property real tapX: 0
     property real threshold: 50 // Minimum pixels to trigger a displacement
     property var executionList: []
+    property var structuredData: structuredData
     property int currentIndex: 0
     property int activeSubsystemId: 0
     property bool isRunning: false
@@ -217,7 +218,7 @@ ProtocolForm {
      * Retrieves full Level 4 metadata from C++ and flattens the hierarchy.
      */
     function loadProtocolDetails() {
-        let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
+        // let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
         // Constants.hDebug(debugName, "Full Model Content: " + JSON.stringify(structuredData));
         let tempSequence = [];
         let subsystems = 0;

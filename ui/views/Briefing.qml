@@ -32,6 +32,7 @@ BriefingForm {
     id: briefingView
 
     property int activeProtocolId: 0
+    property var structuredData: structuredData
 
     onActiveProtocolIdChanged: {
         if (activeProtocolId > 0) {
@@ -40,6 +41,8 @@ BriefingForm {
             let data = dbManager.getProtocolStructure(activeProtocolId);
             protocolDataModel = data;
             subsystemRepeater.model = protocolDataModel;
+            structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
+            // Constants.hDebug("Briefing", structuredData[0].data);
         }
     }
 
@@ -60,7 +63,39 @@ BriefingForm {
             "moduleCount": moduleCount,
             "duration": duration,
             "personalBest": personalBest,
-            "protocolDataModel": protocolDataModel
+            "protocolDataModel": protocolDataModel,
+            "structuredData": structuredData
         });
     }
+
+    function calculateCalorieEstimation() {
+        // kcal = MET × pes_kg × (duration_h) × fatigue_factor × demofactor
+        let totalKcal = 0.0;
+    //     if (!structuredData || structuredData.length === 0) return 0.0;
+
+    //     // Iterate through subsystems [1]
+    //     for (let i = 0; i < structuredData.length; i++) {
+    //         let moduleList = structuredData[i].modules; // Array of module objects [1]
+
+    //         for (let j = 0; j < moduleList.length; j++) {
+    //             let mod = moduleList[j];
+    //             let durationMins = 0.0;
+
+    //             // Determine duration in minutes based on unit type [4, 5]
+    //             // unit_type: 0 = seconds, 1 = reps, 2 = breaths
+    //             if (mod.unit_type === 0) {
+    //                 durationMins = mod.quantity / 60.0;
+    //             } else {
+    //                 // Convert repetitions to estimated time using rep_time [6]
+    //                 durationMins = (mod.quantity * mod.rep_time) / 60.0;
+    //             }
+
+    //             // Apply standard metabolic formula [2, 7]
+    //             // Formula: (MET * 3.5 * weight / 200.0) * minutes
+    //             totalKcal += (mod.met_factor * 3.5 * userWeight / 200.0) * durationMins;
+    //         }
+    //     }
+        return totalKcal;
+    }
+
 }
