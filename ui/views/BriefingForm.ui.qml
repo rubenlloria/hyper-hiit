@@ -133,11 +133,6 @@ Rectangle {
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
-                        keyLabel: "EST_CALORIES"
-                        valueLabel: root.calories + "k"
-                        width: parent.width * 0.48
-                    }
-                    NeonMetadata {
                         keyLabel: "MODULE_COUNT"
                         valueLabel: root.moduleCount
                         width: parent.width * 0.48
@@ -145,6 +140,13 @@ Rectangle {
                     NeonMetadata {
                         keyLabel: "DURATION"
                         valueLabel: root.duration
+                        unitLabel: "mm:ss"
+                        width: parent.width * 0.48
+                    }
+                    NeonMetadata {
+                        keyLabel: "EST_CALORIES"
+                        valueLabel: root.calories
+                        unitLabel: "kcal"
                         width: parent.width * 0.48
                     }
                 }
