@@ -230,6 +230,7 @@ int SessionManager::saveSession() {
 
     // The total duration is the last checkpoint recorded
     int totalDuration = m_moduleDurations.last();
+    int durationSec = std::round(totalDuration / 1000);
 
     // Final metabolic impact calculation
     // Note: m_totalCalories has been accumulating during module transitions
@@ -244,9 +245,9 @@ int SessionManager::saveSession() {
 
     // Delegate to DatabaseManager
     m_sessionId = m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
-    m_db->updateProtocolDuration(m_protocolId, std::round(totalDuration / 1000));
+    m_db->updateProtocolDuration(m_protocolId, durationSec);
 
-    // TODO: m_db->updatePersonalBest(m_protocolId);
+    m_db->updatePersonalBest(m_protocolId, durationSec);
 
     emit sessionSaved();
     hDebug() << "Session saved";

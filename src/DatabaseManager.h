@@ -66,7 +66,7 @@ public:
     Q_INVOKABLE QVariantList getProtocolStructure(int protocolId);
     Q_INVOKABLE QVariantList getProtocolExecutionDetails(int protocolId);
     int setProtocolMaxDuration();
-    int saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, float calories, double speed, double met_score);
+    int saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, double calories, double speed, double met_score);
     void updateModuleData(const QString &name, double repTime, double fatigueRate);
     void updateProtocolDuration(int protocol_id, int duration);
     QString getLastSessionTelemetry(int protocolId);
@@ -138,6 +138,16 @@ public:
     Q_INVOKABLE QVariantMap getSessionSummaryMetrics(int historyId);
 
 
+    /**
+ * @brief Evaluates and updates the personal best time for a protocol.
+ *
+ * Only overwrites the personal_best field if the new duration is lower
+ * than the existing record or if no record exists (zero).
+ *
+ * @param protocolId The unique identifier of the protocol.
+ * @param duration The total duration of the completed session in milliseconds.
+ */
+    void updatePersonalBest(int protocolId, int duration);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

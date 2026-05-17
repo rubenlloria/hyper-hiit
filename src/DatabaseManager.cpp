@@ -841,7 +841,7 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
 }
 
 int DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog,
-                                  float calories, double speed, double met_score) {
+                                  double calories, double speed, double met_score) {
     QSqlQuery q;
     q.prepare("INSERT INTO session_history (protocol_id, session_timestamp, session_duration, modules_duration, calories_burned, session_speed, met_score) "
               "VALUES (:pid, :ts, :duration, :log, :kcal, :speed, :met)");
@@ -1468,4 +1468,30 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
     }
 
     return metrics;
+}
+
+void DatabaseManager::updatePersonalBest(int protocolId, int duration) {
+    QSqlQuery query;
+
+    // 1. Retrieve current Personal Best
+    query.prepare("SELECT personal_best FROM protocols WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+
+    if (query.exec() && query.next()) {
+        int currentPB = query.value(0).toInt();
+
+        // 2. Logic: New duration is better if it's lower than current PB (AFAP logic)
+        // We also check if currentPB is 0 (initial state)
+        if (currentPB == 0 || duration < currentPB) {
+            query.prepare("UPDATE protocols SET personal_best = :pb WHERE protocol_id = :id");
+            query.bindValue(":pb", duration);
+            query.bindValue(":id", protocolId);
+
+            if (query.exec()) {
+                hInfo() << "Achievement: New Personal Record for Protocol" << protocolId << ":" << duration << "ms";
+            } else {
+                hWarning() << "Failed to update Personal Record:" << query.lastError().text();
+            }
+        }
+    }
 }
