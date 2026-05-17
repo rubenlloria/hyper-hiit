@@ -262,12 +262,12 @@ Rectangle {
                     anchors.rightMargin: 10
                 }
 
-                // Simulated Line Chart (Sessions - Cyan)
+                // Simulated Line Chart ( Previous Sessions - Magenta)
                 Shape {
                     id: lastShape
                     anchors.fill: parent
                     layer.enabled: true
-                    opacity: 0.3
+                    opacity: 0.5
                     // width: 300
                     // height: 100
 
@@ -332,8 +332,8 @@ Rectangle {
                             width: 6
                             height: 6
                             radius: 3
-                            color: Constants.secondaryColor
-                            opacity: 0.3
+                            color: Constants.primaryColor
+                            opacity: 0.6
                             border.color: "#ffffff"
                             border.width: 0
                         }
@@ -409,7 +409,7 @@ Rectangle {
                             width: 6
                             height: 6
                             radius: 3
-                            color: hoverArea.containsMouse ? root.magentaColor : root.cyanColor
+                            color: Constants.secondaryColor
                             border.color: "#ffffff"
                             border.width: hoverArea.containsMouse ? 1 : 0
 
