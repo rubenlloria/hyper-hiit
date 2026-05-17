@@ -44,7 +44,7 @@ Rectangle {
     property string protocolName: "PROTOCOL_NAME"
     property color themeColor: Constants.primaryColor
     property string rank: "NEWBIE"
-    property int calories: 123
+    property int estimatedKcal: 123
     property int moduleCount: 0
     property string duration: "00:00"
     property int personalBest: 0
@@ -145,7 +145,7 @@ Rectangle {
                     }
                     NeonMetadata {
                         keyLabel: "EST_CALORIES"
-                        valueLabel: root.calories
+                        valueLabel: root.estimatedKcal
                         unitLabel: "kcal"
                         width: parent.width * 0.48
                     }

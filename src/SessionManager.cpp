@@ -44,7 +44,9 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     }
 
     m_totalCalories = 0.0f;
-    m_userWeight= 80.0f; // TODO: load weight from config
+    m_userWeight= 80.0f; // TODO: load from config
+    m_userAge = 45; // TODO: load from config
+    m_userIsMale = true; // TODO: load from config
     m_activeModuleIndex = 0;
     m_sessionId = 0;
 }
@@ -162,7 +164,7 @@ int SessionManager::saveSession() {
         double metFactor = moduleData["met_factor"].toDouble();
 
         // Accumulate Mechanical Volume (MET Score) for all modules
-        m_totalMetScore += (metFactor * qty);
+        m_totalMetScore += (metFactor * qty); // WARNING: only valid if (unit_type != 0)
 
 
         double currentTR = (actualDurationMs / 1000.0) / qty;
@@ -177,7 +179,7 @@ int SessionManager::saveSession() {
         hDebug() << "Populating module id: " << m_name;
     }
 
-    m_speed= 1.0; // Default if no previous session exists
+    m_speed= 1.00; // Default if no previous session exists
 
     if (!m_lastSessionDurations.isEmpty()) {
         int currentTotalMs = m_moduleDurations.last();
@@ -185,6 +187,7 @@ int SessionManager::saveSession() {
 
         if (currentTotalMs > 0) {
             m_speed= (static_cast<double>(previousTotalMs) / currentTotalMs);
+            m_speed = std::round(m_speed * 100.0) / 100.0;
             hDebug() << "m_speed: " << m_speed;
         }
     }
@@ -241,11 +244,12 @@ int SessionManager::saveSession() {
 
     // Delegate to DatabaseManager
     m_sessionId = m_db->saveSession(m_protocolId, m_startTimestamp, totalDuration, telemetryString, m_totalCalories, m_speed, m_totalMetScore);
-    m_db->updateProtocolDuration(m_protocolId, totalDuration);
+    m_db->updateProtocolDuration(m_protocolId, std::round(totalDuration / 1000));
 
     // TODO: m_db->updatePersonalBest(m_protocolId);
 
     emit sessionSaved();
+    hDebug() << "Session saved";
     return m_sessionId;
 }
 
@@ -254,27 +258,27 @@ int SessionManager::saveSession() {
  * @meta Provides a robust calculation even if session navigation occurs.
  */
 void SessionManager::updateSessionCalories() {
-    float totalKcal = 0.0f;
+    float totalCalories = 0.0f;
+    // Demographic corrector (age and sex), normalized to 30 years
+    // TODO: get from Session
+    float ageFactor = std::clamp((30.0f - m_userAge) * 0.003f, -0.15f, 0.10f);
+    float sexFactor = m_userIsMale ? 0.05f : -0.05f;
+    float corrector = 1.0f + ageFactor + sexFactor;
     // Iterate through checkpoints to calculate relative durations and calories
     for (int i = 0; i < m_moduleDurations.size(); ++i) {
         int checkpoint = m_moduleDurations.at(i);
         if (checkpoint <= 0) continue; // Skip modules not yet reached
-
         // Calculate relative duration for this specific module window
         int prevCheckpoint = (i > 0) ? m_moduleDurations.at(i - 1) : 0;
         int durationSeconds = checkpoint - prevCheckpoint;
-
         if (durationSeconds <= 0) continue;
-
         float hours = durationSeconds / 3600.0f;
         float metFactor = m_moduleMetFactors.at(i);
-
-        // Apply standard metabolic formula [Source 19]
-        totalKcal += (metFactor * m_userWeight * hours);
+        // Apply standard metabolic formula with demographic corrector
+        totalCalories += metFactor * m_userWeight * hours * corrector;
     }
-
-    m_totalCalories = totalKcal;
-    hDebug() << "Total calories: " << m_totalCalories ;
+    m_totalCalories = std::round(totalCalories * 100.0) / 100.0;
+    hDebug() << "Total calories: " << m_totalCalories;
     // emit totalCaloriesChanged();
 }
 

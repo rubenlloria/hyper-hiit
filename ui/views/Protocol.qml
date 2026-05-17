@@ -36,6 +36,8 @@ ProtocolForm {
     readonly property var unitSymbols: ["s", "x", "b"]
     property double sessionStoredCalories: 0.0
     property double userWeight: 80.0 // TODO: Default weight from system specifications
+    property int userAge: 45 // TODO: Default weight from system specifications
+    property bool userIsMale: true // TODO: Default weight from system specifications
     property var lastSessionCheckpoints: [] // Stores the QList<int> returned from C++
 
     onActiveProtocolIdChanged: {
@@ -78,13 +80,16 @@ ProtocolForm {
                 let elapsedHours = unitChronometer.elapsedMs / 3600000.0;
 
                 // Dynamic calorie calculation
-                // Formula: MET * kg * hours
-                let sessionKcal = (sessionStoredCalories > 0 ) ? sessionStoredCalories / 1000 : 0;
-                let liveModuleKcal = met * userWeight * elapsedHours;
+                // Formula: MET * kg * hours * demographic corrector
+                let ageFactor = Math.min(Math.max((30 - userAge) * 0.003, -0.15), 0.10);
+                let sexFactor = userIsMale ? 0.05 : -0.05;
+                let corrector = 1.0 + ageFactor + sexFactor;
+                let sessionKcal = sessionStoredCalories > 0 ? sessionStoredCalories / 1000 : 0;
+                let liveModuleKcal = met * userWeight * elapsedHours * corrector;
                 // Constants.hDebug(debugName, "met: " + met + " | weight: " + userWeight + " | hours: " + elapsedHours)
 
                 // Update the UI property kcal (Stored from previous + Active module)
-                protocolController.calories = sessionKcal + liveModuleKcal;
+                protocolController.calories = Math.round(sessionKcal + liveModuleKcal);
                 // Constants.hDebug(debugName, "Session cal: " + sessionKcal + " | Module cal: " + liveModuleKcal);
 
             }
@@ -218,7 +223,7 @@ ProtocolForm {
      * Retrieves full Level 4 metadata from C++ and flattens the hierarchy.
      */
     function loadProtocolDetails() {
-        // let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
+        let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
         // Constants.hDebug(debugName, "Full Model Content: " + JSON.stringify(structuredData));
         let tempSequence = [];
         let subsystems = 0;

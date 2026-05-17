@@ -79,6 +79,8 @@ private:
     int m_activeModuleIndex;
     float m_totalCalories;
     float m_userWeight;
+    int m_userAge;
+    bool m_userIsMale;
     double m_totalMetScore;
     double m_speed;
     DatabaseManager *m_db = nullptr;

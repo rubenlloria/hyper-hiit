@@ -33,6 +33,7 @@ BriefingForm {
 
     property int activeProtocolId: 0
     property var structuredData: structuredData
+    // property int estimatedKcal: 0
 
     onActiveProtocolIdChanged: {
         if (activeProtocolId > 0) {
@@ -41,7 +42,7 @@ BriefingForm {
             let data = dbManager.getProtocolStructure(activeProtocolId);
             protocolDataModel = data;
             subsystemRepeater.model = protocolDataModel;
-            structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
+            estimatedKcal = Math.round(calculateCalorieEstimation());
             // Constants.hDebug("Briefing", structuredData[0].data);
         }
     }
@@ -59,18 +60,55 @@ BriefingForm {
             "protocolName": protocolName,
             "themeColor": themeColor,
             "rank": rank,
-            // TODO: "calories": model.calories,
             "moduleCount": moduleCount,
             "duration": duration,
             "personalBest": personalBest,
-            "protocolDataModel": protocolDataModel,
-            "structuredData": structuredData
+            "protocolDataModel": protocolDataModel
         });
     }
 
     function calculateCalorieEstimation() {
         // kcal = MET × pes_kg × (duration_h) × fatigue_factor × demofactor
+        let structuredData = dbManager.getProtocolExecutionDetails(activeProtocolId);
         let totalKcal = 0.0;
+        let userIsMale = true;
+        let userAge = 45;
+        let userWeight = 83;
+        if (!structuredData || structuredData.length === 0) return 0.0;
+
+        // --- Demographic corrector (age and sex) ---
+        // Normalized about 30 years. Range: [-15%, +10%] by age, ±5% by sex.
+        const ageFactor  = Math.min(Math.max((30 - userAge) * 0.003, -0.15), 0.10);
+        const sexFactor  = userIsMale ? 0.05 : -0.05;
+        const corrector  = 1.0 + ageFactor + sexFactor;
+
+        // Iterate through subsystems
+        for (let i = 0; i < structuredData.length; i++) {
+            let moduleList = structuredData[i].modules;
+
+            for (let j = 0; j < moduleList.length; j++) {
+                let mod = moduleList[j];
+
+                // --- Duration in hours ---
+                // unit_type: 0 = seconds, 1 = reps, 2 = breaths...
+                let durationHours = 0.0;
+                if (mod.unit_type === 0) {
+                    durationHours = mod.quantity / 3600.0;
+                } else {
+                    // Reps: estimated via rep_time
+                    durationHours = (mod.quantity * mod.rep_time) / 3600.0;
+                }
+
+                // --- Main Formula ---
+                // kcal = MET × pes_kg × hores × factor_fatiga × demographic_corrector
+                totalKcal += mod.met_factor
+                           * userWeight
+                           * durationHours
+                           * mod.fatigue_rate
+                           * corrector;
+            }
+        }
+
     //     if (!structuredData || structuredData.length === 0) return 0.0;
 
     //     // Iterate through subsystems [1]
@@ -95,6 +133,7 @@ BriefingForm {
     //             totalKcal += (mod.met_factor * 3.5 * userWeight / 200.0) * durationMins;
     //         }
     //     }
+        Constants.hDebug("Briefing", "totalKcal: " + totalKcal)
         return totalKcal;
     }
 
