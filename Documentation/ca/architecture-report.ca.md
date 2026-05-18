@@ -1,7 +1,7 @@
 Informe d'Arquitectura hyper//hiit
 ==================================
 
->    Rev. 45 (12/05/26)
+>    Rev. 46 (18/05/26)
 
 &nbsp;
 
@@ -129,6 +129,9 @@ Taula de continguts
 
    - [B. Implementació Tècnica
 ](#b-implementació-tècnica)
+
+- [ACHIEVEMENT_MATRIX
+](#achievement_matrix)
 
 [Ruta de versions](#ruta-de-versions)
 
@@ -1027,6 +1030,26 @@ numèric d'alt contrast, mantenint el requisit de resposta de sistema de <1ms.
 -   **Coherència:** Aquestes dades s'actualitzen automàticament amb la
 finestra lliscant de 7 dies, assegurant que el "Tactical Overlay" estiga
 sempre sincronitzat amb el rendiment més recent del subjecte.
+
+## ACHIEVEMENT_MATRIX
+
+Aquestes fites utilitzen les metadades de les taules session_history i
+protocols que hem definit en l'arquitectura
+
+| Nom | Descripció curta | Icona | Descripció llarga (Lògica de càlcul) |
+| :--- | :--- | :--- | :--- |
+| **NEURAL_SYNC** | Perfect 7-day synchronization. | `Activity` | Es desbloqueja quan el gràfic `LAST_7_DAYS` no té buits; és a dir, s'ha completat almenys una sessió diària durant 7 dies consecutius. |
+| **FIRE_STARTER** | 5K calories extracted. | `Flame` | S'activa automàticament quan el sumatori de calories de totes les sessions amb estat `COMPLETED` a la base de dades supera les 5.000 kcal. |
+| **IRON_CORE** | Root level authorization. | `Shield` | Es guanya en finalitzar amb èxit el primer protocol que tingui l'etiqueta `RANK: ROOT`, validant que l'usuari ha dominat la màxima dificultat del sistema. |
+| **SPEED_DEMON** | Performance efficiency >105%. | `Zap` | Requereix un `speed_index` superior a 105 en una sessió. Això significa que l'usuari ha superat el seu **Personal Best (PB)** anterior en més d'un 5%. |
+| **ENDURANCE_UNIT** | 10 hours of mission uptime. | `Timer` | Es calcula sumant la durada real de totes les sessions finalitzades. Es desbloqueja en arribar a un total acumulat de 600 minuts d'activitat. |
+| **ULTRA_ROOT** | Total Directive domination. | `Crown` | Fita d'elit que s'activa quan l'usuari ha completat almenys un protocol de rang `ROOT` en cada una de les directives del sistema. |
+| **OVERCLOCKED** | +20% weekly improvement. | `Cpu` | Es desbloqueja quan el valor d'**IMPROVEMENT** al dashboard (comparativa del Segment A vs Segment B) és igual o superior al +20%. |
+| **SYSTEM_INITIATE** | First mission log finalized. | `LogIn` | S'atorga en completar el primer protocol de la història de l'usuari (nivell `newbie`), marcant l'entrada oficial al sistema. |
+| **GHOST_BUSTER** | 5 Personal Bests in 7 days. | `Ghost` | Es calcula comptant quantes vegades s'ha superat un PB en la finestra lliscant de 7 dies. S'activa en arribar a 5 superacions de rècord en una setmana. |
+| **CENTURION_LOG** | 100 missions completed. | `Layers` | Mètrica de volum pur. Es desbloqueja quan el comptador total de sessions a la base de dades arriba a la xifra de 100 protocols finalitzats. |
+
+---
 
 # Ruta de versions
 
