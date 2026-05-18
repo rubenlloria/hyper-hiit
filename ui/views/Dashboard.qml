@@ -22,7 +22,7 @@ DashboardForm {
     // }
 
     Component.onCompleted: {
-        var activeId = dbManager.getActiveDirectiveId() -1;
+        let activeId = dbManager.getActiveDirectiveId() -1; // WARNING: directiveModel.index must be by database key
         neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
         neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
         neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
@@ -61,7 +61,7 @@ DashboardForm {
             itemMouseArea.onClicked: {
                 // 1. Trigger high-speed filter on the Protocol Shard
                 protocolModel.filterByDirective(model.id);
-                dbManager.setActiveDirectiveId(model.id);
+                dbManager.setActiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
                 neonAccordion.activeDirectiveName = model.name;
@@ -139,10 +139,13 @@ DashboardForm {
 
         // This handler triggers when the C++ signal is emitted
         function onSessionSaved() {
-            Constants.hDebug("Dashboard", "Session synchronization detected. Refreshing charts.");
+            let activeId = dbManager.getActiveDirectiveId();
+            Constants.hDebug(debugName, "Session synchronization detected. Refreshing charts and Directive: " + activeId + ".");
             updateCharts();
+            protocolModel.filterByDirective(activeId);
         }
     }
+
 
     function updateCharts() { // TODO: Get last week too
         // const maxGraphHeight = 80; // Buffer height in pixels
