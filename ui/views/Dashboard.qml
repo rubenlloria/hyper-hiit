@@ -61,7 +61,7 @@ DashboardForm {
             itemMouseArea.onClicked: {
                 // 1. Trigger high-speed filter on the Protocol Shard
                 protocolModel.filterByDirective(model.id);
-                dbManager.setActiveId(model.id);
+                dbManager.setActiveDirectiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
                 neonAccordion.activeDirectiveName = model.name;
@@ -122,7 +122,8 @@ DashboardForm {
                 // "calories": model.calories,
                 "moduleCount": model.moduleCount,
                 "duration": formatTime(model.duration),
-                "personalBest": model.personalBest
+                "personalBest": model.personalBest,
+                "record": formatTime(model.personalBest)
             });
         }
 

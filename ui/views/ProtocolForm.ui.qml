@@ -38,7 +38,7 @@ Rectangle {
     property int calories: 0
     property int moduleCount: 0
     property string duration: "00:00"
-    property string record: "00:00"
+    property string record: "--:--"
     property int personalBest: 0
     property var protocolDataModel: []
     // property alias subsystemRepeater: subsystemRepeater
@@ -132,7 +132,7 @@ Rectangle {
             // }
             NeonMetadata {
                 keyLabel: "RECORD"
-                valueLabel: root.record
+                valueLabel: root.personalBest > 0 ? root.record : "--:--"
                 unitLabel: ""
                 color: Constants.primaryColor
             }

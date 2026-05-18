@@ -33,6 +33,7 @@ BriefingForm {
 
     property int activeProtocolId: 0
     property var structuredData: structuredData
+    property string record: "--:--"
     // property int estimatedKcal: 0
 
     onActiveProtocolIdChanged: {
@@ -63,6 +64,7 @@ BriefingForm {
             "moduleCount": moduleCount,
             "duration": duration,
             "personalBest": personalBest,
+            "record": record,
             "protocolDataModel": protocolDataModel
         });
     }
