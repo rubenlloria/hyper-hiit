@@ -51,7 +51,7 @@ QtObject {
     readonly property string flameIcon:     "\ue0d2" // Fat burning
     readonly property string heartIcon:     "\ue0f2" // Cardio
     readonly property string targetIcon:    "\ue180" // Endurance
-    readonly property string zapIcon:       "\ue1b4" // Strength
+    readonly property string zapIcon:       "\ue1b4" // Strength &
     readonly property string brainIcon:     "\ue3c6" // Neural
     readonly property string chevronDown:   "\uE06D" // chevron-down
     readonly property string chevronLeft:   "\uE06E" // chevron-left
@@ -59,7 +59,19 @@ QtObject {
     readonly property string chevronUp:     "\uE070" // chevron-up
     readonly property string evolutionIcon: "\uE191" // trending-up
     readonly property string summaryIcon:   "\uE2A5" // chart-line
-    readonly property string dashboardIcon:      "\uE1C1" // layout-dashboard
+    readonly property string dashboardIcon: "\uE1C1" // layout-dashboard
+    // Badges
+    readonly property string activityIcon:  "\uE038" //  1. NEURAL Badge
+    readonly property string fireIcon:      "\uE53A" //  2. FIRE Badge
+    readonly property string shieldIcon:    "\uE158" //  3. IRON Badge
+    readonly property string ffwIcon:       "\uE0Bd" //  4. SPEED Badge
+    readonly property string timerIcon:     "\uE1E0" //  5. ENDURANCE Badge
+    readonly property string crownIcon:     "\uE1D6" //  6. ULTRA Badge
+    readonly property string cpuIcon:       "\uE0A9" //  7. OVERCLOCK Badge
+    readonly property string loginIcon:     "\uE10D" //  8. SYSINIT Badge
+    readonly property string ghostIcon:     "\uE20E" //  9. GHOST Badge
+    readonly property string layersIcon:    "\uE529" // 10. CENTURION Badge
+
 
 /*
     // --- FONT CONFIGURATION ---

@@ -21,24 +21,27 @@ find_package(Qt6 REQUIRED COMPONENTS Core Quick Sql LinguistTools Core5Compat)
 
 # 4. Listar fuentes de C++ (SIN main.cpp)
 set(PROJECT_SOURCES
-    src/SessionManager.h
-    src/SessionManager.cpp
-    src/SystemErrors.h
-    src/SystemManager.h
-    src/SystemManager.cpp
-    src/SystemLog.h
-    src/DatabaseManager.h
-    src/DatabaseManager.cpp
+    src/AchievementManager.h
+    src/AchievementManager.cpp
+    src/Badge.h
     src/Chronometer.h
     src/Chronometer.cpp
-    src/ThemeManager.h
-    src/ThemeManager.cpp
+    src/DatabaseManager.h
+    src/DatabaseManager.cpp
+    src/DirectiveModel.h
+    src/DirectiveModel.cpp
     src/ModuleModel.h
     src/ModuleModel.cpp
     src/ProtocolModel.h
     src/ProtocolModel.cpp
-    src/DirectiveModel.h
-    src/DirectiveModel.cpp
+    src/SessionManager.h
+    src/SessionManager.cpp
+    src/SystemErrors.h
+    src/SystemLog.h
+    src/SystemManager.h
+    src/SystemManager.cpp
+    src/ThemeManager.h
+    src/ThemeManager.cpp
 )
 
 # 5. Definir el ejecutable base (Solo con main.cpp)
@@ -71,6 +74,7 @@ qt_add_qml_module(hyper-hiit
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
+        ui/components/NeonBadge.ui.qml
         ui/components/NeonButton.ui.qml
         ui/components/NeonDial.ui.qml
         ui/components/NeonDirective.ui.qml

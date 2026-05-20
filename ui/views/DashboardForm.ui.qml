@@ -72,5 +72,58 @@ Rectangle {
             id: evolutionChart
             anchors.horizontalCenter: parent.horizontalCenter
         }
+        GridLayout {
+            id: achievementMatrix
+            width: parent.width * 0.9
+            height: implicitHeight * 1.2
+            anchors.horizontalCenter: parent.horizontalCenter
+            // rowSpacing: 10
+            // columnSpacing: 10
+            columns: 5
+            NeonBadge {
+                size: 60
+                glyph: Constants.activityIcon
+                unlocked: true
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.fireIcon
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.shieldIcon
+                unlocked: true
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.ffwIcon
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.timerIcon
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.crownIcon
+                unlocked: true
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.cpuIcon
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.loginIcon
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.ghostIcon
+                unlocked: true
+            }
+            NeonBadge {
+                size: 60
+                glyph: Constants.layersIcon
+            }
+        }
     }
 }
