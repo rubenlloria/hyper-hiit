@@ -1039,9 +1039,9 @@ protocols que hem definit en l'arquitectura
 | Nom | Descripció curta | Icona | Descripció llarga (Lògica de càlcul) |
 | :--- | :--- | :--- | :--- |
 | **NEURAL_SYNC** | Perfect 7-day synchronization. | `Activity` | Es desbloqueja quan el gràfic `LAST_7_DAYS` no té buits; és a dir, s'ha completat almenys una sessió diària durant 7 dies consecutius. |
-| **FIRE_STARTER** | 5K calories extracted. | `Flame` | S'activa automàticament quan el sumatori de calories de totes les sessions amb estat `COMPLETED` a la base de dades supera les 5.000 kcal. |
+| **FIRE_STARTER** | 5K calories extracted. | `Flame-kindling` | S'activa automàticament quan el sumatori de calories de totes les sessions amb estat `COMPLETED` a la base de dades supera les 5.000 kcal. |
 | **IRON_CORE** | Root level authorization. | `Shield` | Es guanya en finalitzar amb èxit el primer protocol que tingui l'etiqueta `RANK: ROOT`, validant que l'usuari ha dominat la màxima dificultat del sistema. |
-| **SPEED_DEMON** | Performance efficiency >105%. | `Zap` | Requereix un `speed_index` superior a 105 en una sessió. Això significa que l'usuari ha superat el seu **Personal Best (PB)** anterior en més d'un 5%. |
+| **SPEED_DEMON** | Performance efficiency >105%. | `Fast-forward` | Requereix un `speed_index` superior a 105 en una sessió. Això significa que l'usuari ha superat el seu **Personal Best (PB)** anterior en més d'un 5%. |
 | **ENDURANCE_UNIT** | 10 hours of mission uptime. | `Timer` | Es calcula sumant la durada real de totes les sessions finalitzades. Es desbloqueja en arribar a un total acumulat de 600 minuts d'activitat. |
 | **ULTRA_ROOT** | Total Directive domination. | `Crown` | Fita d'elit que s'activa quan l'usuari ha completat almenys un protocol de rang `ROOT` en cada una de les directives del sistema. |
 | **OVERCLOCKED** | +20% weekly improvement. | `Cpu` | Es desbloqueja quan el valor d'**IMPROVEMENT** al dashboard (comparativa del Segment A vs Segment B) és igual o superior al +20%. |
