@@ -147,6 +147,14 @@ DashboardForm {
         }
     }
 
+    // Triggered when the view becomes active in the StackView
+    StackView.onStatusChanged: {
+        if (StackView.status === StackView.Active) {
+            Constants.hDebug(debugName, "\n############# Stack status changed #############\n");
+            // Execute the SQL checks encapsulated in C++ lambdas
+            achievementManager.runTacticalCheck();
+        }
+    }
 
     function updateCharts() { // TODO: Get last week too
         // const maxGraphHeight = 80; // Buffer height in pixels

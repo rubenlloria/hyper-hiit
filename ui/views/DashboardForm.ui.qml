@@ -72,58 +72,101 @@ Rectangle {
             id: evolutionChart
             anchors.horizontalCenter: parent.horizontalCenter
         }
+
         GridLayout {
             id: achievementMatrix
             width: parent.width * 0.9
-            height: implicitHeight * 1.2
             anchors.horizontalCenter: parent.horizontalCenter
-            // rowSpacing: 10
-            // columnSpacing: 10
             columns: 5
-            NeonBadge {
-                size: 60
-                glyph: Constants.activityIcon
-                unlocked: true
+            rowSpacing: 15
+            columnSpacing: 10
+            readonly property var iconMap: {
+                "activity": Constants.activityIcon,
+                "fire":     Constants.fireIcon,
+                "shield":   Constants.shieldIcon,
+                "ffwd":     Constants.ffwIcon,
+                "timer":    Constants.timerIcon,
+                "crown":    Constants.crownIcon,
+                "cpu":      Constants.cpuIcon,
+                "log-in":   Constants.loginIcon,
+                "ghost":    Constants.ghostIcon,
+                "layers":   Constants.layersIcon
             }
-            NeonBadge {
-                size: 60
-                glyph: Constants.fireIcon
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.shieldIcon
-                unlocked: true
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.ffwIcon
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.timerIcon
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.crownIcon
-                unlocked: true
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.cpuIcon
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.loginIcon
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.ghostIcon
-                unlocked: true
-            }
-            NeonBadge {
-                size: 60
-                glyph: Constants.layersIcon
+
+
+            // NEURAL SYNC: Dynamic generation based on C++ model
+            Repeater {
+                id: achievementRepeater
+                // Accessing the QList<QObject*> achievements property from C++
+                model: achievementManager.achievements
+
+                delegate: NeonBadge {
+                    // Layout scale fixed at 60px per requirement
+                    size: 60
+
+                    // Mapping C++ properties to UI components
+                    // modelData is the Achievement object from the QList
+                    glyph: achievementMatrix.iconMap[modelData.icon] || "x"
+                    unlocked: modelData.unlocked
+
+                    // Optional: The name/description can be used for tooltips
+                }
             }
         }
+
+
+        // GridLayout {
+        //     id: achievementMatrix
+        //     width: parent.width * 0.9
+        //     height: implicitHeight * 1.2
+        //     anchors.horizontalCenter: parent.horizontalCenter
+        //     // rowSpacing: 10
+        //     // columnSpacing: 10
+        //     columns: 5
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.activityIcon
+        //         unlocked: true
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.fireIcon
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.shieldIcon
+        //         unlocked: true
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.ffwIcon
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.timerIcon
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.crownIcon
+        //         unlocked: true
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.cpuIcon
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.loginIcon
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.ghostIcon
+        //         unlocked: true
+        //     }
+        //     NeonBadge {
+        //         size: 60
+        //         glyph: Constants.layersIcon
+        //     }
+        // }
     }
 }

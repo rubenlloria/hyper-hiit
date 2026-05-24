@@ -18,7 +18,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.darkMagenta // Color de fondo del theme.css
+    color: Constants.darkMagenta
     property alias header: header
     property alias totalsRepeater: totalsRepeater
     property alias analysisRepeater: analysisRepeater

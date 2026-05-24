@@ -43,6 +43,7 @@ Item {
     property string glyph: "x"
     property bool unlocked: false
     property color color: Constants.primaryColor
+    readonly property color accentColor: root.color
 
     width: size
     height: size
@@ -53,15 +54,60 @@ Item {
     // Dark background
     Rectangle {
         anchors.fill: parent
-        color: "#1A0A1A"
+        color: Constants.darkBlue
         opacity: 0.85
         radius: 4
     }
 
     NeonIcon {
+        id: badgeIcon
         anchors.centerIn: parent
         glyph: root.glyph
     }
+
+    states: [
+        State {
+            name: "lockedState"
+            when: !root.unlocked
+            PropertyChanges {
+                target: root
+                color: root.accentColor
+                opacity: 0.2
+            }
+        },
+        State {
+            name: "unlockedState"
+            when: root.unlocked
+            PropertyChanges {
+                target: root
+                color: root.accentColor
+                opacity: 1
+            }
+        }
+    ]
+
+    // TACTICAL FEEDBACK: Sequential animation (Flash 3 times in white)
+    transitions: [
+        Transition {
+            from: "lockedState"
+            to: "unlockedState"
+            SequentialAnimation {
+                // Flash 1
+                ColorAnimation { target: root; property: "color"; to: Constants.whiteNeon; duration: 100 }
+                ColorAnimation { target: root; property: "color"; to: root.accentColor; duration: 100 }
+                // Flash 2
+                ColorAnimation { target: root; property: "color"; to: Constants.whiteNeon; duration: 100 }
+                ColorAnimation { target: root; property: "color"; to: root.accentColor; duration: 100 }
+                // Flash 3
+                ColorAnimation { target: root; property: "color"; to: Constants.whiteNeon; duration: 100 }
+                // Final settle with a slight pulse
+                NumberAnimation { target: badgeIcon; property: "scale"; from: 1.2; to: 1.0; duration: 1000; easing.type: Easing.OutBack }
+                ColorAnimation { target: root; property: "color"; to: root.accentColor; duration: 2000 }
+
+            }
+        }
+    ]
+
 
     Repeater {
         model: 4
@@ -94,8 +140,6 @@ Item {
                 width: size
                 height: size
 
-                // Escala del viewBox original: 5.5666 x 5.5620
-                // Els punts es normalitzen a [0,1] i es multipliquen per width/height
                 ShapePath {
                     strokeColor: root.color
                     strokeWidth: cornerShape.size / 10
