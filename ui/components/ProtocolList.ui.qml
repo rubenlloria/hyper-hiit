@@ -13,7 +13,7 @@ import ".."
 Item {
     id: listRoot
     width: 380
-    height: 305
+    height: 255
 
     property color listThemeColor: "#00fff9" // Cyan for list headers and scrollbar
     property alias protocolView: protocolView
@@ -37,7 +37,7 @@ Item {
         ListView {
             id: protocolView
             width: parent.width
-            height: 275 // (Item height 85 * 3) + spacing
+            height: listRoot.height - 30 // (Item height 85 * 3) + spacing
             spacing: 10
             clip: true
 

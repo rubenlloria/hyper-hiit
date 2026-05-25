@@ -47,7 +47,7 @@ Rectangle {
     property alias header: header
     property alias evolutionChart: evolutionChart
 
-    Column {
+    ColumnLayout {
         width: parent.width
         height: parent.height
         spacing: 10
@@ -58,115 +58,104 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
         }
 
-        NeonAccordion {
-            id: neonAccordion
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+        Flickable {
+            id: dashboardScroll
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            contentWidth: parent.width
+            contentHeight: mainLayout.implicitHeight - 20
+            clip: true // Critical: prevents content from bleeding outside the shard [Source 95]
+            boundsBehavior: Flickable.StopAtBounds
 
-        ProtocolList {
-            id: protocols
-            anchors.horizontalCenter: parent.horizontalCenter
-            listThemeColor: neonAccordion.activeThemeColor
-        }
-        NeonEvolution {
-            id: evolutionChart
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+            // Custom Neon Scrollbar (v0.3 Fuchsia Aesthetic)
+            ScrollBar.vertical: ScrollBar {
+                parent: root
+                policy: ScrollBar.AlwaysOn
+                width: 0
 
-        GridLayout {
-            id: achievementMatrix
-            width: parent.width * 0.9
-            anchors.horizontalCenter: parent.horizontalCenter
-            columns: 5
-            rowSpacing: 15
-            columnSpacing: 10
-            readonly property var iconMap: {
-                "activity": Constants.activityIcon,
-                "fire":     Constants.fireIcon,
-                "shield":   Constants.shieldIcon,
-                "ffwd":     Constants.ffwIcon,
-                "timer":    Constants.timerIcon,
-                "crown":    Constants.crownIcon,
-                "cpu":      Constants.cpuIcon,
-                "log-in":   Constants.loginIcon,
-                "ghost":    Constants.ghostIcon,
-                "layers":   Constants.layersIcon
-            }
-
-
-            // NEURAL SYNC: Dynamic generation based on C++ model
-            Repeater {
-                id: achievementRepeater
-                // Accessing the QList<QObject*> achievements property from C++
-                model: achievementManager.achievements
-
-                delegate: NeonBadge {
-                    // Layout scale fixed at 60px per requirement
-                    size: 60
-
-                    // Mapping C++ properties to UI components
-                    // modelData is the Achievement object from the QList
-                    glyph: achievementMatrix.iconMap[modelData.icon] || "x"
-                    unlocked: modelData.unlocked
-
-                    // Optional: The name/description can be used for tooltips
+                contentItem: Rectangle {
+                    implicitWidth: 4
+                    color: Constants.primaryColor
+                    radius: 2
                 }
             }
+
+            Column {
+                id: mainLayout
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                leftPadding: 20
+                rightPadding: 20
+                width: parent.width
+                spacing: 10
+
+                NeonAccordion {
+                    id: neonAccordion
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                ProtocolList {
+                    id: protocols
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    listThemeColor: neonAccordion.activeThemeColor
+                }
+                NeonEvolution {
+                    id: evolutionChart
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                NeonAchievement {
+                    id: achievement
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Column {
+                    // TODO: Improve spacer to prevent footer overlap last module
+                    height: 30
+                    width: 20
+                }
+
+                // GridLayout {
+                //     id: achievementMatrix
+                //     width: parent.width * 0.9
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     columns: 5
+                //     rowSpacing: 15
+                //     columnSpacing: 10
+                //     readonly property var iconMap: {
+                //         "activity": Constants.activityIcon,
+                //         "fire": Constants.fireIcon,
+                //         "shield": Constants.shieldIcon,
+                //         "ffwd": Constants.ffwIcon,
+                //         "timer": Constants.timerIcon,
+                //         "crown": Constants.crownIcon,
+                //         "cpu": Constants.cpuIcon,
+                //         "log-in": Constants.loginIcon,
+                //         "ghost": Constants.ghostIcon,
+                //         "layers": Constants.layersIcon
+                //     }
+
+                //     // NEURAL SYNC: Dynamic generation based on C++ model
+                //     Repeater {
+                //         id: achievementRepeater
+                //         // Accessing the QList<QObject*> achievements property from C++
+                //         model: achievementManager.achievements
+
+                //         delegate: NeonBadge {
+                //             // Layout scale fixed at 60px per requirement
+                //             size: 60
+
+                //             // Mapping C++ properties to UI components
+                //             // modelData is the Achievement object from the QList
+                //             glyph: achievementMatrix.iconMap[modelData.icon]
+                //                    || "x"
+                //             unlocked: modelData.unlocked
+
+                //             // Optional: The name/description can be used for tooltips
+                //         }
+                //     }
+                // }
+            }
         }
-
-
-        // GridLayout {
-        //     id: achievementMatrix
-        //     width: parent.width * 0.9
-        //     height: implicitHeight * 1.2
-        //     anchors.horizontalCenter: parent.horizontalCenter
-        //     // rowSpacing: 10
-        //     // columnSpacing: 10
-        //     columns: 5
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.activityIcon
-        //         unlocked: true
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.fireIcon
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.shieldIcon
-        //         unlocked: true
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.ffwIcon
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.timerIcon
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.crownIcon
-        //         unlocked: true
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.cpuIcon
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.loginIcon
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.ghostIcon
-        //         unlocked: true
-        //     }
-        //     NeonBadge {
-        //         size: 60
-        //         glyph: Constants.layersIcon
-        //     }
-        // }
     }
 }

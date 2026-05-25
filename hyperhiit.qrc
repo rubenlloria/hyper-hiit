@@ -66,6 +66,8 @@
         <file>ui/assets/images/splash.png</file>
         <file>ui/components/AppHeader.ui.qml</file>
         <file>ui/components/NeonAccordion.ui.qml</file>
+        <file>ui/components/NeonAchievement.ui.qml</file>
+        <file>ui/components/NeonBadge.ui.qml</file>
         <file>ui/components/NeonButton.ui.qml</file>
         <file>ui/components/NeonDial.ui.qml</file>
         <file>ui/components/NeonDirective.ui.qml</file>

@@ -74,6 +74,7 @@ qt_add_qml_module(hyper-hiit
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/NeonAccordion.ui.qml
+        ui/components/NeonAchievement.ui.qml
         ui/components/NeonBadge.ui.qml
         ui/components/NeonButton.ui.qml
         ui/components/NeonDial.ui.qml

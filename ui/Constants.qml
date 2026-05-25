@@ -60,6 +60,7 @@ QtObject {
     readonly property string evolutionIcon: "\uE191" // trending-up
     readonly property string summaryIcon:   "\uE2A5" // chart-line
     readonly property string dashboardIcon: "\uE1C1" // layout-dashboard
+    readonly property string badgeIcon:     "\uE241" // ACHIEMEVENT_MATRIX
     // Badges
     readonly property string activityIcon:  "\uE038" //  1. NEURAL Badge
     readonly property string fireIcon:      "\uE53A" //  2. FIRE Badge
