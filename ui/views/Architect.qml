@@ -14,10 +14,10 @@ ArchitectForm {
         console.log("Restoring database...");
         dbManager.restoreDatabase();
     }
-    summaryButton.interactionArea.onClicked: {
+    summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
         console.log("Navigate to Summary...");
         mainStack.push("Summary.qml",{
-                           "activeSessionId": 21,
+                           "activeSessionId": 9,
                            "lastAchievements": [
                                {"unlocked": false}, // NEURAL_SYNC
                                {"unlocked": false}, // FIRE_STARTER
