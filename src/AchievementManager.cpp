@@ -175,8 +175,8 @@ void AchievementManager::initMatrix() {
 
             return  ghosts >= 5;
         }
-        return false;
         qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve ghosts in last week.";
+        return false;
     }, this));
 
     // 10. CENTURION_LOG: 100 missions completed
@@ -197,6 +197,7 @@ void AchievementManager::initMatrix() {
 void AchievementManager::runTacticalCheck() {
     hInfo() << "Synchronizing Achievement Matrix telemetry...";
     for (QObject *obj : std::as_const(m_achievements)) {
+        hInfo() << static_cast<Badge*>(obj)->name();
         static_cast<Badge*>(obj)->updateState();
     }
 }
