@@ -17,6 +17,19 @@ ArchitectForm {
     summaryButton.interactionArea.onClicked: {
         console.log("Navigate to Summary...");
         mainStack.push("Summary.qml",{
-                       "activeSessionId": 9});
+                           "activeSessionId": 21,
+                           "lastAchievements": [
+                               {"unlocked": false}, // NEURAL_SYNC
+                               {"unlocked": false}, // FIRE_STARTER
+                               {"unlocked": false}, // IRON_CORE
+                               {"unlocked": false}, // SPEED_DEMON
+                               {"unlocked": false}, // ENDURANCE_UNIT
+                               {"unlocked": false}, // ULTRA_ROOT
+                               {"unlocked": false}, // OVERCLOCKED
+                               {"unlocked": false}, // SYSTEM_INITIATE
+                               {"unlocked": false}, // GHOST_BUSTER
+                               {"unlocked": false}  // CENTURION_LOG
+                           ]
+                       });
     }
 }

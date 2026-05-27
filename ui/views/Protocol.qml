@@ -15,6 +15,8 @@ ProtocolForm {
     unit: "s"
     currentQuantity: countdownTimer + unit
 
+    property var lastAchievements: []
+
     property string debugName: "Protocol.qml"
     property string infoName: "Protocol.qml"
 
@@ -145,7 +147,9 @@ ProtocolForm {
             mainStack.pop();
         } else{
             mainStack.push("Summary.qml",{
-                           "activeSessionId": activeSessionId});
+                           "activeSessionId": activeSessionId,
+                           "lastAchievements": lastAchievements
+                           });
         }
     }
 
@@ -400,6 +404,15 @@ ProtocolForm {
         }
 
         Constants.hInfo(infoName, "Execution sequence finalized and all timers stopped.");
+        let currentAchievements = achievementManager.achievements;
+        for (let i = 0; i < currentAchievements.length; i++) {
+            // We save a static copy of the 'unlocked' property
+            // to avoid live pointer references during comparison
+            lastAchievements.push({
+                "unlocked": currentAchievements[i].unlocked
+            });
+        }
+
         activeSessionId = sessionManager.saveSession();
         header.buttonLabel ="SUMMARY";
         header.buttonGlyph = Constants.summaryIcon;

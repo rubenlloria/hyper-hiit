@@ -29,6 +29,7 @@
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <functional>
+#include "SystemLog.h"
 
 /**
  * @brief Represents a single system Badge based on telemetry metrics.
@@ -55,6 +56,19 @@ public:
     QString icon() const { return m_icon; }
     QString description() const { return m_description; }
     bool unlocked() const { return m_unlocked; }
+
+    /**
+     * @brief Resets the unlocked status to false.
+     * This allows the UI to detect a false-to-true transition during synchronization,
+     * triggering the highlight animations even if the badge was already earned.
+     */
+    Q_INVOKABLE void resetStatus() {
+        if (m_unlocked) {
+            m_unlocked = false;
+            hInfo() << "Reset:" << m_name;
+            emit unlockedChanged();
+        }
+    }
 
     /**
      * @brief Executes the injected logic to verify if the Badge is reached.

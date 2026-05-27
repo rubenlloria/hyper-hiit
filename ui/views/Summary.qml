@@ -10,13 +10,42 @@ import ".."
 SummaryForm{
     id: summaryView
 
-    property string debugName: "Dashboard.qml"
-    property string infoName: "Dashboard.qml"
+    property string debugName: "Summary.qml"
+    property string infoName: "Summary.qml"
 
     property var rankNames: ({})
+    property var lastAchievements: []
+    property var sessionNewAchievements: []
+
     // property int activeSessionId: 0
 
     Component.onCompleted: {
+        Constants.hDebug(debugName, "last Achievements test name " + lastAchievements[0].name);
+        Constants.hDebug(debugName, "last Achievements test unlocked" + lastAchievements[0].unlocked);
+
+        // TACTICAL DELTA: Filter badges that are now unlocked but weren't before
+        achievementManager.runTacticalCheck();
+        let currentAchievements = achievementManager.achievements;
+        let earnedThisSession = [];
+        for (let i = 0; i < currentAchievements.length; i++) {
+            let currentBadge = currentAchievements[i];
+            let lastBadge = lastAchievements[i];
+
+            // If the badge is unlocked now
+            if (currentBadge.unlocked) {
+                // Check if it was previously locked in lastAchievements
+                let wasAlreadyUnlocked = lastBadge.unlocked;
+                Constants.hDebug(debugName, "Checking: " + currentBadge.name + "(" + lastBadge.name + ") => " + wasAlreadyUnlocked);
+
+                if (!wasAlreadyUnlocked) {
+                    earnedThisSession.push(currentBadge);
+                    currentBadge.resetStatus();
+                }
+            }
+        }
+
+        sessionNewAchievements = earnedThisSession;
+        Constants.hDebug(debugName, "New achievements detected: " + sessionNewAchievements.length);
     }
 
     onActiveSessionIdChanged: {

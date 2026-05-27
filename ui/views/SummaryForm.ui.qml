@@ -173,6 +173,7 @@ Rectangle {
                     NeonTitle {
                         label: "TOTALS"
                         width: parent.width - 20
+                        anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
                     }
 
@@ -208,6 +209,7 @@ Rectangle {
                     NeonTitle {
                         label: "ANALYSIS"
                         width: parent.width - 20
+                        anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
                     }
 
@@ -235,7 +237,50 @@ Rectangle {
                     NeonTitle {
                         label: "ACHIEVMENTS"
                         width: parent.width - 20
+                        anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
+                    }
+
+                    Flow {
+                        id: achievementsFlow
+                        width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 20
+                        leftPadding: 6.9
+                        rightPadding: leftPadding
+                        topPadding: 15
+                        bottomPadding: topPadding
+
+                        readonly property var iconMap: {
+                            "activity": Constants.activityIcon,
+                            "fire": Constants.fireIcon,
+                            "shield": Constants.shieldIcon,
+                            "ffwd": Constants.ffwIcon,
+                            "timer": Constants.timerIcon,
+                            "crown": Constants.crownIcon,
+                            "cpu": Constants.cpuIcon,
+                            "log-in": Constants.loginIcon,
+                            "ghost": Constants.ghostIcon,
+                            "layers": Constants.layersIcon
+                        }
+
+                        Repeater {
+                            id: newBadgesRepeater
+                            // NEURAL SYNC: Mapping the delta list
+                            model: sessionNewAchievements
+
+                            delegate: NeonBadge {
+                                size: 55
+                                // Direct binding to Badge.h properties [1, 3]
+                                glyph: achievementsFlow.iconMap[modelData.icon]
+                                       || "X"
+                                unlocked: true
+
+                                // Note: The white flash animation we built for NeonBadge.ui.qml
+                                // will trigger automatically as 'unlocked' becomes true
+                                // in this view [Source context: previous conversation].
+                            }
+                        }
                     }
                 }
 
