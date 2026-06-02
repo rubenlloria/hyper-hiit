@@ -47,21 +47,6 @@ MediaController::MediaController(QObject *parent)
     // Initialize the JNI BroadcastReceiver for Spotify (Push metadata)
     setupSpotifyListener();
 
-    // Check the initial system state at startup
-    checkInitialPlaybackState();
-
-    // Configure the Sync Timer for track progress (Pull architecture)
-#ifdef Q_OS_ANDROID
-    QJniObject context = QNativeInterface::QAndroidApplication::context();
-    QJniObject::callStaticMethod<void>(
-        "org/aic/hyperhiit/MediaReceiverHelper",
-        "startPositionSync",
-        "(Landroid/content/Context;)V",
-        context.object()
-        );
-#endif
-
-
     // Initializing media uplink...
     hInfo() << "Media Uplink service initialized.";
     // updateActiveMetadata();
@@ -108,6 +93,9 @@ Java_org_aic_hyperhiit_MediaReceiverHelper_updatePlaybackState(JNIEnv *env, jcla
 extern "C" JNIEXPORT void JNICALL
 Java_org_aic_hyperhiit_MediaReceiverHelper_updatePositionNative(JNIEnv *env, jclass clazz, jlong position, jlong duration) {
     // WARNING: Missing Notification Access permission!
+    Q_UNUSED(env);
+    Q_UNUSED(clazz);
+
     static int logThrottle = 0;
     if (logThrottle++ % 5 == 0) {
         hDebug() << "JNI Position sync: " << position << "/" << duration << "ms";
@@ -115,7 +103,7 @@ Java_org_aic_hyperhiit_MediaReceiverHelper_updatePositionNative(JNIEnv *env, jcl
 
     if (g_instance) {
         // Use the robust expression verified in our tactical sync
-        g_instance->updateFromJava(static_cast<double>(position), static_cast<double>(duration));
+        g_instance->setTrackProgress(static_cast<double>(position), static_cast<double>(duration));
     }
 }
 
@@ -128,7 +116,7 @@ void MediaController::setPlaying(bool playing) {
     }
 }
 
-void MediaController::updateFromJava(double position, double duration) {
+void MediaController::setTrackProgress(double position, double duration) {
     // Apply the verified logic for trackProgress
     m_trackProgress = (position > 0.0 && duration > 0.0)
                           ? (position / duration)
@@ -136,7 +124,7 @@ void MediaController::updateFromJava(double position, double duration) {
     hDebug() << "m_trackProgress:" << m_trackProgress;
 
     // Ensure the HUD reflects the change instantly
-    emit progressChanged();
+    emit trackProgressChanged();
 }
 
 
@@ -265,24 +253,6 @@ void MediaController::updateMediaTelemetry() {
     }
 }
 
-void MediaController::checkInitialPlaybackState() {
-#ifdef Q_OS_ANDROID
-    QJniObject context = QNativeInterface::QAndroidApplication::context();
-    QJniObject audioManager = context.callObjectMethod(
-        "getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;",
-        QJniObject::fromString("audio").object<jstring>());
-
-    if (audioManager.isValid()) {
-        // isMusicActive() returns true if any music is currently playing
-        jboolean active = audioManager.callMethod<jboolean>("isMusicActive");
-        m_isPlaying = active;
-
-        hInfo() << "Initial playback status sync:" << (m_isPlaying ? "PLAYING" : "PAUSED");
-        emit playbackStatusChanged();
-    }
-#endif
-}
-
 void MediaController::updatePlaybackProgress() {
 #ifdef Q_OS_ANDROID
     jlong position, duration;
@@ -320,7 +290,7 @@ void MediaController::updatePlaybackProgress() {
                               ? ( static_cast<double>(position) / static_cast<double>(duration) )
                               : 0.0;
 
-        emit progressChanged(); // Notifica al HUD
+        emit trackProgressChanged(); // Notifica al HUD
     }
 #endif
 }

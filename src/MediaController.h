@@ -56,9 +56,10 @@ public:
     QString trackMetadata() const { return m_trackMetadata; }
     // void updateActiveMetadata();
     void setTrackMetadata(QString metadata);
-    void setupSpotifyListener();
     void setPlaying(bool playing); // Helper setter for JNI and internal sync
-    void updateFromJava(double position, double duration);
+    void setTrackProgress(double position, double duration);
+
+    void setupSpotifyListener();
 
     // Tactical playback commands exposed to the HUD
     Q_INVOKABLE void togglePlayback();
@@ -70,17 +71,14 @@ signals:
     void trackProgressChanged();
     void playbackStatusChanged();
     void trackMetadataChanged();
-    void progressChanged();
 
 private:
     double m_trackProgress;
     bool m_isPlaying;
-    QTimer *m_syncTimer;
     QString m_trackMetadata = "WAITING FOR UPLINK...";
 
     // Internal sync with the OS media session
     void updateMediaTelemetry();
-    void checkInitialPlaybackState();
 
 };
 

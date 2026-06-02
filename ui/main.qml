@@ -118,7 +118,7 @@ Window {
             isPlaying: mediaController.isPlaying
             trackProgress: (mediaController.trackProgress > 0)
                            ? mediaController.trackProgress
-                           : 1.0
+                           : 0.0
 
             trackMetadata: mediaController.trackMetadata
             // trackMetadata: "HYPER//HIIT - ACTIVATING UPLINK" // To be dynamically updated
@@ -143,6 +143,8 @@ Window {
                                                  } else {
                                                      mediaController.nextTrack();
                                                  }
+                                             } else {
+                                                 mediaController.togglePlayback();
                                              }
                                          }
         }

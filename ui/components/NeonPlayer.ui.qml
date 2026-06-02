@@ -41,7 +41,7 @@ Item {
     property bool isPlaying: false
     property bool isOpen: false
     property string trackMetadata: "ARTIST - TITLE"
-    property real trackProgress: 0.5 // Value from 0.0 to 1.0
+    property real trackProgress: 0.0 // Value from 0.0 to 1.0
     property color accentColor: Constants.fuchsiaNeon
 
     // Interaction aliases for the functional .qml wrapper
@@ -52,14 +52,13 @@ Item {
         State {
             name: "scrolling"
             when: metadataText.shouldAnimate
-            // L'animació té el control aquí
         },
         State {
             name: "idle"
             when: !metadataText.shouldAnimate
             PropertyChanges {
                 target: metadataText
-                x: 0 // Forcem el retorn a la posició inicial
+                x: 0
             }
         }
     ]
@@ -69,14 +68,14 @@ Item {
         id: progressBackground
         width: parent.width
         height: 2
-        color: "#1a1a1c"
+        color: Constants.blackNeon
         anchors.top: parent.top
 
         Rectangle {
             id: progressFill
             width: parent.width * root.trackProgress
             height: parent.height
-            color: root.accentColor
+            color: Constants.whiteNeon
 
             // Neon glow effect for the progress line
             layer.enabled: true
@@ -95,7 +94,7 @@ Item {
         anchors.top: progressBackground.bottom
         anchors.bottom: parent.bottom
         width: parent.width
-        color: "#0d0d10"
+        color: Constants.darkBlue
         opacity: 0.85
 
         RowLayout {
@@ -112,7 +111,7 @@ Item {
                     id: playbackIcon
                     anchors.centerIn: parent
                     glyph: root.isPlaying ? Constants.pauseIcon : Constants.playIcon
-                    color: root.accentColor
+                    color: root.isPlaying ? Constants.primaryColor : Constants.secondaryColor
                     size: 30
                 }
 
@@ -140,8 +139,7 @@ Item {
                     x: 0
 
                     anchors.verticalCenter: parent.verticalCenter
-                    readonly property bool isOverflowing: width > marqueeContainer.width
-                    readonly property bool shouldAnimate: root.isPlaying && isOverflowing
+                    readonly property bool shouldAnimate: width > marqueeContainer.width
 
                     // Marquee animation logic
                     NumberAnimation on x {
