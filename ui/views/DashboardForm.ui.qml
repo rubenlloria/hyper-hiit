@@ -41,7 +41,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: "#030213" // Color de fondo del theme.css
+    color: Constants.darkNeon // Color de fondo del theme.css
     property alias neonAccordion: neonAccordion
     property alias protocols: protocols
     property alias header: header
@@ -62,8 +62,9 @@ Rectangle {
             id: dashboardScroll
             Layout.fillWidth: true
             Layout.fillHeight: true
+            // Layout.bottomMargin: 60
             contentWidth: parent.width
-            contentHeight: mainLayout.implicitHeight - 20
+            contentHeight: mainLayout.implicitHeight
             clip: true // Critical: prevents content from bleeding outside the shard [Source 95]
             boundsBehavior: Flickable.StopAtBounds
 
@@ -111,50 +112,9 @@ Rectangle {
 
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
-                    height: 30
+                    height: Constants.bottomMargin
                     width: 20
                 }
-
-                // GridLayout {
-                //     id: achievementMatrix
-                //     width: parent.width * 0.9
-                //     anchors.horizontalCenter: parent.horizontalCenter
-                //     columns: 5
-                //     rowSpacing: 15
-                //     columnSpacing: 10
-                //     readonly property var iconMap: {
-                //         "activity": Constants.activityIcon,
-                //         "fire": Constants.fireIcon,
-                //         "shield": Constants.shieldIcon,
-                //         "ffwd": Constants.ffwIcon,
-                //         "timer": Constants.timerIcon,
-                //         "crown": Constants.crownIcon,
-                //         "cpu": Constants.cpuIcon,
-                //         "log-in": Constants.loginIcon,
-                //         "ghost": Constants.ghostIcon,
-                //         "layers": Constants.layersIcon
-                //     }
-
-                //     // NEURAL SYNC: Dynamic generation based on C++ model
-                //     Repeater {
-                //         id: achievementRepeater
-                //         // Accessing the QList<QObject*> achievements property from C++
-                //         model: achievementManager.achievements
-
-                //         delegate: NeonBadge {
-                //             // Layout scale fixed at 60px per requirement
-                //             size: 60
-
-                //             // Mapping C++ properties to UI components
-                //             // modelData is the Achievement object from the QList
-                //             glyph: achievementMatrix.iconMap[modelData.icon]
-                //                    || "x"
-                //             unlocked: modelData.unlocked
-
-                //             // Optional: The name/description can be used for tooltips
-                //         }
-                //     }
-                // }
             }
         }
     }

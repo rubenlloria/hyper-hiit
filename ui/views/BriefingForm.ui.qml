@@ -38,7 +38,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.backgroundColor
+    color: Constants.darkNeon
 
     property alias header: header
     property string protocolName: "PROTOCOL_NAME"
@@ -174,7 +174,7 @@ Rectangle {
 
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
-                    height: 30
+                    height: Constants.bottomMargin
                     width: 20
                 }
             }

@@ -49,7 +49,7 @@ Rectangle {
     Column {
         width: parent.width
         height: parent.height
-        spacing: 30
+        spacing: 25
         AppHeader {
             id: header
             z: 60

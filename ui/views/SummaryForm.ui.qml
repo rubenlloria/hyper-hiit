@@ -18,7 +18,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.darkMagenta
+    color: Constants.darkNeon
     property alias header: header
     property alias totalsRepeater: totalsRepeater
     property alias analysisRepeater: analysisRepeater
@@ -291,7 +291,7 @@ Rectangle {
                 // }
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
-                    height: 30
+                    height: Constants.bottomMargin
                     width: 20
                 }
             }
