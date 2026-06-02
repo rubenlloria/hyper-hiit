@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
     src/DatabaseManager.cpp
     src/DirectiveModel.h
     src/DirectiveModel.cpp
+    src/MediaController.h
+    src/MediaController.cpp
     src/ModuleModel.h
     src/ModuleModel.cpp
     src/ProtocolModel.h
@@ -84,6 +86,7 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonIcon.ui.qml
         ui/components/NeonIndicator.ui.qml
         ui/components/NeonMetadata.ui.qml
+        ui/components/NeonPlayer.ui.qml
         ui/components/NeonProgress.ui.qml
         ui/components/NeonProtocol.ui.qml
         ui/components/NeonSubsystem.ui.qml
@@ -132,7 +135,7 @@ target_link_libraries(hyper-hiit PRIVATE
 
 # 9. Propiedades específicas (Android y otros)
 set_target_properties(hyper-hiit PROPERTIES
-    QT_ANDROID_PACKAGE_NAME "com.aic.hyperhiit.app"
+    QT_ANDROID_PACKAGE_NAME "org.aic.hyperhiit"
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE

@@ -4,6 +4,10 @@
     android:installLocation="auto"
     android:versionCode="-- %%INSERT_VERSION_CODE%% --"
     android:versionName="-- %%INSERT_VERSION_NAME%% --">
+
+    <!-- Required to bind as a Notification Listener and access getActiveSessions() -->
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+
     <!-- %%INSERT_PERMISSIONS -->
     <!-- %%INSERT_FEATURES -->
     <supports-screens
@@ -21,6 +25,22 @@
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:fullBackupOnly="false">
+
+        <!-- AUDIO UPLINK: Notification Listener Service -->
+        <!-- Grants access to MediaSessionManager.getActiveSessions().         -->
+        <!-- The user must manually enable this app in                          -->
+        <!-- Settings > Apps > Special app access > Notification access.        -->
+        <!-- The class must exist in the project under the declared package.    -->
+        <service
+            android:name="org.aic.hyperhiit.MediaNotificationListener"
+            android:label="HYPER//HIIT Audio Uplink"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name="org.qtproject.qt.android.bindings.QtActivity"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"

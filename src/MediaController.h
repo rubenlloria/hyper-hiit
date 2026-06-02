@@ -1,0 +1,87 @@
+/****************************************************************************
+** File: MediaController.h
+** Date: 27/5/2026
+** Author: Rubén Llòria
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License version 2 as
+** published by the Free Software Foundation.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** Copyright (C) 2026 Rubén Llòria
+****************************************************************************/
+#ifndef MEDIACONTROLLER_H
+#define MEDIACONTROLLER_H
+
+#include <QObject>
+#include <QString>
+#include <QTimer>
+#include <QtQml/qqmlregistration.h>
+
+#ifdef Q_OS_ANDROID
+#include <QtCore/QJniObject>
+#include <QtCore/QCoreApplication>
+#endif
+
+/**
+ * @brief Manages audio synchronization and system media playback.
+ * Provides telemetry for the magenta neon progress bar.
+ */
+class MediaController : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+
+    Q_PROPERTY(double trackProgress READ trackProgress NOTIFY trackProgressChanged)
+    Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY playbackStatusChanged)
+    Q_PROPERTY(QString trackMetadata READ trackMetadata NOTIFY trackMetadataChanged)
+
+public:
+    explicit MediaController(QObject *parent = nullptr);
+
+    double trackProgress() const { return m_trackProgress; }
+    bool isPlaying() const { return m_isPlaying; }
+    QString trackMetadata() const { return m_trackMetadata; }
+    // void updateActiveMetadata();
+    void setTrackMetadata(QString metadata);
+    void setupSpotifyListener();
+    void setPlaying(bool playing); // Helper setter for JNI and internal sync
+    void updateFromJava(double position, double duration);
+
+    // Tactical playback commands exposed to the HUD
+    Q_INVOKABLE void togglePlayback();
+    Q_INVOKABLE void nextTrack();
+    Q_INVOKABLE void previousTrack();
+    Q_INVOKABLE void updatePlaybackProgress();
+
+signals:
+    void trackProgressChanged();
+    void playbackStatusChanged();
+    void trackMetadataChanged();
+    void progressChanged();
+
+private:
+    double m_trackProgress;
+    bool m_isPlaying;
+    QTimer *m_syncTimer;
+    QString m_trackMetadata = "WAITING FOR UPLINK...";
+
+    // Internal sync with the OS media session
+    void updateMediaTelemetry();
+    void checkInitialPlaybackState();
+
+};
+
+#endif // MEDIACONTROLLER_H

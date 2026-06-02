@@ -9,6 +9,7 @@ QtObject {
     // Reference dimensions from your original design
     readonly property int designWidth: 412
     readonly property int designHeight: 915
+    readonly property int bottomMargin: 70
     // Scale factor based on the actual width of the window/screen
     // This ensures the UI looks the same on a 360px or 412px logical width screen
     property real scaleFactor: 1.0
@@ -47,6 +48,7 @@ QtObject {
     // --- ICONS (From Lucide font)
     readonly property string settingsIcon:  "\uE154" // settings
     readonly property string playIcon:      "\uE481" // square-play
+    readonly property string pauseIcon:     "\uE684" // square-pause
     readonly property string backIcon:      "\uE1E2" // arrow-big-left
     readonly property string flameIcon:     "\ue0d2" // Fat burning
     readonly property string heartIcon:     "\ue0f2" // Cardio

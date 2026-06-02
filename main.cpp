@@ -16,6 +16,7 @@
 #include "src/SystemLog.h"
 #include "src/SessionManager.h"
 #include "src/AchievementManager.h"
+#include "src/MediaController.h"
 
 int main(int argc, char *argv[])
 {
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
     SystemManager systemManager;
     SessionManager sessionManager(&dbManager);
     AchievementManager achievementManager(&dbManager);
-
+    MediaController mediaController;
 
     if (dbManager.initDatabase()) {
         // Neural Sync: Fetching data from SQLite and injecting into the Model
@@ -107,6 +108,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("systemManager", &systemManager);
     engine.rootContext()->setContextProperty("sessionManager", &sessionManager);
     engine.rootContext()->setContextProperty("achievementManager", &achievementManager);
+    engine.rootContext()->setContextProperty("mediaController", &mediaController);
 
     const QUrl url(QStringLiteral("qrc:/qt/qml/org/aic/hyperhiit/ui/main.qml"));
 
