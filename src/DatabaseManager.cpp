@@ -813,7 +813,7 @@ void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
 void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &structureArr) {
     QSqlQuery q;
     // Prepare the structure insertion for the Protocol Matrix [4, 6]
-    q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity) "
+    q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity, unit_type) "
               "VALUES (:prot_id, :subsystem, :s_order, :mod_id, :quantity, :unit)");
 
     for (const QJsonValue &val : std::as_const(structureArr)) {

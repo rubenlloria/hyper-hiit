@@ -1,5 +1,5 @@
 {
-  "version": "0.5",
+  "version": "0.6",
   "author": "Rubén Llòria",
   "modules": [
     {
@@ -13,7 +13,7 @@
       "equipment": ["NONE"],
       "unit_type": "seconds",
       "met_factor": 1.0,
-      "fatigue_rate": 0.0,
+      "fatigue_rate": 0.80,
       "rep_time": 1.0
     },
     {
@@ -40,7 +40,7 @@
       "safety_info": "Keep core tight; do not pull on neck.",
       "equipment": ["NONE"],
       "unit_type": "reps",
-      "met_factor": 3.8,
+      "met_factor": 3.0,
       "fatigue_rate": 2.0,
       "rep_time": 2.5
     },
@@ -312,15 +312,15 @@
     },
     {
       "module_id": 23,
-      "module_name": "Hollow Rock",
+      "module_name": "Hollow Rocks",
       "difficulty": 3,
       "target_zone": "CORE",
-      "description": "ADVANCED core stabilization rocking.",
+      "description": "Advanced core stabilization rocking.",
       "instructions": "Maintain hollow hold and rock back and forth.",
       "safety_info": "Lower back must stay pressed against the floor.",
       "equipment": ["NONE"],
       "unit_type": "reps",
-      "met_factor": 5.0,
+      "met_factor": 3.5,
       "fatigue_rate": 3.0,
       "rep_time": 3.0
     },
@@ -437,38 +437,41 @@
       "rep_time": 4.0
     },
     {
+      "module_id": 32,
       "module_name": "Reverse Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
-      "description": "Estocades enrere, més segures per als genolls.",
-      "instructions": "Fes un pas enrere i baixa el maluc fins que ambdues cames estiguin a 90 graus.",
-      "safety_info": "Mantenir el tors recte i no deixar que el genoll davanter passi de la punta del peu.",
+      "description": "Backward lunge variation, easier on the knees.",
+      "instructions": "Step backward and lower hips until both knees are at 90 degrees.",
+      "safety_info": "Keep torso upright; do not let the front knee pass the toes.",
       "equipment": ["NONE"],
       "unit_type": "reps",
-      "met_factor": 8.0,
+      "met_factor": 5.5,
       "fatigue_rate": 4.0,
       "rep_time": 2.5
     },
     {
+      "module_id": 33,
       "module_name": "Bicycle Crunches",
       "difficulty": 2,
       "target_zone": "CORE",
-      "description": "Abdominals de bicicleta, molt metabòlics.",
-      "instructions": "Simula el pedaleig d'una bicicleta mentre toques el genoll amb el colze oposat.",
-      "safety_info": "No estirar del coll; la força ha de venir de l'abdomen.",
+      "description": "Rotational crunch targeting obliques.",
+      "instructions": "Simulate a pedalling motion while touching the opposite elbow to knee.",
+      "safety_info": "Do not pull on the neck; drive the movement from the abdomen.",
       "equipment": ["NONE"],
       "unit_type": "reps",
-      "met_factor": 8.0,
+      "met_factor": 4.0,
       "fatigue_rate": 2.0,
       "rep_time": 2.0
     },
     {
+      "module_id": 34,
       "module_name": "Air Squats",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
-      "description": "Sentadilla amb pes corporal.",
-      "instructions": "Baixa el maluc mantenint l'esquena recta i puja.",
-      "safety_info": "Els talons han d'estar sempre en contacte amb el terra.",
+      "description": "Standard bodyweight squat.",
+      "instructions": "Lower hips while keeping back straight, then stand up.",
+      "safety_info": "Heels must remain in contact with the floor throughout.",
       "equipment": ["NONE"],
       "unit_type": "reps",
       "met_factor": 5.0,
@@ -476,12 +479,13 @@
       "rep_time": 3.25
     },
     {
+      "module_id": 35,
       "module_name": "Alternating Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
-      "description": "Estocades alternes per a resistència muscular.",
-      "instructions": "Fes estocades canviant de cama en cada repetició.",
-      "safety_info": "Genoll alineat amb el taló.",
+      "description": "Alternating lunges for muscular endurance.",
+      "instructions": "Perform lunges alternating legs on each repetition.",
+      "safety_info": "Keep knee aligned with the heel.",
       "equipment": ["NONE"],
       "unit_type": "reps",
       "met_factor": 5.5,
@@ -489,12 +493,13 @@
       "rep_time": 2.5
     },
     {
+      "module_id": 36,
       "module_name": "Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
-      "description": "Flexions tècniques enfocades al control.",
-      "instructions": "Baixa el pit cap al terra mantenint el cos com una taula.",
-      "safety_info": "Mantenir el core activat per evitar la hiperextensió lumbar.",
+      "description": "Standard push-up with full range of motion.",
+      "instructions": "Lower chest to the floor keeping the body in a straight line.",
+      "safety_info": "Keep core activated to avoid lumbar hyperextension.",
       "equipment": ["NONE"],
       "unit_type": "reps",
       "met_factor": 5.5,
@@ -502,10 +507,11 @@
       "rep_time": 3.0
     },
     {
+      "module_id": 37,
       "module_name": "Plank",
       "difficulty": 1,
       "target_zone": "CORE",
-      "module_description": "Static core stabilization exercise focusing on anti-extension and spinal alignment.",
+      "description": "Static core stabilization exercise focusing on anti-extension and spinal alignment.",
       "instructions": "Maintain a straight line from head to heels, supported by forearms and toes. Engage glutes and core throughout the hold.",
       "safety_info": "Avoid lumbar hyperextension; do not let the hips sag. Maintain a neutral neck position looking at the floor.",
       "equipment": ["NONE"],
@@ -703,19 +709,19 @@
       "structure": [
         { "subsystem": 1, "s_order": 1, "module": "Pike Push-ups", "quantity": 20, "unit": "reps" },
         { "subsystem": 1, "s_order": 2, "module": "Archer Squats", "quantity": 20, "unit": "reps" },
-        { "subsystem": 1, "s_order": 3, "module": "Hollow Rock", "quantity": 20, "unit": "reps" },
+        { "subsystem": 1, "s_order": 3, "module": "Hollow Rocks", "quantity": 20, "unit": "reps" },
         { "subsystem": 2, "s_order": 1, "module": "Pike Push-ups", "quantity": 15, "unit": "reps" },
         { "subsystem": 2, "s_order": 2, "module": "Archer Squats", "quantity": 15, "unit": "reps" },
-        { "subsystem": 2, "s_order": 3, "module": "Hollow Rock", "quantity": 15, "unit": "reps" },
+        { "subsystem": 2, "s_order": 3, "module": "Hollow Rocks", "quantity": 15, "unit": "reps" },
         { "subsystem": 3, "s_order": 1, "module": "Pike Push-ups", "quantity": 10, "unit": "reps" },
         { "subsystem": 3, "s_order": 2, "module": "Archer Squats", "quantity": 10, "unit": "reps" },
-        { "subsystem": 3, "s_order": 3, "module": "Hollow Rock", "quantity": 10, "unit": "reps" },
+        { "subsystem": 3, "s_order": 3, "module": "Hollow Rocks", "quantity": 10, "unit": "reps" },
         { "subsystem": 4, "s_order": 1, "module": "Pike Push-ups", "quantity": 8, "unit": "reps" },
         { "subsystem": 4, "s_order": 2, "module": "Archer Squats", "quantity": 8, "unit": "reps" },
-        { "subsystem": 4, "s_order": 3, "module": "Hollow Rock", "quantity": 8, "unit": "reps" },
+        { "subsystem": 4, "s_order": 3, "module": "Hollow Rocks", "quantity": 8, "unit": "reps" },
         { "subsystem": 5, "s_order": 1, "module": "Pike Push-ups", "quantity": 5, "unit": "reps" },
         { "subsystem": 5, "s_order": 2, "module": "Archer Squats", "quantity": 5, "unit": "reps" },
-        { "subsystem": 5, "s_order": 3, "module": "Hollow Rock", "quantity": 5, "unit": "reps" }
+        { "subsystem": 5, "s_order": 3, "module": "Hollow Rocks", "quantity": 5, "unit": "reps" }
       ]
     },
     {
@@ -889,7 +895,7 @@
       "protocol_name": "A_TEST",
       "estimated_duration": 520,
       "module_count": 9,
-      "rank": "1",
+      "rank": 1,
       "personal_best": 0,
       "target_directives": ["FAT_BURNING", "ENDURANCE_GRID"],
       "structure": [
