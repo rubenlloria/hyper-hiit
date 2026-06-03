@@ -89,8 +89,12 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonPlayer.ui.qml
         ui/components/NeonProgress.ui.qml
         ui/components/NeonProtocol.ui.qml
+        ui/components/NeonSelector.ui.qml
+        ui/components/NeonSpinBox.ui.qml
         ui/components/NeonSubsystem.ui.qml
+        ui/components/NeonSwitch.ui.qml
         ui/components/NeonText.ui.qml
+        ui/components/NeonTextField.ui.qml
         ui/components/NeonTimer.ui.qml
         ui/components/NeonTitle.ui.qml
         ui/components/ProtocolList.ui.qml

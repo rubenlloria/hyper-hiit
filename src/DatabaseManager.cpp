@@ -812,7 +812,7 @@ void DatabaseManager::linkProtocol(int id, const QJsonArray &targetDirs) {
 
 void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &structureArr) {
     QSqlQuery q;
-    // Prepare the structure insertion for the Protocol Matrix [4, 6]
+    // Prepare the structure insertion for the Protocol Matrix
     q.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity, unit_type) "
               "VALUES (:prot_id, :subsystem, :s_order, :mod_id, :quantity, :unit)");
 
@@ -823,11 +823,11 @@ void DatabaseManager::seedProtocolStructure(int protocolId, const QJsonArray &st
 
         if (nameToModuleId.contains(moduleName.toLower())) {
             q.bindValue(":prot_id", protocolId);
-            q.bindValue(":subsystem", s.value("subsystem").toInt()); // LEVEL_03 Logic [7, 8]
-            q.bindValue(":s_order", s.value("s_order").toInt());     // Execution sequence [6]
-            q.bindValue(":mod_id", nameToModuleId[moduleName.toLower()]);   // Resolved Module ID [4]
-            q.bindValue(":quantity", s.value("quantity").toInt());  // Reps or Seconds [9]
-            q.bindValue(":unit", resolveUnitType(s.value("unit")));
+            q.bindValue(":subsystem", s.value("subsystem").toInt()); // LEVEL_03 Logic
+            q.bindValue(":s_order", s.value("s_order").toInt());     // Execution sequence
+            q.bindValue(":mod_id", nameToModuleId[moduleName.toLower()]);   // Resolved Module ID
+            q.bindValue(":quantity", s.value("quantity").toInt());
+            q.bindValue(":unit", resolveUnitType(s.value("unit")));  // Reps or Seconds
 
             if (!q.exec()) {
                 hCritical() << "Failed to link module" << moduleName

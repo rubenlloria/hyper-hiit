@@ -17,16 +17,19 @@ Item {
     // Properties for customization and C++ integration
     property string label: "EXECUTE_COMMAND"
     property string iconGlyph: Constants.targetIcon
-    property color themeColor: "#00fff9" // Cyan Neon by default [4]
+    property color themeColor: Constants.primaryTextColor
     property bool isHovered: interactionArea.containsMouse
     property bool isPressed: interactionArea.pressed
+    property bool enabled: true
     property alias interactionArea: interactionArea
+
+    opacity: enabled ? 1 : 0.4
 
     // 1. Matte Black Background
     Rectangle {
         id: backgroundBase
         anchors.fill: parent
-        color: "#0a0a0a"
+        color: Constants.blackNeon
         opacity: 0.95
         border.color: buttonRoot.themeColor
         border.width: 1

@@ -76,10 +76,15 @@
         <file>ui/components/NeonIcon.ui.qml</file>
         <file>ui/components/NeonIndicator.ui.qml</file>
         <file>ui/components/NeonMetadata.ui.qml</file>
+        <file>ui/components/NeonPlayer.ui.qml</file>
         <file>ui/components/NeonProgress.ui.qml</file>
         <file>ui/components/NeonProtocol.ui.qml</file>
+        <file>ui/components/NeonSelector.ui.qml</file>
+        <file>ui/components/NeonSpinBox.ui.qml</file>
         <file>ui/components/NeonSubsystem.ui.qml</file>
+        <file>ui/components/NeonSwitch.ui.qml</file>
         <file>ui/components/NeonText.ui.qml</file>
+        <file>ui/components/NeonTextField.ui.qml</file>
         <file>ui/components/NeonTimer.ui.qml</file>
         <file>ui/components/NeonTitle.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
