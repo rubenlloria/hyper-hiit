@@ -75,7 +75,11 @@ signals:
 private:
     double m_trackProgress;
     bool m_isPlaying;
+#ifdef Q_OS_ANDROID
     QString m_trackMetadata = "WAITING FOR UPLINK...";
+#else
+    QString m_trackMetadata = "NOT AVAILABLE ON DESKTOP";
+#endif
 
     // Internal sync with the OS media session
     void updateMediaTelemetry();

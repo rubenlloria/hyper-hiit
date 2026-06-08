@@ -52,6 +52,7 @@ MediaController::MediaController(QObject *parent)
     // updateActiveMetadata();
 
 }
+#ifdef Q_OS_ANDROID
 
 // JNI Implementation of the native Java method
 extern "C" JNIEXPORT void JNICALL
@@ -66,12 +67,6 @@ Java_org_aic_hyperhiit_MediaReceiverHelper_updateMetadata(JNIEnv *env, jclass cl
     if (g_instance) {
         g_instance->setTrackMetadata(artistStr + " - " + trackStr);
     }
-}
-
-void MediaController::setTrackMetadata(QString metadata){
-    hInfo() << "#### METADATA:" << metadata;
-    m_trackMetadata = metadata;
-    emit trackMetadataChanged();
 }
 
 /**
@@ -105,6 +100,14 @@ Java_org_aic_hyperhiit_MediaReceiverHelper_updatePositionNative(JNIEnv *env, jcl
         // Use the robust expression verified in our tactical sync
         g_instance->setTrackProgress(static_cast<double>(position), static_cast<double>(duration));
     }
+}
+
+#endif
+
+void MediaController::setTrackMetadata(QString metadata){
+    hInfo() << "#### METADATA:" << metadata;
+    m_trackMetadata = metadata;
+    emit trackMetadataChanged();
 }
 
 // Helper setter to update state and emit signal
@@ -143,6 +146,7 @@ void MediaController::setupSpotifyListener() {
  * @brief Toggles between play and pause states.
  */
 void MediaController::togglePlayback() {
+    int keyCode = -1;
 #ifdef Q_OS_ANDROID
     // 1. Get the Android context and AudioManager service
     QJniObject context = QNativeInterface::QAndroidApplication::context();
@@ -154,7 +158,7 @@ void MediaController::togglePlayback() {
 
     // 2. Retrieve the integer constant for PLAY_PAUSE
     // Using getStaticField<int> to avoid the previous crash [1]
-    int keyCode = QJniObject::getStaticField<int>(
+    keyCode = QJniObject::getStaticField<int>(
         "android/view/KeyEvent",
         "KEYCODE_MEDIA_PLAY_PAUSE"
         );
