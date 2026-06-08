@@ -95,6 +95,8 @@
         <file>ui/views/ArchitectForm.ui.qml</file>
         <file>ui/views/Briefing.qml</file>
         <file>ui/views/BriefingForm.ui.qml</file>
+        <file>ui/views/Config.qml</file>
+        <file>ui/views/ConfigForm.ui.qml</file>
         <file>ui/views/Dashboard.qml</file>
         <file>ui/views/DashboardForm.ui.qml</file>
         <file>ui/views/Protocol.qml</file>

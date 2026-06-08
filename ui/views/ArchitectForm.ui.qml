@@ -14,6 +14,7 @@ Rectangle {
     property alias header: header
     property alias restoreDBButton: restoreDBButton
     property alias summaryButton: summaryButton
+    property alias configButton: configButton
 
     ColumnLayout {
         id: mainLayout
@@ -44,6 +45,13 @@ Rectangle {
             NeonButton {
                 id: summaryButton
                 label: "Summary"
+                Layout.alignment: Qt.AlignTop
+                // Layout.topMargin: Constants.px(20)
+            }
+
+            NeonButton {
+                id: configButton
+                label: "CORE_CONFIG"
                 Layout.alignment: Qt.AlignTop
                 // Layout.topMargin: Constants.px(20)
             }

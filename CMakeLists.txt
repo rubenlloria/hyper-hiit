@@ -66,6 +66,8 @@ qt_add_qml_module(hyper-hiit
         ui/views/ArchitectForm.ui.qml
         ui/views/Briefing.qml
         ui/views/BriefingForm.ui.qml
+        ui/views/Config.qml
+        ui/views/ConfigForm.ui.qml
         ui/views/Dashboard.qml
         ui/views/DashboardForm.ui.qml
         ui/views/Protocol.qml

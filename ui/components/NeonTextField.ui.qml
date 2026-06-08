@@ -18,8 +18,10 @@ Item {
     height: 60
 
     property string label: "FIELD_NAME"
+    property alias text: textInput.text
     property string placeholder: "ENTER_DATA..."
-    property color neonColor: Constants.primaryColor
+    property color neonColor: Constants.primaryTextColor
+    property bool showSuccessPulse: false
 
     // Etiqueta superior (Tipografia Share Tech Mono)
     Text {
@@ -45,6 +47,7 @@ Item {
 
         TextInput {
             id: textInput
+            text: ""
             anchors.fill: parent
             anchors.margins: 10
             color: Constants.whiteNeon
@@ -55,7 +58,8 @@ Item {
 
             Text {
                 text: root.placeholder
-                color: "#40ffffff"
+                color: Constants.whiteNeon
+                opacity: 0.4
                 visible: !textInput.text && !textInput.activeFocus
                 font: textInput.font
                 anchors.fill: parent
@@ -69,8 +73,19 @@ Item {
         anchors.fill: inputBackground
         source: inputBackground
         color: root.neonColor
-        radius: 8
+        radius: root.showSuccessPulse ? 12 : 8
         samples: 12
-        spread: 0.1
+        spread: root.showSuccessPulse ? 0.5 : 0.1
+
+        Behavior on radius {
+            NumberAnimation {
+                duration: 300
+            }
+        }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 300
+            }
+        }
     }
 }

@@ -14,6 +14,11 @@ ArchitectForm {
         console.log("Restoring database...");
         dbManager.restoreDatabase();
     }
+
+    configButton.interactionArea.onClicked: {
+        console.log("Restoring database...");
+        mainStack.push("ConfigForm.ui.qml");
+    }
     summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
         console.log("Navigate to Summary...");
         mainStack.push("Summary.qml",{

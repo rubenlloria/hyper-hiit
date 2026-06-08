@@ -22,6 +22,7 @@ Item {
     property int value: 75
     property string suffix: "KG"
     property color neonColor: Constants.primaryTextColor
+    property bool showSuccessPulse: false
 
     // 1. Etiqueta superior (Tipografia Share Tech Mono) [4]
     Text {
@@ -72,7 +73,7 @@ Item {
         // Valor central
         Text {
             id: valueText
-            text: root.value + " " + root.suffix
+            text: root.value + (root.suffix === "" ? "" : " " + root.suffix)
             color: "#ffffff"
             font.family: Constants.techFont.family
             font.pixelSize: 18
@@ -110,8 +111,19 @@ Item {
         anchors.fill: controlBackground
         source: controlBackground
         color: root.neonColor
-        radius: 10
-        samples: 15
-        spread: 0.1
+        radius: root.showSuccessPulse ? 12 : 8
+        samples: 12
+        spread: root.showSuccessPulse ? 0.5 : 0.1
+
+        Behavior on radius {
+            NumberAnimation {
+                duration: 300
+            }
+        }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 300
+            }
+        }
     }
 }

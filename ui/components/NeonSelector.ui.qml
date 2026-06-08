@@ -29,8 +29,15 @@ Item {
     property string option3Label: "OPTION_3"
     property color option3Color: Constants.primaryTextColor
 
+    property alias mouseAreaH1: mouseAreaH1
+    property alias mouseAreaH2: mouseAreaH2
+    property alias mouseAreaH3: mouseAreaH3
+    property alias mouseAreaV1: mouseAreaV1
+    property alias mouseAreaV2: mouseAreaV2
+    property alias mouseAreaV3: mouseAreaV3
+
     width: 350
-    height: horizontal ? 65 : 145
+    height: root.horizontal ? 65 : 145
 
     // 1. Field Label
     Text {
@@ -79,6 +86,11 @@ Item {
                 spread: 0.1
                 visible: root.selectedIndex === 0 && root.horizontal
             }
+            MouseArea {
+                id: mouseAreaH1
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 0
+            }
         }
         // Option 2
         Rectangle {
@@ -105,6 +117,11 @@ Item {
                 opacity: 0.3
                 visible: root.selectedIndex === 1 && root.horizontal
             }
+            MouseArea {
+                id: mouseAreaH2
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 1
+            }
         }
         // Option 3
         Rectangle {
@@ -130,6 +147,11 @@ Item {
                 samples: 16
                 opacity: 0.3
                 visible: root.selectedIndex === 2 && root.horizontal
+            }
+            MouseArea {
+                id: mouseAreaH3
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 2
             }
         }
     }
@@ -169,6 +191,11 @@ Item {
                 opacity: 0.3
                 visible: root.selectedIndex === 0 && !root.horizontal
             }
+            MouseArea {
+                id: mouseAreaV1
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 0
+            }
         }
         // Option V2
         Rectangle {
@@ -197,6 +224,11 @@ Item {
                 opacity: 0.3
                 visible: root.selectedIndex === 1 && !root.horizontal
             }
+            MouseArea {
+                id: mouseAreaV2
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 1
+            }
         }
         // Option V3
         Rectangle {
@@ -224,6 +256,11 @@ Item {
                 samples: 16
                 opacity: 0.3
                 visible: root.selectedIndex === 2 && !root.horizontal
+            }
+            MouseArea {
+                id: mouseAreaV3
+                anchors.fill: parent
+                onClicked: root.selectedIndex = 2
             }
         }
     }

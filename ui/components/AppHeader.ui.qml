@@ -37,13 +37,11 @@ Rectangle {
     id: headerRoot
     width: Constants.width
     height: 100
-    color: "#030213"
+    color: Constants.blackNeon
 
     // --- VIEWMODEL PROPERTIES ---
     property string titlePart1: "hyper"
     property string titlePart2: "hiit"
-    property color cyanNeon: "#00fff9"
-    property color fuchsiaNeon: "#bf00ff"
     property string statusLabel: "SYSTEM_ONLINE"
     property string buttonLabel: "ARCHITECT"
     property string buttonGlyph: "\uE154"

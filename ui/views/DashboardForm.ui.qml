@@ -56,6 +56,7 @@ Rectangle {
             z: 60
             Layout.fillWidth: true
             Layout.preferredHeight: 100 // Match your AppHeader design
+            buttonLabel: "./CONFIG"
         }
 
         Flickable {
