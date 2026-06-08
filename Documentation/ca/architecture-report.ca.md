@@ -1,7 +1,7 @@
 Informe d'Arquitectura hyper//hiit
 ==================================
 
->    Rev. 46 (18/05/26)
+>    Rev. 47 (08/06/26)
 
 &nbsp;
 
@@ -132,6 +132,36 @@ Taula de continguts
 
 - [ACHIEVEMENT_MATRIX
 ](#achievement_matrix)
+
+[15. Configuració del Nucli i Personalització Estètica
+](#15-configuració-del-nucli-i-personalització-estètica)
+
+- [Arquitectura del Mòdul `CORE_CONFIG`
+](#arquitectura-del-mòdul-core_config)
+
+- [Lògica de Sincronització en Viu (*Live Saving*)
+](#lògica-de-sincronització-en-viu-live-saving)
+
+   - [Algorisme de *Debouncing*
+](#algorisme-de-debouncing)
+
+   - [Feedback Visual d'Estat
+](#feedback-visual-destat)
+
+- [Motor de Tematització (*Theming Engine*)
+](#motor-de-tematització-theming-engine)
+
+   - [Variables globals del sistema
+](#variables-globals-del-sistema)
+
+   - [Definició de temes
+](#definició-de-temes)
+
+   - [Restricció d'implementació
+](#restricció-dimplementació)
+
+- [Integració del Mode ARCHITECT
+](#integració-del-mode-architect)
 
 [Ruta de versions](#ruta-de-versions)
 
@@ -1048,6 +1078,151 @@ protocols que hem definit en l'arquitectura
 | **SYSTEM_INITIATE** | First mission log finalized. | `LogIn` | S'atorga en completar el primer protocol de la història de l'usuari (nivell `newbie`), marcant l'entrada oficial al sistema. |
 | **GHOST_BUSTER** | 5 Personal Bests in 7 days. | `Ghost` | Es calcula comptant quantes vegades s'ha superat un PB en la finestra lliscant de 7 dies. S'activa en arribar a 5 superacions de rècord en una setmana. |
 | **CENTURION_LOG** | 100 missions completed. | `Layers` | Mètrica de volum pur. Es desbloqueja quan el comptador total de sessions a la base de dades arriba a la xifra de 100 protocols finalitzats. |
+
+# 15. Configuració del Nucli i Personalització Estètica
+
+La versió **v0.9** introdueix dos mecanismes transversals al sistema: la 
+**persistència de dades d'usuari** i el **motor de tematització dinàmica** 
+(*Theming Engine*). Ambdós consoliden la transició cap a un sistema totalment 
+configurable abans del llançament de la versió final, i afecten de forma 
+global la capa de presentació des del *Dashboard* fins a la `ACHIEVEMENT_MATRIX`.
+
+## Arquitectura del Mòdul `CORE_CONFIG`
+
+El mòdul `CORE_CONFIG` és accessible mitjançant la icona de control del *Header* 
+i actua com a node central entre la interfície operativa i el motor de dades. 
+La seva estructura es divideix en tres blocs funcionals independents:
+
+| Bloc | Identificador | Responsabilitat |
+|---|---|---|
+| Dades biomètriques | `USER_BIO_DATA` | Nom d'agent, pes, edat i rang. |
+| Paràmetres de sistema | `SYSTEM_PARAMETERS` | Efectes de neó, sincronització d'àudio i selecció de tema. |
+| Accés avançat | `ROOT_ACCESS` | Portal d'entrada a la suite `ARCHITECT` per a l'edició de protocols i directives. Nivell d'autorització ROOT. |
+
+---
+
+## Lògica de Sincronització en Viu (*Live Saving*)
+
+Per mantenir la fluïdesa del *Tactical Overlay* i complir el requisit de 
+**latència inferior a 1 ms**, el sistema elimina els botons de desat manuals 
+en favor d'un mecanisme de sincronització asíncrona.
+
+### Algorisme de *Debouncing*
+
+Les entrades de text (p. ex. `AGENT_NAME`) i els *steppers* numèrics utilitzen 
+un temporitzador d'espera de **1500–2500 ms**. La dada s'escriu a la base de 
+dades (capa C++) únicament quan l'usuari atura l'activitat durant aquest interval, 
+evitant escritures innecessàries durant l'edició activa.
+
+```
+Esdeveniment d'edició
+        │
+        ▼
+  Reinicia temporitzador
+  (1500–2500 ms)
+        │
+        ▼ (timeout)
+  Escriptura a BD (C++)
+        │
+        ▼
+  Emit → signal sincronitzat
+```
+
+### Feedback Visual d'Estat
+
+El sistema comunica l'estat de la dada a l'usuari mitjançant el color dels 
+elements de la UI, sense necessitat de missatges de text:
+
+| Estat | Condició | Color | Hex |
+|---|---|---|---|
+| **Dirty** (edició activa) | L'usuari ha modificat el camp i el temporitzador no ha expirat. | Magenta | `#FF00FF` |
+| **Synced** (consolidat) | La dada s'ha escrit correctament al nucli. | Cian | `#00FFFF` |
+
+## Motor de Tematització (*Theming Engine*)
+
+El sistema implementa tres configuracions estètiques definides a `Constants.qml`. 
+Cada tema remapeja un conjunt de variables globals que afecten tota la capa de 
+presentació de forma simultània i sense recàrrega del component.
+
+### Variables globals del sistema
+
+```qml
+// Constants.qml — Theming Engine color tokens
+// These variables are remapped at runtime when the active theme changes.
+// All UI components must reference these tokens; never hardcode hex values.
+
+property color backgroundColor     // Surface background
+property color descriptionColor     // Secondary descriptive text
+property color primaryColor         // Primary accent / interactive elements
+property color secondaryColor       // Secondary accent / highlights
+property color primaryTextColor     // Main readable text
+property color secondaryTextColor   // Supporting text and labels
+property color onColor              // Active / ON state indicator
+property color offColor             // Inactive / OFF state indicator
+```
+
+### Definició de temes
+
+**`CYBERPUNK`** — Tema natiu del sistema. Basat en el contrast 
+cian/magenta que caracteritza tota la interfície operativa.
+
+| Token | Variable | Valor |
+|---|---|---|
+| `backgroundColor` | `blackNeon` | `#030213` |
+| `descriptionColor` | `whiteNeon` | `#ffffff` |
+| `primaryColor` | `fuchsiaNeon` | `#bf00ff` |
+| `secondaryColor` | `cyanNeon` | `#00fff9` |
+| `primaryTextColor` | `cyanNeon` | `#00fff9` |
+| `secondaryTextColor` | `fuchsiaNeon` | `#bf00ff` |
+| `onColor` | `cyanNeon` | `#00fff9` |
+| `offColor` | `fuchsiaNeon` | `#bf00ff` |
+
+**`GHOST_SHELL`** — Mode fosc d'alta contrast. Optimitzat per a entorns de poca 
+llum; evoca una interfície de diagnòstic de baix nivell mantenint el rigor tàctic.
+
+| Token | Variable | Valor |
+|---|---|---|
+| `backgroundColor` | `deepVoid` | `#0a0a0f` |
+| `descriptionColor` | `greyNeon` | `#808090` |
+| `primaryColor` | `whiteNeon` | `#ffffff` |
+| `secondaryColor` | `electricAmber` | `#ffb300` |
+| `primaryTextColor` | `whiteNeon` | `#ffffff` |
+| `secondaryTextColor` | `electricAmber` | `#ffb300` |
+| `onColor` | `electricAmber` | `#ffb300` |
+| `offColor` | `darkNeon` | `#1a1a1f` |
+
+**`LIGHT_REPORT`** — Mode clar de visibilitat diürna. Inspirat en informes de 
+laboratori i pantalles d'alta visibilitat. Manté l'esperit de la secció 
+`sys//summary` en entorns amb llum ambient elevada.
+
+| Token | Variable | Valor |
+|---|---|---|
+| `backgroundColor` | `lightGrayNeon` | `#e0e0e0` |
+| `descriptionColor` | `inkBlack` | `#1a1a1f` |
+| `primaryColor` | `redNeon` | `#ff003c` |
+| `secondaryColor` | `darkBlue` | `#0d0d20` |
+| `primaryTextColor` | `darkBlue` | `#0d0d20` |
+| `secondaryTextColor` | `redNeon` | `#ff003c` |
+| `onColor` | `redNeon` | `#ff003c` |
+| `offColor` | `greyNeon` | `#808090` |
+
+### Restricció d'implementació
+
+Tots els components de la UI han de referenciar els tokens de color de 
+`Constants.qml` sense excepció. L'ús de valors hexadecimals literals en 
+components individuals invalida la consistència del *Theming Engine* i és 
+una **violació de les convencions d'estil del projecte**. Això és 
+especialment crític per als components de l'algorisme `IMPROVEMENT` i la 
+`ACHIEVEMENT_MATRIX`, que han de mantenir la llegibilitat en tots tres temes.
+
+## Integració del Mode `ARCHITECT`
+
+L'accés a les funcions de creació i edició de protocols i directives s'ha reubicat des del menú principal cap al bloc `ROOT_ACCESS` de la pantalla `CORE_CONFIG`. Aquesta decisió arquitectònica respon a dues consideracions:
+
+- **Seguretat funcional:** Les operacions d'edició de protocols afecten directament l'estructura de la base de dades. Situar-les darrere d'un nivell d'autorització `ROOT` dins de la configuració redueix la probabilitat d'accés accidental des del flux operatiu principal.
+- **Coherència de flux:** L'usuari accedeix a `CORE_CONFIG` amb intenció de configurar el sistema; és el context semànticament correcte per exposar les eines d'edició avançada.
+
+L'accés s'implementa com un botó de nivell `ROOT` que carrega la suite `ARCHITECT` com a capa modal sobre el *Tactical Overlay*, preservant l'estat de la sessió activa.
 
 ---
 
