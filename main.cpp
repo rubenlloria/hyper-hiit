@@ -73,8 +73,6 @@ int main(int argc, char *argv[])
     ModuleModel moduleModel;
     DirectiveModel directiveModel;
     ProtocolModel protocolModel(&dbManager);
-    SystemManager systemManager;
-    SessionManager sessionManager(&dbManager);
     AchievementManager achievementManager(&dbManager);
     MediaController mediaController;
 
@@ -87,8 +85,10 @@ int main(int argc, char *argv[])
         // protocolModel.
         protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
         hDebug() << "Resuming Directive:" << activeDirId;
-
     }
+
+    SystemManager systemManager;
+    SessionManager sessionManager(&dbManager);
 
     qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
     Chronometer chronometer;

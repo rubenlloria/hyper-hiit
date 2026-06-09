@@ -1495,3 +1495,41 @@ void DatabaseManager::updatePersonalBest(int protocolId, int duration) {
         }
     }
 }
+
+/**
+ * Fetches data from the system_config table.
+ * Optimized for low-latency retrieval of system parameters.
+ */
+QString DatabaseManager::getConfig(const QString &key, const QString &defaultValue) {
+    QSqlQuery query;
+    query.prepare("SELECT config_value FROM system_config WHERE config_key = :key");
+    query.bindValue(":key", key);
+
+    if (query.exec() && query.next()) {
+        QString value = query.value(0).toString();
+        hDebug() << "Configuration retrieved | Key:" << key << "Value:" << value;
+        return value;
+    }
+
+    hWarning() << "Configuration key not found. Using default | Key:" << key
+               << " | SQL ERROR: " << query.lastError().text();
+    return defaultValue;
+}
+
+/**
+ * Updates or creates a configuration entry.
+ * Uses 'INSERT OR REPLACE' to maintain a clean key-value store.
+ */
+void DatabaseManager::setConfig(const QString &key, const QString &value) {
+    QSqlQuery query;
+    query.prepare("INSERT OR REPLACE INTO system_config (config_key, config_value) "
+                  "VALUES (:key, :value)");
+    query.bindValue(":key", key);
+    query.bindValue(":value", value);
+
+    if (query.exec()) {
+        hInfo() << "Configuration synchronized | Key:" << key << "Value:" << value;
+    } else {
+        hWarning() << "Failed to sync configuration | Key:" << key << "Error:" << query.lastError().text();
+    }
+}

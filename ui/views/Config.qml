@@ -9,6 +9,8 @@ ConfigForm {
     property string debugName: "Config.qml"
     property string infoName: "Config.qml"
 
+    property bool _isReady: false
+
     // Colors
     readonly property color colorSaved: Constants.primaryTextColor
     readonly property color colorDirty: Constants.secondaryTextColor
@@ -21,13 +23,13 @@ ConfigForm {
     }
 
     // BIOMASS_KG SpinBox
-    biomassField.onValueChanged: {
-        queueSave("userWeight", configForm.biomassField.value, configForm.biomassField)
+    weightField.onValueChanged: {
+        queueSave("userWeight", configForm.weightField.value, configForm.weightField)
     }
 
     // HEIGHT_CM SpinBox
     heightField.onValueChanged: {
-        queueSave("userHeightCM", configForm.heightField.value, configForm.heightField);
+        queueSave("userHeight", configForm.heightField.value, configForm.heightField);
     }
 
     // AGE SpinBox
@@ -69,16 +71,21 @@ ConfigForm {
     // Here we can connect the signals from the configForm form to application logic
     // For example, saving settings when a value changes
     Component.onCompleted: {
-        console.log("Initializing form with stored system parameters");
+        Constants.hDebug(debugName, "Initializing form with stored system parameters");
 
         // User Data Bindings
-        // userNameField.text = systemSettings.userName
-        // biomassField.value = systemSettings.biomass
-        // sexSelector.selectedIndex = systemSettings.sexIndex
+        userNameField.text = sessionManager.userName
+        weightField.value = sessionManager.userWeight
+        heightField.value = sessionManager.userHeight
+        ageField.value = sessionManager.userAge
+        sexSelector.selectedIndex = sessionManager.userSex
+        rankSelector.selectedIndex = sessionManager.userRank
 
         // System Parameter Bindings
         // scanlineSwitch.checked = systemSettings.scanlinesEnabled
         // themeSelector.selectedIndex = systemSettings.themeIndex
+
+        _isReady = true;
     }
 
     summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
@@ -117,7 +124,7 @@ ConfigForm {
     //     id: biomassDebouncer
     //     interval: 2000
     //     repeat: false
-    //     onTriggered: commitData("biomass", configForm.biomassField.value, configForm.biomassField)
+    //     onTriggered: commitData("biomass", configForm.weightField.value, configForm.weightField)
     // }
 
     Timer {
@@ -146,6 +153,8 @@ ConfigForm {
 
     // Logic function to queue the asynchronous save
     function queueSave(key, value, component) {
+        if (!_isReady)  return
+
         // Update visual state to Magenta (Unsaved)
         component.neonColor = configForm.colorDirty;
 
@@ -165,6 +174,7 @@ ConfigForm {
 
     function commitData(key, value, component) {
         Constants.hDebug(debugName, "Asynchronous commit to DB: " + key + " -> " + value);
+        sessionManager.setConfig(key, value);
 
         // Simulate backend success
         component.neonColor = colorSaved;

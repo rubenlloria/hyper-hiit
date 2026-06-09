@@ -38,15 +38,13 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     , m_db(db)
 {
     if (!m_db) {
-        hCritical() << "ProtocolModel initialized without Database Uplink.";
+        hCritical() << "SessionManager initialized without Database Uplink.";
     } else {
-        hDebug() << "Protocol Shard Uplink established.";
+        hDebug() << "SessionManager Uplink established.";
+        loadUserConfig();
     }
 
     m_totalCalories = 0.0f;
-    m_userWeight= 80.0f; // TODO: load from config
-    m_userAge = 45; // TODO: load from config
-    m_userIsMale = true; // TODO: load from config
     m_activeModuleIndex = 0;
     m_sessionId = 0;
 }
@@ -263,7 +261,8 @@ void SessionManager::updateSessionCalories() {
     // Demographic corrector (age and sex), normalized to 30 years
     // TODO: get from Session
     float ageFactor = std::clamp((30.0f - m_userAge) * 0.003f, -0.15f, 0.10f);
-    float sexFactor = m_userIsMale ? 0.05f : -0.05f;
+    // float sexFactor = m_userIsMale ? 0.05f : -0.05f;
+    float sexFactor = ( m_userSex - 1) * 0.05f;
     float corrector = 1.0f + ageFactor + sexFactor;
     // Iterate through checkpoints to calculate relative durations and calories
     for (int i = 0; i < m_moduleDurations.size(); ++i) {
@@ -309,4 +308,122 @@ QList<int> SessionManager::loadLastSessionData(int protocolId) {
 
     hInfo() << "Loaded" << m_lastSessionDurations.size() << "checkpoints from last session.";
     return m_lastSessionDurations;
+}
+
+void SessionManager::loadUserConfig() {
+    if (!m_db) return;
+
+    // We use the keys defined in the core//config technical spec
+    m_userName = m_db->getConfig("user_name", "");
+    m_userWeight = m_db->getConfig("user_weight", "75.0").toFloat();
+    m_userHeight = m_db->getConfig("user_height", "175").toInt();
+    m_userAge = m_db->getConfig("user_age", "30").toInt();
+    m_userSex = m_db->getConfig("user_sex", "1").toInt();
+    m_userRank = m_db->getConfig("user_rank", "1").toInt();
+
+    hDebug() << QString("User config loaded -> Name: %1, Age: %2, Weight: %3, Height: %4, Sex: %5, Rank: %6")
+                    .arg(m_userName)
+                    .arg(m_userAge)
+                    .arg(m_userWeight)
+                    .arg(m_userHeight)
+                    .arg(m_userSex)
+                    .arg(m_userSex);
+
+    // Trigger update in case the UI is already listening
+    emit userNameChanged();
+    emit userWeightChanged();
+    emit userHeightChanged();
+    emit userAgeChanged();
+    emit userSexChanged();
+    emit userRankChanged();
+}
+
+void SessionManager::setUserName(const QString &name) {
+    if (m_userName == name) return;
+
+    m_userName = name;
+    if (m_db) {
+        m_db->setConfig("user_name", m_userName);
+    }
+
+    emit userNameChanged();
+}
+
+void SessionManager::setUserWeight(float weight) {
+    if (qFuzzyCompare(m_userWeight, weight)) return;
+
+    m_userWeight = weight;
+    if (m_db) {
+        m_db->setConfig("user_weight", QString::number(weight, 'f', 1));
+    }
+
+    emit userWeightChanged();
+}
+
+void SessionManager::setUserHeight(int height) {
+    if (m_userHeight == height) return;
+
+    m_userHeight = height;
+    if (m_db) {
+        m_db->setConfig("user_height", QString::number(height));
+    }
+
+    emit userHeightChanged();
+}
+
+void SessionManager::setUserAge(int age) {
+    if (m_userAge == age) return;
+
+    m_userAge = age;
+    if (m_db) {
+        m_db->setConfig("user_age", QString::number(age));
+    }
+
+    emit userAgeChanged();
+}
+
+void SessionManager::setUserSex(int sex) {
+    if (m_userSex == sex) return;
+
+    m_userSex = sex;
+    if (m_db) {
+        m_db->setConfig("user_sex", QString::number(m_userSex));
+    }
+
+    emit userSexChanged();
+}
+
+void SessionManager::setUserRank(int rank) {
+    if (m_userRank == rank) return;
+
+    m_userRank = rank;
+    if (m_db) {
+        m_db->setConfig("user_rank", QString::number(m_userRank));
+    }
+
+    emit userRankChanged();
+}
+
+void SessionManager::setConfig(const QString &key, const QString &value) {
+    if      (key == "userName") {
+        setUserName(value);
+    }
+    else if (key == "userWeight") {
+        setUserWeight(value.toFloat());
+    }
+    else if (key == "userHeight") {
+        setUserHeight(value.toInt());
+    }
+    else if (key == "userAge") {
+        setUserAge(value.toInt());
+    }
+    else if (key == "userSex") {
+        setUserSex(value.toInt()); // 0:WOMAN, 1:REPLICANT, 2:MAN
+    }
+    else if (key == "userRank") {
+        setUserRank(value.toInt());
+    }
+    else {
+        hWarning() << "Unknown configuration key received:" << key;
+    }
 }

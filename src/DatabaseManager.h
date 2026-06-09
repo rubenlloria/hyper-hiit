@@ -74,80 +74,96 @@ public:
 
     // Session Methods
     Q_INVOKABLE QVariantList getWeeklyCalorieHistory(int startDay, int windowSize);
+
     /**
- * @brief Calculates the final IMPROVEMENT percentage comparing Segment A vs Segment B.
- * @return integer (e.g., 23 for +23% or -5 for -5%).
- */
+     * @brief Calculates the final IMPROVEMENT percentage comparing Segment A vs Segment B.
+     * @return integer (e.g., 23 for +23% or -5 for -5%).
+     */
     Q_INVOKABLE int getImprovementPercentage();
 
 
     /**
- * @brief Calculates the EFFICIENCY trend comparing Segment A vs Segment B.
- *
- * @return the delta percentage (e.g., +5 if efficiency rose from 100% to 105%).
- */
+     * @brief Calculates the EFFICIENCY trend comparing Segment A vs Segment B.
+     *
+     * @return the delta percentage (e.g., +5 if efficiency rose from 100% to 105%).
+     */
     Q_INVOKABLE int getEfficiency();
 
 
     /**
- * @brief Retrieves the average calories burned per day over the last 7 days.
- *
- * @return double kcal (e.g., 513 or 826)
- */
+     * @brief Retrieves the average calories burned per day over the last 7 days.
+     *
+     * @return double kcal (e.g., 513 or 826)
+     */
     Q_INVOKABLE int getAverageDailyCalories(int startDay, int windowSize);
 
 
     /**
- * @brief Retrieves the average number of sessions completed per day over the last 7 days.
- *
- * @return double  (e.g., 0.9 or 1.2)
- */
+     * @brief Retrieves the average number of sessions completed per day over the last 7 days.
+     *
+     * @return double  (e.g., 0.9 or 1.2)
+     */
     Q_INVOKABLE double getAverageDailySessions(int startDay, int windowSize);
 
 
     /**
- * @brief Retrieves the aggregated totals for each unique module performed in a session.
- *
- * Groups by module and unit type to sum up the total volume (e.g., 150x Burpees).
- *
- * @param sessionId The ID of the session to analyze.
- * @return A QVariantList of maps with "name", "quantity", and "unit".
- */
+     * @brief Retrieves the aggregated totals for each unique module performed in a session.
+     *
+     * Groups by module and unit type to sum up the total volume (e.g., 150x Burpees).
+     *
+     * @param sessionId The ID of the session to analyze.
+     * @return A QVariantList of maps with "name", "quantity", and "unit".
+     */
     Q_INVOKABLE QVariantList getSessionTotals(int sessionId);
 
 
     /**
- * @brief Retrieves a detailed analysis of a session grouped by subsystems.
- *
- * Computes individual module durations and deltas against the "ghost" session.
- *
- * @param historyId The unique ID of the session record.
- * @return A nested QVariantList for the UI Repeaters.
- */
+     * @brief Retrieves a detailed analysis of a session grouped by subsystems.
+     *
+     * Computes individual module durations and deltas against the "ghost" session.
+     *
+     * @param historyId The unique ID of the session record.
+     * @return A nested QVariantList for the UI Repeaters.
+     */
     Q_INVOKABLE QVariantList getSessionDetailedAnalysis(int historyId);
 
 
     /**
- * @brief Retrieves the core metrics for the session summary cards.
- *
- * Aggregates rank, volume, duration, and performance deltas (Improvement/Efficiency).
- *
- * @param historyId The unique ID of the saved session.
- * @return A QVariantMap containing the 6 primary metrics.
- */
+     * @brief Retrieves the core metrics for the session summary cards.
+     *
+     * Aggregates rank, volume, duration, and performance deltas (Improvement/Efficiency).
+     *
+     * @param historyId The unique ID of the saved session.
+     * @return A QVariantMap containing the 6 primary metrics.
+     */
     Q_INVOKABLE QVariantMap getSessionSummaryMetrics(int historyId);
 
 
     /**
- * @brief Evaluates and updates the personal best time for a protocol.
- *
- * Only overwrites the personal_best field if the new duration is lower
- * than the existing record or if no record exists (zero).
- *
- * @param protocolId The unique identifier of the protocol.
- * @param duration The total duration of the completed session in milliseconds.
- */
+     * @brief Evaluates and updates the personal best time for a protocol.
+     *
+     * Only overwrites the personal_best field if the new duration is lower
+     * than the existing record or if no record exists (zero).
+     *
+     * @param protocolId The unique identifier of the protocol.
+     * @param duration The total duration of the completed session in milliseconds.
+     */
     void updatePersonalBest(int protocolId, int duration);
+
+    /**
+     * @brief Retrieves a persistent configuration value from the system_config table.
+     * @param key The unique identifier for the setting.
+     * @param defaultValue Value to return if the key is not found.
+     * @return The stored value as a string.
+     */
+    Q_INVOKABLE QString getConfig(const QString &key, const QString &defaultValue = "");
+
+    /**
+     * @brief Persists a configuration value using an atomic insert or replace operation.
+     * @param key The unique identifier for the setting.
+     * @param value The value to be stored.
+     */
+    Q_INVOKABLE void setConfig(const QString &key, const QString &value);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

@@ -50,7 +50,7 @@ Rectangle {
 
     property alias header: header
     property alias userNameField: userNameField
-    property alias biomassField: biomassField
+    property alias weightField: weightField
     property alias heightField: heightField
     property alias sexSelector: sexSelector
     property alias ageField: ageField
@@ -136,7 +136,7 @@ Rectangle {
                                 }
 
                                 NeonSpinBox {
-                                    id: biomassField
+                                    id: weightField
                                     width: 350
                                     label: "BIOMASS_KG"
                                     value: 75
@@ -155,17 +155,17 @@ Rectangle {
                                     width: 350
                                     label: "SEX"
                                     horizontal: true
-                                    option1Label: "MAN"
-                                    option2Label: "WOMAN"
-                                    option3Label: "REPLICANT"
-                                    selectedIndex: 2
+                                    option1Label: "WOMAN"
+                                    option2Label: "REPLICANT"
+                                    option3Label: "MAN"
+                                    selectedIndex: 1
                                 }
 
                                 NeonSpinBox {
                                     id: ageField
                                     width: 350
                                     label: "AGE"
-                                    value: 28
+                                    value: 30
                                     suffix: ""
                                 }
 

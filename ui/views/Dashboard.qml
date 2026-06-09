@@ -131,7 +131,6 @@ DashboardForm {
 
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, "Navigating to System Config...");
-        // Aquí aniria la crida al StackView o al controlador C++
         mainStack.push("Config.qml");
     }
 
