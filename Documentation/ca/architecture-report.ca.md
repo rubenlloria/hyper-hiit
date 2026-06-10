@@ -1,7 +1,7 @@
 Informe d'Arquitectura hyper//hiit
 ==================================
 
->    Rev. 47 (08/06/26)
+>    Rev. 48 (10/06/26)
 
 &nbsp;
 
@@ -1169,9 +1169,14 @@ cian/magenta que caracteritza tota la interfície operativa.
 | Token | Variable | Valor |
 |---|---|---|
 | `backgroundColor` | `blackNeon` | `#030213` |
+| `surfaceColor` | `darkNeon` | `#1a1a1f` |
+| `deepColor` | `deepNeon` | `#0d0d10` |
 | `descriptionColor` | `whiteNeon` | `#ffffff` |
+| `rootColor` | `redNeon` | `#ff003c` |
 | `primaryColor` | `fuchsiaNeon` | `#bf00ff` |
 | `secondaryColor` | `cyanNeon` | `#00fff9` |
+| `primaryDarkColor` | `darkMagenta` | `#1a0b1a` |
+| `secondaryDarkColor` | `darkBlue` | `#0d0d20` |
 | `primaryTextColor` | `cyanNeon` | `#00fff9` |
 | `secondaryTextColor` | `fuchsiaNeon` | `#bf00ff` |
 | `onColor` | `cyanNeon` | `#00fff9` |
@@ -1180,14 +1185,20 @@ cian/magenta que caracteritza tota la interfície operativa.
 **`GHOST_SHELL`** — Mode fosc d'alta contrast. Optimitzat per a entorns de poca 
 llum; evoca una interfície de diagnòstic de baix nivell mantenint el rigor tàctic.
 
+
 | Token | Variable | Valor |
 |---|---|---|
 | `backgroundColor` | `deepVoid` | `#0a0a0f` |
-| `descriptionColor` | `greyNeon` | `#808090` |
-| `primaryColor` | `whiteNeon` | `#ffffff` |
+| `surfaceColor` | `darkNeon` | `#1a1a1f` |
+| `deepColor` | `deepNeon` | `#0d0d10` |
+| `descriptionColor` | `tacticalGray` | `#a0a0b0` |
+| `rootColor` | `greyNeon` | `#808090` |
+| `primaryColor` | `matteWhite` | `#f0f0f5` |
 | `secondaryColor` | `electricAmber` | `#ffb300` |
-| `primaryTextColor` | `whiteNeon` | `#ffffff` |
-| `secondaryTextColor` | `electricAmber` | `#ffb300` |
+| `primaryDarkColor` | `darkAmber` | `#8a6200` |
+| `secondaryDarkColor`| `abyssalBlue` | `#050522` |
+| `primaryTextColor` | `electricAmber` | `#ffb300` |
+| `secondaryTextColor`| `matteWhite` | `#f0f0f5` |
 | `onColor` | `electricAmber` | `#ffb300` |
 | `offColor` | `darkNeon` | `#1a1a1f` |
 
@@ -1197,10 +1208,15 @@ laboratori i pantalles d'alta visibilitat. Manté l'esperit de la secció
 
 | Token | Variable | Valor |
 |---|---|---|
-| `backgroundColor` | `lightGrayNeon` | `#e0e0e0` |
-| `descriptionColor` | `inkBlack` | `#1a1a1f` |
+| `backgroundColor` | `lightGray` | `#e0e0e0` |
+| `surfaceColor` | `whiteNeon` | `#ffffff` |
+| `deepColor` | `greyNeon` | `#808090` |
+| `descriptionColor` | `charcoal` | `#2a2a30` |
+| `rootColor` | `inkBlack` | `#1a1a1f` |
 | `primaryColor` | `redNeon` | `#ff003c` |
 | `secondaryColor` | `darkBlue` | `#0d0d20` |
+| `primaryDarkColor` | `softRed` | `#ff809d` |
+| `secondaryDarkColor` | `softBlue` | `#6666a3` |
 | `primaryTextColor` | `darkBlue` | `#0d0d20` |
 | `secondaryTextColor` | `redNeon` | `#ff003c` |
 | `onColor` | `redNeon` | `#ff003c` |
