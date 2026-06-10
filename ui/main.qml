@@ -216,4 +216,12 @@ Window {
         console.log("SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
         console.log("SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
     }
+
+    Connections {
+        target: systemManager
+
+        function onSystemThemeChanged() {
+            Constants.setTheme(systemManager.systemTheme);
+        }
+    }
 }

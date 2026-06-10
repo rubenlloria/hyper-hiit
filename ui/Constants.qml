@@ -17,35 +17,105 @@ QtObject {
     // Helper function to scale sizes easily
     function px(value) { return value * scaleFactor }
 
+    // =========================================================================
     // --- CYBERPUNK COLOR PALETTE ---
+    // =========================================================================
     readonly property color blackNeon:          "#030213"
     readonly property color darkNeon:           "#1a1a1f"
     readonly property color deepNeon:           "#0d0d10"
     readonly property color darkMagenta:        "#1a0b1a"
     readonly property color darkBlue:           "#0d0d20"
     readonly property color whiteNeon:          "#ffffff"
-    readonly property color greyNeon:           "#808090"
+    readonly property color greyNeon:           "#9595a7" // "#808090"
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
     readonly property color greenNeon:          "#39ff14"
     readonly property color redNeon:            "#ff003c"
     readonly property color yellowNeon:         "#ffdf00"
 
-    // --- STANDARD COLOR PALETTE ---
-    property color backgroundColor:     blackNeon
-    property color surfaceColor:        darkNeon
-    property color deepColor:           deepNeon
-    property color descriptionColor:    whiteNeon
-    property color rootColor:           redNeon
-    property color primaryColor:        fuchsiaNeon
-    property color secondaryColor:      cyanNeon
-    property color primaryDarkColor:    darkMagenta
-    property color secondaryDarkColor:  darkBlue
-    property color primaryTextColor:    cyanNeon
-    property color secondaryTextColor:  fuchsiaNeon
-    property color onColor:             cyanNeon
-    property color offColor:            fuchsiaNeon
+    // --- NEW EXPERIMENTAL & TACTICAL VARIABLES ---
+    readonly property color deepVoid:           "#0a0a0f"
+    readonly property color electricAmber:      "#ffb300"
+    readonly property color darkAmber:          "#8a6200"
+    readonly property color abyssalBlue:        "#050522"
+    readonly property color matteWhite:         "#f0f0f5"
+    readonly property color tacticalGray:       "#a0a0b0"
+    readonly property color lightGray:          "#e0e0e0"
+    readonly property color inkBlack:           "#1a1a1f"
+    readonly property color charcoal:           "#212126" // "#2a2a30"
+    readonly property color softRed:            "#ff809d"
+    readonly property color softBlue:           "#6666a3"
 
+    // =========================================================================
+    // --- THEME DEFINITIONS (Hardcoded Matrix) ---
+    // =========================================================================
+    readonly property var themeKeys: ["CYBERPUNK", "GHOST_SHELL", "LIGHT_REPORT"]
+    readonly property var themes: {
+        "CYBERPUNK": {
+            "backgroundColor":     blackNeon,
+            "surfaceColor":        darkNeon,
+            "deepColor":           deepNeon,
+            "descriptionColor":    whiteNeon,
+            "rootColor":           redNeon,
+            "primaryColor":        fuchsiaNeon,
+            "secondaryColor":      cyanNeon,
+            "primaryDarkColor":    darkMagenta,
+            "secondaryDarkColor":  darkBlue,
+            "primaryTextColor":    cyanNeon,
+            "secondaryTextColor":  fuchsiaNeon,
+            "onColor":             cyanNeon,
+            "offColor":            fuchsiaNeon
+        },
+        "GHOST_SHELL": {
+            "backgroundColor":     deepVoid,
+            "surfaceColor":        darkNeon,
+            "deepColor":           deepNeon,
+            "descriptionColor":    tacticalGray,
+            "rootColor":           greyNeon,
+            "primaryColor":        matteWhite,
+            "secondaryColor":      electricAmber,
+            "primaryDarkColor":    darkAmber,
+            "secondaryDarkColor":  abyssalBlue,
+            "primaryTextColor":    electricAmber,
+            "secondaryTextColor":  matteWhite,
+            "onColor":             electricAmber,
+            "offColor":            darkNeon
+        },
+        "LIGHT_REPORT": {
+            "backgroundColor":     lightGray,
+            "surfaceColor":        whiteNeon,
+            "deepColor":           greyNeon,
+            "descriptionColor":    charcoal,
+            "rootColor":           inkBlack,
+            "primaryColor":        redNeon,
+            "secondaryColor":      darkBlue,
+            "primaryDarkColor":    softRed,
+            "secondaryDarkColor":  softBlue,
+            "primaryTextColor":    darkBlue,
+            "secondaryTextColor":  redNeon,
+            "onColor":             redNeon,
+            "offColor":            greyNeon
+        }
+    }
+
+    // --- ACTIVE PALETTE (Neural Sync) ---
+    // We use a reference to the active theme object
+    property var activeTheme: themes["CYBERPUNK"]
+
+    // These properties allow existing components to remain unchanged
+    property color backgroundColor:     activeTheme.backgroundColor
+    property color surfaceColor:        activeTheme.surfaceColor
+    property color deepColor:           activeTheme.deepColor
+    property color descriptionColor:    activeTheme.descriptionColor
+    property color rootColor:           activeTheme.rootColor
+    property color primaryColor:        activeTheme.primaryColor
+    property color secondaryColor:      activeTheme.secondaryColor
+    property color primaryDarkColor:    activeTheme.primaryDarkColor
+    property color secondaryDarkColor:  activeTheme.secondaryDarkColor
+    property color primaryTextColor:    activeTheme.primaryTextColor
+    property color secondaryTextColor:  activeTheme.secondaryTextColor
+    property color onColor:             activeTheme.onColor
+    property color offColor:            activeTheme.offColor
 
     // --- DESIGN TOKENS ---
 
@@ -182,4 +252,15 @@ QtObject {
         console.error("[CRITICAL]:", qml+":", msg)
     }
 
+    /**
+     * Tactical Switch: Updates the active palette reference.
+     * This can be called from SystemManager or directly from UI.
+     */
+    function setTheme(index) {
+        let key = themeKeys[index];
+        if (key && themes[key]) {
+            activeTheme = themes[key];
+            Constants.hInfo("Constants", "Aesthetic shift to: " + key);
+        }
+    }
 }
