@@ -42,7 +42,7 @@ Item {
     property bool isOpen: false
     property string trackMetadata: "ARTIST - TITLE"
     property real trackProgress: 0.0 // Value from 0.0 to 1.0
-    property color accentColor: Constants.fuchsiaNeon
+    property color accentColor: Constants.primaryColor
 
     // Interaction aliases for the functional .qml wrapper
     property alias playMouseArea: playInteraction
@@ -68,14 +68,14 @@ Item {
         id: progressBackground
         width: parent.width
         height: 2
-        color: Constants.blackNeon
+        color: Constants.backgroundColor
         anchors.top: parent.top
 
         Rectangle {
             id: progressFill
             width: parent.width * root.trackProgress
             height: parent.height
-            color: Constants.whiteNeon
+            color: Constants.descriptionColor
 
             // Neon glow effect for the progress line
             layer.enabled: true
@@ -94,7 +94,7 @@ Item {
         anchors.top: progressBackground.bottom
         anchors.bottom: parent.bottom
         width: parent.width
-        color: Constants.darkBlue
+        color: Constants.secondaryDarkColor
         opacity: 0.85
 
         RowLayout {

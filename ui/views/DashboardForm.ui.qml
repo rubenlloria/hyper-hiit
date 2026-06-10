@@ -41,7 +41,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.darkNeon // Color de fondo del theme.css
+    color: Constants.surfaceColor
     property alias neonAccordion: neonAccordion
     property alias protocols: protocols
     property alias header: header

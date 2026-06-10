@@ -46,7 +46,7 @@ Item {
 
             Text {
                 text: root.description
-                color: Constants.whiteNeon
+                color: Constants.descriptionColor
                 font.family: Constants.techFont.family
                 font.pixelSize: 10
                 opacity: 0.4

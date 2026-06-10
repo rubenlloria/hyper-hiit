@@ -38,7 +38,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.darkNeon
+    color: Constants.surfaceColor
 
     property alias header: header
     property string protocolName: "PROTOCOL_NAME"
@@ -85,7 +85,7 @@ Rectangle {
 
                 contentItem: Rectangle {
                     implicitWidth: 4
-                    color: Constants.fuchsiaNeon // Fuchsia scrollbar as per Roadmap [Source 34, 188]
+                    color: Constants.primaryColor
                     radius: 2
                 }
             }
@@ -169,7 +169,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     label: "EXECUTE"
                     iconGlyph: Constants.playIcon
-                    themeColor: Constants.whiteNeon
+                    themeColor: Constants.descriptionColor
                 }
 
                 Column {

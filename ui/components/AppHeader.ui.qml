@@ -38,7 +38,7 @@ Rectangle {
     id: headerRoot
     width: Constants.width
     height: 100
-    color: Constants.blackNeon
+    color: Constants.backgroundColor
 
     // --- VIEWMODEL PROPERTIES ---
     property string titlePart1: "hyper"
@@ -224,7 +224,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         width: parent.width
         height: 1
-        color: Constants.cyanNeon
+        color: Constants.secondaryColor
         opacity: 0.2
     }
 }

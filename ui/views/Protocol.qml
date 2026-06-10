@@ -289,7 +289,7 @@ ProtocolForm {
         // Constants.hDebug(debugName, "elapsedMs: " + elapsedMs);
         progressDial.value = 0;
         m_targetReached = false;
-        progressDial.dialBgColor = Constants.darkNeon;
+        progressDial.dialBgColor = Constants.surfaceColor;
         progressDial.dialColor = Constants.secondaryColor
 
         // Update UI Properties for ProtocolForm.ui.qml [Source 17]

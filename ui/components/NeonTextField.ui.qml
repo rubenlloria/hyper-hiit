@@ -40,7 +40,7 @@ Item {
         id: inputBackground
         width: parent.width
         height: 40
-        color: Constants.darkBlue
+        color: Constants.deepColor
         border.color: root.neonColor
         border.width: 1
         anchors.bottom: parent.bottom
@@ -50,7 +50,7 @@ Item {
             text: ""
             anchors.fill: parent
             anchors.margins: 10
-            color: Constants.whiteNeon
+            color: Constants.descriptionColor
             font.family: Constants.techFont.family
             font.pixelSize: 14
             verticalAlignment: Text.AlignVCenter
@@ -58,7 +58,7 @@ Item {
 
             Text {
                 text: root.placeholder
-                color: Constants.whiteNeon
+                color: Constants.descriptionColor
                 opacity: 0.4
                 visible: !textInput.text && !textInput.activeFocus
                 font: textInput.font

@@ -9,7 +9,7 @@ Rectangle {
     id: architectRoot
     width: Constants.width
     height: Constants.height
-    color: Constants.darkNeon
+    color: Constants.surfaceColor
 
     property alias header: header
     property alias restoreDBButton: restoreDBButton

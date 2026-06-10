@@ -108,8 +108,8 @@ DashboardForm {
 
 
         // Aesthetic Persistence: RANK color logic [Source 29]
-        // rankColor: (model.rank === "ROOT") ? Constants.terminalGreen :
-        //            (model.rank === "ADVANCED") ? Constants.cyanNeon : "#ffffff"
+        // rankColor: (model.rank === "ROOT") ? Constants.rootColor :
+        //            (model.rank === "ADVANCED") ? Constants.secondaryColoe: Constants.primaryColor
 
         itemMouseArea.onClicked: {
             Constants.hInfo(infoName, "Initializing " + model.name);

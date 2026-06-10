@@ -45,7 +45,7 @@ Item {
 
     // Public properties for state and theme
     property bool isOpen: false
-    property color activeThemeColor: Constants.fuchsiaNeon // Default to STRENGTH_MATRIX violet [4]
+    property color activeThemeColor: Constants.primaryColor
     property string activeDirectiveName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
     property string activeDirectiveDesc: "Muscular fortification sequence"

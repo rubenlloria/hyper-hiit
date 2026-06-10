@@ -437,7 +437,7 @@ Rectangle {
                             anchors.horizontalCenter: parent.horizontalCenter
                             width: 70
                             height: 25
-                            color: Constants.darkNeon
+                            color: Constants.surfaceColor
                             border.color: Constants.primaryColor
                             border.width: 1
                             z: 100

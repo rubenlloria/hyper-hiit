@@ -45,8 +45,8 @@ import "../components"
 Rectangle {
     id: root
     width: Constants.designWidth
-    height: Constants.designHeight + 500
-    color: Constants.darkNeon // Color de fondo del theme.css
+    height: Constants.designHeight
+    color: Constants.backgroundColor
 
     property alias header: header
     property alias userNameField: userNameField
@@ -91,7 +91,7 @@ Rectangle {
             clip: true
             boundsBehavior: Flickable.StopAtBounds
             Rectangle {
-                color: Constants.darkNeon
+                color: Constants.surfaceColor
                 anchors.fill: parent
                 Column {
                     id: mainLayout
@@ -118,7 +118,7 @@ Rectangle {
                             id: bioContainer
                             width: parent.width
                             height: 560
-                            color: Constants.darkNeon
+                            color: Constants.backgroundColor
                             border.color: Constants.primaryTextColor
                             border.width: 1
 
@@ -202,7 +202,7 @@ Rectangle {
                             id: systemContainer
                             width: parent.width
                             height: 470
-                            color: Constants.darkNeon
+                            color: Constants.backgroundColor
                             border.color: Constants.secondaryTextColor
                             border.width: 1
 
@@ -223,7 +223,7 @@ Rectangle {
                                 NeonSwitch {
                                     id: audioSwitch
                                     width: 350
-                                    title: "AUDIO_AUTO_SYNC"
+                                    title: "AUDIO_UPLINK"
                                     description: "Link to Audio Uplink module"
                                     checked: systemManager.systemAudio
                                 }
@@ -234,9 +234,9 @@ Rectangle {
                                     label: "NEON_THEME"
                                     horizontal: false
                                     neonColor: Constants.secondaryTextColor
-                                    option1Label: "DEFAULT_CYAN"
-                                    option2Label: "MAGENTA_CORE"
-                                    option3Label: "AMBER_NET"
+                                    option1Label: "CYBERPUNK"
+                                    option2Label: "GHOST_SHELL"
+                                    option3Label: "LIGHT_REPORT"
                                     selectedIndex: systemManager.systemTheme
                                 }
 
@@ -269,7 +269,7 @@ Rectangle {
                             id: rootContainer
                             width: parent.width
                             height: 160
-                            color: Constants.blackNeon
+                            color: Constants.backgroundColor
                             border.color: rootCol.sectionColor
                             border.width: 1
 

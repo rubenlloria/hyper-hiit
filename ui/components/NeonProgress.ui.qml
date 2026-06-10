@@ -17,7 +17,7 @@ Item {
     property int activeSubsystemIndex: -1
     property real activeSubsystemProgress: 0.5 // Internal progress of the current phase
     property real pbValue: 0.0 // Personal Best position from 0.0 to 1.0
-    property color accentColor: Constants.cyanNeon
+    property color accentColor: Constants.secondaryColor
 
     RowLayout {
         id: segmentContainer
@@ -60,7 +60,7 @@ Item {
         y: -4
         width: 2
         height: root.height + 8
-        color: Constants.greenNeon
+        color: Constants.secondaryColor
         visible: root.pbValue > 0
 
         Text {

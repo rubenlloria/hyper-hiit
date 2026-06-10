@@ -12,7 +12,7 @@ Rectangle {
     id: root
     width: 380
     height: 200
-    color: Constants.blackNeon
+    color: Constants.backgroundColor
     border.color: Constants.secondaryColor
     border.width: 1
     opacity: 0.9

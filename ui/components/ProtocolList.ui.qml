@@ -15,7 +15,7 @@ Item {
     width: 380
     height: 255
 
-    property color listThemeColor: "#00fff9" // Cyan for list headers and scrollbar
+    property color listThemeColor: Constants.primaryTextColor
     property alias protocolView: protocolView
 
     Column {
@@ -26,7 +26,7 @@ Item {
         Text {
             id: listTitle
             text: "PROTOCOLS"
-            color: Constants.cyanNeon
+            color: Constants.primaryTextColor
             font.family: "Share Tech Mono"
             font.pixelSize: 12
             topPadding: 8
@@ -49,7 +49,7 @@ Item {
 
                 contentItem: Rectangle {
                     implicitWidth: 6
-                    color: Constants.fuchsiaNeon
+                    color: Constants.primaryColor
                     opacity: 0.8
                     radius: 3
                     // Glow effect for the scrollbar thumb [3]
@@ -57,7 +57,7 @@ Item {
                 DropShadow {
                     id: scrollbarShadow
                     source: customScrollBar
-                    color: Constants.fuchsiaNeon
+                    color: Constants.primaryColor
                     radius: 8
                     samples: 12
                 }
@@ -66,7 +66,7 @@ Item {
                     implicitWidth: 8
                     color: Constants.deepColor
                     opacity: 0.3
-                    border.color: Constants.fuchsiaNeon
+                    border.color: Constants.primaryColor
                     border.width: 1
                 }
             }

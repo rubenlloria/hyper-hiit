@@ -12,7 +12,7 @@ Item {
 
     // Propietats personalitzables
     property alias label: titleText.label
-    property color titleColor: Constants.fuchsiaNeon
+    property color titleColor: Constants.secondaryTextColor
     property int fontSize: 18
 
     RowLayout {
