@@ -28,27 +28,23 @@ QtObject {
     readonly property color cyanNeon:           "#00fff9"
     readonly property color fuchsiaNeon:        "#bf00ff"
     readonly property color greenNeon:          "#39ff14"
-    readonly property color terminalGreen:      greenNeon   // TODO: DELETEME
-    readonly property color neonLime:           greenNeon   // TODO: DELETEME
-    readonly property color redNeon:             "#ff003c"
-    readonly property color radicalRed:         redNeon     // TODO: DELETEME
+    readonly property color redNeon:            "#ff003c"
     readonly property color yellowNeon:         "#ffdf00"
-    readonly property color cyberYellow:        yellowNeon  // TODO: DELETEME
-    // readonly property color backgroundColor: "#EAEAEA"
 
     // --- STANDARD COLOR PALETTE ---
-    readonly property color backgroundColor:    blackNeon
-    readonly property color surfaceColor:       darkNeon
-    readonly property color deepColor:          deepNeon
-    readonly property color descriptionColor:   whiteNeon
-    readonly property color primaryColor:       fuchsiaNeon
-    readonly property color secondaryColor:     cyanNeon
-    readonly property color primaryDarkColor:   darkMagenta
-    readonly property color secondaryDarkColor: darkBlue
-    readonly property color primaryTextColor:   cyanNeon
-    readonly property color secondaryTextColor: fuchsiaNeon
-    readonly property color onColor:            cyanNeon
-    readonly property color offColor:           fuchsiaNeon
+    property color backgroundColor:     blackNeon
+    property color surfaceColor:        darkNeon
+    property color deepColor:           deepNeon
+    property color descriptionColor:    whiteNeon
+    property color rootColor:           redNeon
+    property color primaryColor:        fuchsiaNeon
+    property color secondaryColor:      cyanNeon
+    property color primaryDarkColor:    darkMagenta
+    property color secondaryDarkColor:  darkBlue
+    property color primaryTextColor:    cyanNeon
+    property color secondaryTextColor:  fuchsiaNeon
+    property color onColor:             cyanNeon
+    property color offColor:            fuchsiaNeon
 
 
     // --- DESIGN TOKENS ---

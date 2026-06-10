@@ -255,7 +255,7 @@ Rectangle {
                         id: rootCol
                         width: parent.width
                         spacing: 12
-                        property color sectionColor: Constants.redNeon
+                        property color sectionColor: Constants.rootColor
 
                         Text {
                             text: "ROOT_ACCESS"
@@ -314,7 +314,7 @@ Rectangle {
                             id: restoreDBButton
                             label: "RESTORE_DB"
                             Layout.alignment: Qt.AlignTop
-                            themeColor: Constants.redNeon
+                            themeColor: Constants.rootColor
                             // Layout.topMargin: Constants.px(20)
                         }
                     }

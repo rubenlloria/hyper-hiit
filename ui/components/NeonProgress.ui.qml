@@ -53,13 +53,14 @@ Item {
     }
 
     // Personal Best (PB) Marker [Source 27]
+    // DELETEME
     Rectangle {
         id: pbMarker
         x: (root.width * root.pbValue) - 1
         y: -4
         width: 2
         height: root.height + 8
-        color: Constants.terminalGreen
+        color: Constants.greenNeon
         visible: root.pbValue > 0
 
         Text {
