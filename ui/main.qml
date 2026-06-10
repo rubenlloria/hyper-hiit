@@ -215,12 +215,14 @@ Window {
                     + " | OS: " + Qt.platform.os);
         console.log("SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
         console.log("SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
+        Constants.setTheme(systemManager.systemTheme);
     }
 
     Connections {
         target: systemManager
 
         function onSystemThemeChanged() {
+            Constants.hInfo("main.qml", "Updating theme");
             Constants.setTheme(systemManager.systemTheme);
         }
     }

@@ -45,6 +45,7 @@ void SystemManager::loadSystemConfig() {
 
     emit systemScanlineChanged();
     emit systemAudioChanged();
+    hDebug() << "systemThemeChanged";
     emit systemThemeChanged();
 }
 
