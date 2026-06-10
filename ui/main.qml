@@ -114,6 +114,7 @@ Window {
 
         NeonPlayer {
             id: player
+            visible: systemManager.systemAudio
             anchors.bottom: footer.top
             isPlaying: mediaController.isPlaying
             trackProgress: (mediaController.trackProgress > 0)
@@ -164,6 +165,9 @@ Window {
             // anchors.fill
             opacity: 0.2
             z: 50
+
+            visible: systemManager.systemScanline
+
             gradient: Gradient {
                 GradientStop {
                     position: 0.0
@@ -183,6 +187,7 @@ Window {
                 to: root.height
                 duration: 3000
                 loops: Animation.Infinite
+                running: systemManager.systemScanline
             }
         }
 

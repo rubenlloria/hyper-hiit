@@ -1,3 +1,5 @@
+
+
 /****************************************************************************
 ** File: AppHeader.ui.qml
 ** Date: 18/2/2026
@@ -23,7 +25,6 @@
 **
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -214,7 +215,7 @@ Rectangle {
         anchors.bottomMargin: 15
         label_on: "SYSTEM_ONLINE"
         label_off: "SYSTEM_OFFLINE"
-        active: systemManager.isSystemReady
+        active: systemManager.systemReady
         labelColor: Constants.primaryTextColor
     }
 

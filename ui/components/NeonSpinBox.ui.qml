@@ -19,8 +19,8 @@ Item {
 
     // Propietats de configuració
     property string label: "BIOMASS_KG"
-    property int value: 75
-    property string suffix: "KG"
+    property int value: 0
+    property string suffix: ""
     property color neonColor: Constants.primaryTextColor
     property bool showSuccessPulse: false
 

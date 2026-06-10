@@ -74,12 +74,12 @@ ConfigForm {
         Constants.hDebug(debugName, "Initializing form with stored system parameters");
 
         // User Data Bindings
-        userNameField.text = sessionManager.userName
-        weightField.value = sessionManager.userWeight
-        heightField.value = sessionManager.userHeight
-        ageField.value = sessionManager.userAge
-        sexSelector.selectedIndex = sessionManager.userSex
-        rankSelector.selectedIndex = sessionManager.userRank
+        // userNameField.text = sessionManager.userName
+        // weightField.value = sessionManager.userWeight
+        // heightField.value = sessionManager.userHeight
+        // ageField.value = sessionManager.userAge
+        // sexSelector.selectedIndex = sessionManager.userSex
+        // rankSelector.selectedIndex = sessionManager.userRank
 
         // System Parameter Bindings
         // scanlineSwitch.checked = systemSettings.scanlinesEnabled
@@ -174,7 +174,16 @@ ConfigForm {
 
     function commitData(key, value, component) {
         Constants.hDebug(debugName, "Asynchronous commit to DB: " + key + " -> " + value);
-        sessionManager.setConfig(key, value);
+
+        if (key.startsWith("user")) {
+            sessionManager.setConfig(key, value);
+        }
+        else if (key.startsWith("system")) {
+            // Envia els paràmetres globals (com scanline_render) al DatabaseManager
+            systemManager.setConfig(key, value);
+        } else {
+            Constants.hWarning(debugName, "Key not recognized: " + key + ", with value: " + value);
+        }
 
         // Simulate backend success
         component.neonColor = colorSaved;

@@ -327,9 +327,10 @@ void SessionManager::loadUserConfig() {
                     .arg(m_userWeight)
                     .arg(m_userHeight)
                     .arg(m_userSex)
-                    .arg(m_userSex);
+                    .arg(m_userRank);
 
     // Trigger update in case the UI is already listening
+    // WARNING: Are they necessary?
     emit userNameChanged();
     emit userWeightChanged();
     emit userHeightChanged();

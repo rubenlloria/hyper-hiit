@@ -73,8 +73,6 @@ int main(int argc, char *argv[])
     ModuleModel moduleModel;
     DirectiveModel directiveModel;
     ProtocolModel protocolModel(&dbManager);
-    AchievementManager achievementManager(&dbManager);
-    MediaController mediaController;
 
     if (dbManager.initDatabase()) {
         // Neural Sync: Fetching data from SQLite and injecting into the Model
@@ -87,8 +85,10 @@ int main(int argc, char *argv[])
         hDebug() << "Resuming Directive:" << activeDirId;
     }
 
-    SystemManager systemManager;
+    AchievementManager achievementManager(&dbManager);
+    SystemManager systemManager(&dbManager);
     SessionManager sessionManager(&dbManager);
+    MediaController mediaController;
 
     qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");
     Chronometer chronometer;

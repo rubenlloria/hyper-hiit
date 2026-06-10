@@ -66,12 +66,14 @@ public:
     // Invokable from QML when entering the Briefing or starting the session
     Q_INVOKABLE QList<int> loadLastSessionData(int protocolId);
 
-    // Invokable from QML when save user config
+    void loadUserConfig(); // Syncs local memory with DB values
+
+    /**
+     * @brief Updates or creates a user configuration entry.
+     */
     Q_INVOKABLE void setConfig(const QString &key, const QString &value);
 
     float totalCalories() const { return m_totalCalories; }
-
-    void loadUserConfig(); // Syncs local memory with DB values
 
     QString userName() const { return m_userName; }
     void setUserName(const QString &name);

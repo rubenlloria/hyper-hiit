@@ -45,7 +45,7 @@ import "../components"
 Rectangle {
     id: root
     width: Constants.designWidth
-    height: Constants.designHeight
+    height: Constants.designHeight + 500
     color: Constants.darkNeon // Color de fondo del theme.css
 
     property alias header: header
@@ -133,20 +133,22 @@ Rectangle {
                                     width: 350
                                     label: "USER_NAME"
                                     placeholder: "AGENT_PRIME"
+                                    text: sessionManager.userName
                                 }
 
                                 NeonSpinBox {
                                     id: weightField
                                     width: 350
                                     label: "BIOMASS_KG"
-                                    value: 75
+                                    value: sessionManager.userWeight
+                                    suffix: "KG"
                                 }
 
                                 NeonSpinBox {
                                     id: heightField
                                     width: 350
                                     label: "HEIGHT_CM"
-                                    value: 175
+                                    value: sessionManager.userHeight
                                     suffix: "CM"
                                 }
 
@@ -158,15 +160,14 @@ Rectangle {
                                     option1Label: "WOMAN"
                                     option2Label: "REPLICANT"
                                     option3Label: "MAN"
-                                    selectedIndex: 1
+                                    selectedIndex: sessionManager.userSex
                                 }
 
                                 NeonSpinBox {
                                     id: ageField
                                     width: 350
                                     label: "AGE"
-                                    value: 30
-                                    suffix: ""
+                                    value: sessionManager.userAge
                                 }
 
                                 NeonSelector {
@@ -178,6 +179,7 @@ Rectangle {
                                     option1Label: "NEWBIE"
                                     option2Label: "ADVANCED"
                                     option3Label: "ROOT"
+                                    selectedIndex: sessionManager.userRank
                                 }
                             }
                         }
@@ -215,6 +217,7 @@ Rectangle {
                                     width: 350
                                     title: "SCANLINE_RENDER"
                                     description: "Enable/Disable horizontal terminal lines"
+                                    checked: systemManager.systemScanline
                                 }
 
                                 NeonSwitch {
@@ -222,7 +225,7 @@ Rectangle {
                                     width: 350
                                     title: "AUDIO_AUTO_SYNC"
                                     description: "Link to Audio Uplink module"
-                                    checked: true
+                                    checked: systemManager.systemAudio
                                 }
 
                                 NeonSelector {
@@ -234,6 +237,7 @@ Rectangle {
                                     option1Label: "DEFAULT_CYAN"
                                     option2Label: "MAGENTA_CORE"
                                     option3Label: "AMBER_NET"
+                                    selectedIndex: systemManager.systemTheme
                                 }
 
                                 NeonButton {
