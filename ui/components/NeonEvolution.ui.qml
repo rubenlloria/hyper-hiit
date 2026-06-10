@@ -14,8 +14,8 @@ Rectangle {
     id: root
     width: 380
     height: 200
-    color: Constants.blackNeon
-    border.color: "#00fff9"
+    color: Constants.backgroundColor
+    border.color: Constants.secondaryColor
     border.width: 1
     opacity: 0.9
 
@@ -27,8 +27,6 @@ Rectangle {
     property string improvement: "+23"
     property string efficiency: "+48"
     property color cornerColor: Constants.secondaryColor
-    property color cyanColor: "#00fff9"
-    property color magentaColor: "#bf00ff"
     property int day1Value: 10
     property int day2Value: 0
     property int day3Value: 40
@@ -48,7 +46,7 @@ Rectangle {
     // DropShadow {
     //     anchors.fill: root
     //     source: root
-    //     color: root.cyanColor
+    //     color: Constants.secondaryColor
     //     radius: 15
     //     samples: 25
     //     spread: 0.15
@@ -148,7 +146,7 @@ Rectangle {
                 label: "EVOLUTION_METRICS"
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
-                labelColor: Constants.secondaryColor
+                labelColor: Constants.primaryTextColor
                 cornerWidth: 1
             }
 
@@ -162,7 +160,7 @@ Rectangle {
                     anchors.right: parent.right
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
-                    color: root.cyanColor
+                    color: Constants.primaryTextColor
                     opacity: 0.6
                 }
             }
@@ -186,7 +184,7 @@ Rectangle {
                 Rectangle {
                     width: 1
                     height: parent.height
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.3
                     y: -5 //-parent.height
                 }
@@ -194,7 +192,7 @@ Rectangle {
                     id: bottomLine
                     width: parent.width + 5
                     height: 1
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.3
                     anchors.top: parent.bottom
                     anchors.topMargin: -5
@@ -205,7 +203,7 @@ Rectangle {
                     id: centerLine
                     width: parent.width + 5
                     height: 1
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.2
                     anchors.top: parent.top
                     anchors.topMargin: parent.height / 2 - 5
@@ -217,7 +215,7 @@ Rectangle {
                     id: topLine
                     width: parent.width + 5
                     height: 1
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.2
                     anchors.top: parent.top
                     anchors.topMargin: -5
@@ -230,7 +228,7 @@ Rectangle {
                     text: "100%"
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.6
                     anchors.verticalCenter: topLine.verticalCenter
                     anchors.topMargin: -50
@@ -243,7 +241,7 @@ Rectangle {
                     text: "50%"
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.6
                     anchors.verticalCenter: centerLine.verticalCenter
                     anchors.right: parent.left
@@ -254,7 +252,7 @@ Rectangle {
                     text: "0"
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
-                    color: root.cyanColor
+                    color: Constants.secondaryColor
                     opacity: 0.6
                     anchors.verticalCenter: bottomLine.verticalCenter
                     anchors.bottomMargin: 0
@@ -262,7 +260,6 @@ Rectangle {
                     anchors.rightMargin: 10
                 }
 
-                // Simulated Line Chart ( Previous Sessions - Magenta)
                 Shape {
                     id: lastShape
                     anchors.fill: parent
@@ -272,7 +269,7 @@ Rectangle {
                     // height: 100
 
                     // layer.effect: DropShadow {
-                    //     color: root.cyanColor
+                    //     color: Constants.secondaryColor
                     //     radius: 8
                     //     samples: 15
                     // }
@@ -334,7 +331,7 @@ Rectangle {
                             radius: 3
                             color: Constants.primaryColor
                             opacity: 0.6
-                            border.color: "#ffffff"
+                            border.color: Constants.descriptionColor
                             border.width: 0
                         }
                     }
@@ -349,12 +346,12 @@ Rectangle {
                     // height: 100
 
                     // layer.effect: DropShadow {
-                    //     color: root.cyanColor
+                    //     color: Constants.secondaryColor
                     //     radius: 8
                     //     samples: 15
                     // }
                     ShapePath {
-                        strokeColor: root.cyanColor
+                        strokeColor: Constants.secondaryColor
                         strokeWidth: 2
                         fillColor: "transparent"
                         startX: 10
@@ -410,7 +407,7 @@ Rectangle {
                             height: 6
                             radius: 3
                             color: Constants.secondaryColor
-                            border.color: "#ffffff"
+                            border.color: Constants.descriptionColor
                             border.width: hoverArea.containsMouse ? 1 : 0
 
                             // Neon glow following NeonIcon pattern [4, 5]
@@ -448,7 +445,7 @@ Rectangle {
                             Text {
                                 anchors.centerIn: parent
                                 text: modelData.kcal + " Kcal "
-                                color: root.cyanColor
+                                color: Constants.secondaryColor
                                 font.family: Constants.techFont.family // Digital font
                                 font.pixelSize: 11
                             }
@@ -467,7 +464,7 @@ Rectangle {
                     Text {
                         Layout.fillWidth: true
                         text: modelData.day
-                        color: root.cyanColor
+                        color: Constants.secondaryColor
                         font.family: Constants.techFont.family // Digital font
                         font.pixelSize: 11
                     }

@@ -39,7 +39,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: hudRow.implicitHeight + 5
-    color: "#0d0d10"
+    color: Constants.deepColor
     opacity: 0.9
 
     // --- Dynamic Properties ---
@@ -47,13 +47,14 @@ Rectangle {
     property string syncValue: "100%"
     property string latencyValue: "<1ms"
     property string buildVersion: appVersion
-    property color themeColor: "#00fff9" // Default Neon Cyan [3]
+    property color textColor: Constants.primaryTextColor
+    property color separatorColor: Constants.primaryTextColor
 
     // Top border line with low opacity cyan glow
     Rectangle {
         width: parent.width
         height: 1
-        color: "#00fff9"
+        color: root.separatorColor
         opacity: 0.2
         anchors.top: parent.top
     }
@@ -68,7 +69,7 @@ Rectangle {
         Text {
             id: syncText
             text: "NEURAL_SYNC: " + root.syncValue
-            color: "#00fff9"
+            color: root.textColor
             opacity: 0.6
             font.family: "Share Tech Mono"
             font.pixelSize: 10
@@ -79,7 +80,7 @@ Rectangle {
         Rectangle {
             width: 1
             height: 12
-            color: "#00fff9"
+            color: root.separatorColor
             opacity: 0.2
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -88,7 +89,7 @@ Rectangle {
         Text {
             id: latencyText
             text: "LATENCY: " + root.latencyValue
-            color: "#00fff9"
+            color: root.textColor
             opacity: 0.6
             font.family: "Share Tech Mono"
             font.pixelSize: 10
@@ -99,7 +100,7 @@ Rectangle {
         Rectangle {
             width: 1
             height: 12
-            color: "#00fff9"
+            color: root.separatorColor
             opacity: 0.2
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -108,7 +109,7 @@ Rectangle {
         Text {
             id: buildText
             text: "BUILD: v" + root.buildVersion
-            color: "#00fff9"
+            color: root.textColor
             opacity: 0.6
             font.family: "Share Tech Mono"
             font.pixelSize: 10
@@ -116,71 +117,3 @@ Rectangle {
         }
     }
 }
-
-/*
-Item {
-    id: root
-    width: Constants.designWidth
-    height: footer.implicitHeight
-    Rectangle {
-        width: parent.width
-        height: parent.height
-        color: Constants.backgroundColor
-    }
-    RowLayout {
-        width: parent.width
-        id: footer
-        Text {
-            id: neuralLabel
-            text: "NEURAL_SYNC: 100%"
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
-            color: Constants.cyanNeon
-            opacity: 0.5
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-        }
-        Text {
-            id: separator1
-            text: "|"
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
-            color: Constants.cyanNeon
-            opacity: 0.8
-            anchors.bottom: root.bottom
-            anchors.horizontalCenter: root.width / 3
-        }
-        Text {
-            id: latencyLabel
-            text: "LATENCY: <1ms"
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
-            color: Constants.cyanNeon
-            opacity: 0.5
-            anchors.bottom: root.bottom
-            anchors.horizontalCenter: root.horizontalCenter
-        }
-        Text {
-            id: separator2
-            text: "|"
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
-            color: Constants.cyanNeon
-            opacity: 0.8
-            anchors.bottom: root.bottom
-            anchors.horizontalCenter: root.width / 1.5
-        }
-        Text {
-            id: buildLabel
-            text: "BUILD: v2.026.2"
-            font.family: Constants.techFont.family
-            font.pixelSize: 10
-            color: Constants.cyanNeon
-            opacity: 0.5
-            anchors.bottom: root.bottom
-            anchors.right: root.right
-        }
-    }
-}
-*/
-

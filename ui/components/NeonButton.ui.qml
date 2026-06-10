@@ -29,7 +29,7 @@ Item {
     Rectangle {
         id: backgroundBase
         anchors.fill: parent
-        color: Constants.blackNeon
+        color: Constants.surfaceColor
         opacity: 0.95
         border.color: buttonRoot.themeColor
         border.width: 1
@@ -47,7 +47,7 @@ Item {
                 }
                 GradientStop {
                     position: 0.5
-                    color: "black"
+                    color: Constants.backgroundColor
                 }
                 GradientStop {
                     position: 1.0
@@ -141,7 +141,7 @@ Item {
     Rectangle {
         id: flashOverlay
         anchors.fill: parent
-        color: "white"
+        color: Constants.descriptionColor
         opacity: 0
     }
 
@@ -168,11 +168,11 @@ Item {
             when: buttonRoot.isPressed
             PropertyChanges {
                 target: backgroundBase
-                border.color: "#bf00ff"
+                border.color: Constants.primaryColor
             } // Magenta flip [4]
             PropertyChanges {
                 target: borderGlow
-                color: "#bf00ff"
+                color: Constants.primaryColor
                 radius: 40
             }
             PropertyChanges {

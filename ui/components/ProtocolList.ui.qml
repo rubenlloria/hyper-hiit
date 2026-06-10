@@ -64,7 +64,7 @@ Item {
 
                 background: Rectangle {
                     implicitWidth: 8
-                    color: "#0d0d10"
+                    color: Constants.deepColor
                     opacity: 0.3
                     border.color: Constants.fuchsiaNeon
                     border.width: 1

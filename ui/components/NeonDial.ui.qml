@@ -19,11 +19,6 @@ Item {
     width: root.size + 50
     height: root.size + 50
 
-    // Rectangle {
-    //         anchors.fill: parent
-    //         color: "#ffffff"
-    //         z: -1
-    //     }
     Shape {
         anchors.fill: parent
         anchors.centerIn: parent
@@ -127,7 +122,7 @@ Item {
         Text {
             id: quantity
             text: "30x"
-            color: "white"
+            color: Constants.descriptionColor
             font.pixelSize: 45
             font.bold: true
             font.family: "Monospace"

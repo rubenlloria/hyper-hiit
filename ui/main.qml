@@ -96,7 +96,7 @@ Window {
 
                 // Neon Cyberpunk look
                 contentItem: Rectangle {
-                    color: Constants.cyanNeon
+                    color: Constants.secondaryColor
                     opacity: 0.8
                 }
             }
@@ -175,7 +175,7 @@ Window {
                 }
                 GradientStop {
                     position: 0.5
-                    color: "#00fff9"
+                    color: Constants.secondaryColor
                 }
                 GradientStop {
                     position: 1.0

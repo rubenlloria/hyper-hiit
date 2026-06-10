@@ -19,8 +19,8 @@ Item {
     property string rankLabel: "root"
     property string estimatedDuration: "129"
     property string moduleCount: "4"
-    property real currentProgress: 1
-    property real personalBest: 0 // Value between 0.0 and 1.0
+    property real currentProgress: 0.5
+    property real personalBest: 0.3 // Value between 0.0 and 1.0
     property color primaryColor: Constants.primaryColor
     property color secondaryColor: Constants.secondaryColor
     property alias itemMouseArea: protocolInteraction
@@ -29,7 +29,7 @@ Item {
     Rectangle {
         id: backgroundBase
         anchors.fill: parent
-        color: "#1a1a1f"
+        color: Constants.surfaceColor
         opacity: 0.8
         border.color: root.primaryColor
         border.width: 1
@@ -97,7 +97,7 @@ Item {
             Text {
                 id: estimatedDuration
                 text: "DURATION: " + root.estimatedDuration
-                color: "#ffffff"
+                color: Constants.descriptionColor
                 opacity: 0.7
                 font.family: "Share Tech Mono"
                 font.pixelSize: 10
@@ -106,7 +106,7 @@ Item {
             Text {
                 id: moduleCount
                 text: "MODULES: " + root.moduleCount
-                color: "#ffffff"
+                color: Constants.descriptionColor
                 opacity: 0.7
                 font.family: "Share Tech Mono"
                 font.pixelSize: 10
@@ -118,7 +118,7 @@ Item {
             id: progressTrack
             width: parent.width
             height: 8
-            color: "#0d0d10"
+            color: Constants.deepColor
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 5
 
@@ -168,11 +168,11 @@ Item {
             when: root.currentProgress > root.personalBest
             PropertyChanges {
                 target: gradientMid
-                color: "#ffffff" // Changes to White-Magenta gradient
+                color: Constants.descriptionColor // Changes to White-Magenta gradient
             }
             PropertyChanges {
                 target: progressFill
-                color: "#ffffff"
+                color: Constants.descriptionColor
             }
         }
     ]

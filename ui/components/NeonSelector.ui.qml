@@ -20,6 +20,7 @@ Item {
     property string label: "SELECTOR_LABEL"
     property bool horizontal: true
     property color neonColor: Constants.primaryTextColor
+    property color surfaceColor: Constants.surfaceColor
     property int selectedIndex: 1
 
     property string option1Label: "OPTION_1"
@@ -65,7 +66,7 @@ Item {
             id: optH1
             width: 110
             height: 40
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option1Color
             opacity: root.selectedIndex === 0 ? 1 : 0.5
             border.width: root.selectedIndex === 0 ? 2 : 1
@@ -97,7 +98,7 @@ Item {
             id: optH2
             width: 110
             height: 40
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option2Color
             opacity: root.selectedIndex === 1 ? 1 : 0.5
             border.width: root.selectedIndex === 1 ? 2 : 1
@@ -128,7 +129,7 @@ Item {
             id: optH3
             width: 110
             height: 40
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option3Color
             opacity: root.selectedIndex === 2 ? 1 : 0.5
             border.width: root.selectedIndex === 2 ? 2 : 1
@@ -169,7 +170,7 @@ Item {
             id: optV1
             width: 350
             height: 38
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option1Color
             opacity: root.selectedIndex === 0 ? 1 : 0.5
             border.width: root.selectedIndex === 0 ? 2 : 1
@@ -202,7 +203,7 @@ Item {
             id: optV2
             width: 350
             height: 38
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option2Color
             opacity: root.selectedIndex === 1 ? 1 : 0.5
             border.width: root.selectedIndex === 1 ? 2 : 1
@@ -235,7 +236,7 @@ Item {
             id: optV3
             width: 350
             height: 38
-            color: Constants.darkBlue
+            color: root.surfaceColor
             border.color: root.option3Color
             opacity: root.selectedIndex === 2 ? 1 : 0.5
             border.width: root.selectedIndex === 2 ? 2 : 1

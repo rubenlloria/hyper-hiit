@@ -25,7 +25,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: "#0d0d10"
+        color: Constants.surfaceColor
         border.color: root.borderColor
         border.width: 1
 
@@ -67,7 +67,7 @@ Item {
                 id: track
                 anchors.fill: parent
                 radius: 15
-                color: Constants.darkNeon
+                color: Constants.deepColor
                 border.color: root.neonColor
                 border.width: 1
 

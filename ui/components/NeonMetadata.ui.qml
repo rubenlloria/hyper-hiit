@@ -26,14 +26,14 @@ Item {
     property string valueLabel: "Value"
     property int valueSize: 25
     property string unitLabel: ""
-    property string directiveGlyph: "\ue0d2"
+    // property string directiveGlyph: "\ue0d2"
     property color color: Constants.primaryTextColor // Default cyan neon
 
     // Main background layer
     Rectangle {
         id: backgroundBase
         anchors.fill: parent
-        color: "#0d0d10"
+        color: Constants.deepColor
         opacity: 0.8
         border.color: root.color
         border.width: 1

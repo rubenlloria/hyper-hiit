@@ -18,7 +18,7 @@ Rectangle {
     id: root
     width: Constants.designWidth
     height: Constants.designHeight
-    color: Constants.darkNeon
+    color: Constants.surfaceColor
     property alias header: header
     property alias totalsRepeater: totalsRepeater
     property alias analysisRepeater: analysisRepeater
@@ -77,7 +77,7 @@ Rectangle {
 
                 contentItem: Rectangle {
                     implicitWidth: 4
-                    color: Constants.fuchsiaNeon // Fuchsia scrollbar as per Roadmap [Source 34, 188]
+                    color: Constants.primaryColor // Fuchsia scrollbar as per Roadmap [Source 34, 188]
                     radius: 2
                 }
             }
@@ -225,7 +225,7 @@ Rectangle {
                             modulesModel: modelData.modulesModel
 
                             // Optional: The line color can be customized per directive theme
-                            color: Constants.cyanNeon
+                            color: Constants.primaryTextColor
                         }
                     }
                 }

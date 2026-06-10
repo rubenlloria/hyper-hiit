@@ -27,7 +27,7 @@ Item {
         text: "x"
         font.family: Constants.iconFont.family
         font.pixelSize: 40
-        color: "#bf00ff"
+        color: Constants.primaryColor
         anchors.centerIn: parent
         visible: false
     }

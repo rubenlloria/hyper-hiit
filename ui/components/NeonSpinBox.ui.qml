@@ -18,10 +18,11 @@ Item {
     height: 70
 
     // Propietats de configuració
-    property string label: "BIOMASS_KG"
+    property string label: "TITLE"
     property int value: 0
     property string suffix: ""
     property color neonColor: Constants.primaryTextColor
+    property color textColor: Constants.descriptionColor
     property bool showSuccessPulse: false
 
     // 1. Etiqueta superior (Tipografia Share Tech Mono) [4]
@@ -41,7 +42,7 @@ Item {
         id: controlBackground
         width: 350
         height: 45
-        color: Constants.darkBlue
+        color: Constants.deepColor
         border.color: root.neonColor
         border.width: 1
         anchors.bottom: parent.bottom
@@ -51,7 +52,7 @@ Item {
             id: downButton
             width: 45
             height: 43
-            color: Constants.darkNeon
+            color: Constants.surfaceColor
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: 1
@@ -74,7 +75,7 @@ Item {
         Text {
             id: valueText
             text: root.value + (root.suffix === "" ? "" : " " + root.suffix)
-            color: "#ffffff"
+            color: root.textColor
             font.family: Constants.techFont.family
             font.pixelSize: 18
             anchors.centerIn: parent
@@ -86,7 +87,7 @@ Item {
             id: upButton
             width: 45
             height: 43
-            color: Constants.darkNeon
+            color: Constants.surfaceColor
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: 1

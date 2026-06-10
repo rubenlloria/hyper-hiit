@@ -63,7 +63,7 @@ Item {
         Text {
             id: sectionLabel
             text: "ACTIVE_DIRECTIVE"
-            color: "#00fff9"
+            color: Constants.primaryTextColor
             font.family: Constants.techFont.family
             font.pixelSize: 12
             bottomPadding: 8
@@ -75,7 +75,7 @@ Item {
             id: mainHeader
             width: parent.width
             height: 70
-            color: "#0d0d10"
+            color: Constants.deepColor
             opacity: 0.9
             border.color: root.activeThemeColor
             border.width: 1
@@ -163,8 +163,8 @@ Item {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: "SWITCH_TO:"
-                    color: root.activeThemeColor
-                    opacity: 0.5
+                    color: Constants.primaryTextColor
+                    opacity: 0.7
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
                 }

@@ -3,6 +3,7 @@ import QtQuick
 //import QtQuick.Studio.Application
 
 QtObject {
+    id: qtObject
     // --- WINDOW DIMENSIONS ---
     readonly property int width: 412
     readonly property int height: 865
@@ -16,9 +17,10 @@ QtObject {
     // Helper function to scale sizes easily
     function px(value) { return value * scaleFactor }
 
-    // --- COLOR PALETTE (Centralized for Neon Theme) ---
+    // --- CYBERPUNK COLOR PALETTE ---
     readonly property color blackNeon:          "#030213"
     readonly property color darkNeon:           "#1a1a1f"
+    readonly property color deepNeon:           "#0d0d10"
     readonly property color darkMagenta:        "#1a0b1a"
     readonly property color darkBlue:           "#0d0d20"
     readonly property color whiteNeon:          "#ffffff"
@@ -33,10 +35,16 @@ QtObject {
     readonly property color yellowNeon:         "#ffdf00"
     readonly property color cyberYellow:        yellowNeon  // TODO: DELETEME
     // readonly property color backgroundColor: "#EAEAEA"
+
+    // --- STANDARD COLOR PALETTE ---
     readonly property color backgroundColor:    blackNeon
+    readonly property color surfaceColor:       darkNeon
+    readonly property color deepColor:          deepNeon
     readonly property color descriptionColor:   whiteNeon
     readonly property color primaryColor:       fuchsiaNeon
     readonly property color secondaryColor:     cyanNeon
+    readonly property color primaryDarkColor:   darkMagenta
+    readonly property color secondaryDarkColor: darkBlue
     readonly property color primaryTextColor:   cyanNeon
     readonly property color secondaryTextColor: fuchsiaNeon
     readonly property color onColor:            cyanNeon

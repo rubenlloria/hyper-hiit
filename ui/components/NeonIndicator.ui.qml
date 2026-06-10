@@ -58,7 +58,7 @@ Item {
         Text {
             id: indicatorLabel
             text: root.active ? root.label_on : root.label_off
-            color: "#00fff9"
+            color: Constants.primaryTextColor
             font.family: Constants.techFont.family
             font.letterSpacing: 1
             font.pixelSize: 14

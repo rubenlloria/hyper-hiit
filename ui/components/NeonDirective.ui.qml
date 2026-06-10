@@ -24,7 +24,7 @@ Item {
     property string directiveTitle: "DIRECTIVE_NAME"
     property string directiveDescription: "Description text"
     property string directiveGlyph: "\ue0d2"
-    property color color: "#00fff9" // Default cyan neon
+    property color color: Constants.primaryTextColor
 
     // Alias to expose the interaction area to the parent
     property alias itemMouseArea: interactionArea
@@ -33,7 +33,7 @@ Item {
     Rectangle {
         id: backgroundBase
         anchors.fill: parent
-        color: "#0d0d10"
+        color: Constants.deepColor
         opacity: 0.8
         border.color: root.color
         border.width: 1
