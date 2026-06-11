@@ -22,6 +22,7 @@ DashboardForm {
     // }
 
     Component.onCompleted: {
+        let activeId = dbManager.getActiveDirectiveId() -1; // WARNING: directiveModel.index must be by database key
         rankNames = dbManager.getRankLabels();
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();

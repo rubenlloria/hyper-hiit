@@ -59,6 +59,8 @@ Rectangle {
     property alias scanlineSwitch: scanlineSwitch
     property alias audioSwitch: audioSwitch
 
+    property alias architectButton: architectButton
+    property alias architectMouseArea: architectMouseArea
     property alias restoreDBButton: restoreDBButton
     property alias summaryButton: summaryButton
 
@@ -241,8 +243,9 @@ Rectangle {
                                 }
 
                                 NeonButton {
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     id: summaryButton
-                                    label: "Summary"
+                                    label: " Test Summary "
                                     Layout.alignment: Qt.AlignTop
                                     // Layout.topMargin: Constants.px(20)
                                 }
@@ -266,7 +269,7 @@ Rectangle {
                         }
 
                         Rectangle {
-                            id: rootContainer
+                            id: architectButton
                             width: parent.width
                             height: 160
                             color: Constants.backgroundColor
@@ -277,11 +280,12 @@ Rectangle {
                                 anchors.centerIn: parent
                                 spacing: 8
 
-                                Text {
-                                    text: "[ ACCESS_ARCHITECT_MODE ]"
-                                    color: rootCol.sectionColor
+                                NeonText {
+                                    label: " ACCESS_ARCHITECT_MODE "
+                                    labelColor: rootCol.sectionColor
+                                    cornerWidth: 2
                                     font.family: Constants.mainFont.family
-                                    font.pixelSize: 16
+                                    font.pixelSize: 18
                                     font.bold: true
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
@@ -290,7 +294,7 @@ Rectangle {
                                     text: "PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR"
                                     color: Constants.primaryTextColor
                                     font.family: "Share Tech Mono"
-                                    font.pixelSize: 8
+                                    font.pixelSize: 12
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
                             }
@@ -301,7 +305,12 @@ Rectangle {
                                 color: rootCol.sectionColor
                                 radius: 20
                                 samples: 25
-                                opacity: 0.4
+                                opacity: 0.3
+                            }
+
+                            MouseArea {
+                                id: architectMouseArea
+                                anchors.fill: parent
                             }
                         }
                         Column {

@@ -1,26 +1,27 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Effects
+
 import "../components"
 // Access to NeonIcon, NeonText, etc.
 import ".."
 
 // Access to Constants.qml
 Rectangle {
-    id: architectRoot
-    width: Constants.width
-    height: Constants.height
+    id: root
+    width: Constants.designWidth
+    height: Constants.designHeight
     color: Constants.surfaceColor
 
     property alias header: header
-    property alias restoreDBButton: restoreDBButton
-    property alias summaryButton: summaryButton
-    property alias configButton: configButton
+    property alias neonAccordion: neonAccordion
+    property alias protocols: protocols
 
     ColumnLayout {
-        id: mainLayout
-        anchors.fill: parent // Ensures the layout covers the view
+        width: parent.width
+        height: parent.height
         spacing: 10
-        // --- VIEW CONTENT ---
         AppHeader {
             id: header
             Layout.fillWidth: true
@@ -30,38 +31,63 @@ Rectangle {
             buttonGlyph: Constants.backIcon
         }
 
-        ColumnLayout {
-            spacing: 40
-            Layout.fillHeight: true
+        Flickable {
+            id: dashboardScroll
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            NeonButton {
-                id: restoreDBButton
-                label: "RESTORE_DB"
-                Layout.alignment: Qt.AlignTop
-                // Layout.topMargin: Constants.px(20)
+            Layout.fillHeight: true
+            // Layout.bottomMargin: 60
+            contentWidth: parent.width
+            contentHeight: mainLayout.implicitHeight
+            clip: true // Critical: prevents content from bleeding outside the shard [Source 95]
+            boundsBehavior: Flickable.StopAtBounds
+
+            // Custom Neon Scrollbar (v0.3 Fuchsia Aesthetic)
+            ScrollBar.vertical: ScrollBar {
+                parent: root
+                policy: ScrollBar.AlwaysOn
+                width: 0
+
+                contentItem: Rectangle {
+                    implicitWidth: 4
+                    color: Constants.primaryColor
+                    radius: 2
+                }
             }
 
-            NeonButton {
-                id: summaryButton
-                label: "Summary"
-                Layout.alignment: Qt.AlignTop
-                // Layout.topMargin: Constants.px(20)
-            }
-
-            NeonButton {
-                id: configButton
-                label: "CORE_CONFIG"
-                Layout.alignment: Qt.AlignTop
-                // Layout.topMargin: Constants.px(20)
-            }
-
-            // [BUFFER]: Flexible item to push content up
-            Item {
+            Column {
+                id: mainLayout
+                Layout.fillWidth: true
                 Layout.fillHeight: true
+                leftPadding: 20
+                rightPadding: 20
+                width: parent.width
+                spacing: 10
+
+                NeonAccordion {
+                    id: neonAccordion
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    activeThemeColor: sessionManager.activeDirectiveInfo.color
+                                      || Constants.primaryColor
+                    activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                                         || "LOADING..."
+                    activeIconGlyph: sessionManager.activeDirectiveInfo.icon
+                                     || Constants.zapIcon
+                    activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                                         || "No data"
+                }
+
+                ProtocolList {
+                    id: protocols
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    listThemeColor: neonAccordion.activeThemeColor
+                }
+
+                Column {
+                    // TODO: Improve spacer to prevent footer overlap last module
+                    height: Constants.bottomMargin
+                    width: 20
+                }
             }
         }
-
-        // Add your configuration components here
     }
 }

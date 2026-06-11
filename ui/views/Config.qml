@@ -9,7 +9,7 @@ ConfigForm {
     readonly property string debugName: "Config.qml"
     readonly property string infoName: "Config.qml"
 
-    property bool _isReady: false
+    property bool _isReady: false // DELETEME ?
 
     // Colors
     readonly property color colorSaved: Constants.primaryTextColor
@@ -85,7 +85,7 @@ ConfigForm {
         // scanlineSwitch.checked = systemSettings.scanlinesEnabled
         // themeSelector.selectedIndex = systemSettings.themeIndex
 
-        _isReady = true;
+        _isReady = true; // DELETEME: ?
     }
 
     summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
@@ -105,6 +105,11 @@ ConfigForm {
                                {"unlocked": false}  // CENTURION_LOG
                            ]
                        });
+    }
+
+    architectMouseArea.onClicked: {
+        Constants.hWarning(infoName, "Accessing ARCHITECT...");
+        mainStack.push("Architect.qml")
     }
 
     restoreDBButton.interactionArea.onClicked: {
@@ -153,7 +158,7 @@ ConfigForm {
 
     // Logic function to queue the asynchronous save
     function queueSave(key, value, component) {
-        if (!_isReady)  return
+        if (!_isReady)  return // DELETEME ?
 
         // Update visual state to Magenta (Unsaved)
         component.neonColor = configForm.colorDirty;
