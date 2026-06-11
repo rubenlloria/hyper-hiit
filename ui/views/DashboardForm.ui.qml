@@ -94,6 +94,14 @@ Rectangle {
                 NeonAccordion {
                     id: neonAccordion
                     anchors.horizontalCenter: parent.horizontalCenter
+                    activeThemeColor: sessionManager.activeDirectiveInfo.color
+                                      || Constants.primaryColor
+                    activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                                         || "LOADING..."
+                    activeIconGlyph: sessionManager.activeDirectiveInfo.icon
+                                     || Constants.zapIcon
+                    activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                                         || "No data"
                 }
 
                 ProtocolList {
