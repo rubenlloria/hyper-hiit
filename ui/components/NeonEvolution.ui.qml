@@ -124,6 +124,27 @@ Rectangle {
     }
 
     Column {
+        id: legend
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.leftMargin: 10
+        anchors.topMargin: 130
+
+        Text {
+            color: Constants.secondaryTextColor
+            text: "- last"
+            font.family: Constants.techFont.family
+            font.pixelSize: 14
+        }
+        Text {
+            color: Constants.primaryTextColor
+            text: "- current"
+            font.family: Constants.techFont.family
+            font.pixelSize: 14
+        }
+    }
+
+    Column {
         anchors.fill: parent
         anchors.leftMargin: 15
         anchors.rightMargin: anchors.leftMargin
