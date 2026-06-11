@@ -6,8 +6,8 @@ import ".."
 ConfigForm {
     id: configForm
 
-    property string debugName: "Config.qml"
-    property string infoName: "Config.qml"
+    readonly property string debugName: "Config.qml"
+    readonly property string infoName: "Config.qml"
 
     property bool _isReady: false
 

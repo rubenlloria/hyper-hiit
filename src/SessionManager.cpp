@@ -47,6 +47,23 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     m_totalCalories = 0.0f;
     m_activeModuleIndex = 0;
     m_sessionId = 0;
+
+    // Get the current ID from system_config [1]
+    int dirId = m_db->getActiveDirectiveId();
+
+    QSqlQuery q;
+    q.prepare("SELECT dir_name, dir_description, dir_icon, dir_color "
+              "FROM directives WHERE dir_id = :id");
+    q.bindValue(":id", dirId);
+
+    if (q.exec() && q.next()) {
+        m_activeDirectiveInfo["name"] = q.value(0).toString();
+        m_activeDirectiveInfo["description"] = q.value(1).toString();
+        m_activeDirectiveInfo["icon"] = q.value(2).toString();
+        m_activeDirectiveInfo["color"] = q.value(3).toString();
+
+        emit activeDirectiveInfoChanged();
+    }
 }
 
 void SessionManager::startSession(int protocolId,  const QVariantList &executionList) {

@@ -45,10 +45,14 @@ Item {
 
     // Public properties for state and theme
     property bool isOpen: false
-    property color activeThemeColor: Constants.primaryColor
-    property string activeDirectiveName: "STRENGTH_MATRIX"
-    property string activeIconGlyph: Constants.zapIcon
-    property string activeDirectiveDesc: "Muscular fortification sequence"
+    property color activeThemeColor: sessionManager.activeDirectiveInfo.color
+                                     || Constants.primaryColor
+    property string activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                                         || "LOADING..."
+    property string activeIconGlyph: sessionManager.activeDirectiveInfo.icon
+                                     || Constants.zapIcon
+    property string activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                                         || "No data"
 
     // Exposed alias for interaction
     property alias dropdownList: dropdownList // Afegeix això! [2]

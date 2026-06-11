@@ -34,6 +34,9 @@ import "."      // Import current directory to access Constants singleton
 Window {
     id: mainWindow
 
+    readonly property string debugName: "main.qml"
+    readonly property string infoName: "main.qml"
+
     property color currentDirectiveColor: Constants.primaryTextColor
 
     width: Constants.designWidth    // Value 412 defined in Constants.qml
@@ -55,6 +58,14 @@ Window {
         property: "height"
         value: mainWindow.width * (Constants.designHeight / Constants.designWidth)
         when: Qt.platform.os !== "android"
+    }
+
+    // Global aesthetic synchronization
+    Binding {
+        target: Constants
+        property: "activeTheme"
+        // Link the active palette to the index retrieved from the system manager
+        value: Constants.themes[Constants.themeKeys[systemManager.systemTheme]]
     }
 
     // --- GLOBAL FONT LOADING ---
@@ -211,11 +222,11 @@ Window {
 
     Component.onCompleted: {
         // [DEBUG] Log resolution for scaling verification [Source 27]
-        console.log("SYSTEM_READY: Screen Geometry -> " + Screen.width + "x" + Screen.height
+        Constants.hInfo(infoName, "SYSTEM_READY: Screen Geometry -> " + Screen.width + "x" + Screen.height
                     + " | OS: " + Qt.platform.os);
-        console.log("SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
-        console.log("SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
-        Constants.setTheme(systemManager.systemTheme);
+        Constants.hInfo(infoName, "SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
+        Constants.hInfo(infoName, "SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
+        // Constants.setTheme(systemManager.systemTheme);
     }
 
     Connections {

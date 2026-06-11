@@ -22,13 +22,7 @@ DashboardForm {
     // }
 
     Component.onCompleted: {
-        let activeId = dbManager.getActiveDirectiveId() -1; // WARNING: directiveModel.index must be by database key
-        neonAccordion.activeDirectiveName = directiveModel.data(directiveModel.index(activeId, 0), 258);
-        neonAccordion.activeDirectiveDesc = directiveModel.data(directiveModel.index(activeId, 0), 259);
-        neonAccordion.activeIconGlyph = directiveModel.data(directiveModel.index(activeId, 0), 260);
-        neonAccordion.activeThemeColor = directiveModel.data(directiveModel.index(activeId, 0), 261);
         rankNames = dbManager.getRankLabels();
-        mainWindow.currentDirectiveColor = neonAccordion.activeThemeColor;
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();
         Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
@@ -37,6 +31,13 @@ DashboardForm {
     // Connexió per obrir/tancar l'acordió
     neonAccordion.headerMouseArea.onClicked: {
         neonAccordion.isOpen = !neonAccordion.isOpen
+    }
+
+    // This binding applies the color the exact microsecond the component is created
+    Binding {
+        target: dashboardView.neonAccordion
+        property: "activeThemeColor"
+        value: systemManager.activeDirectiveColor
     }
 
     /**
