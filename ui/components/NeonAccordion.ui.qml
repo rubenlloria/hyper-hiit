@@ -45,6 +45,7 @@ Item {
 
     // Public properties for state and theme
     property bool isOpen: false
+    property string title: "ACTIVE_DIRECTIVE"
     property color activeThemeColor: Constants.fuchsiaNeon // Default to STRENGTH_MATRIX violet [4]
     property string activeDirectiveName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
@@ -62,7 +63,7 @@ Item {
         // Section label (always cyan per source screenshot [5])
         Text {
             id: sectionLabel
-            text: "ACTIVE_DIRECTIVE"
+            text: root.title
             color: Constants.primaryTextColor
             font.family: Constants.techFont.family
             font.pixelSize: 12
