@@ -12,10 +12,11 @@ import ".."
 Item {
     id: buttonRoot
     width: content.implicitWidth + 20
-    height: 50
+    height: 22 + buttonRoot.fontSize
 
     // Properties for customization and C++ integration
     property string label: "EXECUTE_COMMAND"
+    property int fontSize: 14
     property string iconGlyph: Constants.targetIcon
     property color themeColor: Constants.primaryTextColor
     property bool isHovered: interactionArea.containsMouse
