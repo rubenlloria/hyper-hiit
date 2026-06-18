@@ -22,6 +22,7 @@ Item {
     property string placeholder: "ENTER_DATA..."
     property color neonColor: Constants.primaryTextColor
     property bool showSuccessPulse: false
+    property alias textInput: textInput
 
     // Etiqueta superior (Tipografia Share Tech Mono)
     Text {
