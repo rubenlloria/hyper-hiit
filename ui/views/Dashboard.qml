@@ -85,7 +85,7 @@ DashboardForm {
      * Automatically instantiates NeonDirective components based on the C++ directiveModel.
      */
 
-    function formatTime(totalSeconds) {
+    function formatTime(totalSeconds) { // TODO: move to Constants.qml
         let minutes = Math.floor(totalSeconds / 60);
         let seconds = totalSeconds % 60;
 
