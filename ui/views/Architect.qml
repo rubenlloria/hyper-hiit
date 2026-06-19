@@ -36,13 +36,16 @@ ArchitectForm {
     property int expandedIndex: -1
     property int editingIndex: -1
     property bool isReady: false
+    property var rankNames: dbManager.getRankLabels()
 
     directiveRepeater.model: directiveModel
 
-    Component.onCompleted: isReady = true;
+    Component.onCompleted: {
+        isReady = true;
+    }
 
     header.settingsMouseArea.onClicked: {
-        console.log("Back to core-config");
+        Constants.hInfo(infoName, "Back to core-config");
         mainStack.pop();
     }
 
@@ -95,6 +98,9 @@ ArchitectForm {
                 // Force expansion when editing is requested
                 // architectForm.expandedIndex = index;
                 architectForm.editingIndex = index;
+                protocolAccordion.activeThemeColor = accentColor;
+                architectProtocolModel.filterByDirective(model.id);
+
             }
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
@@ -122,4 +128,47 @@ ArchitectForm {
             // logic to remove from DB and refresh list
         }
     }
+
+    function formatTime(totalSeconds) { // TODO: move to Constants.qml
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Returns formatted string with zero-padding (e.g., "05:08")
+        return minutes.toString().padStart(2, '0') + ":" +
+               seconds.toString().padStart(2, '0');
+    }
+
+    protocolAccordion.dropdownList.children: [
+        Repeater {
+            model: architectProtocolModel// Linked to filtered architectProtocolModel.cpp
+
+            delegate: NeonProtocol {
+                width: parent.width
+
+                // Data Binding from Protocol roles
+                protocolName: model.name
+                estimatedDuration: formatTime(model.duration)
+                moduleCount: model.moduleCount
+                rankLabel: rankNames[model.rank]
+                personalBest: (model.personalBest === 0)
+                              ? model.duration / architectProtocolModel.maxDuration
+                              : model.personalBest / architectProtocolModel.maxDuration
+                primaryColor:protocolAccordion.activeThemeColor
+                currentProgress: model.duration / architectProtocolModel.maxDuration
+
+                itemMouseArea.onClicked: {
+                    // Logic to open ProtocolEditor could go here
+                    Constants.hDebug(debugName, "Selected protocol: " + model.name + " with id: " + model.id)
+                }
+            }
+        }
+    ]
+
+    // Accordion Toggle handler
+    protocolAccordion.headerMouseArea.onClicked: {
+        if (architectForm.editingDirectiveId !== -1) {
+            protocolAccordion.isOpen = !protocolAccordion.isOpen;
+        }
+    }
 }
+

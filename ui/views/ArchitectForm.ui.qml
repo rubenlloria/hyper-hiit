@@ -17,6 +17,7 @@ Rectangle {
     property alias directiveRepeater: directiveRepeater
     property alias buttonAll: buttonAll
     property alias buttonOrphan: buttonOrphan
+    property alias protocolAccordion: protocolAccordion
 
     ColumnLayout {
         width: parent.width
@@ -61,11 +62,12 @@ Rectangle {
                 leftPadding: 20
                 rightPadding: 20
                 width: parent.width
-                spacing: 90
+                spacing: 30
 
                 Column {
                     id: directiveLayout
-                    spacing: 10
+                    width: parent.width * 0.9
+                    spacing: 5
                     NeonTitle {
                         label: "DIRECTIVE_EDITOR"
                         width: parent.width - 20
@@ -154,6 +156,8 @@ Rectangle {
                 }
                 Column {
                     id: protocolLayout
+                    width: parent.width * 0.9
+                    spacing: 5
                     NeonTitle {
                         label: "PROTOCOL_BUILDER"
                         width: parent.width - 20
@@ -164,17 +168,26 @@ Rectangle {
 
                     NeonAccordion {
                         id: protocolAccordion
-                        title: "EDIT_PROTOCOL"
+                        title: "SELECT_PROTOCOL"
                         anchors.horizontalCenter: parent.horizontalCenter
-                        activeThemeColor: sessionManager.activeDirectiveInfo.color
-                                          || Constants.primaryColor
-                        activeDirectiveName: sessionManager.activeDirectiveInfo.name
-                                             || "LOADING..."
-                        activeIconGlyph: sessionManager.activeDirectiveInfo.icon
-                                         || Constants.zapIcon
-                        activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
-                                             || "No data"
+                        activeThemeColor: Constants.primaryColor
+                        activeDirectiveName: "ASSOCIATED_PROTOCOLS"
+                        activeIconGlyph: ""
+                        activeDirectiveDesc: "Manage selected directive protocols"
+                        width: parent.width
+                        // activeThemeColor: sessionManager.activeDirectiveInfo.color
+                        //                   || Constants.primaryColor
+                        // activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                        //                      || "LOADING..."
+                        // activeIconGlyph: sessionManager.activeDirectiveInfo.icon
+                        //                  || Constants.zapIcon
+                        // activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                        //                      || "No data"
                     }
+
+                    // ProtocolEditor {
+                    //     id: protocolEditor
+                    // }
                 }
 
                 Column {
