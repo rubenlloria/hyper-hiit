@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
     ModuleModel moduleModel;
     DirectiveModel directiveModel;
     ProtocolModel protocolModel(&dbManager);
+    ProtocolModel architectProtocolModel(&dbManager);
 
     if (dbManager.initDatabase()) {
         // Neural Sync: Fetching data from SQLite and injecting into the Model
@@ -82,6 +83,7 @@ int main(int argc, char *argv[])
 
         // protocolModel.
         protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
+        architectProtocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
         hDebug() << "Resuming Directive:" << activeDirId;
     }
 
@@ -104,6 +106,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("moduleModel", &moduleModel);
     engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
     engine.rootContext()->setContextProperty("protocolModel", &protocolModel);
+    engine.rootContext()->setContextProperty("architectProtocolModel", &architectProtocolModel);
     engine.rootContext()->setContextProperty("chronometer", &chronometer);
     engine.rootContext()->setContextProperty("systemManager", &systemManager);
     engine.rootContext()->setContextProperty("sessionManager", &sessionManager);
