@@ -89,7 +89,7 @@ Item {
                 color: Constants.descriptionColor
                 opacity: 0.7
                 font.family: Constants.techFont.family
-                font.pixelSize: 10
+                font.pixelSize: 12
                 width: 250
                 elide: Text.ElideRight
                 maximumLineCount: 1
