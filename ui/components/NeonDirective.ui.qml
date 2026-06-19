@@ -78,6 +78,9 @@ Item {
                 font.family: Constants.mainFont.family
                 font.pixelSize: 14
                 font.bold: true
+                width: 250
+                elide: Text.ElideRight
+                maximumLineCount: 1
             }
 
             Text {
@@ -87,6 +90,9 @@ Item {
                 opacity: 0.7
                 font.family: Constants.techFont.family
                 font.pixelSize: 10
+                width: 250
+                elide: Text.ElideRight
+                maximumLineCount: 1
             }
         }
     }
