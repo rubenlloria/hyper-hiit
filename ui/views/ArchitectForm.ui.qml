@@ -14,6 +14,7 @@ Rectangle {
 
     property alias header: header
     property alias directiveLayout: directiveLayout
+    property alias directiveRepeater: directiveRepeater
     property alias buttonAll: buttonAll
     property alias buttonOrphan: buttonOrphan
 
@@ -132,6 +133,22 @@ Rectangle {
                                 property bool selected: false
                                 anchors.fill: parent
                             }
+                        }
+                    }
+                    Repeater {
+                        id: directiveRepeater
+                        model: 5
+
+                        delegate: DirectiveEditor {
+                            isExpanded: architectForm.expandedIndex === index
+                            isEditing: architectForm.editingIndex === index
+
+                            // Directive Data Injection
+                            nameText: model.name || "DIRECTIVE_NAME"
+                            descriptionText: model.description
+                            accentColor: model.color
+                                         || Constants.primaryTextColor
+                            glyph: model.icon
                         }
                     }
                 }
