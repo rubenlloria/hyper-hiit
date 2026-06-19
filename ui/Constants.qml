@@ -45,6 +45,8 @@ QtObject {
     readonly property color charcoal:           "#212126" // "#2a2a30"
     readonly property color softRed:            "#ff809d"
     readonly property color softBlue:           "#6666a3"
+    readonly property color tangerine:          "#ff5e00"
+    readonly property color spaceBlue:          "#5b84ff"
 
     // =========================================================================
     // --- THEME DEFINITIONS (Hardcoded Matrix) ---
@@ -137,6 +139,44 @@ QtObject {
     readonly property string summaryIcon:   "\uE2A5" // chart-line
     readonly property string dashboardIcon: "\uE1C1" // layout-dashboard
     readonly property string badgeIcon:     "\uE241" // ACHIEMEVENT_MATRIX
+    readonly property string pencilIcon:    "\uE1F9" // pencil (Edit directive)
+    readonly property string trashIcon:     "\uE18E" // trash-2 (delete)
+    // Power & Stamina Protocols (High Intensity)
+    readonly property string kineticIcon:   "\ue58c" // bolt (Kinetic Energy)
+    readonly property string weightIcon:    "\ue530" // weight (Heavy Load)
+    readonly property string recoveryIcon:  "\ue054" // battery-charging (Power Recovery)
+    // Bio-Sync & Neural Protocols (Coordination)
+    readonly property string dnaIcon:       "\ue393" // dna (Genetic Code)
+    readonly property string microchipIcon: "\ue61a" // microchip (System Core)
+    // Tactical & Combat (Industrial/Architect)
+    readonly property string swordsIcon:    "\ue2b4" // swords (Combat Drill)
+    readonly property string crosshairIcon: "\ue0ac" // crosshair (Precision Grid)
+    readonly property string terminalIcon:  "\ue181" // terminal (Data Override)
+    // --- ADDITIONAL PROTOCOLS (To round the grid)
+    readonly property string atomIcon:      "\uE3D7" // atom (Metabolic/Molecular)
+    readonly property string radarIcon:     "\uE497" // radar (Surveillance/Field)
+    readonly property string anvilIcon:     "\uE580" // anvil (Muscular fortification)
+    readonly property string starIcon:      "\uE176" // star (Priority directive)
+    readonly property string muscleIcon:    "\ue5eb" // biceps-flexed (Strength Matrix / Muscular fortification)
+    readonly property string zenIcon:       "\ue2d3" // flower (Yoga & Pilates / Core symmetry)
+    readonly property string runIcon:       "\ue3b9" // footprints (Locomotion Grid / Running)
+    readonly property string swimIcon:      "\ue283" // waves (Aqua Dynamics / Swimming)
+    // // --- TRAINING MODALITIES & SPECIFIC GOALS ---
+    readonly property string dumbbellIcon:     "\ue3a1" // dumbbell (Weightlifting / Hypertrophy)
+    readonly property string bikeIcon:       "\ue1d2" // bike (Cycling / Endurance protocols)
+    readonly property string combatIcon:     "\ue68b" // hand-fist (Combat drills / Martial arts)
+    readonly property string mountainIcon:   "\ue231" // mountain (Outdoor training / Altitude)
+    readonly property string agilityIcon:    "\ue1b0" // wind (Speed & Agility / Quick response)
+    readonly property string stretchIcon:    "\ue27c" // stretch-horizontal (Flexibility / Mobility)
+    readonly property string medalIcon:      "\ue36f" // medal (Competitive goals / Performance)
+    readonly property string trophyIcon:     "\ue373" // trophy (Mastery directives / Final rank)
+
+    // --- SYSTEM & UTILITY
+    readonly property string saveIcon:      "\uE14D" // save (Consolidate configuration)
+    readonly property string scanIcon:      "\uE257" // scan (Module diagnostic)
+    readonly property string eyeIcon:       "\uE0BA" // eye (Visual monitoring)
+    readonly property string infoIcon:      "\uE0F9" // info (System metadata)
+
     // Badges
     readonly property string activityIcon:  "\uE038" //  1. NEURAL Badge
     readonly property string fireIcon:      "\uE53A" //  2. FIRE Badge
