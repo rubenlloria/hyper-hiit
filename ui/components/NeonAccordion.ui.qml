@@ -41,12 +41,12 @@ import ".."
 Item {
     id: root
     width: 380
-    height: isOpen ? 450 : 95
+    height: isOpen ? 450 : 100
 
     // Public properties for state and theme
     property bool isOpen: false
     property string title: "ACTIVE_DIRECTIVE"
-    property color activeThemeColor: Constants.fuchsiaNeon // Default to STRENGTH_MATRIX violet [4]
+    property color activeThemeColor: Constants.primaryColor
     property string activeDirectiveName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
     property string activeDirectiveDesc: "Muscular fortification sequence"
@@ -103,7 +103,7 @@ Item {
                     NeonIcon {
                         id: activeIcon
                         anchors.centerIn: parent
-                        glyph: root.activeIconGlyph // Propiedad vinculada a la directiva activa
+                        glyph: root.activeIconGlyph
                         color: root.activeThemeColor
                         size: 24
                         glowRadius: 20
@@ -114,7 +114,6 @@ Item {
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 2
-
                     Text {
                         id: nameDisplay
                         text: root.activeDirectiveName
@@ -122,6 +121,10 @@ Item {
                         font.family: Constants.mainFont.family
                         font.pixelSize: 15
                         font.bold: true
+                        width: 200
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                        maximumLineCount: 1
                     }
                     Text {
                         id: descDisplay
@@ -129,7 +132,11 @@ Item {
                         color: Constants.descriptionColor
                         opacity: 0.7
                         font.family: Constants.techFont.family
-                        font.pixelSize: 10
+                        font.pixelSize: 12
+                        width: 200
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                        maximumLineCount: 1
                     }
                 }
 
