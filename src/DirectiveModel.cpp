@@ -50,7 +50,7 @@ QVariant DirectiveModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case IdRole:          return directive.id;
-    case NameRole:        return directive.name.toUpper(); // HUD Aesthetic
+    case NameRole:        return directive.name;
     case DescriptionRole: return directive.description;
     case IconRole:        return directive.icon;
     case ColorRole:       return directive.color;
