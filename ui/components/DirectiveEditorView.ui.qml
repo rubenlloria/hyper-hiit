@@ -13,14 +13,17 @@ import "../components"
 */
 Item {
     id: root
+    readonly property int editHeight: 580
+    readonly property int viewHeight: 120
     width: Constants.designWidth * 0.9
-    height: !isExpanded ? 60 : (isEditing ? 580 : 120)
+    height: !isExpanded ? 60 : (isEditing ? editHeight : viewHeight)
 
     // Configuration Properties
     property bool isExpanded: false
     property color accentColor: Constants.secondaryColor
     property bool isDirty: false
     property bool isEditing: false
+    property int directiveId: -1
 
     // Aliases for data binding in the Repeater
     property alias nameText: nameInput.text
@@ -40,7 +43,7 @@ Item {
         id: container
         anchors.fill: parent
         color: Constants.backgroundColor
-        border.color: root.isDirty ? Constants.primaryColor : root.accentColor
+        border.color: root.accentColor
         border.width: 1
 
         // 1. HEADER (Always visible)
@@ -82,6 +85,8 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
                 width: 200
                 Layout.fillWidth: true
+                elide: Text.ElideRight
+                maximumLineCount: 1
             }
 
             // Action Buttons (Right Aligned)
@@ -209,6 +214,7 @@ Item {
                                 id: saveButton
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                visible: isDirty
                             }
                         }
                     }
@@ -230,8 +236,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: 15
             spacing: 8
-            visible: root.isExpanded && !root.isEditing
-
+            visible: root.height === viewHeight
             Row {
                 spacing: 10
                 Text {
@@ -245,6 +250,9 @@ Item {
                     color: Constants.descriptionColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
+                    maximumLineCount: 1
+                    elide: Text.ElideRight
+                    width: parent.width * 0.58
                 }
                 Text {
                     text: "COLOR:"
@@ -270,9 +278,11 @@ Item {
                 }
                 Text {
                     text: root.descriptionText
+                    width: parent.width * 0.89
                     color: Constants.descriptionColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
+                    elide: Text.ElideRight
                 }
             }
         }
@@ -285,7 +295,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: 15
             spacing: 15
-            visible: root.isExpanded && root.isEditing
+            visible: root.height === editHeight
 
             // Text Fields
             NeonTextField {
@@ -400,7 +410,7 @@ Item {
             when: root.isExpanded && root.isEditing
             PropertyChanges {
                 target: root
-                height: 580
+                height: editHeight
             }
             PropertyChanges {
                 target: chevron
@@ -412,7 +422,7 @@ Item {
             when: root.isExpanded && !root.isEditing
             PropertyChanges {
                 target: root
-                height: 120
+                height: viewHeight
             }
             PropertyChanges {
                 target: chevron
@@ -436,7 +446,7 @@ Item {
     transitions: [
         Transition {
             NumberAnimation {
-                properties: "height"
+                properties: "height, opacity"
                 duration: 400
                 easing.type: Easing.InOutQuad
             }
