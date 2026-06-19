@@ -4,10 +4,8 @@ import QtQuick.Controls
 import QtQuick.Effects
 
 import "../components"
-// Access to NeonIcon, NeonText, etc.
 import ".."
 
-// Access to Constants.qml
 Rectangle {
     id: root
     width: Constants.designWidth
@@ -15,8 +13,9 @@ Rectangle {
     color: Constants.surfaceColor
 
     property alias header: header
-    property alias neonAccordion: neonAccordion
-    property alias protocols: protocols
+    property alias directiveLayout: directiveLayout
+    property alias buttonAll: buttonAll
+    property alias buttonOrphan: buttonOrphan
 
     ColumnLayout {
         width: parent.width
@@ -32,7 +31,7 @@ Rectangle {
         }
 
         Flickable {
-            id: dashboardScroll
+            id: mainScroll
             Layout.fillWidth: true
             Layout.fillHeight: true
             // Layout.bottomMargin: 60
@@ -61,25 +60,104 @@ Rectangle {
                 leftPadding: 20
                 rightPadding: 20
                 width: parent.width
-                spacing: 10
+                spacing: 90
 
-                NeonAccordion {
-                    id: neonAccordion
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    activeThemeColor: sessionManager.activeDirectiveInfo.color
-                                      || Constants.primaryColor
-                    activeDirectiveName: sessionManager.activeDirectiveInfo.name
-                                         || "LOADING..."
-                    activeIconGlyph: sessionManager.activeDirectiveInfo.icon
-                                     || Constants.zapIcon
-                    activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
-                                         || "No data"
+                Column {
+                    id: directiveLayout
+                    spacing: 10
+                    NeonTitle {
+                        label: "DIRECTIVE_EDITOR"
+                        width: parent.width - 20
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        fontSize: 14
+                        titleColor: Constants.secondaryColor
+                    }
+
+                    Row {
+                        spacing: 15
+                        Rectangle {
+                            width: buttonAllLayout.implicitWidth * 1.15
+                            height: 34
+                            color: "transparent"
+                            border.color: Constants.secondaryColor
+                            opacity: buttonAll.selected ? 1 : 0.5
+                            RowLayout {
+                                id: buttonAllLayout
+                                anchors.verticalCenter: parent.verticalCenter
+                                // anchors.fill: parent
+                                spacing: 0
+                                NeonIcon {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    glyph: Constants.activityIcon
+                                    size: 12
+                                    color: parent.parent.border.color
+                                }
+                                NeonText {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    label: "ALL"
+                                    labelColor: parent.parent.border.color
+                                }
+                            }
+                            MouseArea {
+                                id: buttonAll
+                                property bool selected: false
+                                anchors.fill: parent
+                            }
+                        }
+                        Rectangle {
+                            width: buttonOrphanLayout.implicitWidth * 1.15
+                            height: 34
+                            color: "transparent"
+                            border.color: Constants.secondaryColor
+                            opacity: buttonOrphan.selected ? 1 : 0.5
+                            RowLayout {
+                                id: buttonOrphanLayout
+                                anchors.verticalCenter: parent.verticalCenter
+                                // anchors.fill: parent
+                                spacing: 0
+                                NeonIcon {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    glyph: Constants.activityIcon
+                                    size: 12
+                                    color: parent.parent.border.color
+                                }
+                                NeonText {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    label: "ORPHAN"
+                                    labelColor: parent.parent.border.color
+                                }
+                            }
+                            MouseArea {
+                                id: buttonOrphan
+                                property bool selected: false
+                                anchors.fill: parent
+                            }
+                        }
+                    }
                 }
+                Column {
+                    id: protocolLayout
+                    NeonTitle {
+                        label: "PROTOCOL_BUILDER"
+                        width: parent.width - 20
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        fontSize: 14
+                        titleColor: Constants.secondaryColor
+                    }
 
-                ProtocolList {
-                    id: protocols
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    listThemeColor: neonAccordion.activeThemeColor
+                    NeonAccordion {
+                        id: protocolAccordion
+                        title: "EDIT_PROTOCOL"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        activeThemeColor: sessionManager.activeDirectiveInfo.color
+                                          || Constants.primaryColor
+                        activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                                             || "LOADING..."
+                        activeIconGlyph: sessionManager.activeDirectiveInfo.icon
+                                         || Constants.zapIcon
+                        activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                                             || "No data"
+                    }
                 }
 
                 Column {

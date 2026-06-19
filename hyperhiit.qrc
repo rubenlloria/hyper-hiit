@@ -65,6 +65,8 @@
         <file>ui/assets/images/background_tech.png</file>
         <file>ui/assets/images/splash.png</file>
         <file>ui/components/AppHeader.ui.qml</file>
+        <file>ui/components/DirectiveEditor.qml</file>
+        <file>ui/components/DirectiveEditorView.ui.qml</file>
         <file>ui/components/NeonAccordion.ui.qml</file>
         <file>ui/components/NeonAchievement.ui.qml</file>
         <file>ui/components/NeonBadge.ui.qml</file>
