@@ -564,11 +564,11 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
                         mod["unit"] = "m";
                         break;
                     default:
-                        mod["type"] = "";
+                        mod["unit"] = "";
                         break;
                     }
                     modulesInSub.append(mod);
-                    hDebug() << "\t" << mod["quantity"].toString() << mod["type"].toString() << " " << mod["name"].toString();
+                    hDebug() << "\t" << mod["quantity"].toString() << mod["unit"].toString() << " " << mod["name"].toString();
                 }
             }
 
