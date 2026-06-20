@@ -260,7 +260,7 @@ Item {
                                     anchors.leftMargin: 10
                                     anchors.rightMargin: 10
                                     NeonIcon {
-                                        glyph: "\ue0ea"
+                                        glyph: Constants.gripIcon
                                         size: 14
                                         color: Constants.primaryColor
                                         Layout.alignment: Qt.AlignVCenter
@@ -312,10 +312,15 @@ Item {
                                         spacing: 5
 
                                         NeonIcon {
-                                            glyph: "\ue0ea"
+                                            glyph: Constants.gripIcon
                                             size: 14
                                             color: Constants.descriptionColor
                                             opacity: 0.5
+                                            MouseArea {
+                                                id: gripMouseArea
+                                                anchors.fill: parent
+                                                cursorShape: Qt.OpenHandCursor
+                                            }
                                         }
 
                                         Column {

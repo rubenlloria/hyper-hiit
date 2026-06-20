@@ -141,6 +141,7 @@ QtObject {
     readonly property string badgeIcon:     "\uE241" // ACHIEMEVENT_MATRIX
     readonly property string pencilIcon:    "\uE1F9" // pencil (Edit directive)
     readonly property string trashIcon:     "\uE18E" // trash-2 (delete)
+    readonly property string gripIcon:      "\uE0EA" // grip-horizontal (move)
     // Power & Stamina Protocols (High Intensity)
     readonly property string kineticIcon:   "\ue58c" // bolt (Kinetic Energy)
     readonly property string weightIcon:    "\ue530" // weight (Heavy Load)
