@@ -180,19 +180,11 @@ Rectangle {
                         activeDirectiveDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
                         width: parent.width
                         headerMouseArea.visible: false
-                        // activeThemeColor: sessionManager.activeDirectiveInfo.color
-                        //                   || Constants.primaryColor
-                        // activeDirectiveName: sessionManager.activeDirectiveInfo.name
-                        //                      || "LOADING..."
-                        // activeIconGlyph: sessionManager.activeDirectiveInfo.icon
-                        //                  || Constants.zapIcon
-                        // activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
-                        //                      || "No data"
                     }
 
-                    // ProtocolEditor {
-                    //     id: protocolEditor
-                    // }
+                    ProtocolEditor {
+                        id: protocolEditor
+                    }
                 }
 
                 Column {
