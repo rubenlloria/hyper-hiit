@@ -63,6 +63,7 @@ Item {
         id: badgeIcon
         anchors.centerIn: parent
         glyph: root.glyph
+        size: root.size / 2
     }
 
     states: [
