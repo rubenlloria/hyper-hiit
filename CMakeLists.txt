@@ -101,6 +101,8 @@ qt_add_qml_module(hyper-hiit
         ui/components/NeonTextField.ui.qml
         ui/components/NeonTimer.ui.qml
         ui/components/NeonTitle.ui.qml
+        ui/components/ProtocolEditorView.ui.qml
+        ui/components/ProtocolEditor.qml
         ui/components/ProtocolList.ui.qml
         ui/components/SummaryList.ui.qml
     RESOURCES

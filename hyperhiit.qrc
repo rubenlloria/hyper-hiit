@@ -89,6 +89,8 @@
         <file>ui/components/NeonTextField.ui.qml</file>
         <file>ui/components/NeonTimer.ui.qml</file>
         <file>ui/components/NeonTitle.ui.qml</file>
+        <file>ui/components/ProtocolEditor.qml</file>
+        <file>ui/components/ProtocolEditorView.ui.qml</file>
         <file>ui/components/ProtocolList.ui.qml</file>
         <file>ui/components/SummaryList.ui.qml</file>
         <file>ui/main.qml</file>
