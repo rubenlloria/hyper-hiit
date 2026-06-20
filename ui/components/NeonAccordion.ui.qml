@@ -41,7 +41,8 @@ import ".."
 Item {
     id: root
     width: 380
-    height: isOpen ? 450 : 100
+    // height: isOpen ? layoutContainer.height : 100
+    height: isOpen ? layoutContainer.implicitHeight : (mainHeader.height + sectionLabel.height)
 
     // Public properties for state and theme
     property bool isOpen: false
@@ -57,7 +58,8 @@ Item {
 
     Column {
         id: layoutContainer
-        anchors.fill: parent
+        width: parent.width
+        // anchors.fill: parent
         spacing: 0
 
         // Section label (always cyan per source screenshot [5])
@@ -189,7 +191,7 @@ Item {
             when: root.isOpen
             PropertyChanges {
                 target: root
-                height: 450
+                height: layoutContainer.implicitHeight
             }
 
             PropertyChanges {
@@ -206,7 +208,7 @@ Item {
             when: !root.isOpen
             PropertyChanges {
                 target: root
-                height: 95
+                height: (mainHeader.height + sectionLabel.height)
             }
             PropertyChanges {
                 target: mainHeader
