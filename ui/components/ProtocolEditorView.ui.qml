@@ -28,6 +28,8 @@ Item {
     property string protocolName: "INFERNO_SEQUENCE"
     property int selectedRank: 1 // 0:NEWBIE, 1:ADVANCED, 2:ROOT
 
+    property alias protocolRepeater: protocolRepeater
+
     Column {
         id: contentLayout
         width: parent.width * 0.9
@@ -177,18 +179,60 @@ Item {
                 Repeater {
                     id: protocolRepeater
                     model: [{
-                            "subId": 1,
-                            "modules": 2
+                            "subsystem_id": 1,
+                            "modules": [{
+                                    "name": "Burpees",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }, {
+                                    "name": "Mountain Climbers",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }]
                         }, // Subsystem 1 with 3 dummy modules
                         {
-                            "subId": 2,
-                            "modules": 3
+                            "subsystem_id": 2,
+                            "modules": [{
+                                    "name": "Burpees",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }, {
+                                    "name": "Mountain Climbers",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }]
                         }, // Subsystem 2 with 5 dummy modules
                         {
-                            "subId": 3,
-                            "modules": 2
+                            "subsystem_id": 3,
+                            "modules": [{
+                                    "name": "Burpees",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }, {
+                                    "name": "Mountain Climbers",
+                                    "quantity": 15,
+                                    "unit": "x",
+                                    "met": "N/A",
+                                    "zone": "Full Body"
+                                }]
                         } // Subsystem 3 with 3 dummy modules
                     ]
+
+                    // model: [
+                    //     { "subsystem_id": 1, "moduleData": 3 }, // Subsystem 1 with 3 dummy modules
+                    //     { "subsystem_id": 2, "moduleData": 5 }, // Subsystem 2 with 5 dummy modules
+                    //     { "subsystem_id": 3, "moduleData": 3 }  // Subsystem 3 with 3 dummy modules
+                    // ]
 
                     // model: 3
                     Rectangle {
@@ -222,7 +266,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                     } // Grip icon
                                     Text {
-                                        text: "SUBSYSTEM_" + modelData.subId //TODO: add id
+                                        text: "SUBSYSTEM_" + modelData.subsystem_id
                                         color: Constants.primaryColor
                                         font.family: Constants.mainFont.family
                                         font.pixelSize: 12
@@ -277,7 +321,7 @@ Item {
                                         Column {
                                             Layout.fillWidth: true
                                             Text {
-                                                text: "Mountain Climbers"
+                                                text: modelData.name
                                                 width: 140
                                                 color: Constants.primaryTextColor
                                                 font.family: Constants.techFont.family
@@ -285,7 +329,7 @@ Item {
                                                 elide: Text.ElideRight
                                             }
                                             Text {
-                                                text: "Full Body · MET:8"
+                                                text: modelData.zone + " · MET:" + modelData.met
                                                 color: Constants.descriptionColor
                                                 opacity: 0.5
                                                 font.family: Constants.techFont.family
@@ -302,7 +346,7 @@ Item {
                                             color: Constants.surfaceColor
                                             border.color: Constants.primaryTextColor
                                             TextInput {
-                                                text: "30"
+                                                text: modelData.quantity
                                                 color: Constants.primaryTextColor
                                                 anchors.centerIn: parent
                                                 font.family: Constants.techFont.family
@@ -321,9 +365,9 @@ Item {
                                             color: Constants.primaryTextColor
                                             radius: 2
                                             Layout.alignment: Qt.AlignVCenter
-                                            property bool isDefault: false
+                                            property bool isDefault: true
                                             Text {
-                                                text: parent.isDefault ? "REP." : "sec."
+                                                text: parent.isDefault ? (modelData.unit === "x" ? "Rep." : modelData.unit) : "sec."
                                                 color: Constants.deepColor
                                                 anchors.centerIn: parent
                                                 font.family: Constants.mainFont.family

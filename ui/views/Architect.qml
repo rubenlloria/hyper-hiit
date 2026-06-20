@@ -40,6 +40,7 @@ ArchitectForm {
 
     Component.onCompleted: {
         isReady = true;
+        protocolEditor.protocolRepeater.model = protocolDataModel;
     }
 
     header.settingsMouseArea.onClicked: {
@@ -173,6 +174,8 @@ ArchitectForm {
                     protocolAccordion.activeDirectiveDesc = "DURATION: " + formatTime(model.duration)
                             + "   MODULES: " + model.moduleCount;
                     protocolAccordion.isOpen = false;
+                    protocolDataModel = dbManager.getProtocolStructure(protocolId);
+                    protocolEditor.protocolRepeater.model = protocolDataModel;
                 }
             }
         }

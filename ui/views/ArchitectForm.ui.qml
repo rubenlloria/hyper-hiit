@@ -15,6 +15,7 @@ Rectangle {
     property int expandedIndex: -1
     property int editingIndex: -1
     property int protocolId: -1
+    property var protocolDataModel: []
 
     property alias header: header
     property alias directiveLayout: directiveLayout
@@ -22,6 +23,7 @@ Rectangle {
     property alias buttonAll: buttonAll
     property alias buttonOrphan: buttonOrphan
     property alias protocolAccordion: protocolAccordion
+    property alias protocolEditor: protocolEditor
 
     ColumnLayout {
         width: parent.width
