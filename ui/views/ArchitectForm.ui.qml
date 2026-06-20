@@ -12,6 +12,10 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.surfaceColor
 
+    property int expandedIndex: -1
+    property int editingIndex: -1
+    property int protocolId: -1
+
     property alias header: header
     property alias directiveLayout: directiveLayout
     property alias directiveRepeater: directiveRepeater
@@ -171,10 +175,11 @@ Rectangle {
                         title: "SELECT_PROTOCOL"
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: Constants.primaryColor
-                        activeDirectiveName: "ASSOCIATED_PROTOCOLS"
+                        activeDirectiveName: editingIndex === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
                         activeIconGlyph: ""
-                        activeDirectiveDesc: "Manage selected directive protocols"
+                        activeDirectiveDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
                         width: parent.width
+                        headerMouseArea.visible: false
                         // activeThemeColor: sessionManager.activeDirectiveInfo.color
                         //                   || Constants.primaryColor
                         // activeDirectiveName: sessionManager.activeDirectiveInfo.name

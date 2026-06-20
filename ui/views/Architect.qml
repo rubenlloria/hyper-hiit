@@ -33,8 +33,6 @@ ArchitectForm {
     readonly property string debugName: "Architect.qml"
     readonly property string infoName: "Architect.qml"
 
-    property int expandedIndex: -1
-    property int editingIndex: -1
     property bool isReady: false
     property var rankNames: dbManager.getRankLabels()
 
@@ -73,7 +71,12 @@ ArchitectForm {
 
         onNameTextChanged: { if (isReady) isDirty = true; }
         onDescriptionTextChanged: { if (isReady) isDirty = true; }
-        onAccentColorChanged: { if (isReady) isDirty = true; }
+        onAccentColorChanged: {
+            if (isReady) {
+                isDirty = true;
+                protocolAccordion.activeThemeColor = accentColor;
+            }
+        }
         onGlyphChanged: { if (isReady) isDirty = true; }
 
         // Signal Handling
@@ -94,13 +97,19 @@ ArchitectForm {
             if (architectForm.editingIndex === index) {
                 // Close edit mode if already editing
                 architectForm.editingIndex = -1;
+                protocolAccordion.headerMouseArea.visible = false;
+                protocolAccordion.activeDirectiveName = "DIRECTIVE_NOT_SELECTED";
+                protocolAccordion.activeDirectiveDesc = "Select directive first";
+                protocolAccordion.isOpen = false;
             } else {
                 // Force expansion when editing is requested
                 // architectForm.expandedIndex = index;
                 architectForm.editingIndex = index;
                 protocolAccordion.activeThemeColor = accentColor;
                 architectProtocolModel.filterByDirective(model.id);
-
+                protocolAccordion.headerMouseArea.visible = true;
+                protocolAccordion.activeDirectiveName = "ASSOCIATED_PROTOCOLS";
+                protocolAccordion.activeDirectiveDesc = "Manage selected directive protocols";
             }
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
@@ -159,6 +168,11 @@ ArchitectForm {
                 itemMouseArea.onClicked: {
                     // Logic to open ProtocolEditor could go here
                     Constants.hDebug(debugName, "Selected protocol: " + model.name + " with id: " + model.id)
+                    protocolId = model.id;
+                    protocolAccordion.activeDirectiveName = model.name;
+                    protocolAccordion.activeDirectiveDesc = "DURATION: " + formatTime(model.duration)
+                            + "   MODULES: " + model.moduleCount;
+                    protocolAccordion.isOpen = false;
                 }
             }
         }
