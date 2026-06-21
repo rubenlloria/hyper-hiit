@@ -40,7 +40,9 @@ ArchitectForm {
 
     Component.onCompleted: {
         isReady = true;
-        protocolEditor.protocolRepeater.model = protocolDataModel;
+        protocolEditor.protocolModel.clear();
+        // protocolEditor.protocolListView.model = protocolDataModel;
+        // protocolEditor.protocolRepeater.model = protocolDataModel;
     }
 
     header.settingsMouseArea.onClicked: {
@@ -98,6 +100,7 @@ ArchitectForm {
             if (architectForm.editingIndex === index) {
                 // Close edit mode if already editing
                 architectForm.editingIndex = -1;
+                protocolAccordion.activeThemeColor = Constants.descriptionColor;
                 protocolAccordion.headerMouseArea.visible = false;
                 protocolAccordion.activeDirectiveName = "DIRECTIVE_NOT_SELECTED";
                 protocolAccordion.activeDirectiveDesc = "Select directive first";
@@ -111,6 +114,7 @@ ArchitectForm {
                 protocolAccordion.headerMouseArea.visible = true;
                 protocolAccordion.activeDirectiveName = "ASSOCIATED_PROTOCOLS";
                 protocolAccordion.activeDirectiveDesc = "Manage selected directive protocols";
+                protocolId = -1;
             }
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
@@ -168,14 +172,29 @@ ArchitectForm {
 
                 itemMouseArea.onClicked: {
                     // Logic to open ProtocolEditor could go here
-                    Constants.hDebug(debugName, "Selected protocol: " + model.name + " with id: " + model.id)
+                    Constants.hDebug(debugName, "Selected protocol: " + model.name
+                                     + " with id: " + model.id
+                                     + " and rank : " + model.rank
+                                     );
                     protocolId = model.id;
                     protocolAccordion.activeDirectiveName = model.name;
                     protocolAccordion.activeDirectiveDesc = "DURATION: " + formatTime(model.duration)
                             + "   MODULES: " + model.moduleCount;
                     protocolAccordion.isOpen = false;
                     protocolDataModel = dbManager.getProtocolStructure(protocolId);
-                    protocolEditor.protocolRepeater.model = protocolDataModel;
+                    protocolEditor.protocolModel.clear();
+                    // protocolEditor.protocolName = model.name
+                    protocolEditor.selectedRank = model.rank -1
+                    for (let i = 0; i < protocolDataModel.length; i++) {
+                        // protocolDataModel[i] contains { "subsystem": int, "modules": [...] }
+                        protocolEditor.protocolModel.append(protocolDataModel[i]);
+                    }
+
+                    Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.protocolModel.count);
+
+
+                    // protocolEditor.protocolListView.model = protocolDataModel;
+                    // protocolEditor.protocolRepeater.model = protocolDataModel;
                 }
             }
         }

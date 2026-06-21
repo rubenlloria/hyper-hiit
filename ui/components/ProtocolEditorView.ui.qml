@@ -6,6 +6,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQml.Models
 import Qt5Compat.GraphicalEffects
 import ".."
 import "."
@@ -25,10 +26,83 @@ Item {
     property color accentColor: Constants.primaryColor // Default Protocol Color
 
     // Properties for data binding
-    property string protocolName: "INFERNO_SEQUENCE"
+    property alias protocolName: nameField.text
     property int selectedRank: 1 // 0:NEWBIE, 1:ADVANCED, 2:ROOT
 
-    property alias protocolRepeater: protocolRepeater
+    property alias protocolListView: subsystemListView
+
+    // Data model exposed so the logic file (ProtocolEditor.qml) can manipulate it.
+    // A real ListModel supports move()/remove()/insert() natively, which lets
+    // ListView reposition delegates instead of destroying/recreating them.
+    property alias protocolModel: subsystemModel
+
+    ListModel {
+        id: subsystemModel
+        ListElement {
+            subsystem_id: 1
+            modules: [
+                ListElement {
+                    name: "Burpees"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                },
+                ListElement {
+                    name: "Mountain Climbers"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                }
+            ]
+        }
+        ListElement {
+            subsystem_id: 2
+            modules: [
+                ListElement {
+                    name: "Burpees"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                },
+                ListElement {
+                    name: "Mountain Climbers"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                }
+            ]
+        }
+        ListElement {
+            subsystem_id: 3
+            modules: [
+                ListElement {
+                    name: "Burpees"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                },
+                ListElement {
+                    name: "Mountain Climbers"
+                    quantity: 15
+                    unit: "x"
+                    met: "N/A"
+                    zone: "Full Body"
+                }
+            ]
+        }
+    }
+
+    // Drag & Drop signals: they ONLY carry the source item and the target position.
+    // All decision-making (comparisons, model.move/remove/insert, etc.) lives in
+    // ProtocolEditor.qml, never in this .ui.qml file.
+    signal subsystemSwapRequested(var sourceItem, int targetIndex)
+    signal moduleHoverSwapRequested(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
+    signal moduleDropped(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
 
     Column {
         id: contentLayout
@@ -48,45 +122,6 @@ Item {
             cornerWidth: 2
         }
 
-        // 2. PROTOCOL SELECTION TABS
-        // Row {
-        //     spacing: 10
-        //     Repeater {
-        //         model: ["INFERNO_SEQUENCE", "PULSE_DRIVER", "GHOST_PROTOCOL"]
-        //         Rectangle {
-        //             width: 140
-        //             height: 35
-        //             color: modelData === root.protocolName ? "#20bf00ff" : Constants.deepColor
-        //             border.color: modelData === root.protocolName ? Constants.primaryColor : "#40ffffff"
-        //             border.width: 1
-
-        //             Text {
-        //                 text: modelData
-        //                 anchors.centerIn: parent
-        //                 color: parent.border.color
-        //                 font.family: Constants.techFont.family
-        //                 font.pixelSize: 11
-        //             }
-        //         }
-        //     }
-
-        //     // Add New Button
-        //     Rectangle {
-        //         width: 60
-        //         height: 35
-        //         color: Constants.deepColor
-        //         border.color: "#40ffffff"
-        //         border.width: 1
-        //         Text {
-        //             text: "+ NEW"
-        //             color: "#80ffffff"
-        //             anchors.centerIn: parent
-        //             font.family: Constants.techFont.family
-        //             font.pixelSize: 10
-        //         }
-        //     }
-        // }
-
         // 3. CORE METADATA (Name & Rank)
         ColumnLayout {
             width: parent.width
@@ -95,14 +130,14 @@ Item {
             NeonTextField {
                 id: nameField
                 width: parent.width
-                text: root.protocolName
+                text: "INFERNO_SEQUENCE"
                 label: "PROTOCOL_NAME"
                 // isDirty: root.isDirty
             }
 
             NeonSelector {
                 id: rankSelector
-                width: 200
+                width: parent.width
                 option1Label: "NEWBIE"
                 option2Label: "ADVANCED"
                 option3Label: "ROOT"
@@ -115,7 +150,7 @@ Item {
                 width: parent.width
                 spacing: 8
                 Text {
-                    text: "DIRECTIVE_MAPPING_GRID"
+                    text: "DIRECTIVE_MAPPING_GRID (Not implemented)"
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -129,7 +164,7 @@ Item {
                         size: 40
                         glyph: "\ue0d2"
                         color: Constants.primaryColor
-                        unlocked: true
+                        unlocked: false
                     }
                     NeonBadge {
                         size: 40
@@ -152,7 +187,7 @@ Item {
             width: parent.width
             spacing: 15
 
-            Row {
+            RowLayout {
                 width: parent.width
                 height: 15
                 Text {
@@ -160,10 +195,11 @@ Item {
                     color: Constants.primaryTextColor
                     font.family: Constants.mainFont.family
                     font.pixelSize: 12
+                    Layout.fillWidth: true
                 }
                 Text {
-                    text: "5 ENTRIES"
-                    anchors.right: parent.right
+                    text: subsystemModel.count + " ENTRIES"
+                    // anchors.right: parent.right
                     color: Constants.descriptionColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -171,239 +207,376 @@ Item {
                 }
             }
 
-            // Subsystem entry
-            ColumnLayout {
+            // Subsystem entry list
+            ListView {
+                id: subsystemListView
                 width: parent.width
+                height: contentHeight
+                interactive: false // the page itself scrolls; this list only reorders
+                clip: false
                 spacing: 2
+                model: subsystemModel
 
-                Repeater {
-                    id: protocolRepeater
-                    model: [{
-                            "subsystem_id": 1,
-                            "modules": [{
-                                    "name": "Burpees",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }, {
-                                    "name": "Mountain Climbers",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }]
-                        }, // Subsystem 1 with 3 dummy modules
-                        {
-                            "subsystem_id": 2,
-                            "modules": [{
-                                    "name": "Burpees",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }, {
-                                    "name": "Mountain Climbers",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }]
-                        }, // Subsystem 2 with 5 dummy modules
-                        {
-                            "subsystem_id": 3,
-                            "modules": [{
-                                    "name": "Burpees",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }, {
-                                    "name": "Mountain Climbers",
-                                    "quantity": 15,
-                                    "unit": "x",
-                                    "met": "N/A",
-                                    "zone": "Full Body"
-                                }]
-                        } // Subsystem 3 with 3 dummy modules
-                    ]
+                move: Transition {
+                    NumberAnimation {
+                        properties: "y"
+                        duration: 200
+                        easing.type: Easing.OutCubic
+                    }
+                }
+                displaced: Transition {
+                    NumberAnimation {
+                        properties: "y"
+                        duration: 200
+                        easing.type: Easing.OutCubic
+                    }
+                }
 
-                    // model: [
-                    //     { "subsystem_id": 1, "moduleData": 3 }, // Subsystem 1 with 3 dummy modules
-                    //     { "subsystem_id": 2, "moduleData": 5 }, // Subsystem 2 with 5 dummy modules
-                    //     { "subsystem_id": 3, "moduleData": 3 }  // Subsystem 3 with 3 dummy modules
-                    // ]
+                delegate: Rectangle {
+                    id: subsystemWrapper
+                    width: ListView.view.width
+                    height: protocolLayout.implicitHeight + 5
+                    color: "transparent"
+                    border.color: Constants.primaryColor
+                    border.width: 1
 
-                    // model: 3
-                    Rectangle {
-                        id: subsystemWrapper
+                    // --- DRAG & DROP: subsystem block ---
+                    readonly property int subsystemIndex: index
+                    property bool dragActive: subsystemDragArea.drag.active
+
+                    z: dragActive ? 99 : 1
+                    opacity: dragActive ? 0.85 : 1.0
+                    scale: dragActive ? 1.015 : 1.0
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 120
+                        }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 120
+                        }
+                    }
+
+                    Drag.active: subsystemDragArea.drag.active
+                    Drag.source: subsystemWrapper
+                    Drag.keys: ["subsystem"]
+                    Drag.hotSpot.x: width / 2
+                    Drag.hotSpot.y: 20
+
+                    // Live swap: as soon as the dragged block enters another
+                    // subsystem's area, request an exchange (real move, not absolute drop)
+                    DropArea {
+                        id: subsystemDropArea
+                        anchors.fill: parent
+                        keys: ["subsystem"]
+                    }
+
+                    // Drop zone for a module coming from another subsystem
+                    // (e.g. dropped on the header, when the target subsystem still has no visible modules)
+                    DropArea {
+                        id: subsystemHeaderModuleDropArea
+                        anchors.fill: parent
+                        keys: ["module"]
+                    }
+
+                    // Signal handling must go through Connections in a .ui.qml file
+                    Connections {
+                        target: subsystemDropArea
+                        function onEntered(drag) {
+                            root.subsystemSwapRequested(
+                                        drag.source,
+                                        subsystemWrapper.subsystemIndex)
+                        }
+                    }
+
+                    Connections {
+                        target: subsystemHeaderModuleDropArea
+                        function onDropped(drop) {
+                            root.moduleDropped(drop.source,
+                                               subsystemWrapper.subsystemIndex,
+                                               0)
+                        }
+                    }
+
+                    ColumnLayout {
+                        id: protocolLayout
                         width: parent.width
-                        height: protocolLayout.implicitHeight + 5
-                        color: "transparent"
-                        border.color: Constants.primaryColor
-                        border.width: 1
-                        ColumnLayout {
-                            id: protocolLayout
+                        // Subsystem Header
+                        Rectangle {
+                            id: subsystemItem
                             width: parent.width
-                            // Subsystem Header
-                            Rectangle {
-                                id: subsystemItem
-                                width: parent.width
-                                height: subsystemLayout.implicitHeight
-                                color: Constants.primaryDarkColor // Dark
-                                border.color: Constants.primaryColor
+                            height: subsystemLayout.implicitHeight
+                            color: Constants.primaryDarkColor // Dark
+                            border.color: Constants.primaryColor
+                            border.width: 1
+
+                            RowLayout {
+                                id: subsystemLayout
+                                anchors.fill: parent
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: 10
+                                NeonIcon {
+                                    glyph: Constants.gripIcon
+                                    size: 14
+                                    color: Constants.primaryColor
+                                    Layout.alignment: Qt.AlignVCenter
+                                    MouseArea {
+                                        id: subsystemDragArea
+                                        anchors.fill: parent
+                                        anchors.margins: -6 // larger touch/hit area
+                                        cursorShape: Qt.SizeAllCursor
+                                        drag.target: subsystemWrapper
+                                        drag.axis: Drag.YAxis
+                                    }
+                                } // Grip icon
+                                Text {
+                                    text: "SUBSYSTEM_" + subsystem_id
+                                    color: Constants.primaryColor
+                                    font.family: Constants.mainFont.family
+                                    font.pixelSize: 12
+                                    Layout.fillWidth: true
+                                    Layout.alignment: Qt.AlignVCenter
+                                }
+                                Rectangle {
+                                    width: 30
+                                    height: width
+                                    color: Constants.surfaceColor
+                                    border.color: Constants.primaryColor
+                                    NeonIcon {
+                                        glyph: "\ue1b2"
+                                        size: 14
+                                        color: Constants.primaryColor
+                                        anchors.centerIn: parent
+                                        MouseArea {
+                                            id: buttonDelete
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                        }
+                                    }
+                                } // X icon
+                            }
+                        } // subsystemItem
+
+                        Connections {
+                            target: subsystemDragArea
+                            function onReleased() {
+                                subsystemWrapper.Drag.drop()
+                            }
+                        }
+
+                        // Module list of this subsystem
+                        ListView {
+                            id: moduleListView
+                            Layout.fillWidth: true
+                            height: contentHeight
+                            interactive: false
+                            clip: false
+                            spacing: 0
+                            model: modules
+
+                            move: Transition {
+                                NumberAnimation {
+                                    properties: "y"
+                                    duration: 200
+                                    easing.type: Easing.OutCubic
+                                }
+                            }
+                            displaced: Transition {
+                                NumberAnimation {
+                                    properties: "y"
+                                    duration: 200
+                                    easing.type: Easing.OutCubic
+                                }
+                            }
+
+                            delegate: Rectangle {
+                                id: moduleItem
+                                width: ListView.view.width * 0.98
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                height: 60
+                                color: Constants.deepColor
+                                border.color: Constants.secondaryColor
                                 border.width: 1
 
-                                RowLayout {
-                                    id: subsystemLayout
+                                // --- DRAG & DROP: individual module ---
+                                readonly property int subsystemIndex: subsystemWrapper.subsystemIndex
+                                readonly property int moduleIndex: index
+                                property bool dragActive: gripMouseArea.drag.active
+
+                                z: dragActive ? 99 : 1
+                                opacity: dragActive ? 0.85 : 1.0
+                                scale: dragActive ? 1.015 : 1.0
+                                Behavior on opacity {
+                                    NumberAnimation {
+                                        duration: 120
+                                    }
+                                }
+                                Behavior on scale {
+                                    NumberAnimation {
+                                        duration: 120
+                                    }
+                                }
+
+                                Drag.active: gripMouseArea.drag.active
+                                Drag.source: moduleItem
+                                Drag.keys: ["module"]
+                                Drag.hotSpot.x: width / 2
+                                Drag.hotSpot.y: height / 2
+
+                                // Live swap while hovering another module of the SAME subsystem,
+                                // final move/transfer resolved on drop (covers cross-subsystem moves)
+                                DropArea {
+                                    id: moduleDropArea
                                     anchors.fill: parent
-                                    anchors.leftMargin: 10
-                                    anchors.rightMargin: 10
+                                    keys: ["module"]
+                                }
+
+                                Connections {
+                                    target: moduleDropArea
+                                    function onEntered(drag) {
+                                        root.moduleHoverSwapRequested(
+                                                    drag.source,
+                                                    moduleItem.subsystemIndex,
+                                                    moduleItem.moduleIndex)
+                                    }
+                                    function onDropped(drop) {
+                                        root.moduleDropped(
+                                                    drop.source,
+                                                    moduleItem.subsystemIndex,
+                                                    moduleItem.moduleIndex)
+                                    }
+                                }
+
+                                RowLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 10
+                                    spacing: 5
+
                                     NeonIcon {
                                         glyph: Constants.gripIcon
                                         size: 14
-                                        color: Constants.primaryColor
-                                        Layout.alignment: Qt.AlignVCenter
-                                    } // Grip icon
-                                    Text {
-                                        text: "SUBSYSTEM_" + modelData.subsystem_id
-                                        color: Constants.primaryColor
-                                        font.family: Constants.mainFont.family
-                                        font.pixelSize: 12
-                                        Layout.fillWidth: true
-                                        Layout.alignment: Qt.AlignVCenter
+                                        color: Constants.descriptionColor
+                                        opacity: 0.5
+                                        MouseArea {
+                                            id: gripMouseArea
+                                            anchors.fill: parent
+                                            anchors.margins: -6
+                                            cursorShape: Qt.SizeAllCursor
+                                            drag.target: moduleItem
+                                            drag.axis: Drag.YAxis
+                                        }
                                     }
+
+                                    Column {
+                                        Layout.fillWidth: true
+                                        Text {
+                                            text: name
+                                            width: 140
+                                            color: Constants.primaryTextColor
+                                            font.family: Constants.techFont.family
+                                            font.pixelSize: 14
+                                            elide: Text.ElideRight
+                                        }
+                                        Text {
+                                            text: zone + " · MET:" + met
+                                            color: Constants.descriptionColor
+                                            opacity: 0.5
+                                            font.family: Constants.techFont.family
+                                            font.pixelSize: 12
+                                            width: 140
+                                            elide: Text.ElideRight
+                                        }
+                                    }
+
+                                    // Quantity Input
+                                    Rectangle {
+                                        width: 40
+                                        height: 30
+                                        color: Constants.surfaceColor
+                                        border.color: Constants.primaryTextColor
+                                        TextInput {
+                                            text: quantity
+                                            color: Constants.primaryTextColor
+                                            anchors.centerIn: parent
+                                            font.family: Constants.techFont.family
+                                            font.pixelSize: 18
+                                            inputMethodHints: Qt.ImhFormattedNumbersOnly
+                                            validator: IntValidator {
+                                                bottom: 0
+                                                top: 9999
+                                            }
+                                        }
+                                    }
+                                    // State Toggle
+                                    Rectangle {
+                                        width: 30
+                                        height: 20
+                                        color: Constants.primaryTextColor
+                                        radius: 2
+                                        Layout.alignment: Qt.AlignVCenter
+                                        property bool isDefault: true
+                                        Text {
+                                            text: parent.isDefault ? (unit === "x" ? "Rep." : unit) : "sec."
+                                            color: Constants.deepColor
+                                            anchors.centerIn: parent
+                                            font.family: Constants.mainFont.family
+                                            font.bold: true
+                                            font.pixelSize: 9
+                                        }
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: parent.isDefault = !parent.isDefault
+                                        }
+                                    }
+
                                     Rectangle {
                                         width: 30
                                         height: width
                                         color: Constants.surfaceColor
-                                        border.color: Constants.primaryColor
+                                        border.color: Constants.rootColor
                                         NeonIcon {
-                                            glyph: "\ue1b2"
-                                            size: 14
-                                            color: Constants.primaryColor
+                                            glyph: "\ue18e"
+                                            size: 16
+                                            color: Constants.rootColor
                                             anchors.centerIn: parent
-                                            MouseArea {
-                                                id: buttonDelete
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                            }
                                         }
-                                    } // X icon
+                                    } // Delete
                                 }
-                            } // subsystemItem
-                            Repeater {
-                                id: moduleRepeater
-                                model: modelData.modules
 
-                                // Module Entry
-                                Rectangle {
-                                    id: moduleItem
-                                    width: parent.width * 0.98
-                                    Layout.alignment: Qt.AlignHCenter
-                                    height: 60
-                                    color: Constants.deepColor
-                                    border.color: Constants.secondaryColor
-                                    border.width: 1
-
-                                    RowLayout {
-                                        anchors.fill: parent
-                                        anchors.margins: 10
-                                        spacing: 5
-
-                                        NeonIcon {
-                                            glyph: Constants.gripIcon
-                                            size: 14
-                                            color: Constants.descriptionColor
-                                            opacity: 0.5
-                                            MouseArea {
-                                                id: gripMouseArea
-                                                anchors.fill: parent
-                                                cursorShape: Qt.OpenHandCursor
-                                            }
-                                        }
-
-                                        Column {
-                                            Layout.fillWidth: true
-                                            Text {
-                                                text: modelData.name
-                                                width: 140
-                                                color: Constants.primaryTextColor
-                                                font.family: Constants.techFont.family
-                                                font.pixelSize: 14
-                                                elide: Text.ElideRight
-                                            }
-                                            Text {
-                                                text: modelData.zone + " · MET:" + modelData.met
-                                                color: Constants.descriptionColor
-                                                opacity: 0.5
-                                                font.family: Constants.techFont.family
-                                                font.pixelSize: 12
-                                                width: 140
-                                                elide: Text.ElideRight
-                                            }
-                                        }
-
-                                        // Quantity Input
-                                        Rectangle {
-                                            width: 40
-                                            height: 30
-                                            color: Constants.surfaceColor
-                                            border.color: Constants.primaryTextColor
-                                            TextInput {
-                                                text: modelData.quantity
-                                                color: Constants.primaryTextColor
-                                                anchors.centerIn: parent
-                                                font.family: Constants.techFont.family
-                                                font.pixelSize: 18
-                                                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                                                validator: IntValidator {
-                                                    bottom: 0
-                                                    top: 9999
-                                                }
-                                            }
-                                        }
-                                        // State Toggle
-                                        Rectangle {
-                                            width: 30
-                                            height: 20
-                                            color: Constants.primaryTextColor
-                                            radius: 2
-                                            Layout.alignment: Qt.AlignVCenter
-                                            property bool isDefault: true
-                                            Text {
-                                                text: parent.isDefault ? (modelData.unit === "x" ? "Rep." : modelData.unit) : "sec."
-                                                color: Constants.deepColor
-                                                anchors.centerIn: parent
-                                                font.family: Constants.mainFont.family
-                                                font.bold: true
-                                                font.pixelSize: 9
-                                            }
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                onClicked: parent.isDefault = !parent.isDefault
-                                            }
-                                        }
-
-                                        Rectangle {
-                                            width: 30
-                                            height: width
-                                            color: Constants.surfaceColor
-                                            border.color: Constants.rootColor
-                                            NeonIcon {
-                                                glyph: "\ue18e"
-                                                size: 16
-                                                color: Constants.rootColor
-                                                anchors.centerIn: parent
-                                            }
-                                        } // Delete
+                                Connections {
+                                    target: gripMouseArea
+                                    function onReleased() {
+                                        moduleItem.Drag.drop()
                                     }
-                                } // moduleItem
+                                }
+                            } // moduleItem delegate
+                        } // moduleListView
+
+                        // Drop zone at the end of the subsystem list (append)
+                        Item {
+                            id: moduleDropFooter
+                            Layout.fillWidth: true
+                            height: 14
+                            DropArea {
+                                id: footerDropArea
+                                anchors.fill: parent
+                                anchors.margins: -6
+                                keys: ["module"]
                             }
-                        } // protocolLayout
-                    }
-                }
-            }
+                            Connections {
+                                target: footerDropArea
+                                function onDropped(drop) {
+                                    root.moduleDropped(
+                                                drop.source,
+                                                subsystemWrapper.subsystemIndex,
+                                                moduleListView.count)
+                                }
+                            }
+                        }
+                    } // protocolLayout
+                } // subsystemWrapper delegate
+            } // subsystemListView
 
             // ADD SUBSYSTEM BUTTON
             Rectangle {

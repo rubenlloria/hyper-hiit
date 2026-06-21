@@ -176,7 +176,7 @@ Rectangle {
                         id: protocolAccordion
                         title: "SELECT_PROTOCOL"
                         anchors.horizontalCenter: parent.horizontalCenter
-                        activeThemeColor: Constants.primaryColor
+                        activeThemeColor: editingIndex === -1 ? Constants.descriptionColor : Constants.primaryColor
                         activeDirectiveName: editingIndex === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
                         activeIconGlyph: ""
                         activeDirectiveDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
@@ -186,6 +186,9 @@ Rectangle {
 
                     ProtocolEditor {
                         id: protocolEditor
+                        width: parent.width
+                        visible: (editingIndex >= 0 && protocolId > 0)
+                        protocolName: protocolAccordion.activeDirectiveName
                     }
                 }
 

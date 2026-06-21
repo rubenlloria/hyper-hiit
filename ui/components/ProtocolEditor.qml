@@ -13,13 +13,103 @@ ProtocolEditorView {
     Component.onCompleted: isReady = true
 
     // headerArea.onClicked: {
-    //     // Demana l'expansió exclusiva al pare (el DirectiveEditor)
+    //     // Request exclusive expansion from the parent (the DirectiveEditor)
     //     protocolEditor.expansionRequested(index);
     // }
 
-    // Guardies per a l'estat Dirty (Magenta)
-    // onDurationChanged: isReady ? isDirty = true : null
-    // onRankChanged: isReady ? isDirty = true : null
+    // Guards for the Dirty state (Magenta)
+    // onDurationChanged: isDirty = isReady ? true : null
+    // onRankChanged: isDirty = isReady ? true : null
 
     // signal expansionRequested(int index)
+
+    // ------------------------------------------------------------------
+    // DRAG & DROP — reordering logic
+    // (not valid inside the .ui.qml; that's why it lives here)
+    //
+    // protocolModel is a real ListModel, so real exchanges are done with
+    // its native move()/remove()/insert() methods. ListView then animates
+    // delegates to their new slot instead of just floating in absolute
+    // screen coordinates.
+    // ------------------------------------------------------------------
+
+    // Live swap while a subsystem block is dragged over another one
+    onSubsystemSwapRequested: function (sourceItem, targetIndex) {
+        var fromIndex = sourceItem.subsystemIndex
+
+        if (fromIndex === targetIndex || fromIndex < 0 || targetIndex < 0)
+            return
+        if (fromIndex >= protocolModel.count || targetIndex >= protocolModel.count)
+            return
+
+        protocolModel.move(fromIndex, targetIndex, 1)
+        isDirty = isReady ? true : null
+    }
+
+    // Live swap while a module is dragged over another module of the SAME subsystem.
+    // Cross-subsystem moves are intentionally ignored here: they are resolved
+    // once, on drop, by onModuleDropped (see below).
+    onModuleHoverSwapRequested: function (sourceItem, targetSubsystemIndex, targetModuleIndex) {
+        var fromSubsystemIndex = sourceItem.subsystemIndex
+        var fromModuleIndex = sourceItem.moduleIndex
+
+        if (fromSubsystemIndex !== targetSubsystemIndex)
+            return
+        if (fromSubsystemIndex < 0 || fromSubsystemIndex >= protocolModel.count)
+            return
+
+        var modules = protocolModel.get(fromSubsystemIndex).modules
+
+        if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= modules.count)
+            return
+
+        var insertIndex = Math.min(Math.max(targetModuleIndex, 0), modules.count - 1)
+        modules.move(fromModuleIndex, insertIndex, 1)
+        isDirty = isReady ? true : null
+    }
+
+    // Final resolution on drop: handles same-subsystem leftovers (usually a
+    // no-op, since onModuleHoverSwapRequested already settled the position)
+    // and cross-subsystem moves (remove from source, insert into target).
+    onModuleDropped: function (sourceItem, targetSubsystemIndex, targetModuleIndex) {
+        var fromSubsystemIndex = sourceItem.subsystemIndex
+        var fromModuleIndex = sourceItem.moduleIndex
+
+        if (fromSubsystemIndex < 0 || targetSubsystemIndex < 0)
+            return
+        if (fromSubsystemIndex >= protocolModel.count || targetSubsystemIndex >= protocolModel.count)
+            return
+
+        if (fromSubsystemIndex === targetSubsystemIndex) {
+            var sameModules = protocolModel.get(fromSubsystemIndex).modules
+            if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= sameModules.count)
+                return
+            var sameInsertIndex = Math.min(Math.max(targetModuleIndex, 0), sameModules.count - 1)
+            sameModules.move(fromModuleIndex, sameInsertIndex, 1)
+            isDirty = isReady ? true : null
+            return
+        }
+
+        // Cross-subsystem transfer
+        var sourceModules = protocolModel.get(fromSubsystemIndex).modules
+        if (fromModuleIndex < 0 || fromModuleIndex >= sourceModules.count)
+            return
+
+        var original = sourceModules.get(fromModuleIndex)
+        var snapshot = {
+            "name": original.name,
+            "quantity": original.quantity,
+            "unit": original.unit,
+            "met": original.met,
+            "zone": original.zone
+        }
+
+        sourceModules.remove(fromModuleIndex, 1)
+
+        var targetModules = protocolModel.get(targetSubsystemIndex).modules
+        var insertIndex = Math.min(Math.max(targetModuleIndex, 0), targetModules.count)
+        targetModules.insert(insertIndex, snapshot)
+
+        isDirty = isReady ? true : null
+    }
 }
