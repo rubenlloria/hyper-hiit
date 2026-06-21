@@ -72,7 +72,7 @@ QVariant ProtocolModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case IdRole:          return protocol.id;
-    case NameRole:        return protocol.name.toUpper(); // HUD Aesthetic
+    case NameRole:        return protocol.name;
     case DurationRole:    return protocol.estimatedDuration;
     case ModuleCountRole: return protocol.moduleCount;
     case RankRole:        return protocol.rank;
