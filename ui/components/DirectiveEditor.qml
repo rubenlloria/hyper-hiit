@@ -5,8 +5,6 @@ import ".."
 DirectiveEditorView {
     id: editor
 
-    deleteButton.hoverEnabled: true
-
     // Signals to coordinate "radio" behavior with the parent
     signal expansionRequested()
     signal editRequested()
