@@ -41,8 +41,6 @@ ArchitectForm {
     Component.onCompleted: {
         isReady = true;
         protocolEditor.protocolModel.clear();
-        // protocolEditor.protocolListView.model = protocolDataModel;
-        // protocolEditor.protocolRepeater.model = protocolDataModel;
     }
 
     header.settingsMouseArea.onClicked: {
@@ -186,15 +184,12 @@ ArchitectForm {
                     // protocolEditor.protocolName = model.name
                     protocolEditor.selectedRank = model.rank -1
                     for (let i = 0; i < protocolDataModel.length; i++) {
-                        // protocolDataModel[i] contains { "subsystem": int, "modules": [...] }
                         protocolEditor.protocolModel.append(protocolDataModel[i]);
                     }
 
+                    // protocolEditor.syncDeleteButtons();
+
                     Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.protocolModel.count);
-
-
-                    // protocolEditor.protocolListView.model = protocolDataModel;
-                    // protocolEditor.protocolRepeater.model = protocolDataModel;
                 }
             }
         }
@@ -205,6 +200,10 @@ ArchitectForm {
         if (architectForm.editingDirectiveId !== -1) {
             protocolAccordion.isOpen = !protocolAccordion.isOpen;
         }
+    }
+
+    protocolEditor.onProtocolNameChanged: {
+        protocolAccordion.activeDirectiveName = protocolEditor.protocolName
     }
 }
 
