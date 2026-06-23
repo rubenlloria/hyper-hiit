@@ -8,9 +8,16 @@ import ".."
 
 ProtocolEditorView {
     id: protocolEditor
+
+    readonly property string debugName: "ProtocolEditor.qml"
+    readonly property string infoName: "ProtocolEditor.qml"
+
     property bool isReady: false
 
-    Component.onCompleted: isReady = true
+    Component.onCompleted: {
+        isReady = true;
+        // syncDeleteButtons();
+    }
 
     // headerArea.onClicked: {
     //     // Request exclusive expansion from the parent (the DirectiveEditor)
@@ -43,6 +50,7 @@ ProtocolEditorView {
             return
 
         protocolModel.move(fromIndex, targetIndex, 1)
+        reindexSubsystems();
         isDirty = isReady ? true : null
     }
 
@@ -65,6 +73,7 @@ ProtocolEditorView {
 
         var insertIndex = Math.min(Math.max(targetModuleIndex, 0), modules.count - 1)
         modules.move(fromModuleIndex, insertIndex, 1)
+        reindexSubsystems();
         isDirty = isReady ? true : null
     }
 
@@ -110,6 +119,88 @@ ProtocolEditorView {
         var insertIndex = Math.min(Math.max(targetModuleIndex, 0), targetModules.count)
         targetModules.insert(insertIndex, snapshot)
 
+        reindexSubsystems();
         isDirty = isReady ? true : null
+    }
+
+    // Helper to hook into dynamically created delegates
+    // function syncDeleteButtons() {
+    //     // This is necessary because ListView items are instantiated as needed
+    //     // but since we disabled interaction/scroll, we can sync them reliably
+    //     Constants.hDebug(debugName, "Syncing " + protocolEditor.protocolListView.count + " delete buttons");
+    //     // for (let i = 0; i < protocolEditor.protocolListView.count; i++) {
+    //     //     let item = protocolEditor.protocolListView.itemAtIndex(i);
+    //     //     Constants.hDebug(debugName, "Syncing item " + i + " with id: " + item.id)
+    //     //     if (item) {
+    //     //         Constants.hDebug(debugName, "Syncing delete button" + item.id)
+    //     //         item.buttonDelete.onClicked = () => {
+    //     //             removeSubsystem(i);
+    //     //         }
+    //     //     }
+    //     // }
+    // }
+
+    function addNewSubsystem() {
+        // Create an empty structure following the DB schema
+        let newPhase = {
+            "subsystem_id": protocolEditor.protocolModel.count + 1,
+            "modules": [] // Empty Level 4 list
+        };
+
+        protocolEditor.protocolModel.append(newPhase);
+        // isDirty = true; //TODO
+        Constants.hInfo(infoName, "New subsystem added to local buffer.");
+    }
+
+    addSubsystem.onClicked: {
+        addNewSubsystem();
+        Constants.hDebug(debugName, "Add subsystem")
+    }
+
+    onSubsystemDelete: function (targetSubsystemIndex) {
+        removeSubsystem(targetSubsystemIndex);
+    }
+
+    function removeSubsystem(index) {
+        if (index >= 0 && index < protocolEditor.protocolModel.count) {
+            protocolEditor.protocolModel.remove(index);
+            isDirty = true;
+
+            // Optional: Re-index remaining Subsystems for visual consistency
+            reindexSubsystems();
+            Constants.hInfo(infoName, "Subsystem phase removed at index: " + index);
+        }
+    }
+
+    onModuleDelete: function (targetSubsystemIndex, targetModuleIndex) {
+        removeModule(targetSubsystemIndex, targetModuleIndex);
+    }
+
+    function removeModule(subsystemIndex, moduleIndex) {
+        if (subsystemIndex >= 0 && subsystemIndex < protocolModel.count) {
+
+            // 2. Access the subsystem element
+            let subsystem = protocolModel.get(subsystemIndex);
+
+            // 3. Access the nested 'modules' ListModel
+            let modulesList = subsystem.modules;
+
+            // 4. Validate and remove the specific module (Level 4)
+            if (moduleIndex >= 0 && moduleIndex < modulesList.count) {
+                modulesList.remove(moduleIndex);
+
+                // 5. Update unsaved changes flag
+                isDirty = true;
+
+                Constants.hInfo(infoName, "Module removed from subsystem " + subsystemIndex + " at position " + moduleIndex);
+            }
+        }
+    }
+
+    function reindexSubsystems() {
+        for (let i = 0; i < protocolEditor.protocolModel.count; i++) {
+            protocolEditor.protocolModel.setProperty(i, "subsystem_id", i + 1);
+        }
+        protocolEditor.protocolListView.forceLayout();
     }
 }

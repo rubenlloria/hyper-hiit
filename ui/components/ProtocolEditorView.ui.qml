@@ -35,6 +35,7 @@ Item {
     // A real ListModel supports move()/remove()/insert() natively, which lets
     // ListView reposition delegates instead of destroying/recreating them.
     property alias protocolModel: subsystemModel
+    property alias addSubsystem: addSubsystem
 
     ListModel {
         id: subsystemModel
@@ -101,6 +102,8 @@ Item {
     // All decision-making (comparisons, model.move/remove/insert, etc.) lives in
     // ProtocolEditor.qml, never in this .ui.qml file.
     signal subsystemSwapRequested(var sourceItem, int targetIndex)
+    signal subsystemDelete(int targetSubsystemIndex)
+    signal moduleDelete(int targetSubsystemIndex, int targetModuleIndex)
     signal moduleHoverSwapRequested(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
     signal moduleDropped(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
 
@@ -162,20 +165,20 @@ Item {
                     // Example of multi-selection tags
                     NeonBadge {
                         size: 40
-                        glyph: "\ue0d2"
+                        glyph: Constants.flameIcon
                         color: Constants.primaryColor
                         unlocked: false
                     }
                     NeonBadge {
                         size: 40
-                        glyph: "\ue0f2"
-                        color: "#4000fff9"
+                        glyph: Constants.heartIcon
+                        color: Constants.primaryColor
                         unlocked: false
                     } // CARDIO
                     NeonBadge {
                         size: 40
-                        glyph: "\ue1b4"
-                        color: "#40bf00ff"
+                        glyph: Constants.zapIcon
+                        color: Constants.primaryColor
                         unlocked: false
                     } // STRENGTH
                 }
@@ -243,6 +246,8 @@ Item {
                     // --- DRAG & DROP: subsystem block ---
                     readonly property int subsystemIndex: index
                     property bool dragActive: subsystemDragArea.drag.active
+
+                    property alias buttonDelete: buttonDelete
 
                     z: dragActive ? 99 : 1
                     opacity: dragActive ? 0.85 : 1.0
@@ -343,6 +348,7 @@ Item {
                                     height: width
                                     color: Constants.surfaceColor
                                     border.color: Constants.primaryColor
+                                    opacity: buttonDelete.pressed ? 0.5 : 1
                                     NeonIcon {
                                         glyph: "\ue1b2"
                                         size: 14
@@ -362,6 +368,14 @@ Item {
                             target: subsystemDragArea
                             function onReleased() {
                                 subsystemWrapper.Drag.drop()
+                            }
+                        }
+
+                        Connections {
+                            target: buttonDelete
+                            function onClicked() {
+                                root.subsystemDelete(
+                                            subsystemWrapper.subsystemIndex)
                             }
                         }
 
@@ -393,7 +407,8 @@ Item {
                             delegate: Rectangle {
                                 id: moduleItem
                                 width: ListView.view.width * 0.98
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                // anchors.horizontalCenter: parent.horizontalCenter
+                                Layout.alignment: Qt.AlignHCenter
                                 height: 60
                                 color: Constants.deepColor
                                 border.color: Constants.secondaryColor
@@ -535,11 +550,17 @@ Item {
                                         height: width
                                         color: Constants.surfaceColor
                                         border.color: Constants.rootColor
+                                        opacity: buttonDeleteModule.containsMouse ? 1 : 0.5
                                         NeonIcon {
                                             glyph: "\ue18e"
                                             size: 16
                                             color: Constants.rootColor
                                             anchors.centerIn: parent
+                                        }
+                                        MouseArea {
+                                            id: buttonDeleteModule
+                                            anchors.fill: parent
+                                            hoverEnabled: true
                                         }
                                     } // Delete
                                 }
@@ -548,6 +569,15 @@ Item {
                                     target: gripMouseArea
                                     function onReleased() {
                                         moduleItem.Drag.drop()
+                                    }
+                                }
+
+                                Connections {
+                                    target: buttonDeleteModule
+                                    function onClicked() {
+                                        root.moduleDelete(
+                                                    moduleItem.subsystemIndex,
+                                                    moduleItem.moduleIndex)
                                     }
                                 }
                             } // moduleItem delegate
@@ -583,8 +613,7 @@ Item {
                 width: parent.width
                 height: 40
                 color: "transparent"
-                border.color: "#40bf00ff"
-                border.width: 1
+                property real borderOpacity: addSubsystem.pressed ? 1 : 0.5
 
                 // border.style: "Dashed" // Simplified for UI file representation
                 Text {
@@ -592,7 +621,20 @@ Item {
                     color: Constants.primaryColor
                     anchors.centerIn: parent
                     font.family: Constants.techFont.family
-                    font.pixelSize: 11
+                    font.pixelSize: 14
+                }
+                Rectangle {
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: Constants.primaryColor
+                    border.width: 1
+                    opacity: parent.borderOpacity
+                }
+
+                MouseArea {
+                    id: addSubsystem
+                    anchors.fill: parent
+                    hoverEnabled: true
                 }
             }
         }
