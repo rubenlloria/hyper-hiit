@@ -145,11 +145,11 @@ Item {
                 Text {
                     // FIXME first click not animated
                     id: chevron
-                    text: Constants.chevronDown
+                    text: Constants.chevronRight
                     color: root.activeThemeColor
                     font.family: Constants.iconFont.family
                     font.pixelSize: 20
-                    rotation: root.isOpen ? 180 : 0
+                    rotation: root.isOpen ? 90 : 0
                 }
             }
         }
@@ -199,7 +199,7 @@ Item {
             }
             PropertyChanges {
                 target: chevron
-                rotation: 180
+                rotation: 90
             }
         },
         State {
@@ -212,6 +212,10 @@ Item {
             PropertyChanges {
                 target: mainHeader
                 opacity: 0.8
+            }
+            PropertyChanges {
+                target: chevron
+                rotation: 0
             }
         }
     ]
