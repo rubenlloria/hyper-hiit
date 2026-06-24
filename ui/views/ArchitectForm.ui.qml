@@ -177,9 +177,9 @@ Rectangle {
                         title: "SELECT_PROTOCOL"
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: editingIndex === -1 ? Constants.descriptionColor : Constants.primaryColor
-                        activeDirectiveName: editingIndex === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
+                        activeItemName: editingIndex === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
                         activeIconGlyph: ""
-                        activeDirectiveDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
+                        activeItemDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
                         width: parent.width
                         headerMouseArea.visible: false
                     }
@@ -188,7 +188,7 @@ Rectangle {
                         id: protocolEditor
                         width: parent.width
                         visible: (editingIndex >= 0 && protocolId > 0)
-                        protocolName: protocolAccordion.activeDirectiveName
+                        protocolName: protocolAccordion.activeItemName
                     }
                 }
 

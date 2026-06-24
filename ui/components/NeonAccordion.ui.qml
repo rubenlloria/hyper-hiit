@@ -35,8 +35,7 @@ import ".."
 
 
 /*
-    NeonAccordion Component: Manages the directive selection interface.
-    Follows strict .ui.qml rules: no arbitrary functions and states at root.
+    NeonAccordion Component: Manages the items selection interface.
 */
 Item {
     id: root
@@ -48,9 +47,9 @@ Item {
     property bool isOpen: false
     property string title: "ACTIVE_DIRECTIVE"
     property color activeThemeColor: Constants.primaryColor
-    property string activeDirectiveName: "STRENGTH_MATRIX"
+    property string activeItemName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
-    property string activeDirectiveDesc: "Muscular fortification sequence"
+    property string activeItemDesc: "Muscular fortification sequence"
 
     // Exposed alias for interaction
     property alias dropdownList: dropdownList // Afegeix això! [2]
@@ -73,7 +72,7 @@ Item {
             topPadding: 8
         }
 
-        // Active Directive Header [6]
+        // Active Item Header [6]
         Rectangle {
             id: mainHeader
             width: parent.width
@@ -118,7 +117,7 @@ Item {
                     spacing: 2
                     Text {
                         id: nameDisplay
-                        text: root.activeDirectiveName
+                        text: root.activeItemName
                         color: root.activeThemeColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 15
@@ -130,7 +129,7 @@ Item {
                     }
                     Text {
                         id: descDisplay
-                        text: root.activeDirectiveDesc
+                        text: root.activeItemDesc
                         color: Constants.descriptionColor
                         opacity: 0.7
                         font.family: Constants.techFont.family
@@ -155,7 +154,7 @@ Item {
             }
         }
 
-        // Dropdown container for other directives [7]
+        // Dropdown container for other Items [7]
         Column {
             id: dropdownList
             width: parent.width
@@ -180,7 +179,7 @@ Item {
                 }
             }
 
-            // Placeholder for NeonDirectiveItems (to be populated in functional QML)
+            // Placeholder for other Items (to be populated in functional QML)
         }
     }
 

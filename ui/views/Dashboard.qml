@@ -66,8 +66,8 @@ DashboardForm {
                 dbManager.setActiveDirectiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
-                neonAccordion.activeDirectiveName = model.name;
-                neonAccordion.activeDirectiveDesc = model.description;
+                neonAccordion.activeItemName = model.name;
+                neonAccordion.activeItemDesc = model.description;
                 neonAccordion.activeIconGlyph = model.icon;
                 neonAccordion.activeThemeColor = model.color;
                 mainWindow.currentDirectiveColor = model.color;

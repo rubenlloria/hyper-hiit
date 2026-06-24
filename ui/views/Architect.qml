@@ -100,8 +100,8 @@ ArchitectForm {
                 architectForm.editingIndex = -1;
                 protocolAccordion.activeThemeColor = Constants.descriptionColor;
                 protocolAccordion.headerMouseArea.visible = false;
-                protocolAccordion.activeDirectiveName = "DIRECTIVE_NOT_SELECTED";
-                protocolAccordion.activeDirectiveDesc = "Select directive first";
+                protocolAccordion.activeItemName = "DIRECTIVE_NOT_SELECTED";
+                protocolAccordion.activeItemDesc = "Select directive first";
                 protocolAccordion.isOpen = false;
             } else {
                 // Force expansion when editing is requested
@@ -110,8 +110,8 @@ ArchitectForm {
                 protocolAccordion.activeThemeColor = accentColor;
                 architectProtocolModel.filterByDirective(model.id);
                 protocolAccordion.headerMouseArea.visible = true;
-                protocolAccordion.activeDirectiveName = "ASSOCIATED_PROTOCOLS";
-                protocolAccordion.activeDirectiveDesc = "Manage selected directive protocols";
+                protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
+                protocolAccordion.activeItemDesc = "Manage selected directive protocols";
                 protocolId = -1;
             }
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
@@ -175,8 +175,8 @@ ArchitectForm {
                                      + " and rank : " + model.rank
                                      );
                     protocolId = model.id;
-                    protocolAccordion.activeDirectiveName = model.name;
-                    protocolAccordion.activeDirectiveDesc = "DURATION: " + formatTime(model.duration)
+                    protocolAccordion.activeItemName = model.name;
+                    protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
                             + "   MODULES: " + model.moduleCount;
                     protocolAccordion.isOpen = false;
                     protocolDataModel = dbManager.getProtocolStructure(protocolId);
@@ -203,7 +203,7 @@ ArchitectForm {
     }
 
     protocolEditor.onProtocolNameChanged: {
-        protocolAccordion.activeDirectiveName = protocolEditor.protocolName
+        protocolAccordion.activeItemName = protocolEditor.protocolName
     }
 }
 

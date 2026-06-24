@@ -96,11 +96,11 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     activeThemeColor: sessionManager.activeDirectiveInfo.color
                                       || Constants.primaryColor
-                    activeDirectiveName: sessionManager.activeDirectiveInfo.name
+                    activeItemName: sessionManager.activeDirectiveInfo.name
                                          || "LOADING..."
                     activeIconGlyph: sessionManager.activeDirectiveInfo.icon
                                      || Constants.zapIcon
-                    activeDirectiveDesc: sessionManager.activeDirectiveInfo.description
+                    activeItemDesc: sessionManager.activeDirectiveInfo.description
                                          || "No data"
                 }
 
