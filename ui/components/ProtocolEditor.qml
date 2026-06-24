@@ -123,23 +123,6 @@ ProtocolEditorView {
         isDirty = isReady ? true : null
     }
 
-    // Helper to hook into dynamically created delegates
-    // function syncDeleteButtons() {
-    //     // This is necessary because ListView items are instantiated as needed
-    //     // but since we disabled interaction/scroll, we can sync them reliably
-    //     Constants.hDebug(debugName, "Syncing " + protocolEditor.protocolListView.count + " delete buttons");
-    //     // for (let i = 0; i < protocolEditor.protocolListView.count; i++) {
-    //     //     let item = protocolEditor.protocolListView.itemAtIndex(i);
-    //     //     Constants.hDebug(debugName, "Syncing item " + i + " with id: " + item.id)
-    //     //     if (item) {
-    //     //         Constants.hDebug(debugName, "Syncing delete button" + item.id)
-    //     //         item.buttonDelete.onClicked = () => {
-    //     //             removeSubsystem(i);
-    //     //         }
-    //     //     }
-    //     // }
-    // }
-
     function addNewSubsystem() {
         // Create an empty structure following the DB schema
         let newPhase = {
@@ -150,6 +133,7 @@ ProtocolEditorView {
         protocolEditor.protocolModel.append(newPhase);
         // isDirty = true; //TODO
         Constants.hInfo(infoName, "New subsystem added to local buffer.");
+        refreshRequest()
     }
 
     addSubsystem.onClicked: {
@@ -179,17 +163,14 @@ ProtocolEditorView {
     function removeModule(subsystemIndex, moduleIndex) {
         if (subsystemIndex >= 0 && subsystemIndex < protocolModel.count) {
 
-            // 2. Access the subsystem element
             let subsystem = protocolModel.get(subsystemIndex);
-
-            // 3. Access the nested 'modules' ListModel
             let modulesList = subsystem.modules;
 
-            // 4. Validate and remove the specific module (Level 4)
+            // Validate and remove the specific module
             if (moduleIndex >= 0 && moduleIndex < modulesList.count) {
                 modulesList.remove(moduleIndex);
 
-                // 5. Update unsaved changes flag
+                // Update unsaved changes flag
                 isDirty = true;
 
                 Constants.hInfo(infoName, "Module removed from subsystem " + subsystemIndex + " at position " + moduleIndex);
@@ -202,5 +183,13 @@ ProtocolEditorView {
             protocolEditor.protocolModel.setProperty(i, "subsystem_id", i + 1);
         }
         protocolEditor.protocolListView.forceLayout();
+    }
+
+    onRefreshRequest: {
+        Constants.hDebug(debugName, "refreshRequested")
+
+        // layoutVersion++; // Test to delete
+        layoutVersion = 0;
+        protocolListView.forceLayout()
     }
 }

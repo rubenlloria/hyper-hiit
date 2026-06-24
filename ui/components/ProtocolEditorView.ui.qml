@@ -28,6 +28,7 @@ Item {
     // Properties for data binding
     property alias protocolName: nameField.text
     property int selectedRank: 1 // 0:NEWBIE, 1:ADVANCED, 2:ROOT
+    property int layoutVersion: 0
 
     property alias protocolListView: subsystemListView
 
@@ -106,6 +107,7 @@ Item {
     signal moduleDelete(int targetSubsystemIndex, int targetModuleIndex)
     signal moduleHoverSwapRequested(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
     signal moduleDropped(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
+    signal refreshRequest
 
     Column {
         id: contentLayout
@@ -238,7 +240,8 @@ Item {
                 delegate: Rectangle {
                     id: subsystemWrapper
                     width: ListView.view.width
-                    height: protocolLayout.implicitHeight + 5
+                    // height: protocolLayout.height + 5
+                    height: moduleListView.height + 60 + root.layoutVersion
                     color: "transparent"
                     border.color: Constants.primaryColor
                     border.width: 1
@@ -247,7 +250,7 @@ Item {
                     readonly property int subsystemIndex: index
                     property bool dragActive: subsystemDragArea.drag.active
 
-                    property alias buttonDelete: buttonDelete
+                    property alias buttonDeleteSubsystem: buttonDeleteSubsystem
 
                     z: dragActive ? 99 : 1
                     opacity: dragActive ? 0.85 : 1.0
@@ -348,14 +351,14 @@ Item {
                                     height: width
                                     color: Constants.surfaceColor
                                     border.color: Constants.primaryColor
-                                    opacity: buttonDelete.pressed ? 0.5 : 1
+                                    opacity: buttonDeleteSubsystem.pressed ? 0.5 : 1
                                     NeonIcon {
                                         glyph: "\ue1b2"
                                         size: 14
                                         color: Constants.primaryColor
                                         anchors.centerIn: parent
                                         MouseArea {
-                                            id: buttonDelete
+                                            id: buttonDeleteSubsystem
                                             anchors.fill: parent
                                             hoverEnabled: true
                                         }
@@ -368,14 +371,16 @@ Item {
                             target: subsystemDragArea
                             function onReleased() {
                                 subsystemWrapper.Drag.drop()
+                                refreshRequest()
                             }
                         }
 
                         Connections {
-                            target: buttonDelete
+                            target: buttonDeleteSubsystem
                             function onClicked() {
                                 root.subsystemDelete(
                                             subsystemWrapper.subsystemIndex)
+                                // root.protocolListView.forceLayout()
                             }
                         }
 
@@ -407,8 +412,8 @@ Item {
                             delegate: Rectangle {
                                 id: moduleItem
                                 width: ListView.view.width * 0.98
-                                // anchors.horizontalCenter: parent.horizontalCenter
-                                Layout.alignment: Qt.AlignHCenter
+                                anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
+                                // Layout.alignment: Qt.AlignHCenter
                                 height: 60
                                 color: Constants.deepColor
                                 border.color: Constants.secondaryColor
@@ -569,6 +574,7 @@ Item {
                                     target: gripMouseArea
                                     function onReleased() {
                                         moduleItem.Drag.drop()
+                                        refreshRequest()
                                     }
                                 }
 
