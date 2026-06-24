@@ -188,7 +188,7 @@ ProtocolEditorView {
     onRefreshRequest: {
         Constants.hDebug(debugName, "refreshRequested")
 
-        // layoutVersion++; // Test to delete
+        layoutVersion++;
         layoutVersion = 0;
         protocolListView.forceLayout()
     }
