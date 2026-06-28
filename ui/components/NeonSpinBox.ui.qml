@@ -40,7 +40,7 @@ Item {
     // 2. Contenidor principal
     Rectangle {
         id: controlBackground
-        width: 350
+        width: root.width
         height: 45
         color: Constants.deepColor
         border.color: root.neonColor
