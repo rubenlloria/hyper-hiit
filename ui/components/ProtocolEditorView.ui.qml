@@ -118,13 +118,102 @@ Item {
         spacing: 25
 
         // 1. SECTION HEADER
-        NeonText {
-            label: " PROTOCOL_BUILDER "
-            labelColor: root.accentColor
-            font.family: Constants.mainFont.family
-            font.pixelSize: 14
-            font.letterSpacing: 2
-            cornerWidth: 2
+        RowLayout {
+            width: parent.width
+            NeonText {
+                label: " PROTOCOL_BUILDER "
+                labelColor: root.accentColor
+                font.family: Constants.mainFont.family
+                font.pixelSize: 14
+                font.letterSpacing: 2
+                cornerWidth: 2
+            }
+            // Action Buttons (Right Aligned)
+            Item {
+                width: 90
+                height: 60
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                Row {
+                    // anchors.centerIn: parent
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 10
+                    // Edit Icon (Radio Select logic in Logic file)
+                    Rectangle {
+                        width: 35
+                        height: 35
+                        color: "transparent"
+                        border.color: "transparent"
+                        Rectangle {
+                            id: saveItem
+                            anchors.fill: parent
+                            border.color: isDirty ? root.accentColor : Constants.descriptionColor
+                            opacity: (saveButton.pressed
+                                      && isDirty) ? 0.2 : ((saveButton.containsMouse
+                                                            && isDirty) ? 1.0 : 0.5)
+                            color: (saveButton.pressed
+                                    && isDirty) ? Constants.primaryColor : "transparent"
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 150
+                                }
+                            }
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 150
+                                }
+                            }
+                            NeonIcon {
+                                anchors.centerIn: parent
+                                glyph: Constants.saveIcon
+                                size: 18
+                                color: isDirty ? root.accentColor : Constants.descriptionColor
+                            }
+                            MouseArea {
+                                id: saveButton
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                visible: isDirty
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 35
+                        height: 35
+                        color: "transparent"
+                        border.color: "transparent"
+                        // Delete Icon (Neon Red)
+                        Rectangle {
+                            id: deleteItem
+                            anchors.fill: parent
+                            border.color: Constants.rootColor
+                            opacity: deleteButton.pressed ? 0.2 : (deleteButton.containsMouse ? 1.0 : 0.5)
+                            color: deleteButton.pressed ? Constants.primaryColor : "transparent"
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 150
+                                }
+                            }
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 150
+                                }
+                            }
+                            NeonIcon {
+                                anchors.centerIn: parent
+                                glyph: Constants.trashIcon
+                                size: 18
+                                color: Constants.rootColor
+                            }
+                            MouseArea {
+                                id: deleteButton
+                                anchors.fill: parent
+                                hoverEnabled: true
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // 3. CORE METADATA (Name & Rank)
