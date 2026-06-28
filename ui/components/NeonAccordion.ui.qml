@@ -50,6 +50,7 @@ Item {
     property string activeItemName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
     property string activeItemDesc: "Muscular fortification sequence"
+    property bool showSwitchLabel: true
 
     // Exposed alias for interaction
     property alias dropdownList: dropdownList // Afegeix això! [2]
@@ -167,6 +168,7 @@ Item {
                 width: parent.width
                 height: 25
                 color: "transparent"
+                visible: showSwitchLabel
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
