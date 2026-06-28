@@ -41,6 +41,7 @@ ArchitectForm {
     Component.onCompleted: {
         isReady = true;
         protocolEditor.protocolModel.clear();
+        moduleEditor.loadModules();
     }
 
     header.settingsMouseArea.onClicked: {
@@ -205,5 +206,13 @@ ArchitectForm {
     protocolEditor.onProtocolNameChanged: {
         protocolAccordion.activeItemName = protocolEditor.protocolName
     }
+
+    moduleAccordion.headerMouseArea.onClicked: {
+        if (architectForm.editingDirectiveId !== -1) {
+            moduleAccordion.isOpen = !moduleAccordion.isOpen;
+        }
+    }
+
+
 }
 

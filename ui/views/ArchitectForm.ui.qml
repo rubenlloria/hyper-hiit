@@ -12,9 +12,9 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.surfaceColor
 
-    property int expandedIndex: -1
-    property int editingIndex: -1
-    property int protocolId: -1
+    property int expandedIndex: -1 //WARNING: Set to -1
+    property int editingIndex: -1 //WARNING: Set to -1
+    property int protocolId: -1 //WARNING: Set to -1
     property var protocolDataModel: []
 
     property alias header: header
@@ -24,10 +24,12 @@ Rectangle {
     property alias buttonOrphan: buttonOrphan
     property alias protocolAccordion: protocolAccordion
     property alias protocolEditor: protocolEditor
+    property alias moduleEditor: moduleEditor
+    property alias moduleAccordion: moduleAccordion
 
     ColumnLayout {
         width: parent.width
-        height: parent.height
+        height: parent.height // + 1500
         spacing: 10
         AppHeader {
             id: header
@@ -82,8 +84,9 @@ Rectangle {
                         titleColor: Constants.secondaryColor
                     }
 
-                    Row {
+                    RowLayout {
                         spacing: 15
+                        width: parent.width
                         Rectangle {
                             width: buttonAllLayout.implicitWidth * 1.15
                             height: 34
@@ -113,6 +116,7 @@ Rectangle {
                                 anchors.fill: parent
                             }
                         }
+
                         Rectangle {
                             width: buttonOrphanLayout.implicitWidth * 1.15
                             height: 34
@@ -139,6 +143,41 @@ Rectangle {
                             MouseArea {
                                 id: buttonOrphan
                                 property bool selected: false
+                                anchors.fill: parent
+                            }
+                        }
+
+                        Item {
+                            height: 20
+                            Layout.fillWidth: true
+                        }
+                        Rectangle {
+                            width: buttonNewDirectiveLayout.implicitWidth * 1.15
+                            height: 34
+                            color: "transparent"
+                            border.color: Constants.secondaryColor
+                            opacity: buttonNewDirective.pressed ? 0.2 : (buttonNewDirective.containsMouse ? 1.0 : 0.5)
+                            RowLayout {
+                                id: buttonNewDirectiveLayout
+                                anchors.verticalCenter: parent.verticalCenter
+                                // anchors.fill: parent
+                                spacing: 0
+                                NeonIcon {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    glyph: Constants.activityIcon
+                                    size: 12
+                                    color: parent.parent.border.color
+                                }
+                                NeonText {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    label: "NEW"
+                                    labelColor: parent.parent.border.color
+                                }
+                            }
+                            MouseArea {
+                                id: buttonNewDirective
+                                property bool selected: false
+                                hoverEnabled: true
                                 anchors.fill: parent
                             }
                         }
@@ -177,11 +216,43 @@ Rectangle {
                         title: "SELECT_PROTOCOL"
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: editingIndex === -1 ? Constants.descriptionColor : Constants.primaryColor
-                        activeItemName: editingIndex === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
+                        activeItemName: editingIndex
+                                        === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
                         activeIconGlyph: ""
                         activeItemDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
                         width: parent.width
                         headerMouseArea.visible: false
+                    }
+
+                    // Add Protocol button
+                    Rectangle {
+                        width: parent.width
+                        height: 40
+                        color: "transparent"
+                        visible: protocolAccordion.isOpen
+                        property real borderOpacity: addProtocol.pressed ? 1 : 0.5
+
+                        // border.style: "Dashed" // Simplified for UI file representation
+                        Text {
+                            text: "+ ADD_PROTOCOL"
+                            color: Constants.primaryColor
+                            anchors.centerIn: parent
+                            font.family: Constants.techFont.family
+                            font.pixelSize: 14
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "transparent"
+                            border.color: Constants.primaryColor
+                            border.width: 1
+                            opacity: parent.borderOpacity
+                        }
+
+                        MouseArea {
+                            id: addProtocol
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
                     }
 
                     ProtocolEditor {
@@ -189,6 +260,28 @@ Rectangle {
                         width: parent.width
                         visible: (editingIndex >= 0 && protocolId > 0)
                         protocolName: protocolAccordion.activeItemName
+                    }
+
+                    NeonAccordion {
+                        id: moduleAccordion
+                        title: "SELECT_MODULE"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        activeThemeColor: Constants.primaryColor
+                        activeItemName: "MODULE_LIBRARY"
+                        activeIconGlyph: "\ue0ad"
+                        activeItemDesc: "32 Modules in registry" // TODO: Set true value
+                        width: parent.width
+                        showSwitchLabel: false
+                        headerMouseArea.visible: true
+                        visible: (editingIndex >= 0 && protocolId > 0)
+                    }
+
+                    ModuleEditor {
+                        id: moduleEditor
+                        width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: (editingIndex >= 0 && protocolId > 0
+                                  && moduleAccordion.isOpen)
                     }
                 }
 
