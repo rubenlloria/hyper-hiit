@@ -67,10 +67,13 @@
         <file>ui/components/AppHeader.ui.qml</file>
         <file>ui/components/DirectiveEditor.qml</file>
         <file>ui/components/DirectiveEditorView.ui.qml</file>
+        <file>ui/components/ModuleEditor.qml</file>
+        <file>ui/components/ModuleEditorView.ui.qml</file>
         <file>ui/components/NeonAccordion.ui.qml</file>
         <file>ui/components/NeonAchievement.ui.qml</file>
         <file>ui/components/NeonBadge.ui.qml</file>
         <file>ui/components/NeonButton.ui.qml</file>
+        <file>ui/components/NeonCombo.ui.qml</file>
         <file>ui/components/NeonDial.ui.qml</file>
         <file>ui/components/NeonDirective.ui.qml</file>
         <file>ui/components/NeonEvolution.ui.qml</file>

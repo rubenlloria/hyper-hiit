@@ -79,10 +79,13 @@ qt_add_qml_module(hyper-hiit
         ui/components/AppHeader.ui.qml
         ui/components/DirectiveEditor.qml
         ui/components/DirectiveEditorView.ui.qml
+        ui/components/ModuleEditor.qml
+        ui/components/ModuleEditorView.ui.qml
         ui/components/NeonAccordion.ui.qml
         ui/components/NeonAchievement.ui.qml
         ui/components/NeonBadge.ui.qml
         ui/components/NeonButton.ui.qml
+        ui/components/NeonCombo.ui.qml
         ui/components/NeonDial.ui.qml
         ui/components/NeonDirective.ui.qml
         ui/components/NeonEvolution.ui.qml
