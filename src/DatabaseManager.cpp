@@ -1533,3 +1533,56 @@ void DatabaseManager::setConfig(const QString &key, const QString &value) {
         hWarning() << "Failed to sync configuration | Key:" << key << "Error:" << query.lastError().text();
     }
 }
+
+/*
+ * Persists a directive to the SQL database.
+ * Returns the record ID on success, or -1 on failure.
+ */
+int DatabaseManager::saveDirective(int id, const QString &name,
+                                   const QString &description, const QString &icon,
+                                   const QString &color) {
+    Directive dir;
+    dir.id          = id;
+    dir.name        = name;
+    dir.description = description;
+    dir.icon        = icon;
+    dir.color       = color;
+
+    QSqlQuery query;
+    bool isNew = (dir.id == -1);
+
+    if (isNew) {
+        // Prepare insert (ID is omitted to use AUTOINCREMENT)
+        query.prepare("INSERT INTO directives (dir_name, dir_description, dir_icon, dir_color) "
+                      "VALUES (:name, :desc, :icon, :color)");
+    } else {
+        // Prepare update for existing records
+        query.prepare("UPDATE directives SET dir_name=:name, dir_description=:desc, "
+                      "dir_icon=:icon, dir_color=:color WHERE dir_id=:id");
+        hDebug() << QString("UPDATE directives SET dir_name='%1', dir_description='%2', dir_icon='%3', dir_color='%4' WHERE dir_id='%5'")
+                        .arg(dir.name, dir.description, dir.icon, dir.color)
+                        .arg(dir.id);
+        query.bindValue(":id", dir.id);
+    }
+
+    // Bind values using raw strings (Aesthetic policy: user-defined casing)
+    query.bindValue(":name", dir.name);
+    query.bindValue(":desc", dir.description);
+    query.bindValue(":icon", dir.icon);
+    query.bindValue(":color", dir.color);
+
+    if (!query.exec()) {
+        hCritical() << "Database Error: Failed to save directive ->" << query.lastError().text();
+        return -1;
+    }
+
+    // Retrieve and return the ID (either generated or existing)
+    if (isNew) {
+        int newId = query.lastInsertId().toInt();
+        hInfo() << "Database Sync: New directive created with ID:" << newId;
+        return newId;
+    }
+
+    hInfo() << "Database Sync: Directive " << dir.id << " updated";
+    return dir.id;
+}

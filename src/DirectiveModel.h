@@ -37,6 +37,8 @@
 #include <QString>
 #include <QList>
 
+class DatabaseManager;
+
 struct Directive {
     int id;
     QString name;         // Aesthetic Persistence: UPPERCASE [Source 13]
@@ -45,6 +47,10 @@ struct Directive {
     QString color;        // Hex neon color (e.g., #BF00FF) [Source 15, 23]
 };
 
+/**
+ * @brief Manages the in-memory list of directives for the UI.
+ * Provides high-speed access and synchronization with the database shard.
+ */
 class DirectiveModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -58,16 +64,25 @@ public:
         ColorRole
     };
 
-    explicit DirectiveModel(QObject *parent = nullptr);
+    explicit DirectiveModel(DatabaseManager *db, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void setDirectives(const QList<Directive> &directives);
+    /**
+     * @brief Updates the internal list and resets the model.
+     */
+    Q_INVOKABLE void setDirectives(const QList<Directive> &directives);
+
+    /**
+     * @brief Injects a new provisional directive entry into the model memory.
+     */
+    Q_INVOKABLE void insertNewDraft();
 
 private:
     QList<Directive> m_directives;
+    DatabaseManager *m_db = nullptr;
 };
 
 #endif // DIRECTIVEMODEL_H

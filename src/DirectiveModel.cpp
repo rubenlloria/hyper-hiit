@@ -24,11 +24,24 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-#include "DirectiveModel.h"
+#define HH_DEBUG
+#define HH_INFO
+#define HH_WARNING
+#define HH_CRITICAL
 
-DirectiveModel::DirectiveModel(QObject *parent)
+#include "DirectiveModel.h"
+#include "DatabaseManager.h"
+#include "SystemLog.h"
+
+DirectiveModel::DirectiveModel(DatabaseManager *db, QObject *parent)
     : QAbstractListModel(parent)
+    , m_db(db)
 {
+    if (!m_db) {
+        hCritical() << "DirectiveModel initialized without Database Uplink.";
+    } else {
+        hDebug() << "Directive Shard Uplink established.";
+    }
 }
 
 int DirectiveModel::rowCount(const QModelIndex &parent) const
@@ -74,4 +87,19 @@ void DirectiveModel::setDirectives(const QList<Directive> &directives)
     beginResetModel();
     m_directives = directives;
     endResetModel();
+}
+
+void DirectiveModel::insertNewDraft() {
+    beginInsertRows(QModelIndex(), m_directives.count(), m_directives.count());
+
+    Directive newDir;
+    newDir.id = -1; // Flag per a SQL
+    newDir.name = "NEW_DIRECTIVE";
+    newDir.description = "NEW_DESCRIPTION";
+    newDir.icon = "\ue0d2";
+    newDir.color = "#00FFFF"; // Color per defecte
+
+    m_directives.append(newDir);
+    endInsertRows();
+    hInfo() << "New directive draft initialized in C++ model memory.";
 }

@@ -57,6 +57,7 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     q.bindValue(":id", dirId);
 
     if (q.exec() && q.next()) {
+        m_activeDirectiveInfo["id"] = dirId;
         m_activeDirectiveInfo["name"] = q.value(0).toString();
         m_activeDirectiveInfo["description"] = q.value(1).toString();
         m_activeDirectiveInfo["icon"] = q.value(2).toString();
@@ -444,4 +445,20 @@ void SessionManager::setConfig(const QString &key, const QString &value) {
     else {
         hWarning() << "Unknown configuration key received:" << key;
     }
+}
+
+void SessionManager::setActiveDirectiveInfo(const QVariantMap &info) {
+    if (m_activeDirectiveInfo == info) return;
+
+    m_activeDirectiveInfo = info;
+
+    emit activeDirectiveInfoChanged();
+
+    hInfo()  << "Active directive info synchronized for:"
+            << "id: " << m_activeDirectiveInfo["id"]
+            << ", name: " << m_activeDirectiveInfo["name"]
+            << ", description: " << m_activeDirectiveInfo["description"]
+            << ", icon: " << m_activeDirectiveInfo["icon"]
+            << ", color: " << m_activeDirectiveInfo["color"]
+        ;
 }

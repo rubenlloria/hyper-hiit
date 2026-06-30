@@ -38,7 +38,7 @@ DashboardForm {
     Binding {
         target: dashboardView.neonAccordion
         property: "activeThemeColor"
-        value: systemManager.activeDirectiveColor
+        value: sessionManager.activeDirectiveInfo.color
     }
 
     /**
@@ -66,10 +66,14 @@ DashboardForm {
                 dbManager.setActiveDirectiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
-                neonAccordion.activeItemName = model.name;
-                neonAccordion.activeItemDesc = model.description;
-                neonAccordion.activeIconGlyph = model.icon;
-                neonAccordion.activeThemeColor = model.color;
+                sessionManager.activeDirectiveInfo = {
+                    "id": model.id,
+                    "name": model.name,
+                    "description": model.description,
+                    "icon": model.icon,
+                    "color": model.color
+                };
+
                 mainWindow.currentDirectiveColor = model.color;
 
                 // 3. Collapse shard for optimal tactical overlay space [Source 6]

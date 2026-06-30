@@ -44,7 +44,7 @@ class SessionManager : public QObject {
     Q_PROPERTY(int userRank READ userRank WRITE setUserRank NOTIFY userRankChanged)
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
     Q_PROPERTY(int activeSessionId READ activeSessionId)
-    Q_PROPERTY(QVariantMap activeDirectiveInfo READ activeDirectiveInfo NOTIFY activeDirectiveInfoChanged)
+    Q_PROPERTY(QVariantMap activeDirectiveInfo READ activeDirectiveInfo WRITE setActiveDirectiveInfo NOTIFY activeDirectiveInfoChanged)
 
 public:
     explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
@@ -98,6 +98,7 @@ public:
     void setActiveModuleIndex(int index);
     int activeSessionId() const { return m_sessionId; }
     QVariantMap activeDirectiveInfo() const { return m_activeDirectiveInfo; }
+    Q_INVOKABLE void setActiveDirectiveInfo(const QVariantMap &info);
 
 signals:
     void telemetryChanged();

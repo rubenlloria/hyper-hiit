@@ -56,7 +56,7 @@ public:
     QList<Module> getAllModules();
 
     // Directive methods
-    QList<Directive> getAllDirectives();
+    Q_INVOKABLE QList<Directive> getAllDirectives();
     Q_INVOKABLE int getActiveDirectiveId();
     Q_INVOKABLE void setActiveDirectiveId(int dirId);
 
@@ -164,6 +164,18 @@ public:
      * @param value The value to be stored.
      */
     Q_INVOKABLE void setConfig(const QString &key, const QString &value);
+
+    /**
+     * @brief Saves a directive to SQL. Receives a QVariantMap from QML for 'Neural Sync'.
+     * @param id The model object from the QML delegate.
+     * @param id The final database ID (assigned if it was a new draft).
+     * @param name Updated name string.
+     * @param description Updated description string.
+     * @param icon Updated icon glyph code.
+     * @param color Updated hex color string.
+     * @return The final dir_id assigned by the database.
+     */
+    Q_INVOKABLE int saveDirective(int id, const QString &name, const QString &description, const QString &icon, const QString &color);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

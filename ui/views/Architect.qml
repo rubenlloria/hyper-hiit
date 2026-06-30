@@ -24,6 +24,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 import QtQuick
+import QtQuick.Controls
 import "../components"
 import ".."
 
@@ -36,12 +37,17 @@ ArchitectForm {
     property bool isReady: false
     property var rankNames: dbManager.getRankLabels()
 
+    ListModel {
+        id: localDirectivesBuffer
+    }
+
     directiveRepeater.model: directiveModel
 
     Component.onCompleted: {
         isReady = true;
         protocolEditor.protocolModel.clear();
         moduleEditor.loadModules();
+        Constants.hDebug(debugName, "Context Check -> sessionManager status: " + (typeof sessionManager !== 'undefined'));
     }
 
     header.settingsMouseArea.onClicked: {
@@ -55,6 +61,11 @@ ArchitectForm {
 
     buttonOrphan.onClicked: {
         Constants.hDebug(debugName, "Button ORPHAN Clicked");
+    }
+
+    buttonNewDirective.onClicked: {
+        Constants.hDebug(debugName, "Button NEW Clicked");
+        directiveModel.insertNewDraft();
     }
 
     directiveRepeater.delegate: DirectiveEditor {
@@ -125,30 +136,36 @@ ArchitectForm {
                              + ", description: " + descriptionText
                              + ", color: " + accentColor
                              + ", glyph: " + glyph
+                             + ", on row: " + index
                              );
 
-            // Finalize interaction: collapse and sync
             architectForm.editingIndex = -1;
             architectForm.expandedIndex = -1;
-            isDirty = false;
+            dbManager.saveDirective(directiveId, nameText, descriptionText, glyph, accentColor);
 
-            // Refresh model to reflect DB changes (Neural Sync)
-            // dbManager.updateDirective(...) logic here
+            // We check if the directive being edited is the active one in the system
+            Constants.hDebug(debugName, "directiveId: " + directiveId
+                             + "sessionManager.activeDirectiveInfo.id: " + sessionManager.activeDirectiveInfo.id);
+            if (directiveId === sessionManager.activeDirectiveInfo.id) {
+                sessionManager.activeDirectiveInfo = {
+                    "id": directiveId,
+                    "name": nameText,
+                    "description": descriptionText,
+                    "icon": glyph,
+                    "color": accentColor
+                };
+                mainWindow.currentDirectiveColor = accentColor;
+            }
+
+            // Finalize interaction: collapse and sync
+            isDirty = false;
+            directiveModel.setDirectives(dbManager.getAllDirectives());
         }
 
         onDeleteRequested: {
             Constants.hDebug(debugName, "Security: Deletion sequence for " + nameText);
             // logic to remove from DB and refresh list
         }
-    }
-
-    function formatTime(totalSeconds) { // TODO: move to Constants.qml
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-
-        // Returns formatted string with zero-padding (e.g., "05:08")
-        return minutes.toString().padStart(2, '0') + ":" +
-               seconds.toString().padStart(2, '0');
     }
 
     protocolAccordion.dropdownList.children: [
@@ -213,6 +230,23 @@ ArchitectForm {
         }
     }
 
+    ///////////// FUNCTIONS /////////////
+    /**
+      * General Functions
+      */
+
+    function formatTime(totalSeconds) { // TODO: move to Constants.qml
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Returns formatted string with zero-padding (e.g., "05:08")
+        return minutes.toString().padStart(2, '0') + ":" +
+               seconds.toString().padStart(2, '0');
+    }
+
+    /**
+      * Directive Functions
+      */
 
 }
 

@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
     DatabaseManager dbManager;
     ModuleModel moduleModel;
-    DirectiveModel directiveModel;
+    DirectiveModel directiveModel(&dbManager);
     ProtocolModel protocolModel(&dbManager);
     ProtocolModel architectProtocolModel(&dbManager);
 

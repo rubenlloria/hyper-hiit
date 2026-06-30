@@ -22,6 +22,7 @@ Rectangle {
     property alias directiveRepeater: directiveRepeater
     property alias buttonAll: buttonAll
     property alias buttonOrphan: buttonOrphan
+    property alias buttonNewDirective: buttonNewDirective
     property alias protocolAccordion: protocolAccordion
     property alias protocolEditor: protocolEditor
     property alias moduleEditor: moduleEditor
