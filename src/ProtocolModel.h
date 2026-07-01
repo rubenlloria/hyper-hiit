@@ -81,6 +81,12 @@ public:
      */
     Q_INVOKABLE void filterByDirective(int dirId);
 
+    /**
+     * @brief Injects a temporary draft protocol into the model memory.
+     */
+    Q_INVOKABLE void insertNewDraft();
+
+
 signals:
     /**
      * Notifies the HUD when the global duration scale changes.

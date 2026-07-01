@@ -124,7 +124,7 @@ ArchitectForm {
                 protocolAccordion.headerMouseArea.visible = true;
                 protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
                 protocolAccordion.activeItemDesc = "Manage selected directive protocols";
-                protocolId = -1;
+                // protocolId = 0;
             }
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
@@ -197,12 +197,21 @@ ArchitectForm {
                     protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
                             + "   MODULES: " + model.moduleCount;
                     protocolAccordion.isOpen = false;
-                    protocolDataModel = dbManager.getProtocolStructure(protocolId);
-                    protocolEditor.protocolModel.clear();
-                    // protocolEditor.protocolName = model.name
-                    protocolEditor.selectedRank = model.rank -1
-                    for (let i = 0; i < protocolDataModel.length; i++) {
-                        protocolEditor.protocolModel.append(protocolDataModel[i]);
+                    if (protocolId === 0) {
+                        // NEW_PROTOCOL logic: Initialize empty buffer for fresh configuration
+                        protocolAccordion.activeItemDesc = "DRAFT: PENDING STRUCTURE";
+                        protocolEditor.protocolModel.clear();
+                        protocolEditor.selectedRank = 0; // Default to NEWBIE (rank 1 -> index 0)
+
+                        Constants.hInfo(debugName, "Editor initialized for new protocol draft.");
+                    } else if (protocolId > 0) {
+                        protocolDataModel = dbManager.getProtocolStructure(protocolId);
+                        protocolEditor.protocolModel.clear();
+                        // protocolEditor.protocolName = model.name
+                        protocolEditor.selectedRank = model.rank -1
+                        for (let i = 0; i < protocolDataModel.length; i++) {
+                            protocolEditor.protocolModel.append(protocolDataModel[i]);
+                        }
                     }
 
                     // protocolEditor.syncDeleteButtons();
@@ -222,6 +231,12 @@ ArchitectForm {
 
     protocolEditor.onProtocolNameChanged: {
         protocolAccordion.activeItemName = protocolEditor.protocolName
+    }
+
+    addProtocol.onClicked: {
+        architectProtocolModel.insertNewDraft();
+        // Scroll to the bottom or set focus to the new item if needed
+        Constants.hDebug(debugName, "Adding new protocol draft to the current directive context");
     }
 
     moduleAccordion.headerMouseArea.onClicked: {

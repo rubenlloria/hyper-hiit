@@ -27,6 +27,7 @@ Rectangle {
     property alias protocolEditor: protocolEditor
     property alias moduleEditor: moduleEditor
     property alias moduleAccordion: moduleAccordion
+    property alias addProtocol: addProtocol
 
     ColumnLayout {
         width: parent.width
@@ -259,7 +260,7 @@ Rectangle {
                     ProtocolEditor {
                         id: protocolEditor
                         width: parent.width
-                        visible: (editingIndex >= 0 && protocolId > 0)
+                        visible: (editingIndex >= 0 && protocolId >= 0)
                         protocolName: protocolAccordion.activeItemName
                     }
 
@@ -274,14 +275,14 @@ Rectangle {
                         width: parent.width
                         showSwitchLabel: false
                         headerMouseArea.visible: true
-                        visible: (editingIndex >= 0 && protocolId > 0)
+                        visible: (editingIndex >= 0 && protocolId >= 0)
                     }
 
                     ModuleEditor {
                         id: moduleEditor
                         width: parent.width
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible: (editingIndex >= 0 && protocolId > 0
+                        visible: (editingIndex >= 0 && protocolId >= 0
                                   && moduleAccordion.isOpen)
                     }
                 }

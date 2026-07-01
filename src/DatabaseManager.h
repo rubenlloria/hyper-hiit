@@ -177,6 +177,16 @@ public:
      */
     Q_INVOKABLE int saveDirective(int id, const QString &name, const QString &description, const QString &icon, const QString &color);
 
+    /**
+     * @brief Saves a mission protocol to the database.
+     * @param id The protocol unique identifier (-1 for new entries).
+     * @param name The mission objective name.
+     * @param rank Level of access required (1: NEWBIE, 2: ADVANCED, 3: ROOT).
+     * @param directiveId The parent directive to link the protocol to.
+     * @return The operational protocol_id, or -1 on failure.
+     */
+    int saveProtocol(int id, const QString &name, int rank);
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();

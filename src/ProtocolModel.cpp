@@ -139,3 +139,23 @@ void ProtocolModel::filterByDirective(int dirId) {
     hDebug() << "Filtered " << filteredList.size() << "protocols";
     setProtocols(filteredList);
 }
+
+/**
+ * Injects a temporary draft protocol into the model memory.
+ */
+void ProtocolModel::insertNewDraft() {
+    beginInsertRows(QModelIndex(), m_protocols.count(), m_protocols.count());
+
+    Protocol draft;
+    draft.id = 0; // Sentry value for database INSERT
+    draft.name = "NEW_PROTOCOL";
+    draft.rank = 1; // Default to NEWBIE
+    draft.estimatedDuration = 0;
+    draft.moduleCount = 0;
+    draft.personalBest = 0;
+
+    m_protocols.append(draft);
+    endInsertRows();
+
+    hInfo() << "Provisional protocol draft injected into memory shard.";
+}

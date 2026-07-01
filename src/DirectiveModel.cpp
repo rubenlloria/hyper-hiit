@@ -93,7 +93,7 @@ void DirectiveModel::insertNewDraft() {
     beginInsertRows(QModelIndex(), m_directives.count(), m_directives.count());
 
     Directive newDir;
-    newDir.id = -1; // Flag per a SQL
+    newDir.id = 0; // SQL Flag
     newDir.name = "NEW_DIRECTIVE";
     newDir.description = "NEW_DESCRIPTION";
     newDir.icon = "\ue0d2";
