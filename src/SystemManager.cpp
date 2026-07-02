@@ -49,20 +49,12 @@ void SystemManager::loadSystemConfig() {
     emit systemThemeChanged();
 }
 
-/**
- * Simulates system warm-up with a controlled delay for visual feedback.
- */
 void SystemManager::setSystemReady(bool ready) {
-    // [BOOT_DELAY]: 3s artificial latency for system warm-up simulation
-    // Encapsulating this here keeps main.cpp focused on engine lifecycle
-    // TODO: delete timer for a real time experience
-    QTimer::singleShot(3000, this, [this, ready]() {
-        if (m_systemReady!= ready) {
-            m_systemReady= ready;
-            emit systemReadyChanged();
-            hInfo() << "System operational status changed to:" << ready;
-        }
-    });
+    if (m_systemReady!= ready) {
+        m_systemReady= ready;
+        emit systemReadyChanged();
+        hInfo() << "System operational status changed to:" << ready;
+    }
 }
 
 void SystemManager::setSystemScanline(bool enabled) {

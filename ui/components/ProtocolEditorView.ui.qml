@@ -22,11 +22,13 @@ Item {
     width: Constants.designWidth * 0.95
     height: contentLayout.height + 40
 
-    property bool isDirty: false // Magenta state for unsaved changes
+    property bool isDirty: false // state for unsaved changes
+    property bool isReady: systemManager.systemReady
     property color accentColor: Constants.primaryColor // Default Protocol Color
 
     // Properties for data binding
     property alias protocolName: nameField.text
+    property alias protocolRank: rankSelector.selectedIndex
     property int selectedRank: 1 // 0:NEWBIE, 1:ADVANCED, 2:ROOT
     property int layoutVersion: 0
 

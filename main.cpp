@@ -122,7 +122,10 @@ int main(int argc, char *argv[])
         } else if (obj) {
             // UI handshake successful: Setting operational state to ONLINE
             // This triggers the NOTIFY signal for isSystemReady
-            systemManager.setSystemReady(true);
+            QTimer::singleShot(2000, [&systemManager]() {
+                systemManager.setSystemReady(true);
+                hDebug() << "Application connected to engine";
+            });
         }
     }, Qt::QueuedConnection);
 

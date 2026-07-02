@@ -27,6 +27,7 @@ DashboardForm {
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();
         Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
+        // systemManager.systemReady = true;
     }
 
     // Connexió per obrir/tancar l'acordió
@@ -137,6 +138,7 @@ DashboardForm {
 
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, "Navigating to System Config...");
+        systemManager.systemReady = false;
         mainStack.push("Config.qml");
     }
 

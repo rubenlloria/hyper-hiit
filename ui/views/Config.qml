@@ -86,6 +86,7 @@ ConfigForm {
         // themeSelector.selectedIndex = systemSettings.themeIndex
 
         _isReady = true; // DELETEME: ?
+        systemManager.systemReady = true;
     }
 
     summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
@@ -109,6 +110,7 @@ ConfigForm {
 
     architectMouseArea.onClicked: {
         Constants.hWarning(infoName, "Accessing ARCHITECT...");
+        systemManager.systemReady = false;
         mainStack.push("Architect.qml")
     }
 

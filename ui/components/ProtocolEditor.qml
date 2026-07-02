@@ -12,12 +12,19 @@ ProtocolEditorView {
     readonly property string debugName: "ProtocolEditor.qml"
     readonly property string infoName: "ProtocolEditor.qml"
 
-    property bool isReady: false
+    // property bool isReady: false
 
     Component.onCompleted: {
-        isReady = true;
+        systemManager.systemReady = true
+        // isReady = true;
+        Constants.hDebug(debugName, "ProtocolEditor Ready") ;
         // syncDeleteButtons();
     }
+
+    onProtocolNameChanged: { Constants.hDebug(debugName, "ProtocolNameChanged") ; if (isReady) isDirty = true }
+    onProtocolRankChanged: { Constants.hDebug(debugName, "ProtocolRankChanged") ; if (isReady) isDirty = true }
+    // onProtocolModelChanged: { Constants.hDebug(debugName, "ProtocolModelChanged") ; if (isReady) isDirty = true }
+
 
     // headerArea.onClicked: {
     //     // Request exclusive expansion from the parent (the DirectiveEditor)
@@ -138,6 +145,7 @@ ProtocolEditorView {
 
     addSubsystem.onClicked: {
         addNewSubsystem();
+        isDirty = true;
         Constants.hDebug(debugName, "Add subsystem")
     }
 
