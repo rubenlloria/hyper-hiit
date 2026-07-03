@@ -127,6 +127,7 @@ Item {
 
                             // ADD TO SEQUENCE (+)
                             MouseArea {
+                                id: insertModule
                                 width: 30
                                 height: 30
                                 hoverEnabled: true
@@ -185,6 +186,13 @@ Item {
                                     opacity: 0.5
                                 }
                             }
+                        }
+                    }
+                    Connections {
+                        target: insertModule
+                        function onClicked() {
+                            root.addModuleToCurrentProtocol(index, model)
+                            // root.protocolListView.forceLayout()
                         }
                     }
                 }

@@ -8,6 +8,8 @@ ModuleEditorView {
     readonly property string debugName: "ModuleEditor.qml"
     readonly property string infoName: "ModuleEditor.qml"
 
+    signal moduleInsertionRequested(var model)
+
     // Link to the system's global module model
     // moduleRepeater.model: moduleModel
 
@@ -78,9 +80,24 @@ ModuleEditorView {
         applyFilter(searchInput.text)
     }
 
-    function addModuleToCurrentProtocol(moduleId) {
+
+
+    function addModuleToCurrentProtocol(moduleId, m_model) {
         // Trigger logic in Architect.qml to append this module
         // to the active buffer sequence.
+        Constants.hDebug(debugName, "Inserting module " + moduleId);
+        for (var property in m_model) {
+            // Only print data roles, skipping internal functions and circular objects
+            try {
+                if (typeof m_model[property] !== "function") {
+                    Constants.hDebug(debugName, "Field [" + property + "]: " + m_model[property]);
+                }
+            } catch (e) {
+                // Some internal properties might throw access errors during iteration
+                Constants.hDebug(debugName, "Skipping internal field [" + property + "]");
+            }
+        }
+        editor.moduleInsertionRequested(m_model);
     }
 
     function openMasterEditDialog(moduleId) {

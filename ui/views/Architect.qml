@@ -45,6 +45,7 @@ ArchitectForm {
 
     Component.onCompleted: {
         isReady = true;
+        systemManager.systemReady = true;
         protocolEditor.protocolModel.clear();
         moduleEditor.loadModules();
         Constants.hDebug(debugName, "Context Check -> sessionManager status: " + (typeof sessionManager !== 'undefined'));
@@ -107,6 +108,7 @@ ArchitectForm {
         }
 
         onEditRequested: {
+            systemManager.systemReady = false;
             if (architectForm.editingIndex === index) {
                 // Close edit mode if already editing
                 architectForm.editingIndex = -1;
@@ -124,12 +126,13 @@ ArchitectForm {
                 protocolAccordion.headerMouseArea.visible = true;
                 protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
                 protocolAccordion.activeItemDesc = "Manage selected directive protocols";
-                // protocolId = 0;
             }
+            systemManager.systemReady = true;
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
 
         onSaveRequested: {
+            systemManager.systemReady = false;
             Constants.hDebug(debugName, "Persistence: Saving changes for "
                              + "dir_id: " + directiveId
                              + ", name: " + nameText
@@ -160,6 +163,7 @@ ArchitectForm {
             // Finalize interaction: collapse and sync
             isDirty = false;
             directiveModel.setDirectives(dbManager.getAllDirectives());
+            systemManager.systemReady = true;
         }
 
         onDeleteRequested: {
@@ -192,6 +196,8 @@ ArchitectForm {
                                      + " with id: " + model.id
                                      + " and rank : " + model.rank
                                      );
+                    systemManager.systemReady  = false;
+                    Constants.hDebug(debugName, "ProtocolEditor not ready") ;
                     protocolId = model.id;
                     protocolAccordion.activeItemName = model.name;
                     protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
@@ -213,9 +219,9 @@ ArchitectForm {
                             protocolEditor.protocolModel.append(protocolDataModel[i]);
                         }
                     }
-
-                    // protocolEditor.syncDeleteButtons();
-
+                    systemManager.systemReady  = true;
+                    protocolEditor.isDirty = false;
+                    Constants.hDebug(debugName, "ProtocolEditor ready") ;
                     Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.protocolModel.count);
                 }
             }
@@ -231,6 +237,7 @@ ArchitectForm {
 
     protocolEditor.onProtocolNameChanged: {
         protocolAccordion.activeItemName = protocolEditor.protocolName
+        // protocolEditor.isDirty = true;
     }
 
     addProtocol.onClicked: {
@@ -260,8 +267,52 @@ ArchitectForm {
     }
 
     /**
-      * Directive Functions
+      * Module Functions
       */
 
+    moduleEditor.onModuleInsertionRequested: (m_model) => {
+                                                 Constants.hDebug(debugName, "Signal from module: " + m_model.name);
+                                                 insertModule(m_model.module_id, m_model.name, m_model.unit_type)
+                                             }
+
+    /**
+     * Adds a module from the library to the last defined subsystem in the editor.
+     * @param {int} moduleId - The reference ID from the master modules table.
+     * @param {string} moduleName - The display name of the exercise.
+     * @param {int} unitType - The execution unit (0: seconds, 1: reps, etc.).
+     */
+    function insertModule(moduleId, moduleName, unitType) {
+        // 1. Safety Check: Ensure the timeline has at least one phase
+        if (protocolEditor.protocolModel.count === 0) {
+            Constants.hWarning("Architect", "No active subsystem found. Please add a subsystem first.");
+            return;
+        }
+
+        // 2. Locate the target subsystem (the last one in the buffer)
+        let lastIndex = protocolEditor.protocolModel.count - 1;
+        let targetSubsystem = protocolEditor.protocolModel.get(lastIndex);
+
+        // 3. Create the module object following the Level 4 schema
+        // We use 'struct_id: 0' to indicate this is a new entry for the database
+        let moduleDraft = {
+            "module_id": moduleId,
+            "s_order": targetSubsystem.modules.count + 1,
+            "name": moduleName,
+            "quantity": 10, // Default starting value
+            "unit": systemManager.getUnitLabel(unitType, true),
+            "met": "2",
+            "zone": "FULL BODY"
+        };
+
+        // 4. Update the nested list
+        // As 'modules' is a JS array property within the ListModel item:
+        targetSubsystem.modules.append(moduleDraft);
+
+        // 5. System notification and UI sync
+        protocolEditor.isDirty = true;
+        protocolEditor.refreshRequest();
+
+        Constants.hInfo("Architect", "Module [" + moduleName + "] added to subsystem " + targetSubsystem.subsystem_id);
+    }
 }
 
