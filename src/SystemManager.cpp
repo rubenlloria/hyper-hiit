@@ -119,3 +119,17 @@ void SystemManager::setConfig(const QString &key, const QString &value) {
     hInfo() << "System parameter synchronized | Key:" << key << "Value:" << value;
 }
 
+QString SystemManager::getUnitLabel(int unitType, bool useFullAbbreviation) const {
+    switch (unitType) {
+    case 0: // Seconds
+        return useFullAbbreviation ? "Sec." : "s";
+    case 1: // Repetitions
+        return useFullAbbreviation ? "Rep." : "x";
+    case 2: // Breaths
+        return useFullAbbreviation ? "Bth." : "b";
+    case 3: // Meters
+        return useFullAbbreviation ? "Mtr." : "m";
+    default:
+        return "";
+    }
+}

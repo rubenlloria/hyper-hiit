@@ -76,6 +76,14 @@ public:
      */
     Q_INVOKABLE void setConfig(const QString &key, const QString &value);
 
+    /**
+     * @brief Converts a unit type integer into its string representation.
+     * @param unitType The integer ID (0: seconds, 1: reps, 2: breaths, 3: meters).
+     * @param useFullAbbreviation If true, returns 'sec.' instead of 's'.
+     * @return The formatted string label.
+     */
+    Q_INVOKABLE QString getUnitLabel(int unitType, bool useFullAbbreviation = false) const;
+
 signals:
     void systemReadyChanged();
     void systemScanlineChanged();

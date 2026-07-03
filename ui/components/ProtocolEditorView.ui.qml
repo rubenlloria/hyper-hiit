@@ -628,7 +628,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         property bool isDefault: true
                                         Text {
-                                            text: parent.isDefault ? (unit === "x" ? "Rep." : unit) : "sec."
+                                            text: parent.isDefault ? (unit === "x" ? "Rep." : unit) : "Sec."
                                             color: Constants.deepColor
                                             anchors.centerIn: parent
                                             font.family: Constants.mainFont.family
