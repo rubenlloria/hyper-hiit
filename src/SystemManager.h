@@ -82,7 +82,7 @@ public:
      * @param useFullAbbreviation If true, returns 'sec.' instead of 's'.
      * @return The formatted string label.
      */
-    Q_INVOKABLE QString getUnitLabel(int unitType, bool useFullAbbreviation = false) const;
+    Q_INVOKABLE static QString getUnitLabel(int unitType, bool useFullAbbreviation = false);
 
 signals:
     void systemReadyChanged();

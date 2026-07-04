@@ -12,7 +12,7 @@ ProtocolForm {
     currentModuleName: "ENGAGING"
     countdownTimer: -5 // Starting from -5 as requested
     unitType: 0 // Display as REPS/Units for the countdown
-    unit: "s"
+    unit: systemManager.getUnitLabel(unitType)
     currentQuantity: countdownTimer + unit
 
     property var lastAchievements: []
@@ -46,7 +46,7 @@ ProtocolForm {
         if (activeProtocolId > 0) {
             loadProtocolDetails();
             let next = executionList[0];
-            let unitSymbol = unitSymbols[next.data.unit_type] || "";
+            let unitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
             // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
             // Constants.hDebug(debugName, "Protocol Content: " + JSON.stringify(executionList));
             nextModuleText.label = next.data.quantity + unitSymbol + " " + next.data.module_name;
@@ -277,7 +277,7 @@ ProtocolForm {
 
         currentIndex = index;
         let entry = executionList[currentIndex];
-        let unitSymbol = unitSymbols[entry.data.unit_type] || "";
+        let unitSymbol = systemManager.getUnitLabel(entry.data.unit_type) || "";
         // Constants.hDebug(debugName, entry.data.module_name + " Content: " + JSON.stringify(entry));
 
         let previousCheckpointSecs = (index > 0) ? sessionManager.getStoredTime(index - 1) : 0;
@@ -296,7 +296,6 @@ ProtocolForm {
         currentModuleName = entry.data.module_name;
         currentQuantity = entry.data.quantity + unitSymbol;
         unitType = entry.data.unit_type;
-        // unit = unitSymbols[unitType] || "";
 
         // Duration Calculation: quantity * rep_time * fatigue_rate [Source 18]
         // unit_type 0: SECONDS | 1: REPS
@@ -330,7 +329,7 @@ ProtocolForm {
         if (index < executionList.length -1) {
             // Constants.hDebug(debugName, "Let next");
             let next = executionList[index +1];
-            let nextUnitSymbol = unitSymbols[next.data.unit_type] || "";
+            let nextUnitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
             nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
             // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
         } else {

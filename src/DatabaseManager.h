@@ -26,6 +26,7 @@
 #include "src/DirectiveModel.h"
 #include "src/ModuleModel.h"
 #include "src/ProtocolModel.h"
+// #include "src/SystemManager.h"
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <QtSql/QSqlDatabase>
@@ -63,7 +64,7 @@ public:
     // Protocol methods
     QList<Protocol> getAllProtocols();
     QList<Protocol> getProtocolsByDirective(int dirId);
-    Q_INVOKABLE QVariantList getProtocolStructure(int protocolId);
+    Q_INVOKABLE QVariantList getProtocolStructure(int protocolId, bool useFullAbbreviation = false);
     Q_INVOKABLE QVariantList getProtocolExecutionDetails(int protocolId);
     int setProtocolMaxDuration();
     int saveSession(int protocolId, qint64 timestamp, int totalSecs, const QString &modulesLog, double calories, double speed, double met_score);

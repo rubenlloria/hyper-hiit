@@ -27,6 +27,7 @@
 
 #include <QFile>
 #include "DatabaseManager.h"
+#include "SystemManager.h"
 #include "SystemLog.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent) {}
@@ -516,7 +517,7 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
  * Required for the BriefingForm MVP (v0.4.0-beta).
  * Each subsystem object contains a 'modules' list property [Source 1, 12, 17].
  */
-QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
+QVariantList DatabaseManager::getProtocolStructure(int protocolId, bool useFullAbbreviation) {
     QVariantList subsystems;
     QSqlQuery subQuery;
 
@@ -550,23 +551,11 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId) {
                     QVariantMap mod;
                     mod["name"] = modQuery.value(0).toString();
                     mod["quantity"] = modQuery.value(1).toInt();
-                    switch (modQuery.value(2).toInt()) {
-                    case 0:
-                        mod["unit"] = "s.";
-                        break;
-                    case 1:
-                        mod["unit"] = "x";
-                        break;
-                    case 2:
-                        mod["unit"] = "b";
-                        break;
-                    case 3:
-                        mod["unit"] = "m";
-                        break;
-                    default:
-                        mod["unit"] = "";
-                        break;
-                    }
+                    // TODO: delete useFullAbbreviation and return (int)unit_type (char)unit [or unit_symbol] and (string)unit_label
+                    int unitType = modQuery.value(2).toInt();
+                    mod["unit"] = SystemManager::getUnitLabel(unitType, useFullAbbreviation);
+                    mod["zone"] = "FULL BODY";
+
                     modulesInSub.append(mod);
                     hDebug() << "\t" << mod["quantity"].toString() << mod["unit"].toString() << " " << mod["name"].toString();
                 }
@@ -589,7 +578,7 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
     // SQL JOIN to fetch Level 4 metadata: rep_time, met_factor, and fatigue_rate
     query.prepare(
         "SELECT ps.subsystem, ps.quantity, ps.unit_type, "
-        "m.mod_name, m.rep_time, m.met_factor, m.fatigue_rate "
+        "m.mod_name, m.rep_time, m.target_zone, m.met_factor, m.fatigue_rate "
         "FROM protocol_structure ps "
         "JOIN modules m ON ps.module_id = m.module_id "
         "WHERE ps.protocol_id = :protId "
@@ -625,7 +614,9 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
         mod["module_name"] = query.value("mod_name").toString();
         mod["quantity"] = query.value("quantity").toInt();
         mod["unit_type"] = query.value("unit_type").toInt();
+        mod["unit"] = SystemManager::getUnitLabel(query.value("unit_type").toInt(),true);
         mod["rep_time"] = query.value("rep_time").toFloat();
+        mod["zone"] = query.value("target_zone").toString();
         mod["met_factor"] = query.value("met_factor").toFloat();
         mod["fatigue_rate"] = query.value("fatigue_rate").toFloat();
         moduleList.append(mod);
