@@ -23,7 +23,7 @@ ProtocolEditorView {
 
     onProtocolNameChanged: { Constants.hDebug(debugName, "ProtocolNameChanged") ; if (isReady) isDirty = true }
     onProtocolRankChanged: { Constants.hDebug(debugName, "ProtocolRankChanged") ; if (isReady) isDirty = true }
-    // onProtocolModelChanged: { Constants.hDebug(debugName, "ProtocolModelChanged") ; if (isReady) isDirty = true }
+    // onsubsystemModelChanged: { Constants.hDebug(debugName, "subsystemModelChanged") ; if (isReady) isDirty = true }
 
 
     // headerArea.onClicked: {
@@ -41,7 +41,7 @@ ProtocolEditorView {
     // DRAG & DROP — reordering logic
     // (not valid inside the .ui.qml; that's why it lives here)
     //
-    // protocolModel is a real ListModel, so real exchanges are done with
+    // subsystemModel is a real ListModel, so real exchanges are done with
     // its native move()/remove()/insert() methods. ListView then animates
     // delegates to their new slot instead of just floating in absolute
     // screen coordinates.
@@ -53,10 +53,10 @@ ProtocolEditorView {
 
         if (fromIndex === targetIndex || fromIndex < 0 || targetIndex < 0)
             return
-        if (fromIndex >= protocolModel.count || targetIndex >= protocolModel.count)
+        if (fromIndex >= subsystemModel.count || targetIndex >= subsystemModel.count)
             return
 
-        protocolModel.move(fromIndex, targetIndex, 1)
+        subsystemModel.move(fromIndex, targetIndex, 1)
         reindexSubsystems();
         isDirty = isReady ? true : null
     }
@@ -70,10 +70,10 @@ ProtocolEditorView {
 
         if (fromSubsystemIndex !== targetSubsystemIndex)
             return
-        if (fromSubsystemIndex < 0 || fromSubsystemIndex >= protocolModel.count)
+        if (fromSubsystemIndex < 0 || fromSubsystemIndex >= subsystemModel.count)
             return
 
-        var modules = protocolModel.get(fromSubsystemIndex).modules
+        var modules = subsystemModel.get(fromSubsystemIndex).modules
 
         if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= modules.count)
             return
@@ -93,11 +93,11 @@ ProtocolEditorView {
 
         if (fromSubsystemIndex < 0 || targetSubsystemIndex < 0)
             return
-        if (fromSubsystemIndex >= protocolModel.count || targetSubsystemIndex >= protocolModel.count)
+        if (fromSubsystemIndex >= subsystemModel.count || targetSubsystemIndex >= subsystemModel.count)
             return
 
         if (fromSubsystemIndex === targetSubsystemIndex) {
-            var sameModules = protocolModel.get(fromSubsystemIndex).modules
+            var sameModules = subsystemModel.get(fromSubsystemIndex).modules
             if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= sameModules.count)
                 return
             var sameInsertIndex = Math.min(Math.max(targetModuleIndex, 0), sameModules.count - 1)
@@ -107,7 +107,7 @@ ProtocolEditorView {
         }
 
         // Cross-subsystem transfer
-        var sourceModules = protocolModel.get(fromSubsystemIndex).modules
+        var sourceModules = subsystemModel.get(fromSubsystemIndex).modules
         if (fromModuleIndex < 0 || fromModuleIndex >= sourceModules.count)
             return
 
@@ -122,7 +122,7 @@ ProtocolEditorView {
 
         sourceModules.remove(fromModuleIndex, 1)
 
-        var targetModules = protocolModel.get(targetSubsystemIndex).modules
+        var targetModules = subsystemModel.get(targetSubsystemIndex).modules
         var insertIndex = Math.min(Math.max(targetModuleIndex, 0), targetModules.count)
         targetModules.insert(insertIndex, snapshot)
 
@@ -133,11 +133,11 @@ ProtocolEditorView {
     function addNewSubsystem() {
         // Create an empty structure following the DB schema
         let newPhase = {
-            "subsystem_id": protocolEditor.protocolModel.count + 1,
+            "subsystem_id": protocolEditor.subsystemModel.count + 1,
             "modules": [] // Empty Level 4 list
         };
 
-        protocolEditor.protocolModel.append(newPhase);
+        protocolEditor.subsystemModel.append(newPhase);
         // isDirty = true; //TODO
         Constants.hInfo(infoName, "New subsystem added to local buffer.");
         refreshRequest()
@@ -154,8 +154,8 @@ ProtocolEditorView {
     }
 
     function removeSubsystem(index) {
-        if (index >= 0 && index < protocolEditor.protocolModel.count) {
-            protocolEditor.protocolModel.remove(index);
+        if (index >= 0 && index < protocolEditor.subsystemModel.count) {
+            protocolEditor.subsystemModel.remove(index);
             isDirty = true;
 
             // Optional: Re-index remaining Subsystems for visual consistency
@@ -169,9 +169,9 @@ ProtocolEditorView {
     }
 
     function removeModule(subsystemIndex, moduleIndex) {
-        if (subsystemIndex >= 0 && subsystemIndex < protocolModel.count) {
+        if (subsystemIndex >= 0 && subsystemIndex < subsystemModel.count) {
 
-            let subsystem = protocolModel.get(subsystemIndex);
+            let subsystem = subsystemModel.get(subsystemIndex);
             let modulesList = subsystem.modules;
 
             // Validate and remove the specific module
@@ -187,8 +187,8 @@ ProtocolEditorView {
     }
 
     function reindexSubsystems() {
-        for (let i = 0; i < protocolEditor.protocolModel.count; i++) {
-            protocolEditor.protocolModel.setProperty(i, "subsystem_id", i + 1);
+        for (let i = 0; i < protocolEditor.subsystemModel.count; i++) {
+            protocolEditor.subsystemModel.setProperty(i, "subsystem_id", i + 1);
         }
         protocolEditor.protocolListView.forceLayout();
     }

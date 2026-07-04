@@ -37,7 +37,7 @@ Item {
     // Data model exposed so the logic file (ProtocolEditor.qml) can manipulate it.
     // A real ListModel supports move()/remove()/insert() natively, which lets
     // ListView reposition delegates instead of destroying/recreating them.
-    property alias protocolModel: subsystemModel
+    property alias subsystemModel: subsystemModel
     property alias addSubsystem: addSubsystem
 
     ListModel {
@@ -46,17 +46,17 @@ Item {
             subsystem_id: 1
             modules: [
                 ListElement {
-                    name: "Burpees"
+                    module_name: "Burpees"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 },
                 ListElement {
-                    name: "Mountain Climbers"
+                    module_name: "Mountain Climbers"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 }
             ]
@@ -65,17 +65,17 @@ Item {
             subsystem_id: 2
             modules: [
                 ListElement {
-                    name: "Burpees"
+                    module_name: "Burpees"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 },
                 ListElement {
-                    name: "Mountain Climbers"
+                    module_name: "Mountain Climbers"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 }
             ]
@@ -84,17 +84,17 @@ Item {
             subsystem_id: 3
             modules: [
                 ListElement {
-                    name: "Burpees"
+                    module_name: "Burpees"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 },
                 ListElement {
-                    name: "Mountain Climbers"
+                    module_name: "Mountain Climbers"
                     quantity: 15
-                    unit: "x"
-                    met: "N/A"
+                    unit: "Rep."
+                    met_factor: 0.1
                     zone: "Full Body"
                 }
             ]
@@ -582,7 +582,7 @@ Item {
                                     Column {
                                         Layout.fillWidth: true
                                         Text {
-                                            text: name
+                                            text: model.module_name
                                             width: 140
                                             color: Constants.primaryTextColor
                                             font.family: Constants.techFont.family
@@ -590,7 +590,7 @@ Item {
                                             elide: Text.ElideRight
                                         }
                                         Text {
-                                            text: zone + " · MET:" + met
+                                            text: model.zone + " · MET: " + model.met_factor
                                             color: Constants.descriptionColor
                                             opacity: 0.5
                                             font.family: Constants.techFont.family
@@ -628,7 +628,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         property bool isDefault: true
                                         Text {
-                                            text: parent.isDefault ? (unit === "x" ? "Rep." : unit) : "Sec."
+                                            text: parent.isDefault ? unit : "Sec."
                                             color: Constants.deepColor
                                             anchors.centerIn: parent
                                             font.family: Constants.mainFont.family
