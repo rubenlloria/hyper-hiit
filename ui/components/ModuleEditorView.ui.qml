@@ -36,11 +36,11 @@ Item {
         // Sample entry based on system init data
         ListElement {
             module_id: 2
-            name: "BURPEES"
-            target_zone: "FULL_BODY"
+            module_name: "BURPEES"
+            zone: "FULL_BODY"
             difficulty: 2
             description: "Plank, push-up and jump sequence."
-            unit_type: 1 // 1: REPS
+            unit: "Rep."
             rep_time: 3.7
             met_factor: 11.0
             fatigue_rate: 6.5
@@ -48,11 +48,11 @@ Item {
 
         ListElement {
             module_id: 1
-            name: "REST"
-            target_zone: "REST"
+            module_name: "REST"
+            zone: "REST"
             difficulty: 0
             description: "Active or passive recovery period."
-            unit_type: 0 // 0: SECONDS
+            unit: "Sec."
             rep_time: 1.0
             met_factor: 1.0
             fatigue_rate: 0.8
@@ -102,7 +102,7 @@ Item {
                             spacing: 4
 
                             Text {
-                                text: model.name
+                                text: model.module_name
                                 color: Constants.primaryTextColor
                                 font.family: Constants.mainFont.family
                                 font.pixelSize: 16
@@ -110,10 +110,8 @@ Item {
                             }
 
                             Text {
-                                // Meta string: ZONE · MET · UNIT_TYPE
-                                text: model.targetZone + " · MET:" + model.metFactor + " · "
-                                      + (model.unitType === 0 ? "SECONDS" : model.unitType
-                                                                === 1 ? "REPETITIONS" : "METERS")
+                                // Meta string: ZONE · MET · UNIT
+                                text: model.zone + " · MET:" + model.met_factor + " · " + model.unit
                                 color: Constants.descriptionColor
                                 opacity: 0.6
                                 font.family: Constants.techFont.family

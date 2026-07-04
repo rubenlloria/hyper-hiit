@@ -46,7 +46,7 @@ ArchitectForm {
     Component.onCompleted: {
         isReady = true;
         systemManager.systemReady = true;
-        protocolEditor.protocolModel.clear();
+        protocolEditor.subsystemModel.clear();
         moduleEditor.loadModules();
         Constants.hDebug(debugName, "Context Check -> sessionManager status: " + (typeof sessionManager !== 'undefined'));
     }
@@ -206,23 +206,24 @@ ArchitectForm {
                     if (protocolId === 0) {
                         // NEW_PROTOCOL logic: Initialize empty buffer for fresh configuration
                         protocolAccordion.activeItemDesc = "DRAFT: PENDING STRUCTURE";
-                        protocolEditor.protocolModel.clear();
+                        protocolEditor.subsystemModel.clear();
                         protocolEditor.selectedRank = 0; // Default to NEWBIE (rank 1 -> index 0)
 
                         Constants.hInfo(debugName, "Editor initialized for new protocol draft.");
                     } else if (protocolId > 0) {
-                        protocolDataModel = dbManager.getProtocolStructure(protocolId);
-                        protocolEditor.protocolModel.clear();
+                        protocolDataModel = dbManager.getProtocolExecutionDetails(protocolId);
+                        // protocolDataModel = dbManager.getProtocolStructure(protocolId, true);
+                        protocolEditor.subsystemModel.clear();
                         // protocolEditor.protocolName = model.name
                         protocolEditor.selectedRank = model.rank -1
                         for (let i = 0; i < protocolDataModel.length; i++) {
-                            protocolEditor.protocolModel.append(protocolDataModel[i]);
+                            protocolEditor.subsystemModel.append(protocolDataModel[i]);
                         }
                     }
                     systemManager.systemReady  = true;
                     protocolEditor.isDirty = false;
                     Constants.hDebug(debugName, "ProtocolEditor ready") ;
-                    Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.protocolModel.count);
+                    Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.subsystemModel.count);
                 }
             }
         }
@@ -271,37 +272,47 @@ ArchitectForm {
       */
 
     moduleEditor.onModuleInsertionRequested: (m_model) => {
-                                                 Constants.hDebug(debugName, "Signal from module: " + m_model.name);
-                                                 insertModule(m_model.module_id, m_model.name, m_model.unit_type)
+                                                 Constants.hDebug(debugName, "Signal from module: " + m_model.module_name);
+                                                 insertModule(m_model.module_id, m_model.module_name, m_model.unit, m_model.zone, m_model.met_factor)
                                              }
 
     /**
      * Adds a module from the library to the last defined subsystem in the editor.
      * @param {int} moduleId - The reference ID from the master modules table.
      * @param {string} moduleName - The display name of the exercise.
-     * @param {int} unitType - The execution unit (0: seconds, 1: reps, etc.).
+     * @param {string} unitType - The execution unit (Sec., Rep., etc.).
+     * @param {string} zone - The body target zone.
+     * @param {real} metFactor - Metabolic Equivalent of Task
      */
-    function insertModule(moduleId, moduleName, unitType) {
+    function insertModule(moduleId, moduleName, unit, zone, metFactor) {
         // 1. Safety Check: Ensure the timeline has at least one phase
-        if (protocolEditor.protocolModel.count === 0) {
+        if (protocolEditor.subsystemModel.count === 0) {
             Constants.hWarning("Architect", "No active subsystem found. Please add a subsystem first.");
             return;
         }
 
         // 2. Locate the target subsystem (the last one in the buffer)
-        let lastIndex = protocolEditor.protocolModel.count - 1;
-        let targetSubsystem = protocolEditor.protocolModel.get(lastIndex);
+        let lastIndex = protocolEditor.subsystemModel.count - 1;
+        let targetSubsystem = protocolEditor.subsystemModel.get(lastIndex);
 
         // 3. Create the module object following the Level 4 schema
         // We use 'struct_id: 0' to indicate this is a new entry for the database
+        Constants.hDebug(debugName, "Creating module object for " + moduleName
+                         + ", id: " + moduleId
+                         + ", s_order: " + targetSubsystem.modules.count + 1
+                         + ", id: " + moduleId
+                         + ", unit: " + unit
+                         + ", zone: " + zone
+                         + ", met: " + metFactor
+                         );
         let moduleDraft = {
             "module_id": moduleId,
             "s_order": targetSubsystem.modules.count + 1,
-            "name": moduleName,
+            "module_name": moduleName,
             "quantity": 10, // Default starting value
-            "unit": systemManager.getUnitLabel(unitType, true),
-            "met": "2",
-            "zone": "FULL BODY"
+            "unit": unit,
+            "met_factor": metFactor,
+            "zone": zone
         };
 
         // 4. Update the nested list
