@@ -113,13 +113,16 @@ ProtocolEditorView {
 
         var original = sourceModules.get(fromModuleIndex)
         var snapshot = {
-            "name": original.name,
-            "quantity": original.quantity,
-            "unit": original.unit,
-            "met": original.met,
-            "zone": original.zone
+            "module_id":    original.module_id,
+            "module_name":  original.module_name,
+            "quantity":     original.quantity,
+            "unit":         original.unit,
+            "unit_type":    original.unit_type,
+            "met_factor":   original.met_factor,
+            "fatigue_rate": original.fatigue_rate,
+            "rep_time":     original.rep_time,
+            "zone":         original.zone
         }
-
         sourceModules.remove(fromModuleIndex, 1)
 
         var targetModules = subsystemModel.get(targetSubsystemIndex).modules
@@ -186,11 +189,19 @@ ProtocolEditorView {
         }
     }
 
+    function reindexModules(subsystemIndex) {
+        let mods = subsystemModel.get(subsystemIndex).modules
+        for (let i = 0; i < mods.count; i++) {
+            mods.setProperty(i, "s_order", i + 1)
+        }
+    }
+
     function reindexSubsystems() {
         for (let i = 0; i < protocolEditor.subsystemModel.count; i++) {
             protocolEditor.subsystemModel.setProperty(i, "subsystem_id", i + 1);
         }
         protocolEditor.protocolListView.forceLayout();
+        reindexModules();
     }
 
     onRefreshRequest: {

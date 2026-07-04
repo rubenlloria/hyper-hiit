@@ -607,6 +607,7 @@ Item {
                                         color: Constants.surfaceColor
                                         border.color: Constants.primaryTextColor
                                         TextInput {
+                                            id: quantityInput
                                             text: quantity
                                             color: Constants.primaryTextColor
                                             anchors.centerIn: parent
