@@ -125,7 +125,7 @@ Item {
 
                             // ADD TO SEQUENCE (+)
                             MouseArea {
-                                id: insertModule
+                                id: insertModuleButton
                                 width: 30
                                 height: 30
                                 hoverEnabled: true
@@ -146,6 +146,7 @@ Item {
 
                             // EDIT MASTER DATA (Pencil)
                             MouseArea {
+                                id: editModuleButton
                                 width: 30
                                 height: 30
                                 hoverEnabled: true
@@ -166,7 +167,7 @@ Item {
 
                             // DELETE FROM REGISTRY (Trash - Neon Red)
                             MouseArea {
-                                id: deleteButton
+                                id: deleteModuleButton
                                 width: 30
                                 height: 30
                                 hoverEnabled: true
@@ -187,10 +188,21 @@ Item {
                         }
                     }
                     Connections {
-                        target: insertModule
+                        target: insertModuleButton
                         function onClicked() {
-                            root.addModuleToCurrentProtocol(index, model)
-                            // root.protocolListView.forceLayout()
+                            root.insertModule(index, model)
+                        }
+                    }
+                    Connections {
+                        target: editModuleButton
+                        function onClicked() {
+                            root.editModule(index, model)
+                        }
+                    }
+                    Connections {
+                        target: deleteModuleButton
+                        function onClicked() {
+                            root.deleteModule(index, model)
                         }
                     }
                 }
@@ -258,24 +270,28 @@ Item {
             width: parent.width
             height: factoryLayout.implicitHeight + 40
             anchors.horizontalCenter: parent.horizontalCenter
-            visible: !searchMode
+            visible: true || !searchMode
             color: Constants.deepColor
             border.color: Constants.primaryColor
             border.width: 1
+            property int moduleId: -1
 
             // Internal margins for the industrial frame
             Column {
                 id: factoryLayout
                 anchors.fill: parent
-                anchors.margins: 20
-                spacing: 20
+                anchors.leftMargin: 15
+                anchors.rightMargin: 15
+                spacing: 15
 
                 // 1. HEADER: Warning Icon + Title
                 Row {
+                    height: 25
                     NeonIcon {
                         glyph: "\ue193" // triangle-alert glyph [4]
                         size: 16
                         color: "#bf00ff"
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
                         text: "MODULE_FACTORY"
@@ -297,8 +313,8 @@ Item {
                         placeholder: "> ENTER_NAME"
                         label: "MODULE_NAME"
                         neonColor: Constants.primaryColor
+                        labelColor: Constants.primaryTextColor
                         text: searchInput.text
-                        // The text here would be "burpees" as shown in the mockup [1]
                     }
                 }
 
@@ -309,11 +325,11 @@ Item {
 
                     // UNIT_TYPE Selector
                     Column {
-                        Layout.preferredWidth: 120
+                        Layout.preferredWidth: 100
                         spacing: 8
                         Text {
                             text: "UNIT_TYPE"
-                            color: Constants.primaryColor
+                            color: Constants.primaryTextColor
                             font.family: Constants.techFont.family
                             font.pixelSize: 11
                         }
@@ -333,6 +349,85 @@ Item {
                     }
 
                     // MET_FACTOR Stepper
+                    // TARGET_ZONE Selector
+                    Column {
+                        Layout.preferredWidth: 60
+                        spacing: 8
+                        Text {
+                            text: "DIFFICULTY"
+                            color: Constants.primaryTextColor
+                            font.family: Constants.techFont.family
+                            font.pixelSize: 11
+                        }
+                        NeonCombo {
+                            width: parent.width
+                            model: ["1", "2", "3"]
+                            currentIndex: 1 // Defaults to REPS as per mockup [2]
+                        }
+                    }
+
+                    // Column {
+                    //     Layout.fillWidth: true
+                    //     spacing: 8
+                    //     NeonTextField {
+                    //         id: metField
+                    //         width: 50
+                    //         height: 55
+                    //         text: "3.2"
+                    //         label: "MET"
+                    //         anchors.horizontalCenter: parent.horizontalCenter
+                    //         neonColor: Constants.primaryColor
+                    //         // Uses fuchsiaNeon for the +/- buttons as per mockup [1]
+                    //         textInput.validator: DoubleValidator {
+                    //             bottom: -2.0
+                    //             top: 20
+                    //             decimals: 1
+                    //         }
+                    //     }
+                    // }
+
+                    // TARGET_ZONE Selector
+                    Column {
+                        Layout.preferredWidth: 100
+                        spacing: 8
+                        Text {
+                            text: "TARGET_ZONE"
+                            color: Constants.primaryTextColor
+                            font.family: Constants.techFont.family
+                            font.pixelSize: 11
+                        }
+                        NeonCombo {
+                            width: parent.width
+                            model: zoneModel
+                            currentIndex: 1 // Defaults to REPS as per mockup [2]
+                        }
+                    }
+                }
+
+                // SELECTION ROW: REP_TIME, MET_FACTOR, FATIGUE_RATE
+                RowLayout {
+                    width: parent.width
+                    spacing: 15
+
+                    // UNIT_TYPE Selector
+                    Column {
+                        Layout.preferredWidth: 100
+                        NeonTextField {
+                            id: repTimeInput
+                            width: parent.width
+                            placeholder: "> VALUE"
+                            label: "REP_TIME"
+                            neonColor: Constants.primaryColor
+                            labelColor: Constants.primaryTextColor
+                            textInput.validator: DoubleValidator {
+                                bottom: 0
+                                top: 40
+                                decimals: 1
+                            }
+                        }
+                    }
+
+                    // MET_FACTOR
                     Column {
                         Layout.fillWidth: true
                         spacing: 8
@@ -352,25 +447,63 @@ Item {
                         }
                     }
 
-                    // TARGET_ZONE Selector
                     Column {
-                        Layout.preferredWidth: 120
-                        spacing: 8
-                        Text {
-                            text: "TARGET_ZONE"
-                            color: Constants.primaryColor
-                            font.family: Constants.techFont.family
-                            font.pixelSize: 11
-                        }
-                        NeonCombo {
+                        Layout.preferredWidth: 100
+                        NeonTextField {
+                            id: fatigueRateInput
                             width: parent.width
-                            model: zoneModel
-                            currentIndex: 1 // Defaults to REPS as per mockup [2]
+                            placeholder: "> VALUE"
+                            label: "FATIGUE_RATE"
+                            neonColor: Constants.primaryColor
+                            labelColor: Constants.primaryTextColor
+                            textInput.validator: DoubleValidator {
+                                bottom: -2.0
+                                top: 20
+                                decimals: 1
+                            }
                         }
                     }
                 }
 
-                // 4. ACTION ROW: REGISTER & ABORT
+                Column {
+                    width: parent.width
+                    spacing: 15
+                    NeonTextField {
+                        id: descriptionInput
+                        width: parent.width
+                        placeholder: "> ENTER_DESCRIPTION"
+                        label: "DESCRIPTION"
+                        neonColor: Constants.primaryColor
+                        labelColor: Constants.primaryTextColor
+                    }
+                    NeonTextField {
+                        id: instructionsInput
+                        width: parent.width
+                        placeholder: "> ENTER_INSTRUCTIONS"
+                        label: "INSTRUCTIONS"
+                        neonColor: Constants.primaryColor
+                        labelColor: Constants.primaryTextColor
+                    }
+                    NeonTextField {
+                        id: safetyInput
+                        width: parent.width
+                        placeholder: "> ENTER_SAFETY"
+                        label: "SAFETY"
+                        neonColor: Constants.primaryColor
+                        labelColor: Constants.primaryTextColor
+                    }
+                    NeonTextField {
+                        id: equipmentInput
+                        width: parent.width
+                        placeholder: "> ENTER_EQUIPMENT"
+                        label: "EQUIPMENT"
+                        neonColor: Constants.primaryColor
+                        labelColor: Constants.primaryTextColor
+                        text: "NONE"
+                    }
+                }
+
+                // ACTION ROW: REGISTER & ABORT
                 RowLayout {
                     width: parent.width
                     height: 45
@@ -404,8 +537,15 @@ Item {
                         }
 
                         MouseArea {
+                            id: saveModuleButton
                             anchors.fill: parent
                             // onClicked: console.log("Committing module to master registry...")
+                        }
+                        Connections {
+                            target: saveModuleButton
+                            function onClicked() {
+                                root.saveModule(moduleFactory.moduleId)
+                            }
                         }
                     }
 

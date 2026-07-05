@@ -108,7 +108,7 @@ ModuleEditorView {
 
 
 
-    function addModuleToCurrentProtocol(moduleId, m_model) {
+    function insertModule(moduleId, m_model) {
         // Trigger logic in Architect.qml to append this module
         // to the active buffer sequence.
         Constants.hDebug(debugName, "Inserting module " + moduleId);
@@ -126,11 +126,17 @@ ModuleEditorView {
         editor.moduleInsertionRequested(m_model);
     }
 
-    function openMasterEditDialog(moduleId) {
+    function editModule(moduleId, m_model) {
         // Open overlay to modify MET_FACTOR or targetZone
+        Constants.hDebug(debugName, "Editing" + m_model.module_name);
     }
 
-    function requestModuleDeletion(moduleId) {
+    function deleteModule(moduleId, m_model) {
         // Trigger Neon Red confirmation for database removal
+        Constants.hDebug(debugName, "Deleting " + m_model.module_name + " from DB");
+    }
+    function saveModule(moduleId) {
+        // Trigger Neon Red confirmation for database removal
+        Constants.hDebug(debugName, "Saving module with id " + moduleId + " on DB");
     }
 }
