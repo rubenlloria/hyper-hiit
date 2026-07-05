@@ -40,6 +40,12 @@ Item {
     property alias subsystemModel: subsystemModel
     property alias addSubsystem: addSubsystem
 
+    // Tracked drag position: ProtocolEditor.qml updates these after every swap so
+    // the .ui.qml DropAreas always know the TRUE current index of the dragged
+    // module (the delegate's own `index` binding may be stale mid-drag).
+    property int trackedDragSubsystem: -1
+    property int trackedDragModuleIndex: -1
+
     ListModel {
         id: subsystemModel
         ListElement {
@@ -504,11 +510,16 @@ Item {
                                 id: moduleItem
                                 width: ListView.view.width * 0.98
                                 anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
-                                // Layout.alignment: Qt.AlignHCenter
                                 height: 60
+
+                                // Visual state: border highlight replaces scale (scale causes
+                                // layout recalculation in siblings → jitter)
                                 color: Constants.deepColor
-                                border.color: Constants.secondaryColor
-                                border.width: 1
+                                border.color: dragActive ? root.accentColor : Constants.secondaryColor
+                                border.width: dragActive ? 2 : 1
+                                Behavior on border.color {
+                                    ColorAnimation { duration: 100 }
+                                }
 
                                 // --- DRAG & DROP: individual module ---
                                 readonly property int subsystemIndex: subsystemWrapper.subsystemIndex
@@ -516,17 +527,9 @@ Item {
                                 property bool dragActive: gripMouseArea.drag.active
 
                                 z: dragActive ? 99 : 1
-                                opacity: dragActive ? 0.85 : 1.0
-                                scale: dragActive ? 1.015 : 1.0
+                                opacity: dragActive ? 0.80 : 1.0
                                 Behavior on opacity {
-                                    NumberAnimation {
-                                        duration: 120
-                                    }
-                                }
-                                Behavior on scale {
-                                    NumberAnimation {
-                                        duration: 120
-                                    }
+                                    NumberAnimation { duration: 100 }
                                 }
 
                                 Drag.active: gripMouseArea.drag.active
@@ -535,27 +538,64 @@ Item {
                                 Drag.hotSpot.x: width / 2
                                 Drag.hotSpot.y: height / 2
 
-                                // Live swap while hovering another module of the SAME subsystem,
-                                // final move/transfer resolved on drop (covers cross-subsystem moves)
+                                // Threshold-based DropArea:
+                                // Direction is determined by WHERE the hotspot physically enters
+                                // the DropArea (not by model index comparison, which can be stale
+                                // immediately after a ListModel.move() call).
+                                // swapDone prevents re-triggering the same swap while still hovering.
                                 DropArea {
                                     id: moduleDropArea
                                     anchors.fill: parent
                                     keys: ["module"]
+                                    property bool swapDone: false
+                                    property bool enteredFromAbove: true
                                 }
 
                                 Connections {
                                     target: moduleDropArea
+
                                     function onEntered(drag) {
-                                        root.moduleHoverSwapRequested(
-                                                    drag.source,
-                                                    moduleItem.subsystemIndex,
-                                                    moduleItem.moduleIndex)
+                                        // Never react to the item dragging into itself
+                                        if (drag.source === moduleItem) return
+                                        moduleDropArea.swapDone = false
+                                        // Record physical entry direction from the hotspot position
+                                        moduleDropArea.enteredFromAbove = drag.y < moduleItem.height * 0.5
+                                        // Fire immediately if entry point is already past the midpoint
+                                        var mid = moduleItem.height * 0.5
+                                        if (moduleDropArea.enteredFromAbove ? drag.y > mid : drag.y < mid) {
+                                            moduleDropArea.swapDone = true
+                                            root.moduleHoverSwapRequested(
+                                                drag.source,
+                                                moduleItem.subsystemIndex,
+                                                moduleItem.moduleIndex)
+                                        }
                                     }
+
+                                    // Catches the midpoint crossing when the drag moves slowly inside
+                                    function onPositionChanged(drag) {
+                                        if (drag.source === moduleItem) return
+                                        if (moduleDropArea.swapDone) return
+                                        var mid = moduleItem.height * 0.5
+                                        if (moduleDropArea.enteredFromAbove ? drag.y > mid : drag.y < mid) {
+                                            moduleDropArea.swapDone = true
+                                            root.moduleHoverSwapRequested(
+                                                drag.source,
+                                                moduleItem.subsystemIndex,
+                                                moduleItem.moduleIndex)
+                                        }
+                                    }
+
+                                    function onExited() {
+                                        moduleDropArea.swapDone = false
+                                    }
+
+                                    // Cross-subsystem final resolution on release
                                     function onDropped(drop) {
                                         root.moduleDropped(
-                                                    drop.source,
-                                                    moduleItem.subsystemIndex,
-                                                    moduleItem.moduleIndex)
+                                            drop.source,
+                                            moduleItem.subsystemIndex,
+                                            moduleItem.moduleIndex)
+                                        moduleDropArea.swapDone = false
                                     }
                                 }
 
@@ -607,7 +647,6 @@ Item {
                                         color: Constants.surfaceColor
                                         border.color: Constants.primaryTextColor
                                         TextInput {
-                                            id: quantityInput
                                             text: quantity
                                             color: Constants.primaryTextColor
                                             anchors.centerIn: parent
@@ -738,3 +777,6 @@ Item {
         }
     }
 }
+
+
+

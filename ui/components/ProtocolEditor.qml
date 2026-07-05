@@ -61,59 +61,105 @@ ProtocolEditorView {
         isDirty = isReady ? true : null
     }
 
+    // ------------------------------------------------------------------
+    // Tracked drag state: the delegate's `index` binding (moduleItem.moduleIndex)
+    // is a QML binding that re-evaluates asynchronously. When modules.move() fires
+    // and a new DropArea.onEntered triggers before the next frame, sourceItem.moduleIndex
+    // still returns the PRE-MOVE index, causing move() to operate on the wrong item.
+    //
+    // Fix: ProtocolEditor.qml owns the authoritative current position of the dragged
+    // module and updates it synchronously after every swap. The .ui.qml exposes two
+    // properties (trackedDragSubsystem / trackedDragModuleIndex) that mirror these
+    // values so DropAreas can also read the correct position if needed.
+    // ------------------------------------------------------------------
+    property int _dragCurrentSubsystem: -1  // authoritative current subsystem
+    property int _dragCurrentIndex: -1      // authoritative current list index
+    property string _lastSwapKey: ""        // bounce-back guard
+
     // Live swap while a module is dragged over another module of the SAME subsystem.
-    // Cross-subsystem moves are intentionally ignored here: they are resolved
-    // once, on drop, by onModuleDropped (see below).
     onModuleHoverSwapRequested: function (sourceItem, targetSubsystemIndex, targetModuleIndex) {
-        var fromSubsystemIndex = sourceItem.subsystemIndex
-        var fromModuleIndex = sourceItem.moduleIndex
+        // On first call (no swap yet), seed tracking from the delegate's index —
+        // at this point it is still fresh because no move() has happened yet.
+        if (_dragCurrentIndex < 0) {
+            _dragCurrentIndex = sourceItem.moduleIndex
+            _dragCurrentSubsystem = sourceItem.subsystemIndex
+        }
 
-        if (fromSubsystemIndex !== targetSubsystemIndex)
-            return
-        if (fromSubsystemIndex < 0 || fromSubsystemIndex >= subsystemModel.count)
-            return
+        var fromSubsystemIndex = _dragCurrentSubsystem
+        var fromModuleIndex = _dragCurrentIndex
 
-        var modules = subsystemModel.get(fromSubsystemIndex).modules
+        // Only handle same-subsystem swaps here
+        if (fromSubsystemIndex !== targetSubsystemIndex) return
+        if (fromSubsystemIndex < 0 || fromSubsystemIndex >= subsystemModel.count) return
+        if (fromModuleIndex === targetModuleIndex) return
 
-        if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= modules.count)
-            return
+        // Bounce-back guard: reject the exact reverse of the last swap
+        var reverseKey = targetSubsystemIndex + "," + targetModuleIndex
+                         + "→" + fromSubsystemIndex + "," + fromModuleIndex
+        if (reverseKey === _lastSwapKey) return
 
-        var insertIndex = Math.min(Math.max(targetModuleIndex, 0), modules.count - 1)
-        modules.move(fromModuleIndex, insertIndex, 1)
-        reindexSubsystems();
+        var mods = subsystemModel.get(fromSubsystemIndex).modules
+        if (fromModuleIndex < 0 || fromModuleIndex >= mods.count) return
+
+        var insertIndex = Math.min(Math.max(targetModuleIndex, 0), mods.count - 1)
+
+        // Record this swap as the "last" so its reverse is blocked next frame
+        _lastSwapKey = fromSubsystemIndex + "," + fromModuleIndex
+                       + "→" + targetSubsystemIndex + "," + insertIndex
+
+        mods.move(fromModuleIndex, insertIndex, 1)
+
+        // Update authoritative position SYNCHRONOUSLY so the next DropArea.onEntered
+        // reads the correct index even before the QML binding re-evaluates
+        _dragCurrentIndex = insertIndex
+        _dragCurrentSubsystem = targetSubsystemIndex
+        trackedDragSubsystem = targetSubsystemIndex
+        trackedDragModuleIndex = insertIndex
+
+        reindexSubsystems()
         isDirty = isReady ? true : null
     }
 
-    // Final resolution on drop: handles same-subsystem leftovers (usually a
-    // no-op, since onModuleHoverSwapRequested already settled the position)
-    // and cross-subsystem moves (remove from source, insert into target).
+    // Final resolution on drop.
+    // For same-subsystem drops this is usually a no-op (hover swaps already placed the
+    // item). For cross-subsystem drops: remove from source, insert into target.
     onModuleDropped: function (sourceItem, targetSubsystemIndex, targetModuleIndex) {
-        var fromSubsystemIndex = sourceItem.subsystemIndex
-        var fromModuleIndex = sourceItem.moduleIndex
+        // Use authoritative tracked position; fall back to delegate index only if
+        // no hover swap happened during this drag (tracking was never seeded)
+        var fromSubsystemIndex = _dragCurrentSubsystem >= 0 ? _dragCurrentSubsystem : sourceItem.subsystemIndex
+        var fromModuleIndex = _dragCurrentIndex >= 0 ? _dragCurrentIndex : sourceItem.moduleIndex
 
-        if (fromSubsystemIndex < 0 || targetSubsystemIndex < 0)
-            return
-        if (fromSubsystemIndex >= subsystemModel.count || targetSubsystemIndex >= subsystemModel.count)
-            return
+        // Reset all tracking state unconditionally
+        _dragCurrentIndex = -1
+        _dragCurrentSubsystem = -1
+        _lastSwapKey = ""
+        trackedDragSubsystem = -1
+        trackedDragModuleIndex = -1
+
+        if (fromSubsystemIndex < 0 || targetSubsystemIndex < 0) return
+        if (fromSubsystemIndex >= subsystemModel.count || targetSubsystemIndex >= subsystemModel.count) return
 
         if (fromSubsystemIndex === targetSubsystemIndex) {
+            // Same-subsystem: hover swaps should have already settled the position;
+            // this is a safety net for edge cases (e.g. drop on the same slot)
             var sameModules = subsystemModel.get(fromSubsystemIndex).modules
-            if (fromModuleIndex === targetModuleIndex || fromModuleIndex < 0 || fromModuleIndex >= sameModules.count)
-                return
-            var sameInsertIndex = Math.min(Math.max(targetModuleIndex, 0), sameModules.count - 1)
-            sameModules.move(fromModuleIndex, sameInsertIndex, 1)
+            if (fromModuleIndex === targetModuleIndex
+                    || fromModuleIndex < 0
+                    || fromModuleIndex >= sameModules.count) return
+            var sameInsert = Math.min(Math.max(targetModuleIndex, 0), sameModules.count - 1)
+            sameModules.move(fromModuleIndex, sameInsert, 1)
             isDirty = isReady ? true : null
             return
         }
 
-        // Cross-subsystem transfer
+        // Cross-subsystem transfer: requires remove + insert (two different ListModels)
         var sourceModules = subsystemModel.get(fromSubsystemIndex).modules
-        if (fromModuleIndex < 0 || fromModuleIndex >= sourceModules.count)
-            return
+        if (fromModuleIndex < 0 || fromModuleIndex >= sourceModules.count) return
 
         var original = sourceModules.get(fromModuleIndex)
         var snapshot = {
             "module_id":    original.module_id,
+            "s_order":      0,
             "module_name":  original.module_name,
             "quantity":     original.quantity,
             "unit":         original.unit,
@@ -123,13 +169,14 @@ ProtocolEditorView {
             "rep_time":     original.rep_time,
             "zone":         original.zone
         }
+
         sourceModules.remove(fromModuleIndex, 1)
 
         var targetModules = subsystemModel.get(targetSubsystemIndex).modules
         var insertIndex = Math.min(Math.max(targetModuleIndex, 0), targetModules.count)
         targetModules.insert(insertIndex, snapshot)
 
-        reindexSubsystems();
+        reindexSubsystems()
         isDirty = isReady ? true : null
     }
 
@@ -189,19 +236,11 @@ ProtocolEditorView {
         }
     }
 
-    function reindexModules(subsystemIndex) {
-        let mods = subsystemModel.get(subsystemIndex).modules
-        for (let i = 0; i < mods.count; i++) {
-            mods.setProperty(i, "s_order", i + 1)
-        }
-    }
-
     function reindexSubsystems() {
         for (let i = 0; i < protocolEditor.subsystemModel.count; i++) {
             protocolEditor.subsystemModel.setProperty(i, "subsystem_id", i + 1);
         }
         protocolEditor.protocolListView.forceLayout();
-        reindexModules();
     }
 
     onRefreshRequest: {
@@ -212,3 +251,4 @@ ProtocolEditorView {
         protocolListView.forceLayout()
     }
 }
+
