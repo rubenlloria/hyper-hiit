@@ -17,10 +17,11 @@ Item {
     width: 350
     height: 60
 
-    property string label: "FIELD_NAME"
     property alias text: textInput.text
     property string placeholder: "ENTER_DATA..."
     property color neonColor: Constants.primaryTextColor
+    property string label: "FIELD_NAME"
+    property color labelColor: Constants.primaryTextColor
     property bool showSuccessPulse: false
     property alias textInput: textInput
 
@@ -28,9 +29,9 @@ Item {
     Text {
         id: fieldLabel
         text: root.label
-        color: root.neonColor
+        color: root.labelColor
         font.family: Constants.techFont.family
-        font.pixelSize: 10
+        font.pixelSize: 11
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.leftMargin: 5
