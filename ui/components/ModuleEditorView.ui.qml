@@ -25,6 +25,20 @@ Item {
     property int moduleCount: 0
     property bool searchMode: true
 
+    // ModuleFactory aliases
+    property alias moduleFactory: moduleFactory
+    property alias moduleNameField: moduleNameField
+    property alias unitCombo: unitCombo
+    property alias targetZoneCombo: targetZoneCombo
+    property alias difficultyCombo: difficultyCombo
+    property alias repTimeField: repTimeField
+    property alias metFactorField: metFactorField
+    property alias fatigueRateField: fatigueRateField
+    property alias moduleDescriptionField: moduleDescriptionField
+    property alias instructionsField: instructionsField
+    property alias safetyField: safetyField
+    property alias equipmentField: equipmentField
+
 
     /*
      * Local buffer model for module management.
@@ -40,7 +54,11 @@ Item {
             zone: "FULL_BODY"
             difficulty: 2
             description: "Plank, push-up and jump sequence."
+            instructions: ""
+            safety: ""
+            equipment: ""
             unit: "Rep."
+            unit_type: 1
             rep_time: 3.7
             met_factor: 11.0
             fatigue_rate: 6.5
@@ -52,7 +70,11 @@ Item {
             zone: "REST"
             difficulty: 0
             description: "Active or passive recovery period."
+            instructions: ""
+            safety: ""
+            equipment: ""
             unit: "Sec."
+            unit_type: 0
             rep_time: 1.0
             met_factor: 1.0
             fatigue_rate: 0.8
@@ -248,7 +270,7 @@ Item {
                         }
 
                         Text {
-                            text: searchInput.text.toUpperCase()
+                            text: searchInput.text
                             color: Constants.secondaryTextColor
                             font.pixelSize: 16
                             font.family: Constants.mainFont.family
@@ -270,7 +292,7 @@ Item {
             width: parent.width
             height: factoryLayout.implicitHeight + 40
             anchors.horizontalCenter: parent.horizontalCenter
-            visible: true || !searchMode
+            visible: !searchMode
             color: Constants.deepColor
             border.color: Constants.primaryColor
             border.width: 1
@@ -308,7 +330,7 @@ Item {
                     width: parent.width
                     spacing: 8
                     NeonTextField {
-                        id: moduleNameInput
+                        id: moduleNameField
                         width: parent.width
                         placeholder: "> ENTER_NAME"
                         label: "MODULE_NAME"
@@ -328,7 +350,7 @@ Item {
                         Layout.preferredWidth: 100
                         spacing: 8
                         Text {
-                            text: "UNIT_TYPE"
+                            text: "UNIT"
                             color: Constants.primaryTextColor
                             font.family: Constants.techFont.family
                             font.pixelSize: 11
@@ -340,16 +362,9 @@ Item {
                             model: unitModel // Loads ["SECONDS", "REPS", "METERS"] [1]
                             currentIndex: 1 // Defaults to REPS as per mockup [2]
                         }
-
-                        // NeonSelector {
-                        //     width: parent.width
-                        //     // model: ["SECONDS", "REPS", "METERS"] // Based on technical manual [5]
-                        //     selectedIndex: 1 // REPS selected in mockup
-                        // }
                     }
 
-                    // MET_FACTOR Stepper
-                    // TARGET_ZONE Selector
+                    // DIFFICULTY Selector
                     Column {
                         Layout.preferredWidth: 60
                         spacing: 8
@@ -360,31 +375,12 @@ Item {
                             font.pixelSize: 11
                         }
                         NeonCombo {
+                            id: difficultyCombo
                             width: parent.width
                             model: ["1", "2", "3"]
                             currentIndex: 1 // Defaults to REPS as per mockup [2]
                         }
                     }
-
-                    // Column {
-                    //     Layout.fillWidth: true
-                    //     spacing: 8
-                    //     NeonTextField {
-                    //         id: metField
-                    //         width: 50
-                    //         height: 55
-                    //         text: "3.2"
-                    //         label: "MET"
-                    //         anchors.horizontalCenter: parent.horizontalCenter
-                    //         neonColor: Constants.primaryColor
-                    //         // Uses fuchsiaNeon for the +/- buttons as per mockup [1]
-                    //         textInput.validator: DoubleValidator {
-                    //             bottom: -2.0
-                    //             top: 20
-                    //             decimals: 1
-                    //         }
-                    //     }
-                    // }
 
                     // TARGET_ZONE Selector
                     Column {
@@ -397,6 +393,7 @@ Item {
                             font.pixelSize: 11
                         }
                         NeonCombo {
+                            id: targetZoneCombo
                             width: parent.width
                             model: zoneModel
                             currentIndex: 1 // Defaults to REPS as per mockup [2]
@@ -409,11 +406,11 @@ Item {
                     width: parent.width
                     spacing: 15
 
-                    // UNIT_TYPE Selector
+                    // REP_TIME Selector
                     Column {
                         Layout.preferredWidth: 100
                         NeonTextField {
-                            id: repTimeInput
+                            id: repTimeField
                             width: parent.width
                             placeholder: "> VALUE"
                             label: "REP_TIME"
@@ -432,7 +429,7 @@ Item {
                         Layout.fillWidth: true
                         spacing: 8
                         NeonTextField {
-                            id: metField
+                            id: metFactorField
                             width: 50
                             text: "3.2"
                             label: "MET"
@@ -447,10 +444,11 @@ Item {
                         }
                     }
 
+                    // FATIGUE_RATE
                     Column {
                         Layout.preferredWidth: 100
                         NeonTextField {
-                            id: fatigueRateInput
+                            id: fatigueRateField
                             width: parent.width
                             placeholder: "> VALUE"
                             label: "FATIGUE_RATE"
@@ -469,7 +467,7 @@ Item {
                     width: parent.width
                     spacing: 15
                     NeonTextField {
-                        id: descriptionInput
+                        id: moduleDescriptionField
                         width: parent.width
                         placeholder: "> ENTER_DESCRIPTION"
                         label: "DESCRIPTION"
@@ -477,7 +475,7 @@ Item {
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
-                        id: instructionsInput
+                        id: instructionsField
                         width: parent.width
                         placeholder: "> ENTER_INSTRUCTIONS"
                         label: "INSTRUCTIONS"
@@ -485,7 +483,7 @@ Item {
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
-                        id: safetyInput
+                        id: safetyField
                         width: parent.width
                         placeholder: "> ENTER_SAFETY"
                         label: "SAFETY"
@@ -493,7 +491,7 @@ Item {
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
-                        id: equipmentInput
+                        id: equipmentField
                         width: parent.width
                         placeholder: "> ENTER_EQUIPMENT"
                         label: "EQUIPMENT"

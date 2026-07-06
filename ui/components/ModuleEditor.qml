@@ -32,10 +32,13 @@ ModuleEditorView {
             let rawZone = moduleModel.data(idx, 259);
             let rawDifficulty= moduleModel.data(idx, 260);
             let rawDescription = moduleModel.data(idx, 261);
-            let rawUnit = moduleModel.data(idx, 262);
-            let rawRepTime= moduleModel.data(idx, 263);
-            let rawMetFactor = moduleModel.data(idx, 264);
-            let rawFatigue = moduleModel.data(idx, 265);
+            let rawInstructions = moduleModel.data(idx, 262);
+            let rawSafety= moduleModel.data(idx, 263);
+            let rawEquipment= moduleModel.data(idx, 264);
+            let rawUnit = moduleModel.data(idx, 265);
+            let rawRepTime= moduleModel.data(idx, 266);
+            let rawMetFactor = moduleModel.data(idx, 267);
+            let rawFatigue = moduleModel.data(idx, 268);
 
             // Conditional logging for first and last entry to avoid flooding
             if (i === 0 || i === count - 1) {
@@ -43,6 +46,9 @@ ModuleEditorView {
                                  + " | ID=" + rawId
                                  + " | ZONE=" + rawZone
                                  + " | DESCRIPTION=" + rawDescription
+                                 + " | INSTRUCTIONS=" + rawInstructions
+                                 + " | SAFETY=" + rawSafety
+                                 + " | EQUIPMENT=" + rawEquipment
                                  + " | DIFFICULTY=" + rawDifficulty
                                  + " | UNIT=" + rawUnit
                                  + " | REPTIME=" + rawRepTime
@@ -57,10 +63,14 @@ ModuleEditorView {
                                "zone": moduleModel.data(moduleModel.index(i, 0), 259),  // TargetRole
                                "difficulty": moduleModel.data(moduleModel.index(i, 0), 260),   // DifficultyRole
                                "description": moduleModel.data(moduleModel.index(i, 0), 261),  // DescriptionRole
-                               "unit": systemManager.getUnitLabel(moduleModel.data(moduleModel.index(i, 0), 262), true),    // UnitTypeRole
-                               "rep_time": moduleModel.data(moduleModel.index(i, 0), 263),     // RepTimeRole
-                               "met_factor": moduleModel.data(moduleModel.index(i, 0), 264),   // MetFactorRole
-                               "fatigue_rate": moduleModel.data(moduleModel.index(i, 0), 265)  // FatigueRateRole
+                               "instructions": moduleModel.data(moduleModel.index(i, 0), 262),  // InstructionsRole
+                               "safety": moduleModel.data(moduleModel.index(i, 0), 263),  // SafetyRole
+                               "equipment": moduleModel.data(moduleModel.index(i, 0), 264),  // EquipmentRole
+                               "unit": systemManager.getUnitLabel(moduleModel.data(moduleModel.index(i, 0), 265), true),    // UnitTypeRole
+                               "unit_type": moduleModel.data(moduleModel.index(i, 0), 265),    // UnitTypeRole
+                               "rep_time": moduleModel.data(moduleModel.index(i, 0), 266),     // RepTimeRole
+                               "met_factor": moduleModel.data(moduleModel.index(i, 0), 267),   // MetFactorRole
+                               "fatigue_rate": moduleModel.data(moduleModel.index(i, 0), 268)  // FatigueRateRole
                            });
         }
 
@@ -126,17 +136,112 @@ ModuleEditorView {
         editor.moduleInsertionRequested(m_model);
     }
 
-    function editModule(moduleId, m_model) {
+    /**
+     * Prepares the editor factory with data from an existing module.
+     * @param index Position in the current list model.
+     * @param m_model Data object containing module metadata.
+     */
+    function editModule(index, m_model) {
         // Open overlay to modify MET_FACTOR or targetZone
-        Constants.hDebug(debugName, "Editing" + m_model.module_name);
+        Constants.hDebug(debugName, "Editing" + m_model.module_name + "with id: " + index);
+        searchMode = false;
+        moduleFactory.moduleId = m_model.module_id; // Store actual DB ID for saveModule
+
+        // Data injection using existing aliases
+        moduleNameField.text = m_model.module_name || "";
+        moduleDescriptionField.text = m_model.description || "";
+        instructionsField.text = m_model.instructions || "";
+        safetyField.text = m_model.safety|| "";
+        equipmentField.text = m_model.equipment || "NONE";
+
+        // Syncing Numeric Telemetry
+        repTimeField.text = m_model.rep_time || 1.1;
+        metFactorField.text = m_model.met_factor || 1.1;
+        fatigueRateField.text = m_model.fatigue_rate || 1.1;
+
+        // Component Mapping (Combos)
+        // Map Target Zone string to index
+        let zoneIdx = targetZoneCombo.model.indexOf(m_model.zone);
+        targetZoneCombo.currentIndex = (zoneIdx >= 0) ? zoneIdx : 0;
+
+        // Map Difficulty (Database 1-3 to Index 0-2)
+        difficultyCombo.currentIndex = Math.max(0, (m_model.difficulty || 1) - 1);
+
+        // Map Unit Type (Direct integer assignment)
+        unitCombo.currentIndex = m_model.unit_type || 0;
+
+        Constants.hInfo(debugName, "Edit buffer synchronized for module ID: " + moduleFactory.moduleId);
     }
 
-    function deleteModule(moduleId, m_model) {
+    function deleteModule(index, m_model) {
         // Trigger Neon Red confirmation for database removal
         Constants.hDebug(debugName, "Deleting " + m_model.module_name + " from DB");
+        let moduleId = m_model.module_id;
+        if (moduleId <= 0) {
+            Constants.hWarning(debugName, "Invalid module ID for deletion.");
+            return;
+        }
+
+        let success = dbManager.deleteModule(moduleId);
+
+        if (success) {
+            Constants.hInfo(debugName, "Module " + moduleId + " synchronized deletion.");
+
+            // If we were editing this specific module, reset the factory
+            if (moduleFactory.moduleId === moduleId) {
+                moduleFactory.moduleId = -1;
+            }
+            // Refresh the master list to reflect changes in the UI
+            searchMode = true;
+            searchInput.text = "";
+            moduleModel.setModules(dbManager.getAllModules());
+            loadModules();
+
+        } else {
+            Constants.hCritical(debugName, "Database error: Could not remove module record.");
+        }
     }
     function saveModule(moduleId) {
         // Trigger Neon Red confirmation for database removal
         Constants.hDebug(debugName, "Saving module with id " + moduleId + " on DB");
+        let moduleShard = {
+            "id": moduleFactory.moduleId,
+            "name": moduleNameField.text,
+            "targetZone": targetZoneCombo.currentText,
+            "difficulty": difficultyCombo.currentIndex + 1,
+            "description": moduleDescriptionField.text,
+            "instructions": instructionsField.text,
+            "safety": safetyField.text,
+            "equipment": equipmentField.text,
+            "unitType": unitCombo.currentIndex,
+            "repTime": parseFloat(repTimeField.text || 1.0),
+            "metFactor": parseFloat(metFactorField.text || 1.0),
+            "fatigueRate": parseFloat(fatigueRateField.text || 1.0)
+        };
+
+        let resultId = dbManager.saveModule(moduleShard);
+
+        if (resultId > 0) {
+            Constants.hInfo(debugName, "Data saving successful for ID: " + resultId);
+            searchMode = true;
+            searchInput.text = "";
+            moduleModel.setModules(dbManager.getAllModules());
+            loadModules();
+            searchInput.text = moduleNameField.text;
+            // moduleEditor.refreshRequested();
+
+            moduleFactory.moduleId = -1;
+            moduleNameField.text = searchInput.text;
+            targetZoneCombo.currentIndex = 0;
+            difficultyCombo.currentIndex = 0;
+            moduleDescriptionField.text = "";
+            instructionsField.text = "";
+            safetyField.text = "";
+            equipmentField.text = "";
+            unitCombo.currentIndex = 0;
+            repTimeField.text = "";
+            metFactorField.text = "";
+            fatigueRateField.text = "";
+        }
     }
 }
