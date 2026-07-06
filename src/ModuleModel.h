@@ -42,6 +42,9 @@ struct Module {
     QString targetZone;   // e.g., FULL_BODY, CORE [Source 53]
     int difficulty;       // 1: Beginner | 2: Intermediate | 3: Advanced [Source 13]
     QString description;
+    QString instructions;
+    QString safety;
+    QString equipment;
     int unitType;         // 0: SECONDS | 1: REPS [Source 17]
     double repTime;       // Base time per unit [Source 18]
     double metFactor;     // Metabolic efficiency [Source 19]
@@ -59,6 +62,9 @@ public:
         TargetRole,
         DifficultyRole,
         DescriptionRole,
+        InstructionsRole,
+        SafetyRole,
+        EquipmentRole,
         UnitTypeRole,
         RepTimeRole,
         MetFactorRole,
@@ -73,7 +79,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     // Data handling
-    void setModules(const QList<Module> &modules);
+    Q_INVOKABLE void setModules(const QList<Module> &modules);
     void clear();
 
 private:

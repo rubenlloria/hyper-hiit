@@ -52,16 +52,19 @@ QVariant ModuleModel::data(const QModelIndex &index, int role) const
     const Module &module = m_modules.at(index.row());
 
     switch (role) {
-    case IdRole:          return module.id;
-    case NameRole:        return module.name; // HUD Aesthetic [Source 13]
-    case TargetRole:      return module.targetZone;
-    case DifficultyRole:  return module.difficulty;
-    case DescriptionRole: return module.description;
-    case UnitTypeRole:    return module.unitType;
-    case RepTimeRole:     return module.repTime;
-    case MetFactorRole:   return module.metFactor;
-    case FatigueRateRole: return module.fatigueRate;
-    default:              return QVariant();
+    case IdRole:            return module.id;
+    case NameRole:          return module.name; // HUD Aesthetic [Source 13]
+    case TargetRole:        return module.targetZone;
+    case DifficultyRole:    return module.difficulty;
+    case DescriptionRole:   return module.description;
+    case InstructionsRole:  return module.instructions;
+    case SafetyRole:        return module.safety;
+    case EquipmentRole:     return module.equipment;
+    case UnitTypeRole:      return module.unitType;
+    case RepTimeRole:       return module.repTime;
+    case MetFactorRole:     return module.metFactor;
+    case FatigueRateRole:   return module.fatigueRate;
+    default:                return QVariant();
     }
 }
 
@@ -71,15 +74,18 @@ QVariant ModuleModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> ModuleModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[IdRole]          = "id";
-    roles[NameRole]        = "name";
-    roles[TargetRole]      = "targetZone";
-    roles[DifficultyRole]  = "difficulty";
-    roles[DescriptionRole] = "description";
-    roles[UnitTypeRole]    = "unitType";
-    roles[RepTimeRole]     = "repTime";
-    roles[MetFactorRole]   = "metFactor";
-    roles[FatigueRateRole] = "fatigueRate";
+    roles[IdRole]           = "id";
+    roles[NameRole]         = "name";
+    roles[TargetRole]       = "targetZone";
+    roles[DifficultyRole]   = "difficulty";
+    roles[DescriptionRole]  = "description";
+    roles[InstructionsRole] = "instructions";
+    roles[SafetyRole]       = "safety";
+    roles[EquipmentRole]    = "equipment";
+    roles[UnitTypeRole]     = "unitType";
+    roles[RepTimeRole]      = "repTime";
+    roles[MetFactorRole]    = "metFactor";
+    roles[FatigueRateRole]  = "fatigueRate";
     return roles;
 }
 
