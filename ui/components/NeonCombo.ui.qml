@@ -20,8 +20,8 @@ ComboBox {
     // property int highlightedIndex: 1
 
     // Static models for the Architect Suite
-    readonly property var unitModel: ["SECONDS", "REPS", "METERS"]
-    readonly property var zoneModel: ["FULL_BODY", "CORE", "UPPER_BODY", "LOWER_BODY", "CARDIO"]
+    readonly property var unitModel: ["SECONDS", "REPS", "BREATHS", "METERS"]
+    readonly property var zoneModel: ["CORE", "FULL_BODY", "UPPER_PUSH", "UPPER_PULL", "LOWER_HINGE", "LOWER_KNEE", "STRETCH", "MOBILITY", "REST"]
     readonly property var difficultyModel: ["NEWBIE", "ADVANCED", "ROOT"]
 
     // width: 140
