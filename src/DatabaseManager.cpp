@@ -100,7 +100,7 @@ bool DatabaseManager::createTables() {
     // 1. Modules table
     QString createModules =
        "CREATE TABLE IF NOT EXISTS modules ("
-            "module_id INTEGER PRIMARY KEY,"
+            "module_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "mod_name VARCHAR(100),"
             "target_zone VARCHAR(50),"      // Target area (e.g., FULL BODY)
             "difficulty INT,"                // 1: Begginer | 2: Intermediate | 3: Advanced
@@ -391,6 +391,9 @@ QList<Module> DatabaseManager::getAllModules() {
         m.targetZone = q.value("target_zone").toString();
         m.difficulty = q.value("difficulty").toInt();
         m.description = q.value("mod_description").toString();
+        m.instructions = q.value("mod_instructions").toString();
+        m.safety = q.value("mod_safety").toString();
+        m.equipment = q.value("mod_equipment").toString();
         m.unitType = q.value("unit_type").toInt();
         m.repTime = q.value("rep_time").toDouble();
         m.metFactor = q.value("met_factor").toDouble();
@@ -1624,4 +1627,63 @@ int DatabaseManager::saveProtocol(int id, const QString &name, int rank) {
 
     // hInfo() << "Protocol synchronized. ID:" << finalId << "linked to Directive:" << directiveId;
     return finalId;
+}
+
+int DatabaseManager::saveModule(const QVariantMap &moduleData) {
+    if (!m_db.isOpen()) return -1;
+
+    QSqlQuery query;
+    int id = moduleData.value("id", -1).toInt();
+    bool isNew = (id <= 0);
+
+    if (isNew) {
+        query.prepare("INSERT INTO modules (mod_name, target_zone, difficulty, "
+                      "mod_description, mod_instructions, mod_safety, mod_equipment, "
+                      "unit_type, rep_time, met_factor, fatigue_rate) "
+                      "VALUES (:name, :target, :diff, :desc, :instr, :safe, :equip, :unit, :time, :met, :fatigue)");
+    } else {
+        query.prepare("UPDATE modules SET mod_name=:name, target_zone=:target, "
+                      "difficulty=:diff, mod_description=:desc, mod_instructions=:instr, "
+                      "mod_safety=:safe, mod_equipment=:equip, unit_type=:unit, "
+                      "rep_time=:time, met_factor=:met, fatigue_rate=:fatigue "
+                      "WHERE module_id=:id");
+        query.bindValue(":id", id);
+    }
+
+    // Mapping fields from the QVariantMap shard
+    query.bindValue(":name",    moduleData.value("name").toString());
+    query.bindValue(":target",  moduleData.value("targetZone").toString());
+    query.bindValue(":diff",    moduleData.value("difficulty").toInt());
+    query.bindValue(":desc",    moduleData.value("description").toString());
+    query.bindValue(":instr",   moduleData.value("instructions").toString());
+    query.bindValue(":safe",    moduleData.value("safety").toString());
+    query.bindValue(":equip",   moduleData.value("equipment").toString());
+    query.bindValue(":unit",    moduleData.value("unitType").toInt());
+    query.bindValue(":time",    moduleData.value("repTime").toDouble());
+    query.bindValue(":met",     moduleData.value("metFactor").toDouble());
+    query.bindValue(":fatigue", moduleData.value("fatigueRate").toDouble());
+
+    if (!query.exec()) {
+        hCritical() << "Module save failed:" << query.lastError().text();
+        return -1;
+    }
+
+    return isNew ? query.lastInsertId().toInt() : id;
+}
+
+bool DatabaseManager::deleteModule(int moduleId) {
+    if (!m_db.isOpen()) return false;
+
+    QSqlQuery query;
+    // Check for referential integrity or use ON DELETE CASCADE in schema
+    query.prepare("DELETE FROM modules WHERE module_id = :id");
+    query.bindValue(":id", moduleId);
+
+    if (!query.exec()) {
+        hCritical() << "Failed to delete module record:" << query.lastError().text();
+        return false;
+    }
+
+    hInfo() << "Module record removed successfully. ID:" << moduleId;
+    return true;
 }

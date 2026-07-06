@@ -54,7 +54,7 @@ public:
     bool initDatabase();
     bool seedDatabase();
     // Module methods
-    QList<Module> getAllModules();
+    Q_INVOKABLE QList<Module> getAllModules();
 
     // Directive methods
     Q_INVOKABLE QList<Directive> getAllDirectives();
@@ -186,7 +186,20 @@ public:
      * @param directiveId The parent directive to link the protocol to.
      * @return The operational protocol_id, or -1 on failure.
      */
-    int saveProtocol(int id, const QString &name, int rank);
+    Q_INVOKABLE int saveProtocol(int id, const QString &name, int rank);
+
+    /**
+     * @brief Save module data using a data shard map.
+     * @param moduleData metadata map
+     */
+    Q_INVOKABLE int saveModule(const QVariantMap &moduleData);
+
+    /**
+     * @brief Removes a module record from the master library.
+     * @param moduleId The unique database identifier of the module to be removed.
+     * @return true if the deletion was successful, false otherwise.
+     */
+    Q_INVOKABLE bool deleteModule(int moduleId);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
