@@ -3,7 +3,6 @@
   "author": "Rubén Llòria",
   "modules": [
     {
-      "module_id": 1,
       "module_name": "Rest",
       "difficulty": 0,
       "target_zone": "REST",
@@ -17,7 +16,6 @@
       "rep_time": 1.0
     },
     {
-      "module_id": 2,
       "module_name": "Burpees",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
@@ -31,7 +29,6 @@
       "rep_time": 3.7
     },
     {
-      "module_id": 3,
       "module_name": "Sit-ups",
       "difficulty": 1,
       "target_zone": "CORE",
@@ -45,7 +42,6 @@
       "rep_time": 2.5
     },
     {
-      "module_id": 4,
       "module_name": "Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -59,7 +55,6 @@
       "rep_time": 2.5
     },
     {
-      "module_id": 5,
       "module_name": "Jumping Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
@@ -73,7 +68,6 @@
       "rep_time": 1.5
     },
     {
-      "module_id": 6,
       "module_name": "Squat Thrusts",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
@@ -87,7 +81,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 7,
       "module_name": "Mountain Climbers",
       "difficulty": 1,
       "target_zone": "CORE",
@@ -101,7 +94,6 @@
       "rep_time": 1.1
     },
     {
-      "module_id": 8,
       "module_name": "Lateral Skaters",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
@@ -115,7 +107,6 @@
       "rep_time": 2.25
     },
     {
-      "module_id": 9,
       "module_name": "High Knees",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
@@ -129,7 +120,6 @@
       "rep_time": 1.0
     },
     {
-      "module_id": 10,
       "module_name": "Diamond Push-ups",
       "difficulty": 3,
       "target_zone": "UPPER_PUSH",
@@ -143,7 +133,6 @@
       "rep_time": 3.5
     },
     {
-      "module_id": 11,
       "module_name": "Archer Squats",
       "difficulty": 3,
       "target_zone": "LOWER_KNEE",
@@ -157,7 +146,6 @@
       "rep_time": 4.0
     },
     {
-      "module_id": 12,
       "module_name": "V-Ups",
       "difficulty": 3,
       "target_zone": "CORE",
@@ -171,7 +159,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 13,
       "module_name": "Pike Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
@@ -185,7 +172,6 @@
       "rep_time": 3.5
     },
     {
-      "module_id": 14,
       "module_name": "Step-ups",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -199,7 +185,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 15,
       "module_name": "Glute Bridges",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
@@ -213,21 +198,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 16,
-      "module_name": "High Knees",
-      "difficulty": 1,
-      "target_zone": "FULL_BODY",
-      "description": "Running in place with high knee lift.",
-      "instructions": "Lift knees to hip height while pumping arms.",
-      "safety_info": "Stay on the balls of your feet; keep torso upright.",
-      "equipment": ["NONE"],
-      "unit_type": "reps",
-      "met_factor": 9.0,
-      "fatigue_rate": 6.0,
-      "rep_time": 1.0
-    },
-    {
-      "module_id": 17,
       "module_name": "Lateral Shuffles",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
@@ -241,7 +211,6 @@
       "rep_time": 2.25
     },
     {
-      "module_id": 18,
       "module_name": "Butt Kicks",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -255,7 +224,6 @@
       "rep_time": 0.95
     },
     {
-      "module_id": 19,
       "module_name": "Cross Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
@@ -269,7 +237,6 @@
       "rep_time": 1.5
     },
     {
-      "module_id": 20,
       "module_name": "Seal Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
@@ -283,7 +250,6 @@
       "rep_time": 1.65
     },
     {
-      "module_id": 21,
       "module_name": "Shadow Boxing",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
@@ -297,7 +263,6 @@
       "rep_time": 1.0
     },
     {
-      "module_id": 22,
       "module_name": "Fast Feet",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
@@ -311,7 +276,6 @@
       "rep_time": 0.65
     },
     {
-      "module_id": 23,
       "module_name": "Hollow Rocks",
       "difficulty": 3,
       "target_zone": "CORE",
@@ -325,7 +289,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 24,
       "module_name": "Bulgarian Split Squats",
       "difficulty": 3,
       "target_zone": "LOWER_KNEE",
@@ -339,7 +302,6 @@
       "rep_time": 4.0
     },
     {
-      "module_id": 25,
       "module_name": "Plank Jacks",
       "difficulty": 2,
       "target_zone": "CORE",
@@ -353,7 +315,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 26,
       "module_name": "Decline Push-ups",
       "difficulty": 3,
       "target_zone": "UPPER_PUSH",
@@ -367,7 +328,6 @@
       "rep_time": 4.5
     },
     {
-      "module_id": 27,
       "module_name": "Sumo Squats",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
@@ -381,7 +341,6 @@
       "rep_time": 4.0
     },
     {
-      "module_id": 28,
       "module_name": "Leg Raises",
       "difficulty": 2,
       "target_zone": "CORE",
@@ -395,7 +354,6 @@
       "rep_time": 4.0
     },
     {
-      "module_id": 29,
       "module_name": "Technical Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
@@ -409,7 +367,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 30,
       "module_name": "Scissor Kicks",
       "difficulty": 1,
       "target_zone": "CORE",
@@ -423,7 +380,6 @@
       "rep_time": 1.8
     },
     {
-      "module_id": 31,
       "module_name": "Deadbug",
       "difficulty": 1,
       "target_zone": "CORE",
@@ -437,7 +393,6 @@
       "rep_time": 4.0
     },
     {
-      "module_id": 32,
       "module_name": "Reverse Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -451,7 +406,6 @@
       "rep_time": 2.5
     },
     {
-      "module_id": 33,
       "module_name": "Bicycle Crunches",
       "difficulty": 2,
       "target_zone": "CORE",
@@ -465,7 +419,6 @@
       "rep_time": 2.0
     },
     {
-      "module_id": 34,
       "module_name": "Air Squats",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -479,7 +432,6 @@
       "rep_time": 3.25
     },
     {
-      "module_id": 35,
       "module_name": "Alternating Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
@@ -493,7 +445,6 @@
       "rep_time": 2.5
     },
     {
-      "module_id": 36,
       "module_name": "Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
@@ -507,7 +458,6 @@
       "rep_time": 3.0
     },
     {
-      "module_id": 37,
       "module_name": "Plank",
       "difficulty": 1,
       "target_zone": "CORE",
