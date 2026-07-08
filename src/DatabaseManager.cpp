@@ -64,6 +64,8 @@ bool DatabaseManager::initDatabase() {
     QSqlQuery query("PRAGMA user_version;");
     if (query.next()) {
         m_dbSchema = query.value(0).toInt();
+        query.finish();
+        query.clear();
         hInfo() << "Current database file schema version:" << m_dbSchema;
     } else {
         hCritical() << "Could not retrieve schema version.";
@@ -101,7 +103,7 @@ bool DatabaseManager::createTables() {
     QString createModules =
        "CREATE TABLE IF NOT EXISTS modules ("
             "module_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            "mod_name VARCHAR(100),"
+            "mod_name VARCHAR(100) UNIQUE NOT NULL,"
             "target_zone VARCHAR(50),"      // Target area (e.g., FULL BODY)
             "difficulty INT,"                // 1: Begginer | 2: Intermediate | 3: Advanced
             "mod_description TEXT,"
@@ -1200,6 +1202,169 @@ void DatabaseManager::runMigrations(int oldVersion) {
         // Update the internal SQLite version tracker
         if (query.exec("PRAGMA user_version = 2")) {
             hInfo() << "Migration V2 completed successfully. Schema synchronized.";
+        }
+    }
+    if (oldVersion < 3) {
+        hInfo() << "Starting Migration V3: set modules.module_id autoincrement...";
+        int moduleCount = 0;
+        QString sql;
+
+        QSqlQuery q;
+        // Count unique modules by name before migration
+        q.exec("SELECT COUNT(DISTINCT mod_name) AS total_modules FROM modules;");
+        if (q.next()) {
+            moduleCount = q.value(0).toInt();
+        }
+
+        // Report duplicates found in the current schema
+        QString duplicateSql = "SELECT mod_name, COUNT(*) as occurrence "
+                               "FROM modules GROUP BY mod_name HAVING occurrence > 1";
+
+        q.finish();
+        q.clear();
+
+        // Open a transaction (all-or-nothing — data is never lost)
+        if (!m_db.transaction()) {
+            hCritical() << "Could not initiate database transaction for V3.";
+            return;
+        }
+
+        bool success = true;
+
+        // Search for a duplicate id's
+        if (q.exec(duplicateSql)) {
+            while (q.next()) {
+                QString duplicateName = q.value("mod_name").toString();
+                hWarning() << "Duplicate module detected:" << duplicateName
+                << "(" << q.value("occurrence").toInt() << " instances found). "
+                << "The system will consolidate these into a single unique entry.";
+
+                query.prepare("SELECT module_id FROM modules WHERE mod_name = :name ORDER BY module_id ASC");
+                query.bindValue(":name", duplicateName);
+
+                if (query.exec() && query.next()) {
+                    // The first ID (the lowest) will be our primary record
+                    int survivorId = query.value(0).toInt();
+
+                    // Iterate through the other higher IDs to remap their dependencies
+                    while (query.next()) {
+                        int redundantId = query.value(0).toInt();
+
+                        // Update protocol structure to point to the survivor ID
+                        QSqlQuery updateQuery(m_db);
+                        updateQuery.prepare("UPDATE protocol_structure SET module_id = :survivor WHERE module_id = :old");
+                        updateQuery.bindValue(":survivor", survivorId);
+                        updateQuery.bindValue(":old", redundantId);
+
+                        if (updateQuery.exec()) {
+                            hInfo() << "Protocol reference updated for" << duplicateName
+                                    << ": replacing ID" << redundantId << "with survivor ID" << survivorId;
+                        } else {
+                            hCritical() << "Failed to remap protocol references for ID:" << redundantId;
+                        }
+                    }
+                }
+            }
+        }
+        q.finish();
+        q.clear();
+
+        // Disable foreign-key checks (avoids cascade errors during the swap)
+        if (success && !query.exec("PRAGMA foreign_keys = OFF")) {
+            hCritical() << "Can't disable foreign_keys" << query.lastError().text();
+            success = false;
+        }
+
+        // New table with the corrected schema
+        sql = "CREATE TABLE IF NOT EXISTS modules_migration ("
+                  "module_id        INTEGER PRIMARY KEY AUTOINCREMENT,"
+                  "mod_name         VARCHAR(100) UNIQUE NOT NULL,"
+                  "target_zone      VARCHAR(50),"
+                  "difficulty       INT,"
+                  "mod_description  TEXT,"
+                  "mod_instructions TEXT,"
+                  "mod_safety       TEXT,"
+                  "mod_equipment    TEXT,"
+                  "unit_type        INTEGER NOT NULL,"
+                  "rep_time         FLOAT,"
+                  "met_factor       FLOAT,"
+                  "fatigue_rate     FLOAT"
+                  ");";
+
+        if (success && !query.exec(sql)) {
+            hCritical() << "Failed to insert modules: " << query.lastError().text();
+            success = false;
+        }
+
+        // Copy all rows — existing IDs are kept as-is, so no FK in
+        // protocol_structure will break
+        sql = "INSERT OR IGNORE INTO modules_migration "
+                  "SELECT "
+                  "module_id, "
+                  "mod_name, "
+                  "target_zone, "
+                  "difficulty, "
+                  "mod_description, "
+                  "mod_instructions, "
+                  "mod_safety, "
+                  "mod_equipment, "
+                  "unit_type, "
+                  "rep_time, "
+                  "met_factor, "
+                  "fatigue_rate "
+                  "FROM modules;";
+        if (success && !query.exec(sql)) {
+            hCritical() << "Failed to insert modules: " << query.lastError().text();
+            success = false;
+        }
+
+        // Seed sqlite_sequence so the next auto-insert continues
+        // from max(existing id) + 1, not from 1
+        sql = "INSERT OR REPLACE INTO sqlite_sequence (name, seq) "
+              "VALUES ('modules_migration', (SELECT MAX(module_id) FROM modules_migration));";
+        if (success && !query.exec(sql)) {
+            hCritical() << "Failed to insert table in sqlite_sequence: " << query.lastError().text();
+            success = false;
+        }
+
+        query.finish();
+        query.clear();
+
+        // Remove old table
+        if (success && !query.exec("DROP TABLE modules;")) {
+            hCritical() << "Failed to delete old table: " << query.lastError().text();
+            success = false;
+        }
+        // Rename to the production name
+        if (success && !query.exec("ALTER TABLE modules_migration RENAME TO modules;")) {
+            hCritical() << "Failed to rename new table: " << query.lastError().text();
+            success = false;
+        }
+
+        if (success) {
+            if (m_db.commit()){
+                // Re-enable after the transaction
+                query.exec("PRAGMA foreign_keys = ON;");
+
+                // -- Quick sanity check: should return the same row count as before the migration
+                query.exec("SELECT COUNT(*) AS total_modules FROM modules;");
+                if (query.next()) {
+                    if (moduleCount != query.value(0).toInt()) {
+                        hCritical() << "Data integrity failure: row count mismatch with old " << moduleCount;
+                    } else if (query.exec("PRAGMA user_version = 3")) {
+                        // Update the internal SQLite version tracker
+                        hInfo() << "Migration V3 completed successfully. Schema synchronized.";
+                    }
+                }
+            } else {
+                hCritical() << "Atomic commit failed. Reverting changes.";
+                m_db.rollback();
+                query.exec("PRAGMA foreign_keys = ON");
+            }
+        } else {
+            hCritical() << "Migration V3 aborted due to SQL error:" << query.lastError().text();
+            m_db.rollback();
+            query.exec("PRAGMA foreign_keys = ON");
         }
     }
 }

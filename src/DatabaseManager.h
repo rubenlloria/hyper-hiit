@@ -41,7 +41,7 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 
-#define DB_SCHEMA_VERSION 2
+#define DB_SCHEMA_VERSION 3
 #define MIN_JSON_VERSION 0.5
 
 class DatabaseManager : public QObject {
