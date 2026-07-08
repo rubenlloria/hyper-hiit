@@ -1205,7 +1205,7 @@ void DatabaseManager::runMigrations(int oldVersion) {
         }
     }
     if (oldVersion < 3) {
-        hInfo() << "Starting Migration V3: set modules.module_id autoincrement...";
+        hInfo() << "Starting Migration V3: set modules.module_id autoincrement and name uniqueness";
         int moduleCount = 0;
         QString sql;
 
