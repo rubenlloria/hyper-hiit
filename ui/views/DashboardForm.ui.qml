@@ -97,7 +97,7 @@ Rectangle {
                     activeThemeColor: sessionManager.activeDirectiveInfo.color
                                       || Constants.primaryColor
                     activeItemName: sessionManager.activeDirectiveInfo.name
-                                         || "LOADING..."
+                                         || "SELECT_DIRECTIVE..."
                     activeIconGlyph: sessionManager.activeDirectiveInfo.icon
                                      || Constants.zapIcon
                     activeItemDesc: sessionManager.activeDirectiveInfo.description
