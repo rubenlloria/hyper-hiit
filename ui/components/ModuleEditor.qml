@@ -173,6 +173,35 @@ ModuleEditorView {
         Constants.hInfo(debugName, "Edit buffer synchronized for module ID: " + moduleFactory.moduleId);
     }
 
+    /**
+     * Triggers the asynchronous confirmation flow for module removal.
+     * index: Position in the current UI list
+     * m_model: Data object containing module_id and module_name
+     */
+    function requestDeleteModule(index, m_model) {
+        if (index < 0 || !m_model) {
+            Constants.hWarning(debugName, "Request aborted: Invalid parameters.");
+            return;
+        }
+
+        // Populate the popup context for the UI agent
+        let targetName = m_model.module_name;
+        confirmPopup.target = "MODULE // " + targetName.toUpperCase()
+        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
+                (targetName !== "" ? "[" + targetName + "]" : "THIS ENTITY") +
+                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY."
+
+
+        // Display the tactical confirmation overlay
+        confirmPopup.accepted.connect(function() {
+            Constants.hInfo(debugName, "User confirmed deletion for record: " + targetName);
+
+            // Execute the persistence logic defined in the controller
+            deleteModule(index, m_model);
+        });
+        confirmPopup.open();
+    }
+
     function deleteModule(index, m_model) {
         // Trigger Neon Red confirmation for database removal
         Constants.hDebug(debugName, "Deleting " + m_model.module_name + " from DB");
@@ -201,6 +230,7 @@ ModuleEditorView {
             Constants.hCritical(debugName, "Database error: Could not remove module record.");
         }
     }
+
     function saveModule(moduleId) {
         // Trigger Neon Red confirmation for database removal
         Constants.hDebug(debugName, "Saving module with id " + moduleId + " on DB");

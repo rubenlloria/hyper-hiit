@@ -28,7 +28,7 @@ import QtQuick.Effects
 import Qt5Compat.GraphicalEffects
 import org.aic.hyperhiit 1.0
 import "views" // Import folder containing Dashboard, Architect and Protocol views
-// import "components"
+import "components"
 import "."      // Import current directory to access Constants singleton
 
 Window {
@@ -202,6 +202,11 @@ Window {
             }
         }
 
+        ConfirmPopup {
+            id: confirmPopup
+            width: mainWindow.width
+            height: mainWindow.height
+        }
     }
 
     // --- NAVIGATION FUNCTIONS ---

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "."
 import ".."
 
@@ -13,7 +14,7 @@ DirectiveEditorView {
 
     // 1. Header Interaction (Expand/Collapse)
     headerArea.onClicked: {
-        Constants.hDebug("DirectiveEditor", "Header clicked for directive: " + editor.nameText);
+        Constants.hDebug(debugName, "Header clicked for directive: " + editor.nameText);
         // Notify parent to handle exclusive expansion
         editor.expansionRequested();
         // isExpanded = !isExpanded;
@@ -21,7 +22,7 @@ DirectiveEditorView {
 
     // 2. Edit Mode Interaction
     editButton.onClicked: {
-        Constants.hDebug("DirectiveEditor", "Edit mode toggled for: " + editor.nameText);
+        Constants.hDebug(debugName, "Edit mode toggled for: " + editor.nameText);
         // Notify parent to handle exclusive editing
         editor.editRequested();
         // isEditing = !isEditing;
@@ -29,13 +30,32 @@ DirectiveEditorView {
 
     // 3. Delete Interaction
     deleteButton.onClicked: {
-        Constants.hDebug("DirectiveEditor", "Delete sequence initiated for: " + editor.nameText);
-        editor.deleteRequested();
+        Constants.hDebug(debugName, "Delete sequence initiated for: " + editor.nameText + " (" + editor.directiveId + ")");
+        // editor.deleteRequested();
+        // Populate the popup context for the UI agent
+
+        let targetName = editor.nameText;
+        confirmPopup.target = "DIRECTIVE // " + targetName.toUpperCase()
+        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
+                             (targetName !== "" ? "[" + targetName + "]" : "THIS ENTITY") +
+                             "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY."
+
+
+        // Display the tactical confirmation overlay
+        confirmPopup.accepted.connect(function() {
+            Constants.hInfo(debugName, "User confirmed deletion for record: " + targetName);
+
+            // Execute the persistence logic defined in the controller
+            deleteDirective(editor.directiveId, targetName);
+        });
+        confirmPopup.open();
+        Constants.hInfo(debugName, "Popup screen size" + confirmPopup.width + "x" + confirmPopup.height );
+        Constants.hInfo(debugName, "Popup size" + confirmPopup.view.width + "x" + confirmPopup.view.height );
     }
 
     // New button logic: Finalizes the edit mode and persists data
     saveButton.onClicked: {
-        Constants.hDebug("DirectiveEditor", "Data persistence requested for: " + editor.nameText);
+        Constants.hDebug(debugName, "Data persistence requested for: " + editor.nameText);
         editor.saveRequested();
     }
 
@@ -44,7 +64,7 @@ DirectiveEditorView {
         hexInput.text = editor.accentColor.toString().toUpperCase();
 
         // Debug log for terminal telemetry
-        Constants.hDebug("DirectiveEditor", "Color selected: " + hexInput.text);
+        Constants.hDebug(debugName, "Color selected: " + hexInput.text);
     }
 
     // Handle manual HEX entry from the text field
@@ -58,11 +78,29 @@ DirectiveEditorView {
             editor.accentColor = entry;
             // Visual feedback via success pulse property
             hexInput.showSuccessPulse = true;
-            Constants.hDebug("DirectiveEditor", "Manual entry validated: " + entry);
+            Constants.hDebug(debugName, "Manual entry validated: " + entry);
         } else {
             // Revert on invalid format
             hexInput.text = editor.accentColor.toString().toUpperCase();
-            Constants.hWarning("DirectiveEditor", "Invalid HEX format rejected: " + entry);
+            Constants.hWarning(debugName, "Invalid HEX format rejected: " + entry);
+        }
+    }
+
+    function deleteDirective(dirId, dirName) {
+        Constants.hDebug(debugName, "Deleting directive" + dirName + " with id: " + dirId);
+        // Call C++ backend with the provided directive ID
+        let success = dbManager.deleteDirective(dirId);
+
+        if (success) {
+            Constants.hInfo(debugName, "Directive synchronized deletion completed.");
+
+            // Refresh the directive list to reflect changes in the UI
+            // DirectiveModel uses setDirectives for full synchronization
+            directiveModel.setDirectives(dbManager.getAllDirectives());
+
+        } else {
+            // Backend returned false (likely due to integrity constraints)
+            Constants.hCritical(debugName, "Registry error: Directive cannot be removed");
         }
     }
 

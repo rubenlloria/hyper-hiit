@@ -224,7 +224,7 @@ Item {
                     Connections {
                         target: deleteModuleButton
                         function onClicked() {
-                            root.deleteModule(index, model)
+                            root.requestDeleteModule(index, model)
                         }
                     }
                 }
