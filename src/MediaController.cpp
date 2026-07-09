@@ -24,7 +24,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
-#define HH_DEBUG
+// #define HH_DEBUG
 #define HH_INFO
 #define HH_WARNING
 #define HH_CRITICAL

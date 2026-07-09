@@ -287,7 +287,7 @@ ArchitectForm {
     function insertModule(moduleId, moduleName, unit, zone, metFactor) {
         // 1. Safety Check: Ensure the timeline has at least one phase
         if (protocolEditor.subsystemModel.count === 0) {
-            Constants.hWarning("Architect", "No active subsystem found. Please add a subsystem first.");
+            Constants.hWarning(infoName, "No active subsystem found. Please add a subsystem first.");
             return;
         }
 
