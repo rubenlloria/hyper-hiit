@@ -1852,3 +1852,56 @@ bool DatabaseManager::deleteModule(int moduleId) {
     hInfo() << "Module record removed successfully. ID:" << moduleId;
     return true;
 }
+
+bool DatabaseManager::deleteDirective(int directiveId) {
+    if (!m_db.isOpen()) return false;
+
+    if (!m_db.transaction()) {
+        hCritical() << "Failed to initialize transaction for directive removal.";
+        return false;
+    }
+
+    QSqlQuery query;
+
+    // 1. Integrity check: verify if any protocols are linked to this directive
+    // We check the mapping table established in Level 02 architecture
+    query.prepare("SELECT COUNT(*) FROM directives_protocols WHERE dir_id = :id");
+    query.bindValue(":id", directiveId);
+
+    if (query.exec() && query.next()) {
+        int linkedProtocols = query.value(0).toInt();
+        if (linkedProtocols > 0) {
+            hWarning() << "Directive ID " << directiveId
+                       << "is active in" << linkedProtocols << "protocols.";
+            // 1. Remove all associations in the mapping table
+            // This unlinks protocols, making them 'ORPHANS' in the Architect UI
+            query.prepare("DELETE FROM directives_protocols WHERE dir_id = :id");
+            query.bindValue(":id", directiveId);
+
+            if (!query.exec()) {
+                hCritical() << "Error clearing directive-protocol links:" << query.lastError().text();
+                m_db.rollback();
+                return false;
+            }
+        }
+    }
+
+    // 2. Proceed with record removal from the directives registry
+    query.prepare("DELETE FROM directives WHERE dir_id = :id");
+    query.bindValue(":id", directiveId);
+
+    if (!query.exec()) {
+        hCritical() << "Error removing directive record: " << query.lastError().text();
+        m_db.rollback();
+
+        return false;
+    }
+
+    if (m_db.commit()) {
+        hInfo() << "Directive and its associations removed successfully. ID:" << directiveId;
+        return true;
+    }
+
+    hCritical() << "Failed to commit directive removal transaction.";
+    return false;
+}

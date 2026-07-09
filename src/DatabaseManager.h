@@ -201,6 +201,13 @@ public:
      */
     Q_INVOKABLE bool deleteModule(int moduleId);
 
+    /**
+     * Removes a directive from the core registry after integrity verification.
+     * @param directiveId The unique identifier of the directive.
+     * @return true if successfully removed, false if linked to protocols.
+     */
+    Q_INVOKABLE bool deleteDirective(int directiveId);
+
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
     // bool restoreDatabase();
