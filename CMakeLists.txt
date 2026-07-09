@@ -77,6 +77,8 @@ qt_add_qml_module(hyper-hiit
         ui/views/Testboard.qml
         # Visual components
         ui/components/AppHeader.ui.qml
+        ui/components/ConfirmPopup.qml
+        ui/components/ConfirmPopupView.ui.qml
         ui/components/DirectiveEditor.qml
         ui/components/DirectiveEditorView.ui.qml
         ui/components/ModuleEditor.qml
