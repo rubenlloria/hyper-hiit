@@ -126,6 +126,7 @@ ArchitectForm {
                 protocolAccordion.headerMouseArea.visible = true;
                 protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
                 protocolAccordion.activeItemDesc = "Manage selected directive protocols";
+                protocolId = -1
             }
             systemManager.systemReady = true;
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
