@@ -611,7 +611,7 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
             }
             currentSubId = subId;
             subsystemMap = QVariantMap();
-            subsystemMap["subsystemId"] = subId;
+            subsystemMap["subsystem_id"] = subId;
             moduleList = QVariantList();
         }
 
