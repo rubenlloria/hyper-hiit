@@ -46,6 +46,14 @@ SummaryForm{
 
         sessionNewAchievements = earnedThisSession;
         Constants.hDebug(debugName, "New achievements detected: " + sessionNewAchievements.length);
+
+        // Ensure display remains active during active mission telemetry
+        systemManager.keepScreenOn(true);
+    }
+
+    Component.onDestruction: {
+        // Revert to system default power management on exit
+        systemManager.keepScreenOn(false);
     }
 
     onActiveSessionIdChanged: {

@@ -36,6 +36,11 @@
 #include "SystemLog.h"
 #include <QObject>
 #include <QTimer>
+#include <qjniobject.h>
+
+#ifdef Q_OS_ANDROID
+#include <QGuiApplication>
+#endif
 
 class SystemManager : public QObject {
     Q_OBJECT
@@ -83,6 +88,12 @@ public:
      * @return The formatted string label.
      */
     Q_INVOKABLE static QString getUnitLabel(int unitType, bool useFullAbbreviation = false);
+
+    /**
+     * @brief Manages the Android window flag to keep the screen active.
+     * @param enabled If true, sets FLAG_KEEP_SCREEN_ON.
+     */
+    Q_INVOKABLE void keepScreenOn(bool enabled);
 
 signals:
     void systemReadyChanged();

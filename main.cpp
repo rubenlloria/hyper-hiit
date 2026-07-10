@@ -25,16 +25,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-#ifdef Q_OS_ANDROID
-    // Kep Android screen on
-    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([](){
-        QJniObject activity = QNativeInterface::QAndroidApplication::context();
-        QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
-        const int FLAG_KEEP_SCREEN_ON = 128; // Constante de Android
-        window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
-    });
-#endif
-
     // Force the scaling to be smooth and respect the system's density
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);

@@ -133,3 +133,27 @@ QString SystemManager::getUnitLabel(int unitType, bool useFullAbbreviation) {
         return "";
     }
 }
+
+void SystemManager::keepScreenOn(bool enabled) {
+#ifdef Q_OS_ANDROID
+    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([enabled]() {
+        QJniObject activity = QNativeInterface::QAndroidApplication::context();
+        QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+
+        // Android constant for FLAG_KEEP_SCREEN_ON is 128 (0x80) [Source 27]
+        const int FLAG_KEEP_SCREEN_ON = 128;
+
+        if (window.isValid()) {
+            if (enabled) {
+                window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+                hInfo() << "Display power management: FLAG_KEEP_SCREEN_ON enabled.";
+            } else {
+                window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+                hInfo() << "Display power management: FLAG_KEEP_SCREEN_ON disabled.";
+            }
+        }
+    });
+#else
+    Q_UNUSED(enabled);
+#endif
+}

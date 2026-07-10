@@ -62,6 +62,13 @@ ProtocolForm {
         if (lastSessionCheckpoints.length > 0) {
             Constants.hDebug(debugName, "Historical telemetry loaded: " + lastSessionCheckpoints.length + " points.");
         }
+        // Ensure display remains active during active mission telemetry
+        systemManager.keepScreenOn(true);
+    }
+
+    Component.onDestruction: {
+        // Revert to system default power management on exit
+        systemManager.keepScreenOn(false);
     }
 
     Chronometer {
