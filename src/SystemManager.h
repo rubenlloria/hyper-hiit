@@ -36,10 +36,10 @@
 #include "SystemLog.h"
 #include <QObject>
 #include <QTimer>
-#include <qjniobject.h>
 
 #ifdef Q_OS_ANDROID
 #include <QGuiApplication>
+#include <qjniobject.h>
 #endif
 
 class SystemManager : public QObject {
