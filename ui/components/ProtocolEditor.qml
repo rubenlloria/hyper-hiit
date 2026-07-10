@@ -199,6 +199,24 @@ ProtocolEditorView {
         Constants.hDebug(debugName, "Add subsystem")
     }
 
+    onSubsystemClone: function (index) {
+        // Access the specific ListModel instance
+        let model = protocolEditor.subsystemModel;
+
+        // Validate index boundaries to prevent registry overflow
+        if (index < 0 || index >= model.count) {
+            Constants.hWarning(infoName, "Clone operation aborted: Invalid index context.");
+            return;
+        }
+
+        let clonedData = JSON.parse(JSON.stringify(model.get(index)));
+
+        model.insert(index + 1, clonedData);
+        reindexSubsystems();
+        Constants.hInfo(infoName, "Subsystem phase cloned at index: " + index);
+    }
+
+    // TODO: unify signal with function
     onSubsystemDelete: function (targetSubsystemIndex) {
         removeSubsystem(targetSubsystemIndex);
     }

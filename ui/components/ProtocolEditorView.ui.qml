@@ -112,6 +112,7 @@ Item {
     // ProtocolEditor.qml, never in this .ui.qml file.
     signal subsystemSwapRequested(var sourceItem, int targetIndex)
     signal subsystemDelete(int targetSubsystemIndex)
+    signal subsystemClone(int targetSubsystemIndex)
     signal moduleDelete(int targetSubsystemIndex, int targetModuleIndex)
     signal moduleHoverSwapRequested(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
     signal moduleDropped(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
@@ -448,9 +449,27 @@ Item {
                                     height: width
                                     color: Constants.surfaceColor
                                     border.color: Constants.primaryColor
+                                    opacity: buttonCloneSubsystem.pressed ? 0.5 : 1
+                                    NeonIcon {
+                                        glyph: Constants.cloneIcon
+                                        size: 14
+                                        color: Constants.primaryColor
+                                        anchors.centerIn: parent
+                                        MouseArea {
+                                            id: buttonCloneSubsystem
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                        }
+                                    }
+                                } // Clone icon
+                                Rectangle {
+                                    width: 30
+                                    height: width
+                                    color: Constants.surfaceColor
+                                    border.color: Constants.primaryColor
                                     opacity: buttonDeleteSubsystem.pressed ? 0.5 : 1
                                     NeonIcon {
-                                        glyph: "\ue1b2"
+                                        glyph: Constants.cancelIcon
                                         size: 14
                                         color: Constants.primaryColor
                                         anchors.centerIn: parent
@@ -469,6 +488,15 @@ Item {
                             function onReleased() {
                                 subsystemWrapper.Drag.drop()
                                 refreshRequest()
+                            }
+                        }
+
+                        Connections {
+                            target: buttonCloneSubsystem
+                            function onClicked() {
+                                root.subsystemClone(
+                                            subsystemWrapper.subsystemIndex)
+                                // root.protocolListView.forceLayout()
                             }
                         }
 
@@ -688,7 +716,7 @@ Item {
                                         border.color: Constants.rootColor
                                         opacity: buttonDeleteModule.containsMouse ? 1 : 0.5
                                         NeonIcon {
-                                            glyph: "\ue18e"
+                                            glyph: Constants.cancelIcon
                                             size: 16
                                             color: Constants.rootColor
                                             anchors.centerIn: parent
@@ -777,6 +805,3 @@ Item {
         }
     }
 }
-
-
-
