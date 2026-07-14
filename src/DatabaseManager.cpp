@@ -1749,17 +1749,17 @@ int DatabaseManager::saveDirective(int id, const QString &name,
     return dir.id;
 }
 
-int DatabaseManager::saveProtocol(int id, const QString &name, int rank) {
+int DatabaseManager::saveProtocol(int id, const QString &name, int rank, const QList<int> &directiveIds) {
     QSqlQuery query;
     bool isNew = (id == 0);
 
     // 1. PERSIST PROTOCOL METADATA
     if (isNew) {
         // Defaulting duration and module count to 0 for a fresh protocol
-        query.prepare("INSERT INTO protocols (protocol_name, rank_level, estimated_duration, module_count, personal_best) "
+        query.prepare("INSERT INTO protocols (protocol_name, rank, estimated_duration, module_count, personal_best) "
                       "VALUES (:name, :rank, 0, 0, 0)");
     } else if (id > 0) {
-        query.prepare("UPDATE protocols SET protocol_name=:name, rank_level=:rank WHERE protocol_id=:id");
+        query.prepare("UPDATE protocols SET protocol_name=:name, rank=:rank WHERE protocol_id=:id");
         query.bindValue(":id", id);
     } else {
         hWarning() << "Save aborted: Invalid ID state (" << id << ")";
@@ -1767,7 +1767,7 @@ int DatabaseManager::saveProtocol(int id, const QString &name, int rank) {
     }
 
 
-    query.bindValue(":name", name.toUpper()); // Aesthetic Persistence
+    query.bindValue(":name", name);
     query.bindValue(":rank", rank);
 
     if (!query.exec()) {
@@ -1778,19 +1778,22 @@ int DatabaseManager::saveProtocol(int id, const QString &name, int rank) {
     int finalId = isNew ? query.lastInsertId().toInt() : id;
 
     // 2. CREATE SHARD MAPPING (Only for new protocols)
-    // if (isNew) {
-    //     QSqlQuery mapQuery;
-    //     mapQuery.prepare("INSERT INTO directive_protocols (directive_id, protocol_id) VALUES (:dirId, :protoId)");
-    //     mapQuery.bindValue(":dirId", directiveId);
-    //     mapQuery.bindValue(":protoId", finalId);
+    if (!directiveIds.isEmpty()) {
+        for (int dirId : directiveIds) {
+            QSqlQuery mapQuery;
+            hDebug() << "Inserting protocol on directive: " << dirId;
+            mapQuery.prepare("INSERT INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protoId)");
+            mapQuery.bindValue(":dirId", dirId);
+            mapQuery.bindValue(":protoId", finalId);
 
-    //     if (!mapQuery.exec()) {
-    //         hCritical() << "Relational mapping failure for protocol" << finalId << ":" << mapQuery.lastError().text();
-    //         return -1;
-    //     }
-    // }
+            if (!mapQuery.exec()) {
+                hCritical() << "Relational mapping failure for protocol" << finalId << ":" << mapQuery.lastError().text();
+            } else {
+                hInfo() << "Protocol synchronized. ID:" << finalId << "linked to Directive:" << dirId;
+            }
+        }
+    }
 
-    // hInfo() << "Protocol synchronized. ID:" << finalId << "linked to Directive:" << directiveId;
     return finalId;
 }
 

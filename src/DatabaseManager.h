@@ -186,7 +186,7 @@ public:
      * @param directiveId The parent directive to link the protocol to.
      * @return The operational protocol_id, or -1 on failure.
      */
-    Q_INVOKABLE int saveProtocol(int id, const QString &name, int rank);
+    Q_INVOKABLE int saveProtocol(int id, const QString &name, int rank, const QList<int> &directiveIds);
 
     /**
      * @brief Save module data using a data shard map.
