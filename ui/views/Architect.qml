@@ -44,11 +44,11 @@ ArchitectForm {
     directiveRepeater.model: directiveModel
 
     Component.onCompleted: {
-        isReady = true;
-        systemManager.systemReady = true;
         protocolEditor.subsystemModel.clear();
         moduleEditor.loadModules();
         Constants.hDebug(debugName, "Context Check -> sessionManager status: " + (typeof sessionManager !== 'undefined'));
+        isReady = true;
+        systemManager.systemReady = true;
     }
 
     header.settingsMouseArea.onClicked: {
@@ -121,6 +121,7 @@ ArchitectForm {
                 // Force expansion when editing is requested
                 // architectForm.expandedIndex = index;
                 architectForm.editingIndex = index;
+                protocolEditor.currentDirectiveId = directiveId;
                 protocolAccordion.activeThemeColor = accentColor;
                 architectProtocolModel.filterByDirective(model.id);
                 protocolAccordion.headerMouseArea.visible = true;
@@ -200,6 +201,7 @@ ArchitectForm {
                     systemManager.systemReady  = false;
                     Constants.hDebug(debugName, "ProtocolEditor not ready") ;
                     protocolId = model.id;
+                    protocolEditor.directiveList = [protocolEditor.currentDirectiveId]; // TODO: Get directives from DB
                     protocolAccordion.activeItemName = model.name;
                     protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
                             + "   MODULES: " + model.moduleCount;

@@ -246,7 +246,7 @@ ProtocolForm {
                 for (let j = 0; j < subsystem.modules.length; j++) {
                     tempSequence.push({
                         "data": subsystem.modules[j],
-                        "subId": subsystem.subsystemId
+                        "subId": subsystem.subsystem_id
                     });
                 }
             }

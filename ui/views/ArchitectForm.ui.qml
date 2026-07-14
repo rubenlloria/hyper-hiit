@@ -270,7 +270,7 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: Constants.primaryColor
                         activeItemName: "MODULE_LIBRARY"
-                        activeIconGlyph: "\ue0ad"
+                        activeIconGlyph: Constants.libraryIcon
                         activeItemDesc: "32 Modules in registry" // TODO: Set true value
                         width: parent.width
                         showSwitchLabel: false

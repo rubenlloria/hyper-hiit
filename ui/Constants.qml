@@ -141,6 +141,7 @@ QtObject {
     readonly property string badgeIcon:     "\uE241" // ACHIEMEVENT_MATRIX
     readonly property string pencilIcon:    "\uE1F9" // pencil (Edit directive)
     readonly property string trashIcon:     "\uE18E" // trash-2 (delete)
+    readonly property string libraryIcon:   "\uE0AD" // database (Module Library)
     readonly property string gripIcon:      "\uE0EA" // grip-horizontal (move)
     readonly property string confirmIcon:   "\uE06C" // check
     readonly property string cancelIcon:    "\uE1B2" // x
