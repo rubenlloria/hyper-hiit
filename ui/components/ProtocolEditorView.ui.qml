@@ -22,9 +22,13 @@ Item {
     width: Constants.designWidth * 0.95
     height: contentLayout.height + 40
 
-    property bool isDirty: false // state for unsaved changes
+    property bool isDirty: false // state for general unsaved changes
+    property bool isStructureDirty: false // state for structure unsaved changes
+    property bool isAllDirty: isDirty || isStructureDirty
     property bool isReady: systemManager.systemReady
     property color accentColor: Constants.primaryColor // Default Protocol Color
+    property int currentDirectiveId: -1
+    property var directiveList: []
 
     // Properties for data binding
     property alias protocolName: nameField.text
@@ -39,6 +43,9 @@ Item {
     // ListView reposition delegates instead of destroying/recreating them.
     property alias subsystemModel: subsystemModel
     property alias addSubsystem: addSubsystem
+    property alias cloneButton: cloneButton
+    property alias saveButton: saveButton
+    property alias deleteButton: deleteButton
 
     // Tracked drag position: ProtocolEditor.qml updates these after every swap so
     // the .ui.qml DropAreas always know the TRUE current index of the dragged
@@ -152,36 +159,75 @@ Item {
                         height: 35
                         color: "transparent"
                         border.color: "transparent"
+                        visible: !isAllDirty
                         Rectangle {
-                            id: saveItem
+                            id: cloneItem
                             anchors.fill: parent
-                            border.color: isDirty ? root.accentColor : Constants.descriptionColor
-                            opacity: (saveButton.pressed
-                                      && isDirty) ? 0.2 : ((saveButton.containsMouse
-                                                            && isDirty) ? 1.0 : 0.5)
-                            color: (saveButton.pressed
-                                    && isDirty) ? Constants.primaryColor : "transparent"
+                            border.color: Constants.secondaryColor
+                            opacity: cloneButton.pressed ? 0.2 : (cloneButton.containsMouse ? 1.0 : 0.5)
+                            color: cloneButton.pressed ? Constants.primaryColor : "transparent"
                             Behavior on opacity {
                                 NumberAnimation {
-                                    duration: 150
+                                    duration: 100
                                 }
                             }
                             Behavior on color {
                                 ColorAnimation {
-                                    duration: 150
+                                    duration: 100
+                                }
+                            }
+                            NeonIcon {
+                                anchors.centerIn: parent
+                                glyph: Constants.cloneIcon
+                                size: 18
+                                color: Constants.secondaryColor
+                            }
+                            MouseArea {
+                                id: cloneButton
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                visible: !isAllDirty
+                            }
+                        }
+                    }
+
+                    // Edit Icon (Radio Select logic in Logic file)
+                    Rectangle {
+                        width: 35
+                        height: 35
+                        color: "transparent"
+                        border.color: "transparent"
+                        visible: isAllDirty
+                        Rectangle {
+                            id: saveItem
+                            anchors.fill: parent
+                            border.color: isAllDirty ? root.accentColor : Constants.descriptionColor
+                            opacity: (saveButton.pressed
+                                      && isAllDirty) ? 0.2 : ((saveButton.containsMouse
+                                                               && isAllDirty) ? 1.0 : 0.5)
+                            color: (saveButton.pressed
+                                    && isAllDirty) ? Constants.primaryColor : "transparent"
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 100
+                                }
+                            }
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 100
                                 }
                             }
                             NeonIcon {
                                 anchors.centerIn: parent
                                 glyph: Constants.saveIcon
                                 size: 18
-                                color: isDirty ? root.accentColor : Constants.descriptionColor
+                                color: isAllDirty ? root.accentColor : Constants.descriptionColor
                             }
                             MouseArea {
                                 id: saveButton
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                visible: isDirty
+                                visible: isAllDirty
                             }
                         }
                     }
@@ -200,12 +246,12 @@ Item {
                             color: deleteButton.pressed ? Constants.primaryColor : "transparent"
                             Behavior on opacity {
                                 NumberAnimation {
-                                    duration: 150
+                                    duration: 100
                                 }
                             }
                             Behavior on color {
                                 ColorAnimation {
-                                    duration: 150
+                                    duration: 100
                                 }
                             }
                             NeonIcon {
@@ -675,6 +721,7 @@ Item {
                                         color: Constants.surfaceColor
                                         border.color: Constants.primaryTextColor
                                         TextInput {
+                                            id: quantityField
                                             text: quantity
                                             color: Constants.primaryTextColor
                                             anchors.centerIn: parent
@@ -704,8 +751,8 @@ Item {
                                             font.pixelSize: 9
                                         }
                                         MouseArea {
+                                            id: unitType
                                             anchors.fill: parent
-                                            onClicked: parent.isDefault = !parent.isDefault
                                         }
                                     }
 
@@ -743,6 +790,25 @@ Item {
                                         root.moduleDelete(
                                                     moduleItem.subsystemIndex,
                                                     moduleItem.moduleIndex)
+                                    }
+                                }
+
+                                Connections {
+                                    target: unitType
+                                    function onClicked() {
+                                        isStructureDirty = true
+                                        unitType.parent.isDefault = !unitType.parent.isDefault
+                                    }
+                                }
+
+                                Connections {
+                                    target: quantityField
+                                    function onTextChanged() {
+                                        Constants.hDebug(
+                                                    "ProtocolEditor",
+                                                    "Quantity changed on connection")
+                                        if (systemManager.systemReady)
+                                            isStructureDirty = true
                                     }
                                 }
                             } // moduleItem delegate

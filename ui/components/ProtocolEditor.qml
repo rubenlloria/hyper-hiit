@@ -58,7 +58,7 @@ ProtocolEditorView {
 
         subsystemModel.move(fromIndex, targetIndex, 1)
         reindexSubsystems();
-        isDirty = isReady ? true : null
+        isStructureDirty = isReady ? true : null
     }
 
     // ------------------------------------------------------------------
@@ -117,7 +117,7 @@ ProtocolEditorView {
         trackedDragModuleIndex = insertIndex
 
         reindexSubsystems()
-        isDirty = isReady ? true : null
+        isStructureDirty = isReady ? true : null
     }
 
     // Final resolution on drop.
@@ -148,7 +148,7 @@ ProtocolEditorView {
                     || fromModuleIndex >= sameModules.count) return
             var sameInsert = Math.min(Math.max(targetModuleIndex, 0), sameModules.count - 1)
             sameModules.move(fromModuleIndex, sameInsert, 1)
-            isDirty = isReady ? true : null
+            isStructureDirty = isReady ? true : null
             return
         }
 
@@ -177,7 +177,42 @@ ProtocolEditorView {
         targetModules.insert(insertIndex, snapshot)
 
         reindexSubsystems()
-        isDirty = isReady ? true : null
+        isStructureDirty = isReady ? true : null
+    }
+
+    cloneButton.onClicked: {
+        let name = protocolName;
+        let id = protocolId;
+        let rank = protocolRank + 1;
+        Constants.hDebug(debugName, "cloing protocol " + name
+                         + ", with id: " + id
+                         + " and rank: " + rank
+                         );
+    }
+
+    saveButton.onClicked: {
+        let name = protocolName;
+        let id = protocolId;
+        let rank = protocolRank + 1;
+        let directives = directiveList;
+
+        Constants.hDebug(debugName, "Saving protocol " + name
+                         + ", with id: " + id
+                         + ", directive: " + directives[0]
+                         + " and rank: " + rank
+                         );
+
+        Constants.hDebug(debugName, "Protocol dirty:" + isDirty
+                         + ", structure dirty: " + isStructureDirty
+                         );
+
+        dbManager.saveProtocol(id, name, rank, directives);
+        // if (isStructureDirty) {
+        //     dbManager.saveProtocolStructure();
+        // }
+
+        isDirty = false;
+        isStructureDirty = false;
     }
 
     function addNewSubsystem() {
@@ -195,7 +230,7 @@ ProtocolEditorView {
 
     addSubsystem.onClicked: {
         addNewSubsystem();
-        isDirty = true;
+        isStructureDirty = true;
         Constants.hDebug(debugName, "Add subsystem")
     }
 
@@ -213,6 +248,7 @@ ProtocolEditorView {
 
         model.insert(index + 1, clonedData);
         reindexSubsystems();
+        isStructureDirty = true;
         Constants.hInfo(infoName, "Subsystem phase cloned at index: " + index);
     }
 
@@ -224,7 +260,7 @@ ProtocolEditorView {
     function removeSubsystem(index) {
         if (index >= 0 && index < protocolEditor.subsystemModel.count) {
             protocolEditor.subsystemModel.remove(index);
-            isDirty = true;
+            isStructureDirty = true;
 
             // Optional: Re-index remaining Subsystems for visual consistency
             reindexSubsystems();
@@ -247,7 +283,7 @@ ProtocolEditorView {
                 modulesList.remove(moduleIndex);
 
                 // Update unsaved changes flag
-                isDirty = true;
+                isStructureDirty = true;
 
                 Constants.hInfo(infoName, "Module removed from subsystem " + subsystemIndex + " at position " + moduleIndex);
             }
