@@ -276,18 +276,14 @@ ArchitectForm {
 
     moduleEditor.onModuleInsertionRequested: (m_model) => {
                                                  Constants.hDebug(debugName, "Signal from module: " + m_model.module_name);
-                                                 insertModule(m_model.module_id, m_model.module_name, m_model.unit, m_model.zone, m_model.met_factor)
+                                                 insertModule(m_model)
                                              }
 
     /**
      * Adds a module from the library to the last defined subsystem in the editor.
-     * @param {int} moduleId - The reference ID from the master modules table.
-     * @param {string} moduleName - The display name of the exercise.
-     * @param {string} unitType - The execution unit (Sec., Rep., etc.).
-     * @param {string} zone - The body target zone.
-     * @param {real} metFactor - Metabolic Equivalent of Task
+     * @param {var} model - model with module info
      */
-    function insertModule(moduleId, moduleName, unit, zone, metFactor) {
+    function insertModule(model) {
         // 1. Safety Check: Ensure the timeline has at least one phase
         if (protocolEditor.subsystemModel.count === 0) {
             Constants.hWarning(infoName, "No active subsystem found. Please add a subsystem first.");
@@ -300,22 +296,24 @@ ArchitectForm {
 
         // 3. Create the module object following the Level 4 schema
         // We use 'struct_id: 0' to indicate this is a new entry for the database
-        Constants.hDebug(debugName, "Creating module object for " + moduleName
-                         + ", id: " + moduleId
+        Constants.hDebug(debugName, "Creating module object for " + model.module_name
+                         + ", id: " + model.module_id
                          + ", s_order: " + targetSubsystem.modules.count + 1
-                         + ", id: " + moduleId
-                         + ", unit: " + unit
-                         + ", zone: " + zone
-                         + ", met: " + metFactor
+                         + ", unit: " + model.unit
+                         + ", zone: " + model.zone
+                         + ", met: " + model.met_factor
                          );
         let moduleDraft = {
-            "module_id": moduleId,
+            "module_id": model.module_id,
             "s_order": targetSubsystem.modules.count + 1,
-            "module_name": moduleName,
+            "module_name": model.module_name,
             "quantity": 10, // Default starting value
-            "unit": unit,
-            "met_factor": metFactor,
-            "zone": zone
+            "unit": model.unit,
+            "unit_type": model.unit_type,
+            "met_factor": model.met_factor,
+            "fatigue_rate": model.fatigue_rate,
+            "rep_time": model.rep_time,
+            "zone": model.zone
         };
 
         // 4. Update the nested list
@@ -326,7 +324,7 @@ ArchitectForm {
         protocolEditor.isDirty = true;
         protocolEditor.refreshRequest();
 
-        Constants.hInfo("Architect", "Module [" + moduleName + "] added to subsystem " + targetSubsystem.subsystem_id);
+        Constants.hInfo("Architect", "Module [" + model.module_name + "] added to subsystem " + targetSubsystem.subsystem_id);
     }
 }
 
