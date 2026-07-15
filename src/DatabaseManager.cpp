@@ -154,12 +154,12 @@ bool DatabaseManager::createTables() {
     // 4. Mapping directive_protocols table: Implements the many-to-many relationship
     QString createMapping =
         "CREATE TABLE IF NOT EXISTS directives_protocols ("
-            "dp_mapping_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "dir_id INTEGER, "
-            "protocol_id INTEGER, "
-            "FOREIGN KEY(dir_id) REFERENCES directives(dir_id), "
-            "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id)"
-            ");";
+        "dir_id INTEGER, "
+        "protocol_id INTEGER, "
+        "PRIMARY KEY (dir_id, protocol_id), " // Enforces uniqueness and optimizes B-Tree lookup
+        "FOREIGN KEY(dir_id) REFERENCES directives(dir_id) ON DELETE CASCADE, "
+        "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id) ON DELETE CASCADE"
+        ");";
     if (!q.exec(createMapping)) {
         hCritical() << "Failed to create directives_protocols table:" << q.lastError().text();
         return false;
@@ -582,8 +582,8 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
 
     // SQL JOIN to fetch Level 4 metadata: rep_time, met_factor, and fatigue_rate
     query.prepare(
-        "SELECT ps.subsystem, ps.quantity, ps.unit_type, "
-        "m.mod_name, m.rep_time, m.target_zone, m.met_factor, m.fatigue_rate "
+        "SELECT ps.subsystem, ps.module_id, ps.quantity, ps.unit_type, "
+        "m.mod_name, m.rep_time, m.target_zone, m.met_factor, m.fatigue_rate, m.unit_type AS default_type "
         "FROM protocol_structure ps "
         "JOIN modules m ON ps.module_id = m.module_id "
         "WHERE ps.protocol_id = :protId "
@@ -613,18 +613,30 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
             subsystemMap = QVariantMap();
             subsystemMap["subsystem_id"] = subId;
             moduleList = QVariantList();
+
+            hDebug() << "Extracting data of Subsystem " << subId;
         }
 
         QVariantMap mod;
+        int currentUnit = query.value("unit_type").toInt();
+        int defaultType = query.value("default_type").toInt();
+
+        mod["module_id"] = query.value("module_id").toInt();
         mod["module_name"] = query.value("mod_name").toString();
         mod["quantity"] = query.value("quantity").toInt();
-        mod["unit_type"] = query.value("unit_type").toInt();
-        mod["unit"] = SystemManager::getUnitLabel(query.value("unit_type").toInt(),true);
+        mod["unit_type"] = currentUnit;
+        mod["default_type"] = defaultType;
+        mod["is_default"] = (currentUnit == defaultType);
+        mod["unit"] = SystemManager::getUnitLabel(query.value("default_type").toInt(),true);
         mod["rep_time"] = query.value("rep_time").toFloat();
         mod["zone"] = query.value("target_zone").toString();
         mod["met_factor"] = query.value("met_factor").toFloat();
         mod["fatigue_rate"] = query.value("fatigue_rate").toFloat();
         moduleList.append(mod);
+
+        hDebug() << "Module metadata extraction:\n"
+                 << QJsonDocument::fromVariant(mod).toJson(QJsonDocument::Indented).constData();
+
     }
 
     // Append last subsystem
@@ -1367,6 +1379,52 @@ void DatabaseManager::runMigrations(int oldVersion) {
             query.exec("PRAGMA foreign_keys = ON");
         }
     }
+    if (oldVersion < 4) {
+        hInfo() << "Migrating database to version 4: Applying relational integrity constraints.";
+
+        if (!m_db.transaction()) {
+            hCritical() << "Could not initiate database transaction for V3.";
+            return;
+        }
+
+        // 1. Create a temporary table with the new schema
+        bool ok = query.exec("CREATE TABLE directives_protocols_new ("
+                             "dir_id INTEGER, "
+                             "protocol_id INTEGER, "
+                             "PRIMARY KEY (dir_id, protocol_id), "
+                             "FOREIGN KEY(dir_id) REFERENCES directives(dir_id) ON DELETE CASCADE, "
+                             "FOREIGN KEY(protocol_id) REFERENCES protocols(protocol_id) ON DELETE CASCADE"
+                             ")");
+
+        if (!ok) {
+            hCritical() << "Migration error during temporary table creation:" << query.lastError().text();
+            m_db.rollback();
+            return;
+        }
+
+        // 2. Transfer existing data ignoring any existing duplicates
+        if (!query.exec("INSERT OR IGNORE INTO directives_protocols_new (dir_id, protocol_id) "
+                        "SELECT dir_id, protocol_id FROM directives_protocols")) {
+            hCritical() << "Migration error during temporary table insertion:" << query.lastError().text();
+            m_db.rollback();
+            return;
+        }
+
+        // 3. Replace the old table with the new structured version
+        if (!query.exec("DROP TABLE directives_protocols")) {
+            hCritical() << "Migration error during original table drop:" << query.lastError().text();
+            m_db.rollback();
+            return;
+        }
+        if (!query.exec("ALTER TABLE directives_protocols_new RENAME TO directives_protocols")) {
+            hCritical() << "Migration error during temporary table renaming:" << query.lastError().text();
+            m_db.rollback();
+            return;
+        }
+        m_db.commit();
+        hInfo() << "Migration v4 completed successfully. Unique mapping and cascade rules are now active.";
+    }
+
 }
 
 QVariantList DatabaseManager::getSessionTotals(int sessionId) {
@@ -1592,7 +1650,7 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
         prevSpeed = query.value("session_speed").toDouble();
         hasGhost = true;
     } else {
-        hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId;
+        hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId; // WARNING: Fail if no Ghost Summary
     }
 
     // 3. Calculate Comparative Metrics
@@ -1782,7 +1840,7 @@ int DatabaseManager::saveProtocol(int id, const QString &name, int rank, const Q
         for (int dirId : directiveIds) {
             QSqlQuery mapQuery;
             hDebug() << "Inserting protocol on directive: " << dirId;
-            mapQuery.prepare("INSERT INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protoId)");
+            mapQuery.prepare("INSERT OR IGNORE INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protoId)");
             mapQuery.bindValue(":dirId", dirId);
             mapQuery.bindValue(":protoId", finalId);
 
@@ -1906,5 +1964,108 @@ bool DatabaseManager::deleteDirective(int directiveId) {
     }
 
     hCritical() << "Failed to commit directive removal transaction.";
+    return false;
+}
+
+bool DatabaseManager::saveProtocolStructure(int protocolId, const QVariantList &structure) {
+    if (protocolId <= 0) return false;
+
+    m_db.transaction();
+    QSqlQuery query;
+
+    // 1. CLEAR EXISTING STRUCTURE
+    // We perform a full wipe of the protocol mapping before re-inserting the new sequence
+    query.prepare("DELETE FROM protocol_structure WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    if (!query.exec()) {
+        hCritical() << "Structure reset failure:" << query.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    int totalDuration = 0;
+    int totalModules = 0;
+
+    for (int i = 0; i < structure.size(); ++i) {
+        hDebug() << "Subsystem Index [" << i << "]:" << structure.at(i);
+    }
+
+    // 2. ITERATE SUBSYSTEMS AND MODULES
+    for (const QVariant &subVal : structure) {
+        QVariantMap subsystem = subVal.toMap();
+        int sOrder = 1;
+        int subId = subsystem.value("subsystem_id").toInt();
+        hDebug() << "Subsystem:" << subId;
+        QVariantList modules = subsystem.value("modules").toList();
+
+        for (const QVariant &modVal : std::as_const(modules)) {
+            QVariantMap module = modVal.toMap();
+            int moduleId = module.value("module_id").toInt();
+            int quantity = module.value("quantity").toInt();
+            int unitType = module.value("unit_type").toInt();
+            hDebug() << "Module id:" << moduleId;
+
+            // Insert mapping record
+            query.prepare("INSERT INTO protocol_structure (protocol_id, subsystem, s_order, module_id, quantity, unit_type) "
+                          "VALUES (:pId, :sub, :order, :mId, :qty, :unit)");
+            query.bindValue(":pId", protocolId);
+            query.bindValue(":sub", subId);
+            query.bindValue(":order", sOrder++);
+            query.bindValue(":mId", moduleId);
+            query.bindValue(":qty", quantity);
+            query.bindValue(":unit", unitType);
+
+            if (!query.exec()) {
+                hCritical() << "Module mapping failure:" << query.lastError().text();
+                QSqlDatabase::database().rollback();
+                return false;
+            }
+
+            // 3. METRIC RECALCULATION
+            // We fetch the base rep_time to update the estimated duration of the mission
+            QSqlQuery metaQuery;
+            metaQuery.prepare("SELECT rep_time FROM modules WHERE module_id = :mId");
+            metaQuery.bindValue(":mId", moduleId);
+            if (metaQuery.exec() && metaQuery.next()) {
+                totalDuration += static_cast<int>(quantity * metaQuery.value(0).toDouble());
+            }
+            totalModules++;
+        }
+    }
+
+    // SYNC PROTOCOL METADATA
+    // Update the main protocol record with the newly calculated execution metrics
+    query.prepare("UPDATE protocols SET estimated_duration = :dur, module_count = :count WHERE protocol_id = :id");
+    query.bindValue(":dur", totalDuration);
+    query.bindValue(":count", totalModules);
+    query.bindValue(":id", protocolId);
+
+    if (!query.exec()) {
+        hCritical() << "Protocol metadata sync failure:" << query.lastError().text();
+        QSqlDatabase::database().rollback();
+        return false;
+    }
+
+    // TODO: Calculate rep_time, fatigue_factor, etc.
+
+    hInfo() << "Protocol structure synchronized. Modules:" << totalModules << "Duration:" << totalDuration << "s";
+    return QSqlDatabase::database().commit();
+}
+
+bool DatabaseManager::hasProtocolHistory(int protocolId) {
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM session_history WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    return query.exec() && query.next() && query.value(0).toInt() > 0;
+}
+
+bool DatabaseManager::clearProtocolHistory(int protocolId) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM session_history WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    if (query.exec()) {
+        hInfo() << "History purged for protocol:" << protocolId;
+        return true;
+    }
     return false;
 }

@@ -41,7 +41,7 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 
-#define DB_SCHEMA_VERSION 3
+#define DB_SCHEMA_VERSION 4
 #define MIN_JSON_VERSION 0.5
 
 class DatabaseManager : public QObject {
@@ -207,6 +207,29 @@ public:
      * @return true if successfully removed, false if linked to protocols.
      */
     Q_INVOKABLE bool deleteDirective(int directiveId);
+
+    /**
+     * @brief Persists the visual timeline structure to the database mapping table.
+     * @param protocolId Target protocol identifier.
+     * @param structure List of subsystems containing nested module data.
+     * @return True if the synchronization transaction completes successfully.
+     */
+    Q_INVOKABLE bool saveProtocolStructure(int protocolId, const QVariantList &structure);
+
+    /**
+     * @brief Checks if a protocol has associated session history.
+     * @param protocolId The ID to verify.
+     * @return True if sessions exist in session_history.
+     */
+    Q_INVOKABLE bool hasProtocolHistory(int protocolId);
+
+    /**
+     * @brief Deletes all telemetry and session logs for a specific protocol.
+     * @param protocolId Target identifier.
+     * @return True if the deletion transaction is successful.
+     */
+    Q_INVOKABLE bool clearProtocolHistory(int protocolId);
+
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
