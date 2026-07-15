@@ -59,17 +59,31 @@ Item {
             subsystem_id: 1
             modules: [
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 1
+                    default_type: 1
+                    is_default: true
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 },
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 0
+                    default_type: 1
+                    is_default: false
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 }
             ]
@@ -78,17 +92,31 @@ Item {
             subsystem_id: 2
             modules: [
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 1
+                    default_type: 1
+                    is_default: true
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 },
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 1
+                    default_type: 1
+                    is_default: true
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 }
             ]
@@ -97,17 +125,31 @@ Item {
             subsystem_id: 3
             modules: [
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 1
+                    default_type: 1
+                    is_default: true
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 },
                 ListElement {
+                    module_id: 0
+                    s_order: 0
                     module_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
+                    unit_type: 1
+                    default_type: 1
+                    is_default: true
                     met_factor: 0.1
+                    fatigue_rate: 1.0
+                    rep_time: 1.5
                     zone: "Full Body"
                 }
             ]
@@ -592,7 +634,9 @@ Item {
                                 border.color: dragActive ? root.accentColor : Constants.secondaryColor
                                 border.width: dragActive ? 2 : 1
                                 Behavior on border.color {
-                                    ColorAnimation { duration: 100 }
+                                    ColorAnimation {
+                                        duration: 100
+                                    }
                                 }
 
                                 // --- DRAG & DROP: individual module ---
@@ -603,7 +647,9 @@ Item {
                                 z: dragActive ? 99 : 1
                                 opacity: dragActive ? 0.80 : 1.0
                                 Behavior on opacity {
-                                    NumberAnimation { duration: 100 }
+                                    NumberAnimation {
+                                        duration: 100
+                                    }
                                 }
 
                                 Drag.active: gripMouseArea.drag.active
@@ -630,32 +676,36 @@ Item {
 
                                     function onEntered(drag) {
                                         // Never react to the item dragging into itself
-                                        if (drag.source === moduleItem) return
+                                        if (drag.source === moduleItem)
+                                            return
                                         moduleDropArea.swapDone = false
                                         // Record physical entry direction from the hotspot position
-                                        moduleDropArea.enteredFromAbove = drag.y < moduleItem.height * 0.5
+                                        moduleDropArea.enteredFromAbove = drag.y
+                                                < moduleItem.height * 0.5
                                         // Fire immediately if entry point is already past the midpoint
                                         var mid = moduleItem.height * 0.5
                                         if (moduleDropArea.enteredFromAbove ? drag.y > mid : drag.y < mid) {
                                             moduleDropArea.swapDone = true
                                             root.moduleHoverSwapRequested(
-                                                drag.source,
-                                                moduleItem.subsystemIndex,
-                                                moduleItem.moduleIndex)
+                                                        drag.source,
+                                                        moduleItem.subsystemIndex,
+                                                        moduleItem.moduleIndex)
                                         }
                                     }
 
                                     // Catches the midpoint crossing when the drag moves slowly inside
                                     function onPositionChanged(drag) {
-                                        if (drag.source === moduleItem) return
-                                        if (moduleDropArea.swapDone) return
+                                        if (drag.source === moduleItem)
+                                            return
+                                        if (moduleDropArea.swapDone)
+                                            return
                                         var mid = moduleItem.height * 0.5
                                         if (moduleDropArea.enteredFromAbove ? drag.y > mid : drag.y < mid) {
                                             moduleDropArea.swapDone = true
                                             root.moduleHoverSwapRequested(
-                                                drag.source,
-                                                moduleItem.subsystemIndex,
-                                                moduleItem.moduleIndex)
+                                                        drag.source,
+                                                        moduleItem.subsystemIndex,
+                                                        moduleItem.moduleIndex)
                                         }
                                     }
 
@@ -666,9 +716,9 @@ Item {
                                     // Cross-subsystem final resolution on release
                                     function onDropped(drop) {
                                         root.moduleDropped(
-                                            drop.source,
-                                            moduleItem.subsystemIndex,
-                                            moduleItem.moduleIndex)
+                                                    drop.source,
+                                                    moduleItem.subsystemIndex,
+                                                    moduleItem.moduleIndex)
                                         moduleDropArea.swapDone = false
                                     }
                                 }
@@ -741,7 +791,7 @@ Item {
                                         color: Constants.primaryTextColor
                                         radius: 2
                                         Layout.alignment: Qt.AlignVCenter
-                                        property bool isDefault: true
+                                        property bool isDefault: is_default
                                         Text {
                                             text: parent.isDefault ? unit : "Sec."
                                             color: Constants.deepColor
@@ -797,16 +847,13 @@ Item {
                                     target: unitType
                                     function onClicked() {
                                         isStructureDirty = true
-                                        unitType.parent.isDefault = !unitType.parent.isDefault
+                                        is_default = !is_default
                                     }
                                 }
 
                                 Connections {
                                     target: quantityField
                                     function onTextChanged() {
-                                        Constants.hDebug(
-                                                    "ProtocolEditor",
-                                                    "Quantity changed on connection")
                                         if (systemManager.systemReady)
                                             isStructureDirty = true
                                     }
