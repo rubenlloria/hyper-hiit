@@ -196,20 +196,55 @@ ProtocolEditorView {
         let rank = protocolRank + 1;
         let directives = directiveList;
 
-        Constants.hDebug(debugName, "Saving protocol " + name
-                         + ", with id: " + id
-                         + ", directive: " + directives[0]
-                         + " and rank: " + rank
-                         );
+        Constants.hDebug(debugName, "Saving protocol " + name + ", with id: " + id + ", directive: " + directives[0] + " and rank: " + rank);
+        Constants.hDebug(debugName, "Protocol dirty:" + isDirty + ", structure dirty: " + isStructureDirty );
 
-        Constants.hDebug(debugName, "Protocol dirty:" + isDirty
-                         + ", structure dirty: " + isStructureDirty
-                         );
+        if (isDirty || protocolId === 0) {
+            let finalId = dbManager.saveProtocol(id, name, rank, directives);
+            if (protocolId === 0 && finalId > 0) {
+                protocolId = finalId;
+            }
+        }
 
-        dbManager.saveProtocol(id, name, rank, directives);
-        // if (isStructureDirty) {
-        //     dbManager.saveProtocolStructure();
-        // }
+        if (isStructureDirty) {
+            let protocolStructure = [];
+            for (let i = 0; i < subsystemModel.count; i++) {
+                let sub = subsystemModel.get(i);
+                Constants.hDebug(debugName, "MODULE_STRUCTURE: " + JSON.stringify(sub, null, 2));
+                // Create a plain object for each subsystem
+                let plainSubsystem = {
+                    "subsystem_id": sub.subsystem_id,
+                    "modules": []
+                };
+
+                // Process nested modules to ensure plain objects and correct types
+                for (let j = 0; j < sub.modules.count; j++) {
+                    let mod = sub.modules.get(j);
+                    plainSubsystem.modules.push({
+                        "module_id": mod.module_id,
+                        "quantity": parseInt(mod.quantity),
+                        "unit_type": mod.is_default ? mod.default_type : 0 // Ensure this is the INTEGER (0-3), not the label
+                    });
+                }
+                protocolStructure.push(plainSubsystem);
+            }
+
+            Constants.hDebug(debugName, "SERIALIZED_STRUCTURE: " + JSON.stringify(protocolStructure, null, 2));
+
+            if (dbManager.hasProtocolHistory(protocolId)) {
+                confirmPopup.target = "HISTORY // " + name;
+                confirmPopup.message = "Structural changes will purge existing session history. Continue?"
+                confirmPopup.accepted.connect( function() {
+                    dbManager.clearProtocolHistory(protocolId);
+                    dbManager.saveProtocolStructure(protocolId, protocolStructure);
+                    Constants.hInfo(infoName, "Structure updated and history purged for: " + name);
+                });
+                confirmPopup.open();
+            } else {
+                dbManager.saveProtocolStructure(protocolId, protocolStructure);
+                Constants.hInfo(infoName, "Structure synchronized for: " + name);
+            }
+        }
 
         isDirty = false;
         isStructureDirty = false;
