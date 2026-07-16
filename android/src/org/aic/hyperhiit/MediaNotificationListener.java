@@ -78,7 +78,7 @@ public class MediaNotificationListener extends NotificationListenerService {
                         if (state != null && metadata != null) {
                             long pos = state.getPosition();
                             long dur = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION);
-                            Log.d(TAG, "Position telemetry: " + pos + "ms / " + dur + "ms");
+                            // Log.d(TAG, "Position telemetry: " + pos + "ms / " + dur + "ms");
                             MediaReceiverHelper.updatePositionNative(pos, dur);
                         }
                     } else {
