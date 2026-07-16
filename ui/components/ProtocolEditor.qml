@@ -234,11 +234,11 @@ ProtocolEditorView {
             if (dbManager.hasProtocolHistory(protocolId)) {
                 confirmPopup.target = "HISTORY // " + name;
                 confirmPopup.message = "Structural changes will purge existing session history. Continue?"
-                confirmPopup.accepted.connect( function() {
+                confirmPopup.onAccept = function() {
                     dbManager.clearProtocolHistory(protocolId);
                     dbManager.saveProtocolStructure(protocolId, protocolStructure);
                     Constants.hInfo(infoName, "Structure updated and history purged for: " + name);
-                });
+                };
                 confirmPopup.open();
             } else {
                 dbManager.saveProtocolStructure(protocolId, protocolStructure);

@@ -193,12 +193,12 @@ ModuleEditorView {
 
 
         // Display the tactical confirmation overlay
-        confirmPopup.accepted.connect(function() {
+        confirmPopup.onAccept = function() {
             Constants.hInfo(debugName, "User confirmed deletion for record: " + targetName);
 
             // Execute the persistence logic defined in the controller
             deleteModule(index, m_model);
-        });
+        };
         confirmPopup.open();
     }
 

@@ -42,12 +42,12 @@ DirectiveEditorView {
 
 
         // Display the tactical confirmation overlay
-        confirmPopup.accepted.connect(function() {
+        confirmPopup.onAccept = function() {
             Constants.hInfo(debugName, "User confirmed deletion for record: " + targetName);
 
             // Execute the persistence logic defined in the controller
             deleteDirective(editor.directiveId, targetName);
-        });
+        };
         confirmPopup.open();
         Constants.hInfo(debugName, "Popup screen size" + confirmPopup.width + "x" + confirmPopup.height );
         Constants.hInfo(debugName, "Popup size" + confirmPopup.view.width + "x" + confirmPopup.view.height );

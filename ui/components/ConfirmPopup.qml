@@ -28,12 +28,14 @@ Popup {
     property alias view: view
 
     // --- NEURAL SYNC SIGNALS ---
-    signal accepted()
-    signal cancelled()
+    property var onAccept: null
+    property var onCancel: null
 
     // --- MAINTENANCE FUNCTIONS ---
     function reset() {
         message = "";
+        onAccept = null;
+        onCancel = null;
     }
 
     ConfirmPopupView {
@@ -48,13 +50,20 @@ Popup {
         confirmButton.interactionArea.onClicked: {
             if (message === "")
                 return;
-            accepted();
+
+            if (typeof onAccept === "function") {
+                onAccept();
+            }
+
             popupRoot.close();
             reset();
         }
 
         cancelButton.interactionArea.onClicked: {
-            cancelled();
+            if (typeof onCancel === "function") {
+                onCancel();
+            }
+
             popupRoot.close();
             reset();
         }
