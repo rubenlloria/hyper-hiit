@@ -2069,3 +2069,50 @@ bool DatabaseManager::clearProtocolHistory(int protocolId) {
     }
     return false;
 }
+
+bool DatabaseManager::deleteProtocol(int protocolId) {
+    if (protocolId <= 0) return false;
+
+    hInfo() << "Starting atomic purge for protocol ID:" << protocolId;
+
+    if (!m_db.transaction()) {
+        hCritical() << "Failed to initialize deletion transaction.";
+        return false;
+    }
+
+    QSqlQuery query;
+
+    // 1. Clear session history (Telemetry records)
+    // We use the existing logic to ensure consistency
+    if (!clearProtocolHistory(protocolId)) {
+        hWarning() << "Telemetry purge failed or no history found for protocol:" << protocolId;
+        // We continue as history might be empty
+    }
+
+    // 2. Clear protocol structure (Sequence mapping)
+    query.prepare("DELETE FROM protocol_structure WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    if (!query.exec()) {
+        hCritical() << "Failed to purge protocol structure:" << query.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    // 3. Delete metadata record (Main protocol entry)
+    // Note: 'directives_protocols' links will be deleted via ON DELETE CASCADE in v4 schema
+    query.prepare("DELETE FROM protocols WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    if (!query.exec()) {
+        hCritical() << "Failed to purge protocol metadata:" << query.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    if (m_db.commit()) {
+        hInfo() << "Protocol purge sequence completed successfully for ID:" << protocolId;
+        return true;
+    }
+
+    hCritical() << "Purge commit failure.";
+    return false;
+}

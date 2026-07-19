@@ -230,6 +230,12 @@ public:
      */
     Q_INVOKABLE bool clearProtocolHistory(int protocolId);
 
+    /**
+     * Purges a protocol, its structure, and all associated session history.
+     * @param protocolId The unique identifier of the protocol to delete.
+     * @return true if the full purge sequence was successful.
+     */
+    Q_INVOKABLE bool deleteProtocol(int protocolId);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 
