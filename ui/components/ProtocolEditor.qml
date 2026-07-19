@@ -13,6 +13,8 @@ ProtocolEditorView {
     readonly property string infoName: "ProtocolEditor.qml"
 
     // property bool isReady: false
+    signal protocolDeleted()
+    signal protocolSaved()
 
     Component.onCompleted: {
         systemManager.systemReady = true
@@ -181,13 +183,26 @@ ProtocolEditorView {
     }
 
     cloneButton.onClicked: {
-        let name = protocolName;
+        let originalName = protocolName;
         let id = protocolId;
         let rank = protocolRank + 1;
-        Constants.hDebug(debugName, "cloing protocol " + name
+        Constants.hDebug(debugName, "cloing protocol " + originalName
                          + ", with id: " + id
                          + " and rank: " + rank
                          );
+
+        // Sever the database link by resetting the ID to 0 (New Entry Sentry).
+        // The DatabaseManager uses ID 0 to determine if it should perform an INSERT.
+        protocolId = 0;
+
+        // Update identifying metadata with the required suffix
+        protocolName = originalName + "_clone";
+
+        // Force the dirty flags to TRUE.
+        // This enables the save workflow and ensures the structure is also persisted.
+        isDirty = true;
+        isStructureDirty = true;
+
     }
 
     saveButton.onClicked: {
@@ -195,6 +210,7 @@ ProtocolEditorView {
         let id = protocolId;
         let rank = protocolRank + 1;
         let directives = directiveList;
+        let protocolIsNew = (id === 0)
 
         Constants.hDebug(debugName, "Saving protocol " + name + ", with id: " + id + ", directive: " + directives[0] + " and rank: " + rank);
         Constants.hDebug(debugName, "Protocol dirty:" + isDirty + ", structure dirty: " + isStructureDirty );
@@ -248,6 +264,31 @@ ProtocolEditorView {
 
         isDirty = false;
         isStructureDirty = false;
+        protocolSaved()
+    }
+
+    deleteButton.onClicked: {
+        let name = protocolName;
+        let id = protocolId;
+        let rank = protocolRank + 1;
+        Constants.hDebug(debugName, "Purging the protocol: " + name
+                         + ", with id: " + id
+                         );
+        confirmPopup.target = "PROTOCOL // " + name.toUpperCase();
+        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
+                (name !== "" ? "[" + name + "]" : "THIS ENTITY") +
+                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY."
+        confirmPopup.onAccept = function() {
+            dbManager.deleteProtocol(id);
+            Constants.hInfo(infoName, "Data and history purged for protocol: " + name);
+            protocolDeleted();
+        };
+
+        confirmPopup.onCancel = function() {
+            Constants.hInfo(infoName, "Purge cancelled");
+        };
+
+        confirmPopup.open();
     }
 
     function addNewSubsystem() {
