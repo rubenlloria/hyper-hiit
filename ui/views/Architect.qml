@@ -217,7 +217,7 @@ ArchitectForm {
                         protocolDataModel = dbManager.getProtocolExecutionDetails(protocolId);
                         // protocolDataModel = dbManager.getProtocolStructure(protocolId, true);
                         protocolEditor.subsystemModel.clear();
-                        // protocolEditor.protocolName = model.name
+                        protocolEditor.protocolName = model.name
                         protocolEditor.selectedRank = model.rank -1
                         for (let i = 0; i < protocolDataModel.length; i++) {
                             protocolEditor.subsystemModel.append(protocolDataModel[i]);
@@ -248,6 +248,20 @@ ArchitectForm {
         architectProtocolModel.insertNewDraft();
         // Scroll to the bottom or set focus to the new item if needed
         Constants.hDebug(debugName, "Adding new protocol draft to the current directive context");
+    }
+
+    protocolEditor.onProtocolDeleted: {
+        architectProtocolModel.filterByDirective(protocolEditor.currentDirectiveId);
+        protocolAccordion.headerMouseArea.visible = true;
+        protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
+        protocolAccordion.activeItemDesc = "Manage selected directive protocols";
+        protocolId = -1
+    }
+
+    protocolEditor.onProtocolSaved: {
+        architectProtocolModel.filterByDirective(protocolEditor.currentDirectiveId);
+        Constants.hDebug(debugName, protocolAccordion.activeItemDesc)
+        protocolAccordion.activeItemDesc = "Pending data calculation";
     }
 
     moduleAccordion.headerMouseArea.onClicked: {
