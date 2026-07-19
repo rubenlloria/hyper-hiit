@@ -12,9 +12,9 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.surfaceColor
 
-    property int expandedIndex: -1 //WARNING: Set to -1
-    property int editingIndex: -1 //WARNING: Set to -1
-    property int protocolId: -1 //WARNING: Set to -1
+    property int expandedIndex: -1
+    property int editingIndex: -1
+    property int protocolId: -1
     property var protocolDataModel: []
 
     property alias header: header
@@ -31,7 +31,7 @@ Rectangle {
 
     ColumnLayout {
         width: parent.width
-        height: parent.height // + 1500
+        height: parent.height
         spacing: 10
         AppHeader {
             id: header
