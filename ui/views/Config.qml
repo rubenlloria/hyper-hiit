@@ -9,7 +9,7 @@ ConfigForm {
     readonly property string debugName: "Config.qml"
     readonly property string infoName: "Config.qml"
 
-    property bool _isReady: false // DELETEME ?
+    property bool _isReady: systemManager.systemReady
 
     // Colors
     readonly property color colorSaved: Constants.primaryTextColor
@@ -65,28 +65,15 @@ ConfigForm {
     // Link the back button to the main stack
     header.settingsMouseArea.onClicked: {
         console.log("Back to dashboard...");
-        mainStack.pop();
+        systemManager.systemReady = false;
+        Constants.runDeferred(
+                    () => {
+                        mainStack.pop();
+                    });
     }
 
-    // Here we can connect the signals from the configForm form to application logic
-    // For example, saving settings when a value changes
     Component.onCompleted: {
-        Constants.hDebug(debugName, "Initializing form with stored system parameters");
-
-        // User Data Bindings
-        // userNameField.text = sessionManager.userName
-        // weightField.value = sessionManager.userWeight
-        // heightField.value = sessionManager.userHeight
-        // ageField.value = sessionManager.userAge
-        // sexSelector.selectedIndex = sessionManager.userSex
-        // rankSelector.selectedIndex = sessionManager.userRank
-
-        // System Parameter Bindings
-        // scanlineSwitch.checked = systemSettings.scanlinesEnabled
-        // themeSelector.selectedIndex = systemSettings.themeIndex
-
-        _isReady = true; // DELETEME: ?
-        systemManager.systemReady = true;
+        Constants.hInfo(infoName, "Config form ready");
     }
 
     summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
@@ -109,9 +96,12 @@ ConfigForm {
     }
 
     architectMouseArea.onClicked: {
-        Constants.hWarning(infoName, "Accessing ARCHITECT...");
         systemManager.systemReady = false;
-        mainStack.push("Architect.qml")
+        Constants.hWarning(infoName, "Accessing ARCHITECT...");
+        Constants.runDeferred(
+                    () => {
+                        mainStack.push("Architect.qml");
+                    });
     }
 
     restoreDBButton.interactionArea.onClicked: {

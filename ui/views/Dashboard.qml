@@ -27,6 +27,7 @@ DashboardForm {
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();
         Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
+        Constants.hInfo(infoName, "Dashboard ready");
         // systemManager.systemReady = true;
     }
 
@@ -139,7 +140,9 @@ DashboardForm {
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, "Navigating to System Config...");
         systemManager.systemReady = false;
-        mainStack.push("Config.qml");
+        Constants.runDeferred(() => {
+                                  mainStack.push("Config.qml");
+                              });
     }
 
     Connections {

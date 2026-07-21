@@ -150,13 +150,20 @@ ProtocolForm {
     // Back button action
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, debugName, "Back to Briefing...");
+        systemManager.systemReady = false;
         if ( header.buttonLink === "back"){
-            mainStack.pop();
+            Constants.runDeferred(
+                        () => {
+                            mainStack.pop();
+                        });
         } else{
-            mainStack.push("Summary.qml",{
-                           "activeSessionId": activeSessionId,
-                           "lastAchievements": lastAchievements
-                           });
+            Constants.runDeferred(
+                        () => {
+                            mainStack.push("Summary.qml",{
+                                           "activeSessionId": activeSessionId,
+                                           "lastAchievements": lastAchievements
+                                           });
+                        });
         }
     }
 

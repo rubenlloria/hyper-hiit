@@ -34,7 +34,7 @@ ArchitectForm {
     readonly property string debugName: "Architect.qml"
     readonly property string infoName: "Architect.qml"
 
-    property bool isReady: false
+    property bool isReady: systemManager.systemReady
     property var rankNames: dbManager.getRankLabels()
 
     ListModel {
@@ -47,13 +47,16 @@ ArchitectForm {
         protocolEditor.subsystemModel.clear();
         moduleEditor.loadModules();
         Constants.hDebug(debugName, "Context Check -> sessionManager status: " + (typeof sessionManager !== 'undefined'));
-        isReady = true;
-        systemManager.systemReady = true;
+        Constants.hInfo(infoName, "Architect ready");
     }
 
     header.settingsMouseArea.onClicked: {
         Constants.hInfo(infoName, "Back to core-config");
-        mainStack.pop();
+        systemManager.systemReady = false;
+        Constants.runDeferred(
+                    () => {
+                        mainStack.pop();
+                    });
     }
 
     buttonAll.onClicked: {
@@ -109,63 +112,67 @@ ArchitectForm {
 
         onEditRequested: {
             systemManager.systemReady = false;
-            if (architectForm.editingIndex === index) {
-                // Close edit mode if already editing
-                architectForm.editingIndex = -1;
-                protocolAccordion.activeThemeColor = Constants.descriptionColor;
-                protocolAccordion.headerMouseArea.visible = false;
-                protocolAccordion.activeItemName = "DIRECTIVE_NOT_SELECTED";
-                protocolAccordion.activeItemDesc = "Select directive first";
-                protocolAccordion.isOpen = false;
-            } else {
-                // Force expansion when editing is requested
-                // architectForm.expandedIndex = index;
-                architectForm.editingIndex = index;
-                protocolEditor.currentDirectiveId = directiveId;
-                protocolAccordion.activeThemeColor = accentColor;
-                architectProtocolModel.filterByDirective(model.id);
-                protocolAccordion.headerMouseArea.visible = true;
-                protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
-                protocolAccordion.activeItemDesc = "Manage selected directive protocols";
-                protocolId = -1
-            }
-            systemManager.systemReady = true;
+            Constants.hDebug(debugName, "System ready: " + systemManager.systemReady)
+            Constants.runDeferred(() => {
+                  if (architectForm.editingIndex === index) {
+                      // Close edit mode if already editing
+                      architectForm.editingIndex = -1;
+                      protocolAccordion.activeThemeColor = Constants.descriptionColor;
+                      protocolAccordion.headerMouseArea.visible = false;
+                      protocolAccordion.activeItemName = "DIRECTIVE_NOT_SELECTED";
+                      protocolAccordion.activeItemDesc = "Select directive first";
+                      protocolAccordion.isOpen = false;
+                  } else {
+                      // Force expansion when editing is requested
+                      // architectForm.expandedIndex = index;
+                      architectForm.editingIndex = index;
+                      protocolEditor.currentDirectiveId = directiveId;
+                      protocolAccordion.activeThemeColor = accentColor;
+                      architectProtocolModel.filterByDirective(model.id);
+                      protocolAccordion.headerMouseArea.visible = true;
+                      protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
+                      protocolAccordion.activeItemDesc = "Manage selected directive protocols";
+                      protocolId = -1;
+                  }
+              });
+            Constants.hDebug(debugName, "System ready: " + systemManager.systemReady)
             Constants.hDebug(debugName, "Neural Sync: Edit mode toggled for index " + index);
         }
 
         onSaveRequested: {
             systemManager.systemReady = false;
-            Constants.hDebug(debugName, "Persistence: Saving changes for "
-                             + "dir_id: " + directiveId
-                             + ", name: " + nameText
-                             + ", description: " + descriptionText
-                             + ", color: " + accentColor
-                             + ", glyph: " + glyph
-                             + ", on row: " + index
-                             );
+            Constants.runDeferred(() => {
+                                      Constants.hDebug(debugName, "Persistence: Saving changes for "
+                                                       + "dir_id: " + directiveId
+                                                       + ", name: " + nameText
+                                                       + ", description: " + descriptionText
+                                                       + ", color: " + accentColor
+                                                       + ", glyph: " + glyph
+                                                       + ", on row: " + index
+                                                       );
 
-            architectForm.editingIndex = -1;
-            architectForm.expandedIndex = -1;
-            dbManager.saveDirective(directiveId, nameText, descriptionText, glyph, accentColor);
+                                      // architectForm.editingIndex = -1;
+                                      architectForm.expandedIndex = -1;
+                                      dbManager.saveDirective(directiveId, nameText, descriptionText, glyph, accentColor);
 
-            // We check if the directive being edited is the active one in the system
-            Constants.hDebug(debugName, "directiveId: " + directiveId
-                             + "sessionManager.activeDirectiveInfo.id: " + sessionManager.activeDirectiveInfo.id);
-            if (directiveId === sessionManager.activeDirectiveInfo.id) {
-                sessionManager.activeDirectiveInfo = {
-                    "id": directiveId,
-                    "name": nameText,
-                    "description": descriptionText,
-                    "icon": glyph,
-                    "color": accentColor
-                };
-                mainWindow.currentDirectiveColor = accentColor;
-            }
+                                      // We check if the directive being edited is the active one in the system
+                                      Constants.hDebug(debugName, "directiveId: " + directiveId
+                                                       + "sessionManager.activeDirectiveInfo.id: " + sessionManager.activeDirectiveInfo.id);
+                                      if (directiveId === sessionManager.activeDirectiveInfo.id) {
+                                          sessionManager.activeDirectiveInfo = {
+                                              "id": directiveId,
+                                              "name": nameText,
+                                              "description": descriptionText,
+                                              "icon": glyph,
+                                              "color": accentColor
+                                          };
+                                          mainWindow.currentDirectiveColor = accentColor;
+                                      }
 
-            // Finalize interaction: collapse and sync
-            isDirty = false;
-            directiveModel.setDirectives(dbManager.getAllDirectives());
-            systemManager.systemReady = true;
+                                      // Finalize interaction: collapse and sync
+                                      isDirty = false;
+                                      directiveModel.setDirectives(dbManager.getAllDirectives());
+                                  });
         }
 
         onDeleteRequested: {
@@ -199,34 +206,35 @@ ArchitectForm {
                                      + " and rank : " + model.rank
                                      );
                     systemManager.systemReady  = false;
-                    Constants.hDebug(debugName, "ProtocolEditor not ready") ;
-                    protocolId = model.id;
-                    protocolEditor.directiveList = [protocolEditor.currentDirectiveId]; // TODO: Get directives from DB
-                    protocolAccordion.activeItemName = model.name;
-                    protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
-                            + "   MODULES: " + model.moduleCount;
-                    protocolAccordion.isOpen = false;
-                    if (protocolId === 0) {
-                        // NEW_PROTOCOL logic: Initialize empty buffer for fresh configuration
-                        protocolAccordion.activeItemDesc = "DRAFT: PENDING STRUCTURE";
-                        protocolEditor.subsystemModel.clear();
-                        protocolEditor.selectedRank = 0; // Default to NEWBIE (rank 1 -> index 0)
+                    Constants.runDeferred(() => {
+                          Constants.hDebug(debugName, "ProtocolEditor not ready") ;
+                          protocolId = model.id;
+                          protocolEditor.directiveList = [protocolEditor.currentDirectiveId]; // TODO: Get directives from DB
+                          protocolAccordion.activeItemName = model.name;
+                          protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
+                          + "   MODULES: " + model.moduleCount;
+                          protocolAccordion.isOpen = false;
+                          if (protocolId === 0) {
+                              // NEW_PROTOCOL logic: Initialize empty buffer for fresh configuration
+                              protocolAccordion.activeItemDesc = "DRAFT: PENDING STRUCTURE";
+                              protocolEditor.subsystemModel.clear();
+                              protocolEditor.selectedRank = 0; // Default to NEWBIE (rank 1 -> index 0)
 
-                        Constants.hInfo(debugName, "Editor initialized for new protocol draft.");
-                    } else if (protocolId > 0) {
-                        protocolDataModel = dbManager.getProtocolExecutionDetails(protocolId);
-                        // protocolDataModel = dbManager.getProtocolStructure(protocolId, true);
-                        protocolEditor.subsystemModel.clear();
-                        protocolEditor.protocolName = model.name
-                        protocolEditor.selectedRank = model.rank -1
-                        for (let i = 0; i < protocolDataModel.length; i++) {
-                            protocolEditor.subsystemModel.append(protocolDataModel[i]);
-                        }
-                    }
-                    systemManager.systemReady  = true;
+                              Constants.hInfo(debugName, "Editor initialized for new protocol draft.");
+                          } else if (protocolId > 0) {
+                              protocolDataModel = dbManager.getProtocolExecutionDetails(protocolId);
+                              // protocolDataModel = dbManager.getProtocolStructure(protocolId, true);
+                              protocolEditor.subsystemModel.clear();
+                              protocolEditor.protocolName = model.name
+                              protocolEditor.selectedRank = model.rank -1
+                              for (let i = 0; i < protocolDataModel.length; i++) {
+                                  protocolEditor.subsystemModel.append(protocolDataModel[i]);
+                              }
+                          }
+                          Constants.hDebug(debugName, "ProtocolEditor ready") ;
+                          Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.subsystemModel.count);
+                      });
                     protocolEditor.isDirty = false;
-                    Constants.hDebug(debugName, "ProtocolEditor ready") ;
-                    Constants.hDebug(debugName, "Protocol buffer synchronized. Total items: " + protocolEditor.subsystemModel.count);
                 }
             }
         }

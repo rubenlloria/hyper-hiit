@@ -74,7 +74,11 @@ SummaryForm{
     // Link the back button to the main stack
     header.settingsMouseArea.onClicked: {
         console.log("Back to dashboard...");
-        mainStack.pop(null);
+        systemManager.systemReady = false;
+        Constants.runDeferred(
+                    () => {
+                        mainStack.pop(null);
+                    });
     }
 
     function loadHeaderMetrics(historyId) {
