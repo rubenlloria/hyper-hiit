@@ -42,11 +42,12 @@ QtObject {
     readonly property color tacticalGray:       "#a0a0b0"
     readonly property color lightGray:          "#e0e0e0"
     readonly property color inkBlack:           "#1a1a1f"
-    readonly property color charcoal:           "#212126" // "#2a2a30"
+    readonly property color charcoal:           "#15151a" // "#2a2a30"
     readonly property color softRed:            "#ff809d"
     readonly property color softBlue:           "#6666a3"
     readonly property color tangerine:          "#ff5e00"
     readonly property color spaceBlue:          "#5b84ff"
+    readonly property color granite:            "#C5C5D7" // "#808090"
 
     // =========================================================================
     // --- THEME DEFINITIONS (Hardcoded Matrix) ---
@@ -86,7 +87,7 @@ QtObject {
         "LIGHT_REPORT": {
             "backgroundColor":     lightGray,
             "surfaceColor":        whiteNeon,
-            "deepColor":           greyNeon,
+            "deepColor":           granite,
             "descriptionColor":    charcoal,
             "rootColor":           inkBlack,
             "primaryColor":        redNeon,
@@ -102,22 +103,26 @@ QtObject {
 
     // --- ACTIVE PALETTE (Neural Sync) ---
     // We use a reference to the active theme object
-    property var activeTheme: themes["CYBERPUNK"]
+    property var activeTheme: themes["LIGHT_REPORT"]
 
-    // These properties allow existing components to remain unchanged
-    property color backgroundColor:     activeTheme.backgroundColor
-    property color surfaceColor:        activeTheme.surfaceColor
-    property color deepColor:           activeTheme.deepColor
-    property color descriptionColor:    activeTheme.descriptionColor
-    property color rootColor:           activeTheme.rootColor
-    property color primaryColor:        activeTheme.primaryColor
-    property color secondaryColor:      activeTheme.secondaryColor
-    property color primaryDarkColor:    activeTheme.primaryDarkColor
-    property color secondaryDarkColor:  activeTheme.secondaryDarkColor
-    property color primaryTextColor:    activeTheme.primaryTextColor
-    property color secondaryTextColor:  activeTheme.secondaryTextColor
-    property color onColor:             activeTheme.onColor
-    property color offColor:            activeTheme.offColor
+    property color backgroundColor:     activeTheme ? activeTheme.backgroundColor     : blackNeon
+    property color surfaceColor:        activeTheme ? activeTheme.surfaceColor        : darkNeon
+    property color deepColor:           activeTheme ? activeTheme.deepColor           : deepNeon
+    property color descriptionColor:    activeTheme ? activeTheme.descriptionColor    : whiteNeon
+    property color rootColor:           activeTheme ? activeTheme.rootColor           : redNeon
+    property color primaryColor:        activeTheme ? activeTheme.primaryColor        : fuchsiaNeon
+    property color secondaryColor:      activeTheme ? activeTheme.secondaryColor      : cyanNeon
+    property color primaryDarkColor:    activeTheme ? activeTheme.primaryDarkColor    : darkMagenta
+    property color secondaryDarkColor:  activeTheme ? activeTheme.secondaryDarkColor  : darkBlue
+    property color primaryTextColor:    activeTheme ? activeTheme.primaryTextColor    : cyanNeon
+    property color secondaryTextColor:  activeTheme ? activeTheme.secondaryTextColor  : fuchsiaNeon
+    property color onColor:             activeTheme ? activeTheme.onColor             : cyanNeon
+    property color offColor:            activeTheme ? activeTheme.offColor            : fuchsiaNeon
+
+
+    Component.onCompleted: {
+        hDebug("Constants", "Theme: " + themes["CYBERPUNK"])
+    }
 
     // --- DESIGN TOKENS ---
 
@@ -144,7 +149,8 @@ QtObject {
     readonly property string libraryIcon:   "\uE0AD" // database (Module Library)
     readonly property string gripIcon:      "\uE0EA" // grip-horizontal (move)
     readonly property string confirmIcon:   "\uE06C" // check
-    readonly property string cancelIcon:    "\uE1B2" // x
+    readonly property string addIcon:       "\uE13D" // + (add)
+    readonly property string cancelIcon:    "\uE1B2" // x (remove)
     readonly property string alertIcon:     "\uE193" // triangle-alert
     readonly property string cloneIcon:     "\uE3FD" // copy-plus (Clone item)
     // Power & Stamina Protocols (High Intensity)
@@ -302,11 +308,31 @@ QtObject {
      * Tactical Switch: Updates the active palette reference.
      * This can be called from SystemManager or directly from UI.
      */
-    function setTheme(index) {
+    function setTheme(index = 0) {
         let key = themeKeys[index];
         if (key && themes[key]) {
             activeTheme = themes[key];
             Constants.hInfo("Constants", "Aesthetic shift to: " + key);
         }
+    }
+
+    /**
+     * Runs `callback` once, after a short delay, giving the event loop
+     * a chance to process a pending frame before continuing.
+     * Useful when a property change (e.g. systemManager.systemReady)
+     * needs to be visually rendered before heavier synchronous work runs.
+     */
+    function runDeferred(callback, setSystemReady = true) {
+        var interval = 50
+        var timer = Qt.createQmlObject(
+            "import QtQuick; Timer { interval: " + interval + "; repeat: false; running: true }",
+            qtObject, // parent object, keeps the timer alive and gives it a valid QML context
+            "Constants.runDeferred"
+        )
+        timer.triggered.connect(function() {
+            callback()
+            timer.destroy()
+            if (setSystemReady) systemManager.systemReady = true;
+        })
     }
 }
