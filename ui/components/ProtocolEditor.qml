@@ -12,15 +12,12 @@ ProtocolEditorView {
     readonly property string debugName: "ProtocolEditor.qml"
     readonly property string infoName: "ProtocolEditor.qml"
 
-    // property bool isReady: false
+    property bool isReady: systemManager.systemReady
     signal protocolDeleted()
     signal protocolSaved()
 
     Component.onCompleted: {
-        systemManager.systemReady = true
-        // isReady = true;
-        Constants.hDebug(debugName, "ProtocolEditor Ready") ;
-        // syncDeleteButtons();
+        Constants.hInfo(infoName, "ProtocolEditor Ready") ;
     }
 
     onProtocolNameChanged: { Constants.hDebug(debugName, "ProtocolNameChanged") ; if (isReady) isDirty = true }

@@ -109,7 +109,7 @@ Item {
                     id: moduleRow
                     width: mainLayout.width
                     height: 60
-                    color: "#0d0d10"
+                    color: Constants.deepColor
                     border.color: Constants.secondaryColor
                     border.width: 1
 
@@ -152,7 +152,7 @@ Item {
                                 height: 30
                                 hoverEnabled: true
                                 NeonIcon {
-                                    glyph: "\ue13d" // TODO: add icon
+                                    glyph: Constants.addIcon
                                     size: 18
                                     color: Constants.primaryTextColor
                                     anchors.centerIn: parent
@@ -310,14 +310,14 @@ Item {
                 Row {
                     height: 25
                     NeonIcon {
-                        glyph: "\ue193" // triangle-alert glyph [4]
+                        glyph: Constants.alertIcon
                         size: 16
-                        color: "#bf00ff"
+                        color: Constants.secondaryTextColor
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
                         text: "MODULE_FACTORY"
-                        color: "#bf00ff"
+                        color: Constants.secondaryTextColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 11
                         font.letterSpacing: 1
@@ -512,7 +512,7 @@ Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         color: "transparent"
-                        border.color: "#bf00ff"
+                        border.color: Constants.primaryColor
                         border.width: 1
 
                         Row {
@@ -520,13 +520,13 @@ Item {
                             // anchors.verticalCenter: parent.verticalCenter
                             spacing: 0
                             NeonIcon {
-                                glyph: "\ue06c"
+                                glyph: Constants.confirmIcon
                                 size: 14
                                 color: Constants.primaryColor
                             } // check glyph [7]
                             Text {
                                 text: "REGISTER_MODULE"
-                                color: "#bf00ff"
+                                color: Constants.primaryColor
                                 font.family: Constants.mainFont.family
                                 font.pixelSize: 11
                                 font.bold: true
@@ -551,14 +551,14 @@ Item {
                     Rectangle {
                         Layout.preferredWidth: 80
                         Layout.fillHeight: true
-                        color: "#1a0b1a" // primaryDarkColor/darkMagenta [3]
-                        border.color: "#bf00ff"
+                        color: Constants.primaryDarkColor
+                        border.color: Constants.primaryColor
                         opacity: 0.8
 
                         Text {
                             text: "ABORT"
                             anchors.centerIn: parent
-                            color: "#bf00ff"
+                            color: Constants.primaryColor
                             font.family: Constants.mainFont.family
                             font.pixelSize: 11
                             font.bold: true
