@@ -47,7 +47,7 @@ QtObject {
     readonly property color softBlue:           "#6666a3"
     readonly property color tangerine:          "#ff5e00"
     readonly property color spaceBlue:          "#5b84ff"
-    readonly property color granite:            "#C5C5D7" // "#808090"
+    readonly property color granite:            "#f0f0f0"
 
     // =========================================================================
     // --- THEME DEFINITIONS (Hardcoded Matrix) ---
@@ -119,9 +119,8 @@ QtObject {
     property color onColor:             activeTheme ? activeTheme.onColor             : cyanNeon
     property color offColor:            activeTheme ? activeTheme.offColor            : fuchsiaNeon
 
-
     Component.onCompleted: {
-        hDebug("Constants", "Theme: " + themes["CYBERPUNK"])
+        hDebug("Constants", "Constants loaded");
     }
 
     // --- DESIGN TOKENS ---
