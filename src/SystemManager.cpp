@@ -27,10 +27,14 @@
 #include "SystemManager.h"
 
 SystemManager::SystemManager(DatabaseManager *db, QObject *parent)
-    : QObject(parent), m_systemReady(false) {
+    : QObject(parent)
+    , m_db(db)
+    , m_systemReady(false) {
     if (!m_db) {
         hCritical() << "SystemManager initialized without Database access.";
-    } else {
+        QTimer::singleShot(1000, this, &SystemManager::loadSystemConfig);
+    }
+    else {
         loadSystemConfig();
     }
 }
@@ -45,7 +49,7 @@ void SystemManager::loadSystemConfig() {
 
     emit systemScanlineChanged();
     emit systemAudioChanged();
-    hDebug() << "systemThemeChanged";
+    hDebug() << "systemThemeChanged to " << m_systemTheme;
     emit systemThemeChanged();
 }
 
