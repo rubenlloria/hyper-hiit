@@ -59,8 +59,6 @@ qt_add_qml_module(hyper-hiit
     QML_FILES
         ui/main.qml
         ui/Constants.qml
-        ui/CyberButton.qml
-        ui/ProgressDial.qml     # TODO: DELETEME
         # screens
         ui/views/Architect.qml
         ui/views/ArchitectForm.ui.qml
@@ -74,7 +72,6 @@ qt_add_qml_module(hyper-hiit
         ui/views/ProtocolForm.ui.qml
         ui/views/Summary.qml
         ui/views/SummaryForm.ui.qml
-        ui/views/Testboard.qml  #TODO: DELETEME
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/ConfirmPopup.qml
