@@ -83,8 +83,8 @@ android {
         targetSdkVersion qtTargetSdkVersion
         ndk.abiFilters = qtTargetAbiList.split(",")
         // --- VERSIONING START ---
-        versionCode 902
-        versionName "0.9.2-beta"
+        versionCode 903
+        versionName "0.9.3-beta"
         // --- VERSIONING END ---
     }
 }
