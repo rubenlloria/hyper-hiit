@@ -26,8 +26,8 @@
 
 /**
  * [LEVEL_01] Directive Data Model.
- * High-level mission objectives (e.g., FAT_BURNING, STRENGTH_MATRIX) [Source 11, 14].
- * Optimized for Neural Sync and low-latency UI updates [Source 5, 28].
+ * High-level mission objectives (e.g., FAT_BURNING, STRENGTH_MATRIX)
+ * Optimized for Neural Sync and low-latency UI updates
  */
 
 #ifndef DIRECTIVEMODEL_H
@@ -41,10 +41,10 @@ class DatabaseManager;
 
 struct Directive {
     int id;
-    QString name;         // Aesthetic Persistence: UPPERCASE [Source 13]
+    QString name;
     QString description;
-    QString icon;         // Lucide glyph hex code [Source 14, 23]
-    QString color;        // Hex neon color (e.g., #BF00FF) [Source 15, 23]
+    QString icon;         // Lucide glyph hex code
+    QString color;        // Hex neon color (e.g., #BF00FF)
 };
 
 /**

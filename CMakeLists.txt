@@ -74,7 +74,7 @@ qt_add_qml_module(hyper-hiit
         ui/views/ProtocolForm.ui.qml
         ui/views/Summary.qml
         ui/views/SummaryForm.ui.qml
-        ui/views/Testboard.qml
+        ui/views/Testboard.qml  #TODO: DELETEME
         # Visual components
         ui/components/AppHeader.ui.qml
         ui/components/ConfirmPopup.qml

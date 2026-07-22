@@ -51,8 +51,7 @@ int DirectiveModel::rowCount(const QModelIndex &parent) const
 }
 
 /**
- * Provides directive data to the NeonAccordion [Source 85, 88].
- * Enforces Aesthetic Persistence (UPPERCASE) for mission names [Source 13].
+ * Provides directive data to the NeonAccordion
  */
 QVariant DirectiveModel::data(const QModelIndex &index, int role) const
 {

@@ -34,7 +34,7 @@ class DatabaseManager;
 
 class SessionManager : public QObject {
     Q_OBJECT
-    // Properties for real-time UI synchronization [Source 28]
+    // Properties for real-time UI synchronization
     Q_PROPERTY(float totalCalories READ totalCalories NOTIFY telemetryChanged)
     Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     Q_PROPERTY(float userWeight READ userWeight WRITE setUserWeight NOTIFY userWeightChanged)
@@ -58,7 +58,7 @@ public:
 
     /**
      * @brief Persists the current session buffer to the SQL database.
-     * Converts the checkpoint array into a serialized string for Level 4 storage [Source 13, 18].
+     * Converts the checkpoint array into a serialized string
      */
     void extracted(QStringList &telemetryList);
 
@@ -122,7 +122,6 @@ private:
     float m_userWeight;
     int m_userHeight;
     int m_userAge;
-    bool m_userIsMale; // DELETEME
     int m_userSex;
     int m_userRank;
     double m_totalMetScore;

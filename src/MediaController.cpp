@@ -157,7 +157,7 @@ void MediaController::togglePlayback() {
         );
 
     // 2. Retrieve the integer constant for PLAY_PAUSE
-    // Using getStaticField<int> to avoid the previous crash [1]
+    // Using getStaticField<int> to avoid the previous crash
     keyCode = QJniObject::getStaticField<int>(
         "android/view/KeyEvent",
         "KEYCODE_MEDIA_PLAY_PAUSE"
@@ -298,60 +298,3 @@ void MediaController::updatePlaybackProgress() {
     }
 #endif
 }
-
-// void MediaController::updateActiveMetadata() {
-// #ifdef Q_OS_ANDROID
-//     // Use a guarded JNI environment check
-//     QJniObject context = QNativeInterface::QAndroidApplication::context();
-//     QJniObject sessionManager = context.callObjectMethod(
-//         "getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;",
-//         QJniObject::fromString("media_session").object<jstring>());
-
-//     if (!sessionManager.isValid()) return;
-
-//     // Check for active sessions - This is the line that triggers the SecurityException
-//     QJniObject controllers = sessionManager.callObjectMethod(
-//         "getActiveSessions", "(Landroid/content/ComponentName;)Ljava/util/List;", nullptr);
-
-//     // If the previous call failed due to permissions, JNI will be in an 'exception' state.
-//     // We must clear it to prevent the app from dying.
-//     QJniEnvironment env;
-//     if (env->ExceptionCheck()) {
-//         env->ExceptionClear(); // Clear the SecurityException
-//         if (m_trackMetadata != "UPLINK_PERMISSION_REQUIRED") {
-//             m_trackMetadata = "UPLINK_PERMISSION_REQUIRED";
-//             emit trackMetadataChanged();
-//         }
-//         return;
-//     }
-
-//     if (controllers.isValid() && controllers.callMethod<jint>("size") > 0) {
-//         QJniObject controller = controllers.callObjectMethod("get", "(I)Ljava/lang/Object;", 0);
-//         if (controller.isValid()) {
-//             QJniObject metadata = controller.callObjectMethod("getMetadata", "()Landroid/media/MediaMetadata;");
-//             if (metadata.isValid()) {
-//                 QString title = metadata.callObjectMethod("getString", "(Ljava/lang/String;)Ljava/lang/String;",
-//                                                           QJniObject::fromString("android.media.metadata.TITLE").object<jstring>()).toString();
-//                 QString artist = metadata.callObjectMethod("getString", "(Ljava/lang/String;)Ljava/lang/String;",
-//                                                            QJniObject::fromString("android.media.metadata.ARTIST").object<jstring>()).toString();
-
-//                 QString combined = artist.toUpper() + " - " + title.toUpper();
-//                 if (m_trackMetadata != combined) {
-//                     m_trackMetadata = combined;
-//                     emit trackMetadataChanged();
-//                 }
-//             }
-//         }
-//     } else {
-//         if (m_trackMetadata != "HYPER//HIIT - STANDBY") {
-//             m_trackMetadata = "HYPER//HIIT - STANDBY";
-//             emit trackMetadataChanged();
-//         }
-//     }
-// #else
-//     // Desktop simulation for development sync
-//     m_trackMetadata = "DESKTOP_ENV - SYSTEM_ACTIVE";
-//     emit trackMetadataChanged();
-// #endif
-// }
-

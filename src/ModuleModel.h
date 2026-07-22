@@ -26,8 +26,8 @@
 
 /**
  * [LEVEL_04] Module Data Model.
- * Represents the atomic unit of execution (Action or State like REST) [Source 12, 13].
- * Optimized for real-time telemetry and <1ms latency [Source 28].
+ * Represents the atomic unit of execution (Action or State like REST)
+ * Optimized for real-time telemetry and <1ms latency
  */
 
 #ifndef MODULEMODEL_H
@@ -38,17 +38,17 @@
 
 struct Module {
     int id;
-    QString name;         // Aesthetic Persistence: UPPERCASE [Source 13]
-    QString targetZone;   // e.g., FULL_BODY, CORE [Source 53]
-    int difficulty;       // 1: Beginner | 2: Intermediate | 3: Advanced [Source 13]
+    QString name;         // Aesthetic Persistence: UPPERCASE
+    QString targetZone;   // e.g., FULL_BODY, CORE
+    int difficulty;       // 1: Beginner | 2: Intermediate | 3: Advanced
     QString description;
     QString instructions;
     QString safety;
     QString equipment;
-    int unitType;         // 0: SECONDS | 1: REPS [Source 17]
-    double repTime;       // Base time per unit [Source 18]
-    double metFactor;     // Metabolic efficiency [Source 19]
-    double fatigueRate;   // Performance multiplier [Source 18]
+    int unitType;         // 0: SECONDS | 1: REPS
+    double repTime;       // Base time per unit
+    double metFactor;     // Metabolic efficiency
+    double fatigueRate;   // Performance multiplier
 };
 
 class ModuleModel : public QAbstractListModel

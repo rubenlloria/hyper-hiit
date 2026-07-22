@@ -32,7 +32,7 @@ ModuleModel::ModuleModel(QObject *parent)
 }
 
 /**
- * Returns the number of modules currently loaded in the matrix [Source 18].
+ * Returns the number of modules currently loaded in the matrix
  */
 int ModuleModel::rowCount(const QModelIndex &parent) const
 {
@@ -42,7 +42,6 @@ int ModuleModel::rowCount(const QModelIndex &parent) const
 
 /**
  * Provides the data for the QML tactical overlay.
- * Fields are mapped to ensure Aesthetic Persistence (UPPERCASE)
  */
 QVariant ModuleModel::data(const QModelIndex &index, int role) const
 {
@@ -53,7 +52,7 @@ QVariant ModuleModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case IdRole:            return module.id;
-    case NameRole:          return module.name; // HUD Aesthetic [Source 13]
+    case NameRole:          return module.name;
     case TargetRole:        return module.targetZone;
     case DifficultyRole:    return module.difficulty;
     case DescriptionRole:   return module.description;

@@ -26,8 +26,7 @@
 
 /**
  * [LEVEL_02] Protocol List Model Implementation.
- * Manages the mission sequence stream for the QML tactical overlay [Source 1, 11].
- * Optimized for Neural Sync and real-time metric visualization [Source 5, 27].
+ * Manages the mission sequence stream for the QML tactical overlay
  */
 // #define HH_DEBUG
 #define HH_INFO
@@ -51,7 +50,7 @@ ProtocolModel::ProtocolModel(DatabaseManager *db, QObject *parent)
 }
 
 /**
- * Returns the number of protocols currently loaded in the shard [Source 15].
+ * Returns the number of protocols currently loaded in the shard
  */
 int ProtocolModel::rowCount(const QModelIndex &parent) const
 {
@@ -60,8 +59,7 @@ int ProtocolModel::rowCount(const QModelIndex &parent) const
 }
 
 /**
- * Maps database fields to QML roles for real-time visualization [Source 34].
- * Enforces Aesthetic Persistence for labels and mission names [Source 13, 26].
+ * Maps database fields to QML roles for real-time visualization
  */
 QVariant ProtocolModel::data(const QModelIndex &index, int role) const
 {
@@ -82,7 +80,7 @@ QVariant ProtocolModel::data(const QModelIndex &index, int role) const
 }
 
 /**
- * Defines the role names accessible from the QML NeonProtocol component [Source 34].
+ * Defines the role names accessible from the QML NeonProtocol component
  */
 QHash<int, QByteArray> ProtocolModel::roleNames() const
 {
@@ -97,7 +95,7 @@ QHash<int, QByteArray> ProtocolModel::roleNames() const
 }
 
 /**
- * Updates the model and triggers a UI refresh [Source 5].
+ * Updates the model and triggers a UI refresh
  */
 void ProtocolModel::setProtocols(const QList<Protocol> &protocols)
 {
@@ -126,7 +124,7 @@ void ProtocolModel::clear()
 
 /**
  * Neural Sync: Executes the filter command from QML.
- * Updates the shard with protocols linked to the selected ID [Source 16, 28].
+ * Updates the shard with protocols linked to the selected ID
  */
 void ProtocolModel::filterByDirective(int dirId) {
     if (!m_db) {
@@ -134,7 +132,7 @@ void ProtocolModel::filterByDirective(int dirId) {
         return;
     }
 
-    // Fetch only protocols linked to this directive via SQL Join [Source 16]
+    // Fetch only protocols linked to this directive via SQL Join
     QList<Protocol> filteredList = m_db->getProtocolsByDirective(dirId);
     hDebug() << "Filtered " << filteredList.size() << "protocols";
     setProtocols(filteredList);

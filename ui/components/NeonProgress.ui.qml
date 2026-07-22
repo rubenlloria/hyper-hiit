@@ -52,8 +52,8 @@ Item {
         }
     }
 
-    // Personal Best (PB) Marker [Source 27]
-    // DELETEME
+    // Personal Record (PR) Marker
+    // TODO: calculate pbValue from personalRecord/lastSessionTime
     Rectangle {
         id: pbMarker
         x: (root.width * root.pbValue) - 1
@@ -64,12 +64,12 @@ Item {
         visible: root.pbValue > 0
 
         Text {
-            text: "PB"
+            text: "PR"
             anchors.bottom: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             color: parent.color
             font.family: Constants.techFont.family
-            font.pixelSize: 8
+            font.pixelSize: 10
         }
     }
 }

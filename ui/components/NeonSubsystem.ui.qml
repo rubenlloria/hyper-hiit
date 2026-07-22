@@ -19,7 +19,6 @@ Item {
     property color color: Constants.secondaryTextColor
     property int subsystemId: 0
     property var modulesModel: []
-    property int repetitions: 50 // TODO: DELETEME: For test only
 
     Column {
         id: subsystemColumn

@@ -279,7 +279,6 @@ void SessionManager::updateSessionCalories() {
     // Demographic corrector (age and sex), normalized to 30 years
     // TODO: get from Session
     float ageFactor = std::clamp((30.0f - m_userAge) * 0.003f, -0.15f, 0.10f);
-    // float sexFactor = m_userIsMale ? 0.05f : -0.05f;
     float sexFactor = ( m_userSex - 1) * 0.05f;
     float corrector = 1.0f + ageFactor + sexFactor;
     // Iterate through checkpoints to calculate relative durations and calories

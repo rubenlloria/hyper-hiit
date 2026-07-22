@@ -32,9 +32,9 @@
 class Chronometer : public QObject
 {
     Q_OBJECT
-    // Property to bind the formatted time string to QML
-    QML_ELEMENT  // WARNING: delete if not compile in the future
+    QML_ELEMENT
     Q_PROPERTY(int elapsedMs READ elapsedMs NOTIFY elapsedMsChanged)
+    // Property to bind the formatted time string to QML
     Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
     // Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
 
