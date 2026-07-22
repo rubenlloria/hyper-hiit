@@ -1142,6 +1142,7 @@ int DatabaseManager::getProtocolIdByName(const QString &name) {
 void DatabaseManager::runMigrations(int oldVersion) {
     QSqlQuery query;
 
+    // --- SCHEMA 2 ---//
     if (oldVersion < 2) {
         hInfo() << "Starting Migration V2: Structure unit_type decoupling...";
 
@@ -1216,6 +1217,8 @@ void DatabaseManager::runMigrations(int oldVersion) {
             hInfo() << "Migration V2 completed successfully. Schema synchronized.";
         }
     }
+
+    // --- SCHEMA 3 ---//
     if (oldVersion < 3) {
         hInfo() << "Starting Migration V3: set modules.module_id autoincrement and name uniqueness";
         int moduleCount = 0;
@@ -1379,6 +1382,8 @@ void DatabaseManager::runMigrations(int oldVersion) {
             query.exec("PRAGMA foreign_keys = ON");
         }
     }
+
+    // --- SCHEMA 4 ---//
     if (oldVersion < 4) {
         hInfo() << "Migrating database to version 4: Applying relational integrity constraints.";
 
@@ -1421,8 +1426,13 @@ void DatabaseManager::runMigrations(int oldVersion) {
             m_db.rollback();
             return;
         }
-        m_db.commit();
-        hInfo() << "Migration v4 completed successfully. Unique mapping and cascade rules are now active.";
+        if (m_db.commit() && query.exec("PRAGMA user_version = 4")) {
+            hInfo() << "Migration v4 completed successfully. Unique mapping and cascade rules are now active.";
+        } else {
+            hCritical() << "Migration error during commit:" << query.lastError().text();
+            m_db.rollback();
+            return;
+        }
     }
 
 }
