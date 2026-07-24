@@ -1623,8 +1623,9 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
 
     int protocolId = query.value("protocol_id").toInt();
     int currentDuration = query.value("session_duration").toInt();
-    double currentMetScore = query.value("met_score").toDouble();
+    // double currentMetScore = query.value("met_score").toDouble();
     double currentSpeed = query.value("session_speed").toDouble();
+    double currentCalories = query.value("calories_burned").toDouble();
 
     // Map values to the response object
     // RANK: Protocol difficulty level (NEWBIE, ADVANCED, ROOT)
@@ -1640,10 +1641,10 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
     hDebug() << "durationMs: " << durationMs << " | metrics[duration]: " << metrics["duration"];
 
     // CALORIES: Total kcal burned (rounded for UX clarity)
-    metrics["calories"] = qRound(query.value("calories_burned").toDouble()/1000);
+    metrics["calories"] = qRound(currentCalories / 1000);
 
     // Fetch "Ghost" session (the most recent previous session of the same protocol)
-    query.prepare("SELECT session_duration, met_score, session_speed FROM session_history "
+    query.prepare("SELECT session_duration, met_score, session_speed, calories_burned FROM session_history "
                   "WHERE protocol_id = :pid AND history_id < :hid "
                   "ORDER BY session_timestamp DESC LIMIT 1");
     query.bindValue(":pid", protocolId);
@@ -1651,39 +1652,40 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
 
     int prevDuration = 0;
     double prevMetScore = 0.0;
-    double prevSpeed= 0.0;
+    double prevSpeed = 0.0;
+    double prevCalories = 0.0;
     bool hasGhost = false;
 
     if (query.exec() && query.next()) {
         prevDuration = query.value("session_duration").toInt();
-        prevMetScore = query.value("met_score").toDouble();
+        // prevMetScore = query.value("met_score").toDouble();
         prevSpeed = query.value("session_speed").toDouble();
+        // prevCalories = query.value("calories_burned").toDouble();
         hasGhost = true;
     } else {
         hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId; // WARNING: Fail if no Ghost Summary
     }
 
+    metrics["hasGhost"] = hasGhost;
+
     // 3. Calculate Comparative Metrics
 
     // EFFICIENCY: Based on the stored speed index (prev_time / current_time)
     // 1.0 means consistent, >1.0 means faster than last time.
-    // double efficiencyValue = (( currentSpeed * 100.0 ) / prevSpeed) - 100;
-    double efficiencyValue = (( currentSpeed - prevSpeed ) / prevSpeed) * 100;
-    metrics["efficiency"] = qRound(efficiencyValue);
-    hDebug() << "currentSpeed:" << currentSpeed << " | prevSpeed:" << prevSpeed;
-
-    // IMPROVEMENT: Delta between MET scores (Real mechanical work progression)
+    // IMPROVEMENT: Delta current and previous speed
     // If no ghost exists, we show 0% or a base improvement.
+    double efficiencyValue = 100.0;
     double improvementDelta = 0.0;
-    if (hasGhost && prevMetScore > 0) {
-        improvementDelta = ((currentMetScore - prevMetScore) / prevMetScore) * 100.0;
-        hDebug() << "currentMetScore:" << currentMetScore << " | prevMetScore:" << prevMetScore;
+    if (hasGhost && prevSpeed) {
+        efficiencyValue = (currentSpeed - 1 ) * 100;
+        improvementDelta = (( currentSpeed - 1 ) / prevSpeed) * 30;
+        hDebug() << "currentSpeed:" << currentSpeed << " | prevSpeed:" << prevSpeed;
+        hDebug() << "currentImprovement:" << improvementDelta;
     }
-    metrics["improvement"] = improvementDelta;
+    metrics["efficiency"] = qRound(efficiencyValue);
+    metrics["improvement"] = qRound(improvementDelta);
 
     // TIME DIFFERENCE: Relative time gain/loss compared to the ghost
-    metrics["hasGhost"] = hasGhost;
-
     if (hasGhost) {
         int timeDiff = currentDuration - prevDuration;
         hDebug() << "timeDiff: " << timeDiff;
