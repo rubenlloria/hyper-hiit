@@ -62,7 +62,17 @@ public:
     Q_INVOKABLE void setActiveDirectiveId(int dirId);
 
     // Protocol methods
+    /**
+     * @brief Retrieves the full Protocol Matrix from the SQL registry.
+     * @return QList of all registered Protocol objects.
+     */
     QList<Protocol> getAllProtocols();
+
+    /**
+     * @brief Fetches protocols linked to a specific directive.
+     * @param dirId The ID of the directive. Use 0 to retrieve ORPHAN protocols.
+     * @return QList of Protocol objects matching the filter.
+     */
     QList<Protocol> getProtocolsByDirective(int dirId);
     Q_INVOKABLE QVariantList getProtocolStructure(int protocolId, bool useFullAbbreviation = false);
     Q_INVOKABLE QVariantList getProtocolExecutionDetails(int protocolId);
@@ -236,6 +246,23 @@ public:
      * @return true if the full purge sequence was successful.
      */
     Q_INVOKABLE bool deleteProtocol(int protocolId);
+
+    /**
+     * @brief Retrieves the list of directive IDs associated with a protocol.
+     * Essential for mapping protocols to multiple directives.
+     * @param protocolId The ID of the protocol to query.
+     * @return QList of directive IDs.
+     */
+    Q_INVOKABLE QList<int> getDirectiveList(int protocolId);
+
+    /**
+     * @brief Persists the directive mapping for a specific protocol.
+     * Performs a purge-and-relink operation to ensure data integrity.
+     * @param protocolId The ID of the protocol to update.
+     * @param directiveIds List of directive IDs to be associated.
+     * @return True if the synchronization was successful.
+     */
+    Q_INVOKABLE bool setDirectiveList(int protocolId, const QList<int> &directiveIds);
 
     // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
 

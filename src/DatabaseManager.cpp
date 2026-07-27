@@ -492,11 +492,19 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
     QList<Protocol> list;
     QSqlQuery q;
 
+    if (dirId == 0) {
+        // ORPHAN logic: Protocols with no presence in directives_protocols
+        q.prepare("SELECT p.* FROM protocols p "
+                  "LEFT JOIN directives_protocols dp ON p.protocol_id = dp.protocol_id "
+                  "WHERE dp.protocol_id IS NULL "
+                  "ORDER BY p.protocol_name ASC");
+    } else {
     q.prepare("SELECT p.* FROM protocols p "
               "JOIN directives_protocols dp ON p.protocol_id = dp.protocol_id "
               "WHERE dp.dir_id = :dirId "
               "ORDER BY p.protocol_name ASC");
     q.bindValue(":dirId", dirId);
+    }
 
     if (q.exec()) {
         while (q.next()) {
@@ -1663,7 +1671,7 @@ QVariantMap DatabaseManager::getSessionSummaryMetrics(int historyId) {
         // prevCalories = query.value("calories_burned").toDouble();
         hasGhost = true;
     } else {
-        hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId; // WARNING: Fail if no Ghost Summary
+        hWarning() << "Failed to retrieve ghost summary metrics for ID:" << historyId;
     }
 
     metrics["hasGhost"] = hasGhost;
@@ -1847,24 +1855,47 @@ int DatabaseManager::saveProtocol(int id, const QString &name, int rank, const Q
 
     int finalId = isNew ? query.lastInsertId().toInt() : id;
 
-    // 2. CREATE SHARD MAPPING (Only for new protocols)
+    QSqlQuery q;
+    m_db.transaction(); // Start transaction for atomic sync
+
+    // Purge existing links for this protocol
+    q.prepare("DELETE FROM directives_protocols WHERE protocol_id = :id");
+    q.bindValue(":id", id);
+    if (!q.exec()) {
+        hCritical() << "Failed to purge old directive links:" << q.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    // Create shard mapping
     if (!directiveIds.isEmpty()) {
         for (int dirId : directiveIds) {
-            QSqlQuery mapQuery;
-            hDebug() << "Inserting protocol on directive: " << dirId;
-            mapQuery.prepare("INSERT OR IGNORE INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protoId)");
-            mapQuery.bindValue(":dirId", dirId);
-            mapQuery.bindValue(":protoId", finalId);
+            if (dirId > 0) {
+                QSqlQuery mapQuery;
+                hDebug() << "Inserting protocol on directive: " << dirId;
+                mapQuery.prepare("INSERT OR IGNORE INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protoId)");
+                mapQuery.bindValue(":dirId", dirId);
+                mapQuery.bindValue(":protoId", finalId);
 
-            if (!mapQuery.exec()) {
-                hCritical() << "Relational mapping failure for protocol" << finalId << ":" << mapQuery.lastError().text();
+                if (!mapQuery.exec()) {
+                    hCritical() << "Relational mapping failure for protocol" << finalId << ":" << mapQuery.lastError().text();
+                } else {
+                    hInfo() << "Protocol synchronized. ID:" << finalId << "linked to Directive:" << dirId;
+                }
             } else {
-                hInfo() << "Protocol synchronized. ID:" << finalId << "linked to Directive:" << dirId;
+                hWarning() << QString("Failed to mapping directive %1 to protocol %2").arg(dirId).arg(id);
             }
         }
     }
 
-    return finalId;
+    if (m_db.commit()) {
+        hInfo() << "Protocol" << name << "(ID:" << finalId << ") successfully committed to SQL registry.";
+        return finalId;
+    } else {
+        hCritical() << "Transaction commit failed:" << m_db.lastError().text();
+        m_db.rollback();
+        return -1;
+    }
 }
 
 int DatabaseManager::saveModule(const QVariantMap &moduleData) {
@@ -1900,6 +1931,19 @@ int DatabaseManager::saveModule(const QVariantMap &moduleData) {
     query.bindValue(":time",    moduleData.value("repTime").toDouble());
     query.bindValue(":met",     moduleData.value("metFactor").toDouble());
     query.bindValue(":fatigue", moduleData.value("fatigueRate").toDouble());
+
+    hDebug() << "Saving module to Database with data:\n"
+                << "name: " << moduleData.value("name").toString()
+    << "\ntargetZone: " << moduleData.value("targetZone").toString()
+    << "\ndifficulty: " << moduleData.value("difficulty").toInt()
+    << "\ndescription: " << moduleData.value("description").toString()
+    << "\ninstructions: " << moduleData.value("instructions").toString()
+    << "\nsafety: " << moduleData.value("safety").toString()
+    << "\nequipment: " << moduleData.value("equipment").toString()
+    << "\nunitType: " << moduleData.value("unitType").toInt()
+    << "\nrepTime: " << moduleData.value("repTime").toDouble()
+    << "\nmetFactor: " << moduleData.value("metFactor").toDouble()
+    << "\nfatigueRate: " << moduleData.value("fatigueRate").toDouble();
 
     if (!query.exec()) {
         hCritical() << "Module save failed:" << query.lastError().text();
@@ -2060,6 +2104,7 @@ bool DatabaseManager::saveProtocolStructure(int protocolId, const QVariantList &
 
     // TODO: Calculate rep_time, fatigue_factor, etc.
 
+    setProtocolMaxDuration();
     hInfo() << "Protocol structure synchronized. Modules:" << totalModules << "Duration:" << totalDuration << "s";
     return QSqlDatabase::database().commit();
 }
@@ -2127,4 +2172,59 @@ bool DatabaseManager::deleteProtocol(int protocolId) {
 
     hCritical() << "Purge commit failure.";
     return false;
+}
+
+/**
+ * Synchronizes the list of directives associated with a protocol ID.
+ */
+QList<int> DatabaseManager::getDirectiveList(int protocolId) {
+    QList<int> list;
+    QSqlQuery q;
+
+    q.prepare("SELECT dir_id FROM directives_protocols WHERE protocol_id = :id");
+    q.bindValue(":id", protocolId);
+
+    if (q.exec()) {
+        while (q.next()) {
+            list.append(q.value(0).toInt());
+        }
+    } else {
+        hCritical() << "Failed to fetch directive mapping for protocol:" << protocolId
+                    << "Error:" << q.lastError().text();
+    }
+
+    return list;
+}
+
+bool DatabaseManager::setDirectiveList(int protocolId, const QList<int> &directiveIds) {
+    if (protocolId <= 0) return false;
+
+    QSqlQuery q;
+    m_db.transaction(); // Start transaction for atomic sync
+
+    // 1. Purge existing links for this protocol
+    q.prepare("DELETE FROM directives_protocols WHERE protocol_id = :id");
+    q.bindValue(":id", protocolId);
+    if (!q.exec()) {
+        hCritical() << "Failed to purge old directive links:" << q.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    // 2. Establish new relational mapping
+    q.prepare("INSERT INTO directives_protocols (dir_id, protocol_id) VALUES (:dirId, :protId)");
+    for (int dirId : directiveIds) {
+        q.bindValue(":dirId", dirId);
+        q.bindValue(":protId", protocolId);
+        if (!q.exec()) {
+            hCritical() << "Failed to link directive" << dirId << "to protocol" << protocolId;
+            m_db.rollback();
+            return false;
+        }
+    }
+
+    hInfo() << "Relational mapping synchronized for protocol:" << protocolId
+            << "Directives count:" << directiveIds.size();
+
+    return m_db.commit();
 }
