@@ -114,7 +114,7 @@ Rectangle {
                             }
                             MouseArea {
                                 id: buttonAll
-                                property bool selected: false
+                                property bool selected: editingIndex === -2
                                 anchors.fill: parent
                             }
                         }
@@ -144,7 +144,7 @@ Rectangle {
                             }
                             MouseArea {
                                 id: buttonOrphan
-                                property bool selected: false
+                                property bool selected: editingIndex === -3
                                 anchors.fill: parent
                             }
                         }
@@ -260,7 +260,7 @@ Rectangle {
                     ProtocolEditor {
                         id: protocolEditor
                         width: parent.width
-                        visible: (editingIndex >= 0 && protocolId >= 0)
+                        visible: (editingIndex !== -1 && protocolId >= 0)
                         protocolName: protocolAccordion.activeItemName
                     }
 
@@ -275,14 +275,14 @@ Rectangle {
                         width: parent.width
                         showSwitchLabel: false
                         headerMouseArea.visible: true
-                        visible: (editingIndex >= 0 && protocolId >= 0)
+                        visible: (editingIndex !== -1 && protocolId >= 0)
                     }
 
                     ModuleEditor {
                         id: moduleEditor
                         width: parent.width
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible: (editingIndex >= 0 && protocolId >= 0
+                        visible: (editingIndex !== -1 && protocolId >= 0
                                   && moduleAccordion.isOpen)
                     }
                 }

@@ -341,7 +341,7 @@ Item {
                 width: parent.width
                 spacing: 8
                 Text {
-                    text: "DIRECTIVE_MAPPING_GRID (Not implemented)"
+                    text: "DIRECTIVE_MAPPING_GRID"
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -349,26 +349,30 @@ Item {
 
                 Flow {
                     width: parent.width
-                    spacing: 10
-                    // Example of multi-selection tags
-                    NeonBadge {
-                        size: 40
-                        glyph: Constants.flameIcon
-                        color: Constants.primaryColor
-                        unlocked: false
+                    spacing: 8
+
+                    Repeater {
+                        model: directiveModel
+                        delegate: NeonBadge {
+                            id: directiveBadge
+                            size: 40
+                            glyph: model.icon
+                            color: model.color
+                            unlocked: root.directiveList.indexOf(
+                                          model.id) !== -1
+                            MouseArea {
+                                id: directiveBadgeButton
+                                anchors.fill: parent
+                            }
+                            Connections {
+                                target: directiveBadgeButton
+                                function onClicked() {
+                                    toggleDirective(model)
+                                    directiveBadge.unlocked = !directiveBadge.unlocked
+                                }
+                            }
+                        }
                     }
-                    NeonBadge {
-                        size: 40
-                        glyph: Constants.heartIcon
-                        color: Constants.primaryColor
-                        unlocked: false
-                    } // CARDIO
-                    NeonBadge {
-                        size: 40
-                        glyph: Constants.zapIcon
-                        color: Constants.primaryColor
-                        unlocked: false
-                    } // STRENGTH
                 }
             }
         }
@@ -854,8 +858,14 @@ Item {
                                 Connections {
                                     target: quantityField
                                     function onTextChanged() {
-                                        if (systemManager.systemReady)
+                                        if (systemManager.systemReady) {
                                             isStructureDirty = true
+                                            let val = parseInt(
+                                                    quantityField.text)
+                                            if (!isNaN(val)) {
+                                                model.quantity = val
+                                            }
+                                        }
                                     }
                                 }
                             } // moduleItem delegate

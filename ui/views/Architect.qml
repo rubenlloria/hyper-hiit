@@ -61,10 +61,46 @@ ArchitectForm {
 
     buttonAll.onClicked: {
         Constants.hDebug(debugName, "Button ALL Clicked");
+        if ( architectForm.editingIndex === -2) {
+            architectForm.editingIndex = -1;
+            protocolAccordion.activeThemeColor = Constants.descriptionColor;
+            protocolAccordion.headerMouseArea.visible = false;
+            protocolAccordion.activeItemName = "DIRECTIVE_NOT_SELECTED";
+            protocolAccordion.activeItemDesc = "Select directive first";
+            protocolAccordion.isOpen = false;
+        } else {
+            architectProtocolModel.showAll();
+            architectForm.editingIndex = -2;
+            protocolEditor.currentDirectiveId = -2;
+            protocolAccordion.activeThemeColor = Constants.primaryColor;
+            // architectProtocolModel.filterByDirective(0);
+            protocolAccordion.headerMouseArea.visible = true;
+            protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
+            protocolAccordion.activeItemDesc = "Manage selected directive protocols";
+            protocolId = -1;
+        }
     }
 
     buttonOrphan.onClicked: {
         Constants.hDebug(debugName, "Button ORPHAN Clicked");
+        if ( architectForm.editingIndex === -3) {
+            architectForm.editingIndex = -1;
+            protocolAccordion.activeThemeColor = Constants.descriptionColor;
+            protocolAccordion.headerMouseArea.visible = false;
+            protocolAccordion.activeItemName = "DIRECTIVE_NOT_SELECTED";
+            protocolAccordion.activeItemDesc = "Select directive first";
+            protocolAccordion.isOpen = false;
+        } else {
+            architectProtocolModel.showOrphans();
+            architectForm.editingIndex = -3;
+            protocolEditor.currentDirectiveId = -3;
+            protocolAccordion.activeThemeColor = Constants.primaryColor;
+            // architectProtocolModel.filterByDirective(0);
+            protocolAccordion.headerMouseArea.visible = true;
+            protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
+            protocolAccordion.activeItemDesc = "Manage selected directive protocols";
+            protocolId = -1;
+        }
     }
 
     buttonNewDirective.onClicked: {
@@ -204,24 +240,26 @@ ArchitectForm {
                     Constants.hDebug(debugName, "Selected protocol: " + model.name
                                      + " with id: " + model.id
                                      + " and rank : " + model.rank
+                                     + " | Current directive: " + protocolEditor.currentDirectiveId
                                      );
                     systemManager.systemReady  = false;
                     Constants.runDeferred(() => {
                           Constants.hDebug(debugName, "ProtocolEditor not ready") ;
                           protocolId = model.id;
-                          protocolEditor.directiveList = [protocolEditor.currentDirectiveId]; // TODO: Get directives from DB
                           protocolAccordion.activeItemName = model.name;
                           protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
                           + "   MODULES: " + model.moduleCount;
                           protocolAccordion.isOpen = false;
                           if (protocolId === 0) {
                               // NEW_PROTOCOL logic: Initialize empty buffer for fresh configuration
+                              protocolEditor.directiveList = protocolEditor.currentDirectiveId > 0 ? [protocolEditor.currentDirectiveId] : [];
                               protocolAccordion.activeItemDesc = "DRAFT: PENDING STRUCTURE";
                               protocolEditor.subsystemModel.clear();
                               protocolEditor.selectedRank = 0; // Default to NEWBIE (rank 1 -> index 0)
 
                               Constants.hInfo(debugName, "Editor initialized for new protocol draft.");
                           } else if (protocolId > 0) {
+                              protocolEditor.directiveList = dbManager.getDirectiveList(protocolId);
                               protocolDataModel = dbManager.getProtocolExecutionDetails(protocolId);
                               // protocolDataModel = dbManager.getProtocolStructure(protocolId, true);
                               protocolEditor.subsystemModel.clear();
@@ -267,9 +305,11 @@ ArchitectForm {
     }
 
     protocolEditor.onProtocolSaved: {
+        Constants.hDebug(debugName, "Current directive id: " + protocolEditor.currentDirectiveId)
         architectProtocolModel.filterByDirective(protocolEditor.currentDirectiveId);
         Constants.hDebug(debugName, protocolAccordion.activeItemDesc)
         protocolAccordion.activeItemDesc = "Pending data calculation";
+        //todo: update protocolModel on Dashboard
     }
 
     moduleAccordion.headerMouseArea.onClicked: {
@@ -322,6 +362,7 @@ ArchitectForm {
                          + ", id: " + model.module_id
                          + ", s_order: " + targetSubsystem.modules.count + 1
                          + ", unit: " + model.unit
+                         + ", unit_type: " + model.unit_type
                          + ", zone: " + model.zone
                          + ", met: " + model.met_factor
                          );
@@ -332,6 +373,8 @@ ArchitectForm {
             "quantity": 10, // Default starting value
             "unit": model.unit,
             "unit_type": model.unit_type,
+            "default_type": model.unit_type,
+            "is_default": true,
             "met_factor": model.met_factor,
             "fatigue_rate": model.fatigue_rate,
             "rep_time": model.rep_time,

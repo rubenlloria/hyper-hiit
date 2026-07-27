@@ -377,5 +377,29 @@ ProtocolEditorView {
         layoutVersion = 0;
         protocolListView.forceLayout()
     }
+
+    function toggleDirective(model) {
+        const dirId = model.id;
+        const dirName = model.name;
+        let currentList = protocolEditor.directiveList
+        let index = currentList.indexOf(dirId);
+
+        Constants.hDebug(debugName, dirName + " clicked on protocolId: " + protocolId);
+
+        if (index !== -1) {
+            // CASE: Deselect - Remove the ID from the local list
+            currentList.splice(index, 1);
+            Constants.hDebug(debugName, "Directive " + dirName + " (ID: " + dirId + ") removed from local mapping.");
+        } else {
+            // CASE: Select - Add the ID to the local list
+            currentList.push(dirId);
+            Constants.hDebug(debugName, "Directive " + dirName + " (ID: " + dirId + ") added to local mapping.");
+        }
+
+        // Atomic reassignment: This triggers 'unlocked' property re-evaluation in all Repeater delegates
+        protocolEditor.directiveList = currentList;
+        isDirty = true;
+        Constants.hDebug(debugName, "Current Directive Matrix: " + JSON.stringify(protocolEditor.directiveList));
+    }
 }
 
