@@ -419,7 +419,9 @@ Item {
                             textInput.validator: DoubleValidator {
                                 bottom: 0
                                 top: 40
-                                decimals: 1
+                                decimals: 2
+                                notation: DoubleValidator.StandardNotation
+                                locale: "C"
                             }
                         }
                     }
@@ -440,6 +442,8 @@ Item {
                                 bottom: -2.0
                                 top: 20
                                 decimals: 1
+                                notation: DoubleValidator.StandardNotation
+                                locale: "C"
                             }
                         }
                     }
@@ -457,7 +461,9 @@ Item {
                             textInput.validator: DoubleValidator {
                                 bottom: -2.0
                                 top: 20
-                                decimals: 1
+                                decimals: 2
+                                notation: DoubleValidator.StandardNotation
+                                locale: "C"
                             }
                         }
                     }
