@@ -429,7 +429,7 @@ QList<Directive> DatabaseManager::getAllDirectives() {
  * @brief Fetches the active directive from the Database.
  * @return active directive id
  */
-int DatabaseManager::getActiveDirectiveId() {
+int DatabaseManager::getActiveDirectiveId() { // TODO: Migrate to SystemConfig
     QSqlQuery q;
     int dirId;
     q.prepare("SELECT config_value FROM system_config WHERE config_key = 'active_directive_id'");
@@ -448,7 +448,7 @@ int DatabaseManager::getActiveDirectiveId() {
 /**
  * @brief Sets the active directive to the Database.
  */
-void DatabaseManager::setActiveDirectiveId(int dirId) {
+void DatabaseManager::setActiveDirectiveId(int dirId) { // TODO: Migrate to SystemConfig
     QSqlQuery q;
     q.prepare("INSERT OR REPLACE INTO system_config (config_key, config_value) "
               "VALUES ('active_directive_id', :dirId)");
