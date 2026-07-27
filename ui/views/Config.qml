@@ -105,8 +105,20 @@ ConfigForm {
     }
 
     restoreDBButton.interactionArea.onClicked: {
-        Constants.hWarning(infoName, "Restoring database...");
-        dbManager.restoreDatabase();
+        confirmPopup.target = "SYSTEM // DATABASE";
+        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
+                "[SYSTEM DATABASE]" +
+                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY."
+        confirmPopup.onAccept = function() {
+            Constants.hWarning(infoName, "Restoring database...");
+            dbManager.restoreDatabase();
+        };
+
+        confirmPopup.onCancel = function() {
+            Constants.hInfo(infoName, "Purge cancelled");
+        };
+
+        confirmPopup.open();
     }
 
     // Timer {
