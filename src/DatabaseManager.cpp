@@ -463,7 +463,7 @@ void DatabaseManager::setActiveDirectiveId(int dirId) { // TODO: Migrate to Syst
 
 /**
  * Retrieves the Protocol Matrix core data.
- * Does not include structure yet (handled via relational mapping) [Source 15, 23].
+ * Does not include structure yet (handled via relational mapping)
  */
 QList<Protocol> DatabaseManager::getAllProtocols() {
     QList<Protocol> list;
