@@ -97,11 +97,11 @@ Rectangle {
                     activeThemeColor: sessionManager.activeDirectiveInfo.color
                                       || Constants.primaryColor
                     activeItemName: sessionManager.activeDirectiveInfo.name
-                                         || "SELECT_DIRECTIVE..."
+                                    || "SELECT_DIRECTIVE..."
                     activeIconGlyph: sessionManager.activeDirectiveInfo.icon
                                      || Constants.zapIcon
                     activeItemDesc: sessionManager.activeDirectiveInfo.description
-                                         || "No data"
+                                    || "No data"
                 }
 
                 ProtocolList {

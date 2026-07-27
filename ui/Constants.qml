@@ -103,7 +103,7 @@ QtObject {
 
     // --- ACTIVE PALETTE (Neural Sync) ---
     // We use a reference to the active theme object
-    property var activeTheme: themes["LIGHT_REPORT"]
+    property var activeTheme: themes["CYBERPUNK"]
 
     property color backgroundColor:     activeTheme ? activeTheme.backgroundColor     : blackNeon
     property color surfaceColor:        activeTheme ? activeTheme.surfaceColor        : darkNeon
