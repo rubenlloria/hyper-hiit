@@ -157,3 +157,21 @@ void ProtocolModel::insertNewDraft() {
 
     hInfo() << "Provisional protocol draft injected into memory shard.";
 }
+
+/**
+ * Resets the model to show the full protocol registry.
+ */
+void ProtocolModel::showAll() {
+    if (!m_db) return;
+    hInfo() << "Retrieving full protocol matrix.";
+    setProtocols(m_db->getAllProtocols());
+}
+
+/**
+ * Filters protocols with no directive assignments (Orphans).
+ */
+void ProtocolModel::showOrphans() {
+    if (!m_db) return;
+    hInfo() << "Filtering for orphan protocols (dirId: 0).";
+    setProtocols(m_db->getProtocolsByDirective(0));
+}

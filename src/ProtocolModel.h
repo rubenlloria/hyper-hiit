@@ -86,6 +86,17 @@ public:
      */
     Q_INVOKABLE void insertNewDraft();
 
+    /**
+     * @brief Neural Sync: Resets the model to display every protocol in the registry.
+     * Accessible via QML for the 'ALL' tactical filter.
+     */
+    Q_INVOKABLE void showAll();
+
+    /**
+     * @brief Neural Sync: Filters the model to display only unassigned (orphan) protocols.
+     * Accessible via QML for the 'ORPHAN' management mode.
+     */
+    Q_INVOKABLE void showOrphans();
 
 signals:
     /**
