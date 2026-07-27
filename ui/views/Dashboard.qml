@@ -16,22 +16,16 @@ DashboardForm {
     property string infoName: "Dashboard.qml"
     property var rankNames: ({})
 
-    // Definim el model buit per evitar l'error de ListElement
-    // ListModel {
-    //     id: directivesModel
-    // }
-
     Component.onCompleted: {
-        let activeId = dbManager.getActiveDirectiveId() -1; // WARNING: directiveModel.index must be by database key
+        let activeId = dbManager.getActiveDirectiveId(); // WARNING: directiveModel.index must be by database key
         rankNames = dbManager.getRankLabels();
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();
         Constants.hInfo(infoName, "Dashboard resumed with Directive ID " + activeId);
         Constants.hInfo(infoName, "Dashboard ready");
-        // systemManager.systemReady = true;
     }
 
-    // Connexió per obrir/tancar l'acordió
+    // Connection for per open/close accordion
     neonAccordion.headerMouseArea.onClicked: {
         neonAccordion.isOpen = !neonAccordion.isOpen
     }
@@ -44,7 +38,7 @@ DashboardForm {
     }
 
     /**
-     * [NEURAL_SYNC] Directive Matrix Repeater.
+     * Directive Matrix Repeater.
      * Automatically instantiates NeonDirective components based on the C++ directiveModel.
      */
     Repeater {
