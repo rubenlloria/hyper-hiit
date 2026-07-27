@@ -442,7 +442,7 @@ int DatabaseManager::getActiveDirectiveId() { // TODO: Migrate to SystemConfig
 
     // Fallback if table is empty: Default to Directive 1 (FAT_BURNING)
     hWarning() << "failed to GET active_directive_id.";
-    return 1;
+    return -4;
 }
 
 /**
@@ -486,13 +486,13 @@ QList<Protocol> DatabaseManager::getAllProtocols() {
 
 /**
  * [LEVEL_02] Fetches protocols linked to a specific directive.
- * Uses a relational JOIN between 'protocols' and the mapping table 'directives_protocols' [Source 16].
+ * Uses a relational JOIN between 'protocols' and the mapping table 'directives_protocols'
  */
 QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
     QList<Protocol> list;
     QSqlQuery q;
 
-    if (dirId == 0) {
+    if (dirId == -3) {
         // ORPHAN logic: Protocols with no presence in directives_protocols
         q.prepare("SELECT p.* FROM protocols p "
                   "LEFT JOIN directives_protocols dp ON p.protocol_id = dp.protocol_id "

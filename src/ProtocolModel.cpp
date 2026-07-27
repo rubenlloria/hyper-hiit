@@ -172,6 +172,6 @@ void ProtocolModel::showAll() {
  */
 void ProtocolModel::showOrphans() {
     if (!m_db) return;
-    hInfo() << "Filtering for orphan protocols (dirId: 0).";
-    setProtocols(m_db->getProtocolsByDirective(0));
+    hInfo() << "Filtering for orphan protocols (dirId: -3).";
+    setProtocols(m_db->getProtocolsByDirective(-3));
 }
