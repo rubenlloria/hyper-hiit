@@ -94,6 +94,17 @@ DirectiveEditorView {
         if (success) {
             Constants.hInfo(debugName, "Directive synchronized deletion completed.");
 
+            if (dirId === dbManager.getActiveDirectiveId()) {
+                dbManager.setActiveDirectiveId(-4);
+                sessionManager.activeDirectiveInfo = {
+                    "id": -4,
+                    "name": "SELECT_DIRECTIVE",
+                    "description": "No data",
+                    "icon": Constants.zapIcon,
+                    "color": Constants.primaryColor
+                };
+            }
+
             // Refresh the directive list to reflect changes in the UI
             // DirectiveModel uses setDirectives for full synchronization
             directiveModel.setDirectives(dbManager.getAllDirectives());

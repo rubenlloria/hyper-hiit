@@ -106,6 +106,10 @@ ArchitectForm {
     buttonNewDirective.onClicked: {
         Constants.hDebug(debugName, "Button NEW Clicked");
         directiveModel.insertNewDraft();
+        let index =  directiveModel.rowCount() -1;
+        Constants.hDebug(debugName, "NEW index: " + index);
+        architectForm.expandedIndex = index;
+        architectForm.editingIndex =  index;
     }
 
     directiveRepeater.delegate: DirectiveEditor {
