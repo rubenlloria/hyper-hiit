@@ -302,14 +302,21 @@ ArchitectForm {
         protocolAccordion.activeItemName = "ASSOCIATED_PROTOCOLS";
         protocolAccordion.activeItemDesc = "Manage selected directive protocols";
         protocolId = -1
+
+        // Update protocolModel on Dashboard
+        let activeId = dbManager.getActiveDirectiveId();
+        protocolModel.filterByDirective(activeId)
     }
 
     protocolEditor.onProtocolSaved: {
         Constants.hDebug(debugName, "Current directive id: " + protocolEditor.currentDirectiveId)
         architectProtocolModel.filterByDirective(protocolEditor.currentDirectiveId);
-        Constants.hDebug(debugName, protocolAccordion.activeItemDesc)
+        Constants.hDebug(debugName, protocolAccordion.activeItemDesc);
         protocolAccordion.activeItemDesc = "Pending data calculation";
-        //todo: update protocolModel on Dashboard
+
+        // Update protocolModel on Dashboard
+        let activeId = dbManager.getActiveDirectiveId();
+        protocolModel.filterByDirective(activeId)
     }
 
     moduleAccordion.headerMouseArea.onClicked: {
