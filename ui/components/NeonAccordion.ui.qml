@@ -144,7 +144,6 @@ Item {
 
                 // Chevron indicator [3]
                 Text {
-                    // FIXME first click not animated
                     id: chevron
                     text: Constants.chevronRight
                     color: root.activeThemeColor

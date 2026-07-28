@@ -54,7 +54,7 @@ Item {
             anchors.margins: 15
             spacing: 20
 
-            // 1. WARNING HEADER
+            // TITLE HEADER
             Rectangle {
                 id: headerRect
                 color: "transparent"

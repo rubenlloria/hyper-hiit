@@ -313,7 +313,6 @@ ProtocolForm {
 
         // Duration Calculation: quantity * rep_time * fatigue_rate [Source 18]
         // unit_type 0: SECONDS | 1: REPS
-        // TODO: Add countdown timer to time unitType (0) ??
         if (unitType === 0) {
             protocolController.currentModuleDuration = entry.data.quantity * 1000;
             progressDial.messageColor = Constants.primaryTextColor;

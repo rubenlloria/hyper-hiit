@@ -53,11 +53,7 @@ Item {
             height: 60
             spacing: 0
 
-            // leftPadding: 15
-            // rightPadding: 15
-            // Chevron indicator [3]
             Text {
-                // FIXME first click not animated
                 id: chevron
                 Layout.leftMargin: 10
                 Layout.alignment: Qt.AlignVCenter
@@ -325,12 +321,6 @@ Item {
                 Row {
                     spacing: 8
                     Repeater {
-                        // "#ff00ff",
-                        // "#ff5e00",
-                        // "#00ff00",
-                        // "#ffff00",
-                        // "#ff0000",
-                        // "#5b84ff"
                         model: [Constants.primaryColor, Constants.secondaryColor, Constants.greenNeon, Constants.yellowNeon, Constants.redNeon, Constants.tangerine, Constants.spaceBlue, Constants.charcoal, Constants.whiteNeon]
                         Rectangle {
                             width: 28

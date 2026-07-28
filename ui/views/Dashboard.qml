@@ -160,7 +160,7 @@ DashboardForm {
         }
     }
 
-    function updateCharts() { // TODO: Get last week too
+    function updateCharts() {
         // const maxGraphHeight = 80; // Buffer height in pixels
         let maxGraphHeight = evolutionChart.evolutionShape.height;
         Constants.hDebug(debugName, "maxGraphHeight: " + maxGraphHeight);

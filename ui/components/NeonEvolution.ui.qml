@@ -195,8 +195,6 @@ Rectangle {
             anchors.right: parent.right
             Item {
                 id: chartArea
-                // Layout.fillWidth: true
-                // Layout.fillHeight: true
                 width: parent.width - 30
                 height: 80
                 anchors.right: parent.right
@@ -207,7 +205,7 @@ Rectangle {
                     height: parent.height
                     color: Constants.secondaryColor
                     opacity: 0.3
-                    y: -5 //-parent.height
+                    y: -5
                 }
                 Rectangle {
                     id: bottomLine
@@ -286,14 +284,6 @@ Rectangle {
                     anchors.fill: parent
                     layer.enabled: true
                     opacity: 0.5
-                    // width: 300
-                    // height: 100
-
-                    // layer.effect: DropShadow {
-                    //     color: Constants.secondaryColor
-                    //     radius: 8
-                    //     samples: 15
-                    // }
                     ShapePath {
                         strokeColor: Constants.primaryColor
                         strokeWidth: 2
@@ -332,12 +322,9 @@ Rectangle {
                     }
                 }
 
-                // TODO: Interactive Points and Hover Logic
                 Repeater {
-                    // model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
                     model: root.lastTelemetry
                     delegate: Item {
-                        // Position calculations following your formula [3]
                         x: 6 + index * ((chartArea.width - 20) / 6)
                         y: chartArea.height - modelData.barHeight - 9
                         width: 8
@@ -363,14 +350,6 @@ Rectangle {
                     id: evolutionShape
                     anchors.fill: parent
                     layer.enabled: true
-                    // width: 300
-                    // height: 100
-
-                    // layer.effect: DropShadow {
-                    //     color: Constants.secondaryColor
-                    //     radius: 8
-                    //     samples: 15
-                    // }
                     ShapePath {
                         strokeColor: Constants.secondaryColor
                         strokeWidth: 2
@@ -409,12 +388,9 @@ Rectangle {
                     }
                 }
 
-                // TODO: Interactive Points and Hover Logic
                 Repeater {
-                    // model: [root.day1Value, root.day2Value, root.day3Value, root.day4Value, root.day5Value, root.day6Value, root.day7Value]
                     model: root.telemetry
                     delegate: Item {
-                        // Position calculations following your formula [3]
                         x: 6 + index * ((chartArea.width - 20) / 6)
                         y: chartArea.height - modelData.barHeight - 9
                         width: 8
@@ -430,16 +406,6 @@ Rectangle {
                             color: Constants.secondaryColor
                             border.color: Constants.descriptionColor
                             border.width: hoverArea.containsMouse ? 1 : 0
-
-                            // Neon glow following NeonIcon pattern [4, 5]
-                            // DropShadow {
-                            //     anchors.fill: parent
-                            //     source: parent
-                            //     color: parent.color
-                            //     radius: hoverArea.containsMouse ? 15 : 8
-                            //     samples: 15
-                            //     opacity: 0.8
-                            // }
                         }
 
                         // Hover Detection Area
@@ -497,8 +463,6 @@ Rectangle {
         RowLayout {
             width: parent.width
             height: 50
-            // spacing: 43
-            // Layout.fillWidth: true
             Column {
                 Layout.fillWidth: true
                 spacing: 2

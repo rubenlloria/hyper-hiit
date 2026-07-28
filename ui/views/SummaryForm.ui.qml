@@ -271,24 +271,19 @@ Rectangle {
 
                             delegate: NeonBadge {
                                 size: 55
-                                // Direct binding to Badge.h properties [1, 3]
+                                // Direct binding to Badge.h properties
                                 glyph: achievementsFlow.iconMap[modelData.icon]
                                        || "X"
                                 unlocked: true
 
                                 // Note: The white flash animation we built for NeonBadge.ui.qml
                                 // will trigger automatically as 'unlocked' becomes true
-                                // in this view [Source context: previous conversation].
+                                // in this view
                             }
                         }
                     }
                 }
 
-                // NeonEvolution {
-                //     id: evolutionChart
-                //     anchors.horizontalCenter: parent.horizontalCenter
-                //     evolutionInfo: "LAST_SESSIONS"
-                // }
                 Column {
                     // TODO: Improve spacer to prevent footer overlap last module
                     height: Constants.bottomMargin
