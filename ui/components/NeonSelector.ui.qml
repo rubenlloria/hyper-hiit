@@ -37,7 +37,7 @@ Item {
     property alias mouseAreaV2: mouseAreaV2
     property alias mouseAreaV3: mouseAreaV3
 
-    width: 350
+    width: 320
     height: root.horizontal ? 65 : 145
 
     // 1. Field Label
@@ -56,7 +56,7 @@ Item {
     Row {
         id: horizontalLayout
         anchors.bottom: parent.bottom
-        width: 350
+        width: parent.width
         height: 45
         spacing: 10
         visible: root.horizontal
@@ -64,7 +64,7 @@ Item {
         // Option 1
         Rectangle {
             id: optH1
-            width: 110
+            width: (parent.width - 20) / 3
             height: 40
             color: root.surfaceColor
             border.color: root.option1Color
@@ -96,7 +96,7 @@ Item {
         // Option 2
         Rectangle {
             id: optH2
-            width: 110
+            width: (parent.width - 20) / 3
             height: 40
             color: root.surfaceColor
             border.color: root.option2Color
@@ -127,7 +127,7 @@ Item {
         // Option 3
         Rectangle {
             id: optH3
-            width: 110
+            width: (parent.width - 20) / 3
             height: 40
             color: root.surfaceColor
             border.color: root.option3Color
@@ -161,14 +161,14 @@ Item {
     Column {
         id: verticalLayout
         anchors.bottom: parent.bottom
-        width: 350
+        width: parent.width
         spacing: 6
         visible: !root.horizontal
 
         // Option V1
         Rectangle {
             id: optV1
-            width: 350
+            width: parent.width
             height: 38
             color: root.surfaceColor
             border.color: root.option1Color
@@ -201,7 +201,7 @@ Item {
         // Option V2
         Rectangle {
             id: optV2
-            width: 350
+            width: parent.width
             height: 38
             color: root.surfaceColor
             border.color: root.option2Color
@@ -234,7 +234,7 @@ Item {
         // Option V3
         Rectangle {
             id: optV3
-            width: 350
+            width: parent.width
             height: 38
             color: root.surfaceColor
             border.color: root.option3Color
