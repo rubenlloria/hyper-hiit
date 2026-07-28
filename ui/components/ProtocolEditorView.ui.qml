@@ -160,9 +160,9 @@ Item {
     // All decision-making (comparisons, model.move/remove/insert, etc.) lives in
     // ProtocolEditor.qml, never in this .ui.qml file.
     signal subsystemSwapRequested(var sourceItem, int targetIndex)
-    signal subsystemDelete(int targetSubsystemIndex)
+    signal subsystemRemove(int targetSubsystemIndex)
     signal subsystemClone(int targetSubsystemIndex)
-    signal moduleDelete(int targetSubsystemIndex, int targetModuleIndex)
+    signal moduleRemove(int targetSubsystemIndex, int targetModuleIndex)
     signal moduleHoverSwapRequested(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
     signal moduleDropped(var sourceItem, int targetSubsystemIndex, int targetModuleIndex)
     signal refreshRequest
@@ -595,7 +595,7 @@ Item {
                         Connections {
                             target: buttonDeleteSubsystem
                             function onClicked() {
-                                root.subsystemDelete(
+                                root.subsystemRemove(
                                             subsystemWrapper.subsystemIndex)
                                 // root.protocolListView.forceLayout()
                             }
@@ -841,7 +841,7 @@ Item {
                                 Connections {
                                     target: buttonDeleteModule
                                     function onClicked() {
-                                        root.moduleDelete(
+                                        root.moduleRemove(
                                                     moduleItem.subsystemIndex,
                                                     moduleItem.moduleIndex)
                                     }

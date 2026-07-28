@@ -296,7 +296,6 @@ ProtocolEditorView {
         };
 
         protocolEditor.subsystemModel.append(newPhase);
-        // isDirty = true; //TODO
         Constants.hInfo(infoName, "New subsystem added to local buffer.");
         refreshRequest()
     }
@@ -325,40 +324,31 @@ ProtocolEditorView {
         Constants.hInfo(infoName, "Subsystem phase cloned at index: " + index);
     }
 
-    // TODO: unify signal with function
-    onSubsystemDelete: function (targetSubsystemIndex) {
-        removeSubsystem(targetSubsystemIndex);
-    }
-
-    function removeSubsystem(index) {
-        if (index >= 0 && index < protocolEditor.subsystemModel.count) {
-            protocolEditor.subsystemModel.remove(index);
+    onSubsystemRemove: function (targetSubsystemIndex) {
+        if (targetSubsystemIndex >= 0 && targetSubsystemIndex < protocolEditor.subsystemModel.count) {
+            protocolEditor.subsystemModel.remove(targetSubsystemIndex);
             isStructureDirty = true;
 
-            // Optional: Re-index remaining Subsystems for visual consistency
+            // Re-index remaining Subsystems for visual consistency
             reindexSubsystems();
-            Constants.hInfo(infoName, "Subsystem phase removed at index: " + index);
+            Constants.hInfo(infoName, "Subsystem phase removed at index: " + targetSubsystemIndex);
         }
     }
 
-    onModuleDelete: function (targetSubsystemIndex, targetModuleIndex) {
-        removeModule(targetSubsystemIndex, targetModuleIndex);
-    }
+    onModuleRemove: function (targetSubsystemIndex, targetModuleIndex) {
+        if (targetSubsystemIndex >= 0 && targetSubsystemIndex < subsystemModel.count) {
 
-    function removeModule(subsystemIndex, moduleIndex) {
-        if (subsystemIndex >= 0 && subsystemIndex < subsystemModel.count) {
-
-            let subsystem = subsystemModel.get(subsystemIndex);
+            let subsystem = subsystemModel.get(targetSubsystemIndex);
             let modulesList = subsystem.modules;
 
             // Validate and remove the specific module
-            if (moduleIndex >= 0 && moduleIndex < modulesList.count) {
-                modulesList.remove(moduleIndex);
+            if (targetModuleIndex >= 0 && targetModuleIndex < modulesList.count) {
+                modulesList.remove(targetModuleIndex);
 
                 // Update unsaved changes flag
                 isStructureDirty = true;
 
-                Constants.hInfo(infoName, "Module removed from subsystem " + subsystemIndex + " at position " + moduleIndex);
+                Constants.hInfo(infoName, "Module removed from subsystem " + targetSubsystemIndex + " at position " + targetModuleIndex);
             }
         }
     }
