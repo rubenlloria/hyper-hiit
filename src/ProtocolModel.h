@@ -25,9 +25,9 @@
 ****************************************************************************/
 
 /**
- * [LEVEL_02] Protocol Data Model.
- * Manages mission sequences and handles real-time metric calculations [Source 9, 12].
- * Enforces Aesthetic Persistence and low-latency synchronization [Source 5, 13].
+ * Protocol Data Model.
+ * Manages mission sequences and handles real-time metric calculations
+ * Enforces Aesthetic Persistence and low-latency synchronization
  */
 
 #ifndef PROTOCOLMODEL_H
@@ -77,7 +77,7 @@ public:
 
     /**
      * @brief Filters the protocols shown in the HUD based on the active Directive.
-     * Marked Q_INVOKABLE so it can be called from Dashboard.qml [Source 11].
+     * Marked Q_INVOKABLE so it can be called from Dashboard.qml
      */
     Q_INVOKABLE void filterByDirective(int dirId);
 
@@ -101,7 +101,7 @@ public:
 signals:
     /**
      * Notifies the HUD when the global duration scale changes.
-     * Required for real-time relative bar updates [Source 5, 27].
+     * Required for real-time relative bar updates
      */
     void maxDurationChanged();
 

@@ -46,7 +46,7 @@
 
 class DatabaseManager : public QObject {
     Q_OBJECT
-    QML_ELEMENT  // WARNING: delete if not compile in the future
+    QML_ELEMENT
 public:
     explicit DatabaseManager(QObject *parent = nullptr);
 
@@ -263,10 +263,6 @@ public:
      * @return True if the synchronization was successful.
      */
     Q_INVOKABLE bool setDirectiveList(int protocolId, const QList<int> &directiveIds);
-
-    // QMultiMap<int, int> getDirectiveProtocolMapping(); // TODO: DELETEME
-
-    // bool restoreDatabase();
 
 private:
     QSqlDatabase m_db;

@@ -25,7 +25,7 @@
 ****************************************************************************/
 
 /**
- * [LEVEL_02] Protocol List Model Implementation.
+ * Protocol List Model Implementation.
  * Manages the mission sequence stream for the QML tactical overlay
  */
 // #define HH_DEBUG

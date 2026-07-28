@@ -33,14 +33,13 @@
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent) {}
 
 bool DatabaseManager::initDatabase() {
-    // Locate the writable storage for the database file [1]
+    // Locate the writable storage for the database file
     QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir dir(path);
     if (!dir.exists()) dir.mkpath(path);
 
     QString dbPath = path + "/hyperhiit_core.db";
     hDebug() << "database on '" << dbPath << "'.";
-    // QFile::remove(dbPath); // TODO DELETEME
     bool firstRun = !QFile::exists(dbPath);
 
     if (QSqlDatabase::contains(QSqlDatabase::defaultConnection)) {
@@ -270,13 +269,6 @@ bool DatabaseManager::seedDatabase() {
         return false;
     }
 
-    // QSqlQuery q;
-    // 1. PRINT FULL JSON (Indented for readability)
-    // hDebug() << "--- [START FULL_JSON_SHARD] ---";
-    // hDebug().noquote() << doc.toJson(QJsonDocument::Indented);
-    // hDebug() << "--- [END FULL_JSON_SHARD] ---";
-
-
     //////////// MODULES ///////////////
     for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add equipment as list. see doc
         QJsonObject d = value.toObject();
@@ -335,20 +327,6 @@ bool DatabaseManager::seedDatabase() {
             linkProtocol(id, targetDirs);
             QJsonArray protocolStructure = d.value("structure").toArray();
             seedProtocolStructure(id, protocolStructure);
-            // for (const QJsonValue &dVal : std::as_const(targetDirs)) {
-            //     QString dirName = dVal.toString(); // e.g., "FAT_BURNING"
-            //     // Lookup the Directive ID using our pre-populated map
-            //     if (nameToDirectiveId.contains(dirName)) {
-            //         int directiveId = nameToDirectiveId[dirName];
-
-            //         q.bindValue(":dir_id", directiveId);
-            //         q.bindValue(":prot_id", id);
-
-            //         if (!q.exec()) {
-            //             hDebug() << "Mapping failure for" << dirName << "<->" << protocolName;
-            //         }
-            //     }
-            // }
         }
     }
 
@@ -528,13 +506,13 @@ QList<Protocol> DatabaseManager::getProtocolsByDirective(int dirId) {
 /**
  * [NEURAL_SYNC] Generates a nested structure of Subsystems and Modules.
  * Required for the BriefingForm MVP (v0.4.0-beta).
- * Each subsystem object contains a 'modules' list property [Source 1, 12, 17].
+ * Each subsystem object contains a 'modules' list property
  */
 QVariantList DatabaseManager::getProtocolStructure(int protocolId, bool useFullAbbreviation) {
     QVariantList subsystems;
     QSqlQuery subQuery;
 
-    // STEP 1: Identify distinct subsystems [Source 16]
+    // STEP 1: Identify distinct subsystems
     subQuery.prepare("SELECT DISTINCT subsystem FROM protocol_structure "
                      "WHERE protocol_id = :id ORDER BY subsystem ASC");
     subQuery.bindValue(":id", protocolId);
@@ -659,7 +637,7 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
 int DatabaseManager::setProtocolMaxDuration() {
     QSqlQuery q;
 
-    // 1. Query the longest protocol duration from the Master Table [Source 15]
+    // 1. Query the longest protocol duration from the Master Table
     if (q.exec("SELECT MAX(estimated_duration) FROM protocols") && q.next()) {
         int maxVal = q.value(0).toInt();
 
@@ -684,25 +662,10 @@ int DatabaseManager::setProtocolMaxDuration() {
     return 0; // Return 0 as failure signal
 }
 
-/**
- * Extracts the mapping shard for Directive -> Protocol links.                  TODO: DELETEME
- * Essential for the 'Master Cache' filtering strategy in v0.3 [Source 16].
- */
-// QMultiMap<int, int> DatabaseManager::getDirectiveProtocolMapping() {
-//     QMultiMap<int, int> map;
-//     QSqlQuery q("SELECT dir_id, protocol_id FROM directives_protocols");
-
-//     while (q.next()) {
-//         // MultiMap allows one Directive ID to point to multiple Protocol IDs
-//         map.insert(q.value("dir_id").toInt(), q.value("protocol_id").toInt());
-//     }
-//     return map;
-// }
-
 bool DatabaseManager::restoreDatabase() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/hyperhiit_core.db";
 
-    // 1. Release the SQLite file lock by closing the active connection [Source 101]
+    // 1. Release the SQLite file lock by closing the active connection
     if (m_db.isOpen()) {
         m_db.close();
         hInfo() << "Database connection closed for restoration.";
@@ -718,13 +681,8 @@ bool DatabaseManager::restoreDatabase() {
 }
 
 int DatabaseManager::insertModule(const QString &name, int difficulty, const QString &target, const QString &desc, const QString &instruction,
-                                             //  name,     difficulty,                zone,                  desc,                instruction
-                                const QString &safety,
-                                  // const QString &equipment,
-                                  int unit, float met, float f_rate, float rep_time){
-                                             //safe,                  equip,         unit,       met,       fatigue,      time
+                                const QString &safety, int unit, float met, float f_rate, float rep_time){
     QSqlQuery q;
-    //TODO Chek if module exists
     q.prepare("INSERT OR IGNORE INTO modules(mod_name, target_zone, difficulty, mod_description, mod_instructions, mod_safety, mod_equipment, "
               "unit_type, rep_time, met_factor, fatigue_rate) "
               "VALUES (:name, :target, :difficulty, :desc, :instruction, :safe, :equipment, :unit, :rep_time, :met, :fatigue)");
@@ -741,8 +699,6 @@ int DatabaseManager::insertModule(const QString &name, int difficulty, const QSt
     q.bindValue(":met", static_cast<double>(met));
     q.bindValue(":fatigue", static_cast<double>(f_rate));
 
-    // hDebug() << "q.executedQuery(): " << q.executedQuery();
-    // hDebug() << "q.boundValues(): " << q.boundValues();
     if (!q.exec()) {
         hCritical() << "Failed to insert module:" << q.lastError().text();
         return -1;
@@ -1015,7 +971,7 @@ double DatabaseManager::getPowerScore(int startDay, int windowSize) {
     QSqlQuery query;
     const int rankMultiplierK = 3;
 
-    // Segment calculation based on start of day to avoid hourly bias [Source 18]
+    // Segment calculation based on start of day to avoid hourly bias
     QString sql = QString(
                       "SELECT SUM("
                       "  CAST(h.calories_burned AS INTEGER) + "
@@ -1038,7 +994,7 @@ double DatabaseManager::getPowerScore(int startDay, int windowSize) {
 }
 
 int DatabaseManager::getImprovementPercentage() {
-    // Segment A: T-0 to T-6 | Segment B: T-7 to T-13 [Source 19]
+    // Segment A: T-0 to T-6 | Segment B: T-7 to T-13
     double scoreA = getPowerScore(0, 7);
     double scoreB = getPowerScore(7, 7);
 
@@ -1048,7 +1004,7 @@ int DatabaseManager::getImprovementPercentage() {
         return (scoreA > 0.0) ? 100 : 0; // 100% boost if starting from zero
     }
 
-    // Ratio comparison: ((Current / Previous) - 1) * 100 [Source 21]
+    // Ratio comparison: ((Current / Previous) - 1) * 100
     double improvement = ((scoreA / scoreB) - 1.0) * 100.0;
 
     hInfo() << "Evolution Metrics - ScoreA:" << scoreA << "| ScoreB:" << scoreB
