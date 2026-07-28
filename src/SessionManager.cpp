@@ -170,9 +170,6 @@ int SessionManager::saveSession() {
 
         QVariantMap moduleData = m_executionList.at(i).toMap()["data"].toMap();
 
-        // Filter: Calibrate all modules except based on time (unit_type: 0)
-        if (moduleData["unit_type"].toInt() == 0) continue;
-
         // hDebug() << "moduleData: " << moduleData;
         QString m_name = moduleData["module_name"].toString();
         int qty = moduleData["quantity"].toInt();
@@ -180,8 +177,10 @@ int SessionManager::saveSession() {
         double metFactor = moduleData["met_factor"].toDouble();
 
         // Accumulate Mechanical Volume (MET Score) for all modules
-        m_totalMetScore += (metFactor * qty); // WARNING: only valid if (unit_type != 0)
+        m_totalMetScore += (metFactor * qty);
 
+        // Filter: Calibrate all modules except based on time (unit_type: 0)
+        if (moduleData["unit_type"].toInt() == 0) continue;
 
         double currentTR = (actualDurationMs / 1000.0) / qty;
 
@@ -277,7 +276,6 @@ int SessionManager::saveSession() {
 void SessionManager::updateSessionCalories() {
     float totalCalories = 0.0f;
     // Demographic corrector (age and sex), normalized to 30 years
-    // TODO: get from Session
     float ageFactor = std::clamp((30.0f - m_userAge) * 0.003f, -0.15f, 0.10f);
     float sexFactor = ( m_userSex - 1) * 0.05f;
     float corrector = 1.0f + ageFactor + sexFactor;
@@ -347,7 +345,6 @@ void SessionManager::loadUserConfig() {
                     .arg(m_userRank);
 
     // Trigger update in case the UI is already listening
-    // WARNING: Are they necessary?
     emit userNameChanged();
     emit userWeightChanged();
     emit userHeightChanged();
