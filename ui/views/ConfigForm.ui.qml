@@ -62,7 +62,6 @@ Rectangle {
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
     property alias restoreDBButton: restoreDBButton
-    property alias summaryButton: summaryButton
 
     ColumnLayout {
         width: parent.width
@@ -124,7 +123,6 @@ Rectangle {
                             border.color: Constants.primaryTextColor
                             border.width: 1
 
-                            // TODO: add glow
                             Column {
                                 anchors.fill: parent
                                 anchors.margins: 15
@@ -203,12 +201,11 @@ Rectangle {
                         Rectangle {
                             id: systemContainer
                             width: parent.width
-                            height: 470
+                            height: 400
                             color: Constants.backgroundColor
                             border.color: Constants.secondaryTextColor
                             border.width: 1
 
-                            // TODO: add glow
                             Column {
                                 anchors.fill: parent
                                 anchors.margins: 15
@@ -241,14 +238,6 @@ Rectangle {
                                     option3Label: "LIGHT_REPORT"
                                     selectedIndex: systemManager.systemTheme
                                 }
-
-                                NeonButton {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    id: summaryButton
-                                    label: " Test Summary "
-                                    Layout.alignment: Qt.AlignTop
-                                    // Layout.topMargin: Constants.px(20)
-                                }
                             }
                         }
                     }
@@ -257,6 +246,7 @@ Rectangle {
                     Column {
                         id: rootCol
                         width: parent.width
+                        height: 250
                         spacing: 12
                         property color sectionColor: Constants.rootColor
 
@@ -268,63 +258,63 @@ Rectangle {
                             font.bold: true
                         }
 
-                        Rectangle {
-                            id: architectButton
-                            width: parent.width
-                            height: 160
-                            color: Constants.backgroundColor
-                            border.color: rootCol.sectionColor
-                            border.width: 1
-
-                            Column {
-                                anchors.centerIn: parent
-                                spacing: 8
-
-                                NeonText {
-                                    label: " ACCESS_ARCHITECT_MODE "
-                                    labelColor: rootCol.sectionColor
-                                    cornerWidth: 2
-                                    font.family: Constants.mainFont.family
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-
-                                Text {
-                                    text: "PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR"
-                                    color: Constants.primaryTextColor
-                                    font.family: "Share Tech Mono"
-                                    font.pixelSize: 12
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-                            }
-
-                            DropShadow {
-                                anchors.fill: parent
-                                source: parent
-                                color: rootCol.sectionColor
-                                radius: 20
-                                samples: 25
-                                opacity: 0.3
-                            }
-
-                            MouseArea {
-                                id: architectMouseArea
-                                anchors.fill: parent
-                            }
-                        }
                         Column {
-                            // DELETEME
-                            height: 10
-                            width: 20
-                        }
+                            width: parent.width
+                            spacing: 20
+                            Rectangle {
+                                id: architectButton
+                                width: parent.width
+                                height: 160
+                                color: Constants.backgroundColor
+                                border.color: rootCol.sectionColor
+                                border.width: 1
 
-                        NeonButton {
-                            id: restoreDBButton
-                            label: "RESTORE_DB"
-                            Layout.alignment: Qt.AlignTop
-                            themeColor: Constants.rootColor
-                            // Layout.topMargin: Constants.px(20)
+                                Column {
+                                    anchors.centerIn: parent
+                                    spacing: 8
+
+                                    NeonText {
+                                        label: " ACCESS_ARCHITECT_MODE "
+                                        labelColor: rootCol.sectionColor
+                                        cornerWidth: 2
+                                        font.family: Constants.mainFont.family
+                                        font.pixelSize: 18
+                                        font.bold: true
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    Text {
+                                        text: "PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR"
+                                        color: Constants.primaryTextColor
+                                        font.family: "Share Tech Mono"
+                                        font.pixelSize: 12
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                    }
+                                }
+
+                                DropShadow {
+                                    anchors.fill: parent
+                                    source: parent
+                                    color: rootCol.sectionColor
+                                    radius: 20
+                                    samples: 25
+                                    opacity: 0.3
+                                }
+
+                                MouseArea {
+                                    id: architectMouseArea
+                                    anchors.fill: parent
+                                }
+                            }
+
+                            NeonButton {
+                                id: restoreDBButton
+                                width: parent.width * 0.9
+                                label: "RESTORE_DB"
+                                Layout.alignment: Qt.AlignTop
+                                themeColor: Constants.rootColor
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                     }
                     Column {

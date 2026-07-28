@@ -76,25 +76,6 @@ ConfigForm {
         Constants.hInfo(infoName, "Config form ready");
     }
 
-    summaryButton.interactionArea.onClicked: { // WARNING: Use for test only
-        console.log("Navigate to Summary...");
-        mainStack.push("Summary.qml",{
-                           "activeSessionId": 9,
-                           "lastAchievements": [
-                               {"unlocked": false}, // NEURAL_SYNC
-                               {"unlocked": false}, // FIRE_STARTER
-                               {"unlocked": false}, // IRON_CORE
-                               {"unlocked": false}, // SPEED_DEMON
-                               {"unlocked": false}, // ENDURANCE_UNIT
-                               {"unlocked": false}, // ULTRA_ROOT
-                               {"unlocked": false}, // OVERCLOCKED
-                               {"unlocked": false}, // SYSTEM_INITIATE
-                               {"unlocked": false}, // GHOST_BUSTER
-                               {"unlocked": false}  // CENTURION_LOG
-                           ]
-                       });
-    }
-
     architectMouseArea.onClicked: {
         systemManager.systemReady = false;
         Constants.hWarning(infoName, "Accessing ARCHITECT...");
@@ -162,7 +143,7 @@ ConfigForm {
 
     // Logic function to queue the asynchronous save
     function queueSave(key, value, component) {
-        if (!_isReady)  return // DELETEME ?
+        if (!_isReady)  return
 
         // Update visual state to Magenta (Unsaved)
         component.neonColor = configForm.colorDirty;
