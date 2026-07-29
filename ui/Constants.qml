@@ -334,4 +334,18 @@ QtObject {
             if (setSystemReady) systemManager.systemReady = true;
         })
     }
+
+    /**
+     * Convert seconds given on  a formated string
+     */
+    function formatTime(totalSeconds) {
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Returns formatted string with zero-padding (e.g., "05:08")
+        return minutes.toString().padStart(2, '0') + ":" +
+               seconds.toString().padStart(2, '0');
+    }
+
+
 }

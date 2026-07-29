@@ -80,26 +80,12 @@ DashboardForm {
         }
     }
 
-    /**
-     * [NEURAL_SYNC] Protocol Matrix Repeater.
-     * Automatically instantiates NeonDirective components based on the C++ directiveModel.
-     */
-
-    function formatTime(totalSeconds) { // TODO: move to Constants.qml
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-
-        // Returns formatted string with zero-padding (e.g., "05:08")
-        return minutes.toString().padStart(2, '0') + ":" +
-               seconds.toString().padStart(2, '0');
-    }
-
     protocols.protocolView.model: protocolModel
 
     protocols.protocolView.delegate: NeonProtocol {
         // Data Mapping from C++ Roles
         protocolName: model.name
-        estimatedDuration: formatTime(model.duration)
+        estimatedDuration: Constants.formatTime(model.duration)
         moduleCount: model.moduleCount
         rankLabel: rankNames[model.rank]
         personalBest: (model.personalBest === 0)
@@ -107,11 +93,6 @@ DashboardForm {
                       : model.personalBest / protocolModel.maxDuration
         primaryColor: neonAccordion.activeThemeColor
         currentProgress: model.duration / protocolModel.maxDuration
-
-
-        // Aesthetic Persistence: RANK color logic [Source 29]
-        // rankColor: (model.rank === "ROOT") ? Constants.rootColor :
-        //            (model.rank === "ADVANCED") ? Constants.secondaryColoe: Constants.primaryColor
 
         itemMouseArea.onClicked: {
             Constants.hInfo(infoName, "Initializing " + model.name);
@@ -123,9 +104,9 @@ DashboardForm {
                 "rank": rankNames[model.rank],
                 // "calories": model.calories,
                 "moduleCount": model.moduleCount,
-                "duration": formatTime(model.duration),
+                "duration": Constants.formatTime(model.duration),
                 "personalBest": model.personalBest,
-                "record": formatTime(model.personalBest)
+                "record": Constants.formatTime(model.personalBest)
             });
         }
 

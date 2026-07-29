@@ -230,7 +230,7 @@ ArchitectForm {
 
                 // Data Binding from Protocol roles
                 protocolName: model.name
-                estimatedDuration: formatTime(model.duration)
+                estimatedDuration: Constants.formatTime(model.duration)
                 moduleCount: model.moduleCount
                 rankLabel: rankNames[model.rank]
                 personalBest: (model.personalBest === 0)
@@ -251,7 +251,7 @@ ArchitectForm {
                           Constants.hDebug(debugName, "ProtocolEditor not ready") ;
                           protocolId = model.id;
                           protocolAccordion.activeItemName = model.name;
-                          protocolAccordion.activeItemDesc = "DURATION: " + formatTime(model.duration)
+                          protocolAccordion.activeItemDesc = "DURATION: " + Constants.formatTime(model.duration)
                           + "   MODULES: " + model.moduleCount;
                           protocolAccordion.isOpen = false;
                           if (protocolId === 0) {
@@ -330,22 +330,6 @@ ArchitectForm {
     }
 
     ///////////// FUNCTIONS /////////////
-    /**
-      * General Functions
-      */
-
-    function formatTime(totalSeconds) { // TODO: move to Constants.qml
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-
-        // Returns formatted string with zero-padding (e.g., "05:08")
-        return minutes.toString().padStart(2, '0') + ":" +
-               seconds.toString().padStart(2, '0');
-    }
-
-    /**
-      * Module Functions
-      */
 
     moduleEditor.onModuleInsertionRequested: (m_model) => {
                                                  Constants.hDebug(debugName, "Signal from module: " + m_model.module_name);
