@@ -37,9 +37,9 @@ ProtocolForm {
     property real elapsedMs: 0
     readonly property var unitSymbols: ["s", "x", "b"]
     property double sessionStoredCalories: 0.0
-    property double userWeight: 80.0 // TODO: Default weight from system specifications
-    property int userAge: 45 // TODO: Default weight from system specifications
-    property bool userIsMale: true // TODO: Default weight from system specifications
+    property double userWeight: sessionManager.userWeight
+    property int userAge: sessionManager.userAge
+    property bool userSex: sessionManager.userSex
     property var lastSessionCheckpoints: [] // Stores the QList<int> returned from C++
 
     onActiveProtocolIdChanged: {
@@ -91,7 +91,7 @@ ProtocolForm {
                 // Dynamic calorie calculation
                 // Formula: MET * kg * hours * demographic corrector
                 let ageFactor = Math.min(Math.max((30 - userAge) * 0.003, -0.15), 0.10);
-                let sexFactor = userIsMale ? 0.05 : -0.05;
+                let sexFactor = (userSex -1 ) * 0.05;
                 let corrector = 1.0 + ageFactor + sexFactor;
                 let sessionKcal = sessionStoredCalories > 0 ? sessionStoredCalories / 1000 : 0;
                 let liveModuleKcal = met * userWeight * elapsedHours * corrector;
