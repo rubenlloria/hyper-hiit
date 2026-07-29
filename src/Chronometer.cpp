@@ -106,15 +106,24 @@ void Chronometer::updateTime() {
 }
 
 void Chronometer::formatTimeText(int totalMs) {
+    int hours = (totalMs / 3600000);          // 3.600.000 ms = 1 hour
     int mins = (totalMs / 60000) % 60;
     int secs = (totalMs / 1000) % 60;
     int msecs = (totalMs % 1000) / 10;
+    QString newTime = "";
 
-    QString newTime  = QString("%1:%2:%3")
-                     .arg(mins, 2, 10, QChar('0'))
-                     .arg(secs, 2, 10, QChar('0'))
-                     .arg(msecs, 2, 10, QChar('0'));
-
+    if  (hours > 0) {
+        newTime  = QString("%1:%2:%3:%4")
+              .arg(hours)
+              .arg(mins, 2, 10, QChar('0'))
+             .arg(secs, 2, 10, QChar('0'))
+             .arg(msecs, 2, 10, QChar('0'));
+    } else {
+        newTime  = QString("%1:%2:%3")
+            .arg(mins, 2, 10, QChar('0'))
+            .arg(secs, 2, 10, QChar('0'))
+            .arg(msecs, 2, 10, QChar('0'));
+    }
     if (m_timeText != newTime) {
         m_timeText = newTime;
         emit timeTextChanged();

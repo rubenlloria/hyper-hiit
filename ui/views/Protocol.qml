@@ -75,8 +75,12 @@ ProtocolForm {
         id: globalChronometer
 
         onTimeTextChanged:{
-            mainTimer.cents= globalChronometer.timeText.substring(6, 8);
-            let minsec = globalChronometer.timeText.substring(0, 5);
+            let fullText = globalChronometer.timeText;
+            let lastColonIndex = fullText.lastIndexOf(':');
+
+            mainTimer.cents =  "." + fullText.substring(lastColonIndex + 1);
+
+            let minsec =fullText.substring(0, lastColonIndex);
             if (mainTimer.minSec !== minsec) {
                 mainTimer.minSec = minsec;
 
