@@ -47,15 +47,11 @@ ProtocolForm {
             loadProtocolDetails();
             let next = executionList[0];
             let unitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
-            // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
-            // Constants.hDebug(debugName, "Protocol Content: " + JSON.stringify(executionList));
             nextModuleText.label = next.data.quantity + unitSymbol + " " + next.data.module_name;
         }
     }
 
     Component.onCompleted: {
-        // let next = executionList[0];
-        // nextModuleText.label = next.mod.quantity + next.mod.unit + " " + next.mod.name ;
         userWeight = sessionManager.userWeight;
 
         lastSessionCheckpoints = sessionManager.loadLastSessionData(protocolController.activeProtocolId);
@@ -296,7 +292,6 @@ ProtocolForm {
         currentIndex = index;
         let entry = executionList[currentIndex];
         let unitSymbol = systemManager.getUnitLabel(entry.data.unit_type) || "";
-        // Constants.hDebug(debugName, entry.data.module_name + " Content: " + JSON.stringify(entry));
 
         let previousCheckpointSecs = (index > 0) ? sessionManager.getStoredTime(index - 1) : 0;
         Constants.hDebug(debugName, "previousCheckpointSecs: " + previousCheckpointSecs );
@@ -304,7 +299,6 @@ ProtocolForm {
         let calculatedModuleMs = currentGlobalMs - (previousCheckpointSecs);
 
         // elapsedMs = sessionManager.getStoredTime(currentIndex);
-        // Constants.hDebug(debugName, "elapsedMs: " + elapsedMs);
         progressDial.value = 0;
         m_targetReached = false;
         progressDial.dialBgColor = Constants.surfaceColor;
@@ -336,7 +330,7 @@ ProtocolForm {
                 protocolController.currentModuleDuration = lastDuration;
                 Constants.hDebug(debugName, "Duration loaded from last session: " + lastDuration);
             } else {
-                let baseTime = entry.data.rep_time || 2.0; // TODO: load from last session if exists
+                let baseTime = entry.data.rep_time || 2.0;
                 let fatigue = entry.data.fatigue_rate || 1.0;
                 protocolController.currentModuleDuration = (entry.data.quantity * baseTime * fatigue) * 1000;
                 Constants.hDebug(debugName, "Duration calculated: " + protocolController.currentModuleDuration );
@@ -344,13 +338,10 @@ ProtocolForm {
         }
 
         if (index < executionList.length -1) {
-            // Constants.hDebug(debugName, "Let next");
             let next = executionList[index +1];
             let nextUnitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
             nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
-            // Constants.hDebug(debugName, next.data.module_name + " Content: " + JSON.stringify(next));
         } else {
-            // Constants.hDebug(debugName, "NO Let next");
             nextModuleText.label = "Last" ;
         }
         // Update active subsystem for the Row of Rectangles
