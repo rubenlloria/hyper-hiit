@@ -50,6 +50,7 @@ class MediaController : public QObject {
 
 public:
     explicit MediaController(QObject *parent = nullptr);
+    ~MediaController();
 
     double trackProgress() const { return m_trackProgress; }
     bool isPlaying() const { return m_isPlaying; }

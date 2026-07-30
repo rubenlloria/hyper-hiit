@@ -52,6 +52,12 @@ MediaController::MediaController(QObject *parent)
     // updateActiveMetadata();
 
 }
+
+MediaController::~MediaController() {
+    g_instance = nullptr;
+    hInfo() << "Media controller destroyed. JNI uplink disconnected.";
+}
+
 #ifdef Q_OS_ANDROID
 
 // JNI Implementation of the native Java method
