@@ -74,6 +74,12 @@ Window {
     FontLoader { source: Constants.fontUrl("ShareTechMono-Regular.ttf") }
     FontLoader { source: Constants.fontUrl("lucide.ttf") }
 
+    Timer {
+        id: delayedExit
+        interval: 1000 // Sufficient time for HWUI to detach
+        onTriggered: Qt.quit()
+    }
+
     Item {
         id: root
         width: Constants.designWidth
@@ -224,6 +230,14 @@ Window {
             mainStack.pop() // Returns to the previous screen if stack depth permits
         }
     }
+
+    // Function to handle a safe exit sequence
+    function safeExit() {
+        Constants.hInfo(infoName, "Initiating safe system shutdown protocol.");
+        mainWindow.hide(); // Force Android surface detachment to prevent HWUI crash
+        delayedExit.start();
+    }
+
 
     Component.onCompleted: {
         // [DEBUG] Log resolution for scaling verification [Source 27]

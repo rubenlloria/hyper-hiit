@@ -119,6 +119,14 @@ int main(int argc, char *argv[])
         }
     }, Qt::QueuedConnection);
 
+    // Clean exit logic
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, [&dbManager]() {
+        // Force the DB to sync and close properly to prevent Android crash reports
+        hInfo() << "Application is shutting down. Closing database connections...";
+        dbManager.closeDatabase();
+    });
+
+
     engine.load(url);
 
     return app.exec();
