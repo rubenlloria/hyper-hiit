@@ -103,4 +103,22 @@ public class MediaReceiverHelper {
         context.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED);
         Log.i(TAG, "Spotify broadcast receiver registered.");
     }
+
+    /**
+     * Unregisters the Spotify BroadcastReceiver.
+     * Must be called on app shutdown (from MediaController's destructor) to avoid
+     * a dangling receiver reference after the native/Qt runtime has been torn down.
+     */
+    public static void unregisterReceiver(Context context) {
+        if (mReceiver == null) return;
+        try {
+            context.unregisterReceiver(mReceiver);
+            Log.i(TAG, "Spotify broadcast receiver unregistered.");
+        } catch (IllegalArgumentException e) {
+            // Ja estava desregistrat o mai es va arribar a adjuntar — segur d'ignorar.
+            Log.w(TAG, "unregisterReceiver: receiver was not registered.");
+        } finally {
+            mReceiver = null;
+        }
+}
 }

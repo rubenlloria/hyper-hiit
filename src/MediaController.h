@@ -61,6 +61,7 @@ public:
     void setTrackProgress(double position, double duration);
 
     void setupSpotifyListener();
+    void teardownSpotifyListener();
 
     // Tactical playback commands exposed to the HUD
     Q_INVOKABLE void togglePlayback();

@@ -25,6 +25,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+#ifdef Q_OS_ANDROID
+    // Evita que el plugin d'Android cride exit() en tancar l'app.
+    // exit() dispara __cxa_finalize, que destrueix objectes globals de TOT
+    // el procés i entra en carrera amb els threads propis del sistema
+    // (p. ex. CommonPool / hwuiTaskN de libhwui.so), provocant un
+    // SIGABRT per "pthread_mutex_lock on a destroyed mutex".
+    // Ref: QTBUG-82617
+    qputenv("QT_ANDROID_NO_EXIT_CALL", "1");
+#endif
+
     // Force the scaling to be smooth and respect the system's density
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);

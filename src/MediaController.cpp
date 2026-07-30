@@ -55,6 +55,8 @@ MediaController::MediaController(QObject *parent)
 
 MediaController::~MediaController() {
     g_instance = nullptr;
+    teardownSpotifyListener();
+
     hInfo() << "Media controller destroyed. JNI uplink disconnected.";
 }
 
@@ -148,6 +150,26 @@ void MediaController::setupSpotifyListener() {
         );
 #endif
 }
+
+void MediaController::teardownSpotifyListener() {
+#ifdef Q_OS_ANDROID
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+
+    QJniObject::callStaticMethod<void>(
+        "org/aic/hyperhiit/MediaReceiverHelper",
+        "stopPositionSync",
+        "()V"
+        );
+
+    QJniObject::callStaticMethod<void>(
+        "org/aic/hyperhiit/MediaReceiverHelper",
+        "unregisterReceiver",
+        "(Landroid/content/Context;)V",
+        context.object()
+        );
+#endif
+}
+
 /**
  * @brief Toggles between play and pause states.
  */
