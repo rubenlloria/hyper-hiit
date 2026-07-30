@@ -38,6 +38,7 @@ Window {
     readonly property string infoName: "main.qml"
 
     property color currentDirectiveColor: Constants.primaryTextColor
+    property alias mainStack: mainStack
 
     width: Constants.designWidth    // Value 412 defined in Constants.qml
     height: Constants.designHeight  // Value 865 defined in Constants.qml
@@ -138,14 +139,17 @@ Window {
                            ? mediaController.trackProgress
                            : 0.0
 
-            trackMetadata: mediaController.trackMetadata
-            // trackMetadata: "HYPER//HIIT - ACTIVATING UPLINK" // To be dynamically updated
+            trackMetadata: mediaController.notificationAccessGranted
+                           ? mediaController.trackMetadata
+                           : "AUDIO UPLINK: NOT GRANTED"
 
             property real startX: 0
 
             // Playback Toggle
             playMouseArea.onClicked: {
-                mediaController.togglePlayback();
+                if (mainWindow.checkAudioUplink()) {
+                    mediaController.togglePlayback();
+                }
             }
 
             // Swipe Navigation Logic (Android Optimized)
@@ -154,6 +158,9 @@ Window {
                                         }
 
             marqueeSwipeArea.onReleased: (mouse) => {
+                                             if (!mainWindow.checkAudioUplink()) {
+                                                    return;
+                                                }
                                              let delta = mouse.x - player.startX;
                                              if (Math.abs(delta) > 50) { // Threshold for tactical activation
                                                  if (delta > 0) {
@@ -165,6 +172,12 @@ Window {
                                                  mediaController.togglePlayback();
                                              }
                                          }
+
+            onVisibleChanged: {
+                if (visible) {
+                    mainWindow.checkAudioUplink()
+                }
+            }
         }
 
         // --- FOOTER DATA ---
@@ -236,6 +249,21 @@ Window {
         Constants.hInfo(infoName, "Initiating safe system shutdown protocol.");
         mainWindow.hide(); // Force Android surface detachment to prevent HWUI crash
         delayedExit.start();
+    }
+
+    function checkAudioUplink() {
+        if (mediaController.notificationAccessGranted) {
+            return true
+        }
+        confirmPopup.target = "AUDIO // UPLINK";
+        confirmPopup.message = "hyper//hiit requires notification access to sync playback data. Enable it in Android Settings to continue."
+        confirmPopup.enableCancel = false;
+        confirmPopup.onAccept = function() {
+            mediaController.requestNotificationAccess()
+        }
+        confirmPopup.open()
+
+        return false
     }
 
 

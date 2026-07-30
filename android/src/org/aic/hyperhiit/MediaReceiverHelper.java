@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+import android.os.Build;
+import android.provider.Settings;
 
 /**
  * Helper class to intercept Spotify broadcast intents.
@@ -120,5 +122,36 @@ public class MediaReceiverHelper {
         } finally {
             mReceiver = null;
         }
-}
+    }
+
+    /**
+     * Checks whether the user has granted notification access for the Spotify
+     * uplink listener (org.aic.hyperhiit.MediaNotificationListener).
+     */
+    public static boolean isNotificationAccessGranted(Context context) {
+        String enabledListeners = Settings.Secure.getString(
+            context.getContentResolver(), "enabled_notification_listeners");
+        if (enabledListeners == null) return false;
+
+        String myListener = context.getPackageName() + "/" + MediaNotificationListener.class.getName();
+        return enabledListeners.contains(myListener);
+    }
+
+    /**
+     * Opens the system settings screen where the user can grant access.
+     * On Android 11+ (API 30), it jumps directly to this app's toggle;
+     * on earlier versions, it opens the general "Notification access" list.
+     */
+    public static void openNotificationAccessSettings(Context context) {
+        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ComponentName component = new ComponentName(context, MediaNotificationListener.class);
+            intent.putExtra(Settings.EXTRA_NOTIFICATION_LISTENER_COMPONENT_NAME,
+                    component.flattenToString());
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

@@ -47,6 +47,16 @@ MediaController::MediaController(QObject *parent)
     // Initialize the JNI BroadcastReceiver for Spotify (Push metadata)
     setupSpotifyListener();
 
+    connect(qApp, &QGuiApplication::applicationStateChanged, this,
+            [this](Qt::ApplicationState state) {
+                if (state == Qt::ApplicationActive) {
+                    refreshNotificationAccessStatus();
+                }
+            });
+
+    // Initial check on startup
+    refreshNotificationAccessStatus();
+
     // Initializing media uplink...
     hInfo() << "Media Uplink service initialized.";
     // updateActiveMetadata();
@@ -95,7 +105,6 @@ Java_org_aic_hyperhiit_MediaReceiverHelper_updatePlaybackState(JNIEnv *env, jcla
  */
 extern "C" JNIEXPORT void JNICALL
 Java_org_aic_hyperhiit_MediaReceiverHelper_updatePositionNative(JNIEnv *env, jclass clazz, jlong position, jlong duration) {
-    // WARNING: Missing Notification Access permission!
     Q_UNUSED(env);
     Q_UNUSED(clazz);
 
@@ -324,5 +333,37 @@ void MediaController::updatePlaybackProgress() {
 
         emit trackProgressChanged(); // Notifica al HUD
     }
+#endif
+}
+
+bool MediaController::queryNotificationAccessFromSystem() const {
+#ifdef Q_OS_ANDROID
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    return QJniObject::callStaticMethod<jboolean>(
+        "org/aic/hyperhiit/MediaReceiverHelper",
+        "isNotificationAccessGranted",
+        "(Landroid/content/Context;)Z",
+        context.object());
+#else
+    return false;
+#endif
+}
+
+void MediaController::refreshNotificationAccessStatus() {
+    bool granted = queryNotificationAccessFromSystem();
+    if (granted != m_notificationAccessGranted) {
+        m_notificationAccessGranted = granted;
+        emit notificationAccessGrantedChanged();
+    }
+}
+
+void MediaController::requestNotificationAccess() {
+#ifdef Q_OS_ANDROID
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    QJniObject::callStaticMethod<void>(
+        "org/aic/hyperhiit/MediaReceiverHelper",
+        "openNotificationAccessSettings",
+        "(Landroid/content/Context;)V",
+        context.object());
 #endif
 }

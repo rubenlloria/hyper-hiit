@@ -30,6 +30,7 @@
 #include <QString>
 #include <QTimer>
 #include <QtQml/qqmlregistration.h>
+#include <QGuiApplication>
 
 #ifdef Q_OS_ANDROID
 #include <QtCore/QJniObject>
@@ -47,14 +48,18 @@ class MediaController : public QObject {
     Q_PROPERTY(double trackProgress READ trackProgress NOTIFY trackProgressChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY playbackStatusChanged)
     Q_PROPERTY(QString trackMetadata READ trackMetadata NOTIFY trackMetadataChanged)
+    // Reactive property for QML bindings — updates automatically when it changes
+    Q_PROPERTY(bool notificationAccessGranted READ notificationAccessGranted NOTIFY notificationAccessGrantedChanged)
 
 public:
     explicit MediaController(QObject *parent = nullptr);
     ~MediaController();
 
+    bool notificationAccessGranted() const { return m_notificationAccessGranted; }
     double trackProgress() const { return m_trackProgress; }
     bool isPlaying() const { return m_isPlaying; }
     QString trackMetadata() const { return m_trackMetadata; }
+
     // void updateActiveMetadata();
     void setTrackMetadata(QString metadata);
     void setPlaying(bool playing); // Helper setter for JNI and internal sync
@@ -69,14 +74,21 @@ public:
     Q_INVOKABLE void previousTrack();
     Q_INVOKABLE void updatePlaybackProgress();
 
+    // Notification access permission (required for Spotify uplink)
+    Q_INVOKABLE void requestNotificationAccess();
+    Q_INVOKABLE void refreshNotificationAccessStatus();
+
 signals:
     void trackProgressChanged();
     void playbackStatusChanged();
     void trackMetadataChanged();
+    void notificationAccessGrantedChanged();
+
 
 private:
     double m_trackProgress;
     bool m_isPlaying;
+    bool m_notificationAccessGranted = false;
 #ifdef Q_OS_ANDROID
     QString m_trackMetadata = "WAITING FOR UPLINK...";
 #else
@@ -85,6 +97,7 @@ private:
 
     // Internal sync with the OS media session
     void updateMediaTelemetry();
+    bool queryNotificationAccessFromSystem() const;
 
 };
 
