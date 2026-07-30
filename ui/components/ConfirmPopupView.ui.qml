@@ -13,7 +13,7 @@ import Qt5Compat.GraphicalEffects
    Strictly declarative for Qt Design Studio compatibility.
 */
 Item {
-    id: viewRoot
+    id: root
     width: 280
     height: mainLayout.implicitHeight + 50
     anchors.centerIn: parent
@@ -22,6 +22,7 @@ Item {
     property string targetText: "TARGET MODULE"
     property alias confirmButton: executeButton
     property alias cancelButton: abortButton
+    property bool enableCancelButton: true
 
     Rectangle {
         id: viewGlow
@@ -91,7 +92,7 @@ Item {
                 id: targetMessage
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: "TARGET: " + viewRoot.targetText
+                text: "TARGET: " + root.targetText
                 color: Constants.primaryTextColor
                 font.family: Constants.mainFont.family
                 font.pixelSize: 14
@@ -125,6 +126,7 @@ Item {
                     label: "CANCEL"
                     themeColor: Constants.secondaryColor
                     iconGlyph: Constants.cancelIcon
+                    visible: enableCancelButton
                 }
 
                 NeonButton {

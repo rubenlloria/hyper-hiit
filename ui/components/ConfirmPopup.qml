@@ -11,7 +11,7 @@ import ".."
 */
 
 Popup {
-    id: popupRoot
+    id: root
 
     // Positioning at the absolute center of the viewport
     width: Constants.designWidth
@@ -30,12 +30,14 @@ Popup {
     // --- NEURAL SYNC SIGNALS ---
     property var onAccept: null
     property var onCancel: null
+    property bool enableCancel: true
 
     // --- MAINTENANCE FUNCTIONS ---
     function reset() {
         message = "";
         onAccept = null;
         onCancel = null;
+        view.enableCancel = true;
     }
 
     ConfirmPopupView {
@@ -46,6 +48,7 @@ Popup {
         // Dynamic message binding based on target data
         messageText: message
         targetText: target
+        enableCancelButton: root.enableCancel
 
         confirmButton.interactionArea.onClicked: {
             if (message === "")
@@ -55,7 +58,7 @@ Popup {
                 onAccept();
             }
 
-            popupRoot.close();
+            root.close();
             reset();
         }
 
@@ -64,7 +67,7 @@ Popup {
                 onCancel();
             }
 
-            popupRoot.close();
+            root.close();
             reset();
         }
     }
