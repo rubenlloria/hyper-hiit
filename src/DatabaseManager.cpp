@@ -2184,3 +2184,9 @@ bool DatabaseManager::setDirectiveList(int protocolId, const QList<int> &directi
 
     return m_db.commit();
 }
+
+void DatabaseManager::closeDatabase() {
+    if (m_db.isOpen()) {
+        m_db.close();
+    }
+}

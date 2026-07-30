@@ -264,6 +264,11 @@ public:
      */
     Q_INVOKABLE bool setDirectiveList(int protocolId, const QList<int> &directiveIds);
 
+    /**
+     * @brief public method to close database
+    */
+    void closeDatabase();
+
 private:
     QSqlDatabase m_db;
     int m_dbSchema = 0;
