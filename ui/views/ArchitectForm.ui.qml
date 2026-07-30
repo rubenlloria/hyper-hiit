@@ -271,7 +271,7 @@ Rectangle {
                         activeThemeColor: Constants.primaryColor
                         activeItemName: "MODULE_LIBRARY"
                         activeIconGlyph: Constants.libraryIcon
-                        activeItemDesc: "32 Modules in registry" // TODO: Set true value
+                        activeItemDesc: moduleEditor.moduleDataModel.count + " Modules in registry"
                         width: parent.width
                         showSwitchLabel: false
                         headerMouseArea.visible: true
