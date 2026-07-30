@@ -152,6 +152,7 @@ QtObject {
     readonly property string cancelIcon:    "\uE1B2" // x (remove)
     readonly property string alertIcon:     "\uE193" // triangle-alert
     readonly property string cloneIcon:     "\uE3FD" // copy-plus (Clone item)
+    readonly property string powerIcon:     "\uE140" // power(Application Exit)
     // Power & Stamina Protocols (High Intensity)
     readonly property string kineticIcon:   "\ue58c" // bolt (Kinetic Energy)
     readonly property string weightIcon:    "\ue530" // weight (Heavy Load)

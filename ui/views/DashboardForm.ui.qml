@@ -46,6 +46,7 @@ Rectangle {
     property alias protocols: protocols
     property alias header: header
     property alias evolutionChart: evolutionChart
+    property alias exitButton: exitButton
 
     ColumnLayout {
         width: parent.width
@@ -117,6 +118,20 @@ Rectangle {
                 NeonAchievement {
                     id: achievement
                     anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Column {
+                    // Separator for exitButton
+                    height: 20
+                    width: 20
+                }
+                NeonButton {
+                    id: exitButton
+                    width: parent.width * 0.8
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    themeColor: Constants.rootColor
+                    iconGlyph: Constants.powerIcon
+                    label: "SHUTDOWN"
                 }
 
                 Column {

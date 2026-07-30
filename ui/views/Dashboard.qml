@@ -141,6 +141,23 @@ DashboardForm {
         }
     }
 
+    exitButton.interactionArea.onClicked: {
+        confirmPopup.target = "SYSTEM // SAYONARA";
+        confirmPopup.message = "DO YOU WANT TO PROCEED TO EXIT hypper//hiit?"
+        // confirmPopup.message = "ARE YOU SURE YOU WANT TO EXIT hypper//hiit?"
+        confirmPopup.onAccept = function() {
+            Constants.hInfo(infoName, "#### SAYONARA BABY ####");
+            mainWindow.safeExit();
+            // Qt.quit();
+        };
+
+        confirmPopup.onCancel = function() {
+            Constants.hInfo(infoName, "Purge cancelled");
+        };
+
+        confirmPopup.open();
+    }
+
     function updateCharts() {
         // const maxGraphHeight = 80; // Buffer height in pixels
         let maxGraphHeight = evolutionChart.evolutionShape.height;
