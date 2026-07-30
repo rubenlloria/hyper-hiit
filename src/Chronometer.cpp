@@ -25,8 +25,8 @@
 #define HH_WARNING
 #define HH_CRITICAL
 
+#include "SystemLog.h"
 #include "Chronometer.h"
-#include "src/SystemLog.h"
 
 Chronometer::Chronometer(QObject *parent)
     : QObject(parent),
@@ -52,7 +52,8 @@ void Chronometer::startFrom(int startingMs, int targetMs) {
     m_offsetMs = startingMs; // Capture the recovery time
     m_targetReachedSent = false; // Reset the flag for the new unit/module
     m_elapsedMs = 0;
-    m_elapsedTimer.start(); // Resets and starts the timer from 0
+    m_startTimeRTC = QDateTime::currentMSecsSinceEpoch(); // Resets and starts the timer from now
+
     m_timer->start();
     emit elapsedMsChanged();
 
@@ -69,11 +70,8 @@ void Chronometer::stop() {
 
 void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
-    m_elapsedMs = static_cast<int>(m_elapsedTimer.elapsed());
-
-    // if (m_targetMs > 0)
-    //     hDebug() << "m_offsetMs: " << m_offsetMs << "ms |  Elapsed" << m_elapsedMs << "ms | Total: " << m_elapsedMs + m_offsetMs;
-
+    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    m_elapsedMs = static_cast<int>(currentTime - m_startTimeRTC);
     m_elapsedMs += m_offsetMs;
 
     // Notify QML that the millisecond property has changed
@@ -85,21 +83,6 @@ void Chronometer::updateTime() {
         emit targetReached();
         hInfo() << "Target reached at" << m_targetMs << "ms";
     }
-
-    // if (m_totalTime > 0) {
-    //     m_progressValue = static_cast<double>(m_elapsedMs) / m_totalTime;
-    // }
-
-    // // Security límits
-    // if (m_progressValue >= 1.0 && !m_maxReached) {
-    //     // m_progressValue = 1.0;
-    //     //stop();
-    //     emit maxReached();
-    //     m_maxReached = true;
-    // }
-
-    // // Update QML
-    // emit progressValueChanged();
 
     // Update the text with the elapsed time
     formatTimeText(m_elapsedMs);
@@ -126,6 +109,7 @@ void Chronometer::formatTimeText(int totalMs) {
     }
     if (m_timeText != newTime) {
         m_timeText = newTime;
+
         emit timeTextChanged();
     }
 }

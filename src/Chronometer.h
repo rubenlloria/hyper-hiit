@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 #include <QTimer>
-#include <QElapsedTimer>
+#include <QDateTime> // Added for RTC synchronization
 
 class Chronometer : public QObject
 {
@@ -36,7 +36,6 @@ class Chronometer : public QObject
     Q_PROPERTY(int elapsedMs READ elapsedMs NOTIFY elapsedMsChanged)
     // Property to bind the formatted time string to QML
     Q_PROPERTY(QString timeText READ timeText NOTIFY timeTextChanged)
-    // Q_PROPERTY(double progressValue READ progressValue NOTIFY progressValueChanged)
 
 public:
     explicit Chronometer(QObject *parent = nullptr);
@@ -74,7 +73,7 @@ private slots:
 private:
     // Core Timers
     QTimer *m_timer;
-    QElapsedTimer m_elapsedTimer;
+    qint64 m_startTimeRTC; // Absolute timestamp to prevent Android sleep drift
 
     // State Variables
     int m_targetMs; // Stores the limit in milliseconds
@@ -82,12 +81,6 @@ private:
     int m_offsetMs;
     QString m_timeText;
     bool m_targetReachedSent; // Flag to ensure single emission per start() call
-
-    // double m_progressValue = 0.0;
-    // int m_elapsedTime = 0;
-    // int m_totalTime = 60000;
-    // bool m_maxReached = false;
-    // int m_totalTargetMs;
 
     void formatTimeText(int totalMs);
 };
