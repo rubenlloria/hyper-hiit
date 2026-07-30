@@ -13,7 +13,7 @@ import ".."
 Rectangle {
     id: root
     width: 380
-    height: 200
+    height: 210
     color: Constants.backgroundColor
     border.color: Constants.secondaryColor
     border.width: 1
@@ -471,7 +471,7 @@ Rectangle {
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
-                    font.pixelSize: 8
+                    font.pixelSize: 12
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 NeonText {
@@ -492,7 +492,7 @@ Rectangle {
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
-                    font.pixelSize: 8
+                    font.pixelSize: 12
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 NeonText {
@@ -513,7 +513,7 @@ Rectangle {
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
-                    font.pixelSize: 8
+                    font.pixelSize: 12
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 NeonText {
@@ -534,7 +534,7 @@ Rectangle {
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
-                    font.pixelSize: 8
+                    font.pixelSize: 12
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 NeonText {

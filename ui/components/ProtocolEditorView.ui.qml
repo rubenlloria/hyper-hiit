@@ -801,8 +801,8 @@ Item {
                                             color: Constants.deepColor
                                             anchors.centerIn: parent
                                             font.family: Constants.mainFont.family
-                                            font.bold: true
-                                            font.pixelSize: 9
+                                            font.bold: false
+                                            font.pixelSize: 12
                                         }
                                         MouseArea {
                                             id: unitType
