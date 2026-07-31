@@ -54,8 +54,6 @@
         <file>res/icon/splash2.png</file>
         <file>res/splash.png</file>
         <file>ui/Constants.qml</file>
-        <file>ui/CyberButton.qml</file>
-        <file>ui/ProgressDial.qml</file>
         <file>ui/assets/fonts/Orbit-Regular.ttf</file>
         <file>ui/assets/fonts/Orbitron-VariableFont_wght.ttf</file>
         <file>ui/assets/fonts/OrbitronMono-Black.ttf</file>
@@ -112,6 +110,5 @@
         <file>ui/views/ProtocolForm.ui.qml</file>
         <file>ui/views/Summary.qml</file>
         <file>ui/views/SummaryForm.ui.qml</file>
-        <file>ui/views/Testboard.qml</file>
     </qresource>
 </RCC>
