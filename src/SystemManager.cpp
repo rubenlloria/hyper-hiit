@@ -45,6 +45,7 @@ void SystemManager::loadSystemConfig() {
     // Loading values from database with defaults
     m_systemScanline = (m_db->getConfig("system_scanline", "1") == "1");
     m_systemAudio = (m_db->getConfig("system_audio", "1") == "1");
+    m_exitConfirm = (m_db->getConfig("system_exit_confirm", "1") == "1");
     m_systemTheme = m_db->getConfig("system_theme", "0").toInt();
 
     emit systemScanlineChanged();
