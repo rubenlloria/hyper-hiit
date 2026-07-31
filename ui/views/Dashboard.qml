@@ -17,7 +17,7 @@ DashboardForm {
     property var rankNames: ({})
 
     Component.onCompleted: {
-        let activeId = dbManager.getActiveDirectiveId();
+        let activeId = sessionManager.getActiveDirectiveId();
         rankNames = dbManager.getRankLabels();
         Constants.hDebug(debugName, "rankNames: " + rankNames);
         updateCharts();
@@ -59,7 +59,7 @@ DashboardForm {
             itemMouseArea.onClicked: {
                 // 1. Trigger high-speed filter on the Protocol Shard
                 protocolModel.filterByDirective(model.id);
-                dbManager.setActiveDirectiveId(model.id);
+                sessionManager.setActiveDirectiveId(model.id);
 
                 // 2. Update HUD visual state with selected directive metadata
                 sessionManager.activeDirectiveInfo = {
@@ -125,7 +125,7 @@ DashboardForm {
 
         // This handler triggers when the C++ signal is emitted
         function onSessionSaved() {
-            let activeId = dbManager.getActiveDirectiveId();
+            let activeId = sessionManager.getActiveDirectiveId();
             Constants.hDebug(debugName, "Session synchronization detected. Refreshing charts and Directive: " + activeId + ".");
             updateCharts();
             protocolModel.filterByDirective(activeId);

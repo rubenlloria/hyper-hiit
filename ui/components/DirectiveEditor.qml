@@ -94,8 +94,8 @@ DirectiveEditorView {
         if (success) {
             Constants.hInfo(debugName, "Directive synchronized deletion completed.");
 
-            if (dirId === dbManager.getActiveDirectiveId()) {
-                dbManager.setActiveDirectiveId(-4);
+            if (dirId === sessionManager.getActiveDirectiveId()) {
+                sessionManager.setActiveDirectiveId(-4);
                 sessionManager.activeDirectiveInfo = {
                     "id": -4,
                     "name": "SELECT_DIRECTIVE",

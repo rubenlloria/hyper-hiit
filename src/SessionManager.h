@@ -57,6 +57,17 @@ public:
     Q_INVOKABLE void updateSessionCalories();
 
     /**
+     * @brief Fetches the active directive from the Database.
+     * @return active directive id
+     */
+    Q_INVOKABLE int getActiveDirectiveId();
+
+    /**
+     * @brief Sets the active directive to the Database.
+     */
+    Q_INVOKABLE void setActiveDirectiveId(int dirId);
+
+    /**
      * @brief Persists the current session buffer to the SQL database.
      * Converts the checkpoint array into a serialized string
      */

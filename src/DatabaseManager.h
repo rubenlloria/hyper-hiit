@@ -58,8 +58,6 @@ public:
 
     // Directive methods
     Q_INVOKABLE QList<Directive> getAllDirectives();
-    Q_INVOKABLE int getActiveDirectiveId();
-    Q_INVOKABLE void setActiveDirectiveId(int dirId);
 
     // Protocol methods
     /**

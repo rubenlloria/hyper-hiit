@@ -49,7 +49,7 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     m_sessionId = 0;
 
     // Get the current ID from system_config [1]
-    int dirId = m_db->getActiveDirectiveId();
+    int dirId = getActiveDirectiveId();
 
     QSqlQuery q;
     q.prepare("SELECT dir_name, dir_description, dir_icon, dir_color "
@@ -458,3 +458,12 @@ void SessionManager::setActiveDirectiveInfo(const QVariantMap &info) {
             << ", color: " << m_activeDirectiveInfo["color"]
         ;
 }
+
+int SessionManager::getActiveDirectiveId() {
+    return m_db->getConfig("active_directive_id", "-4").toInt();
+}
+
+void SessionManager::setActiveDirectiveId(int dirId) {
+    m_db->setConfig("active_directive_id", QString::number(dirId));
+}
+

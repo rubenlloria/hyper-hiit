@@ -308,7 +308,7 @@ ArchitectForm {
         protocolId = -1
 
         // Update protocolModel on Dashboard
-        let activeId = dbManager.getActiveDirectiveId();
+        let activeId = sessionManager.getActiveDirectiveId();
         protocolModel.filterByDirective(activeId)
     }
 
@@ -319,7 +319,7 @@ ArchitectForm {
         protocolAccordion.activeItemDesc = "Pending data calculation";
 
         // Update protocolModel on Dashboard
-        let activeId = dbManager.getActiveDirectiveId();
+        let activeId = sessionManager.getActiveDirectiveId();
         protocolModel.filterByDirective(activeId)
     }
 

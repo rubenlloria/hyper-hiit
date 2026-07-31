@@ -403,41 +403,6 @@ QList<Directive> DatabaseManager::getAllDirectives() {
     return list;
 }
 
-/**
- * @brief Fetches the active directive from the Database.
- * @return active directive id
- */
-int DatabaseManager::getActiveDirectiveId() { // TODO: Migrate to SystemConfig
-    QSqlQuery q;
-    int dirId;
-    q.prepare("SELECT config_value FROM system_config WHERE config_key = 'active_directive_id'");
-
-    if (q.exec() && q.next()) {
-        dirId = q.value(0).toInt();
-        hDebug() << "GET active_directive_id: " << dirId;
-        return dirId;
-    }
-
-    // Fallback if table is empty: Default to Directive 1 (FAT_BURNING)
-    hWarning() << "failed to GET active_directive_id.";
-    return -4;
-}
-
-/**
- * @brief Sets the active directive to the Database.
- */
-void DatabaseManager::setActiveDirectiveId(int dirId) { // TODO: Migrate to SystemConfig
-    QSqlQuery q;
-    q.prepare("INSERT OR REPLACE INTO system_config (config_key, config_value) "
-              "VALUES ('active_directive_id', :dirId)");
-    q.bindValue(":dirId", QString::number(dirId));
-    if (q.exec()) {
-        hDebug() << "SET active_directive_id: " << dirId;
-    } else {
-        hWarning() << "failed to SET active_directive_id: " << dirId;
-    }
-}
-
 
 /**
  * Retrieves the Protocol Matrix core data.
