@@ -38,7 +38,7 @@ import ".."
 Rectangle {
     id: root
     width: Constants.designWidth
-    height: hudRow.implicitHeight + 5
+    height: syncText.font.pixelSize + 8
     color: Constants.deepColor
     opacity: 0.9
 
@@ -50,70 +50,98 @@ Rectangle {
     property color textColor: Constants.primaryTextColor
     property color separatorColor: Constants.primaryTextColor
 
-    // Top border line with low opacity cyan glow
-    Rectangle {
+    Column {
         width: parent.width
-        height: 1
-        color: root.separatorColor
-        opacity: 0.2
-        anchors.top: parent.top
-    }
-
-    // Main container for HUD metrics
-    Row {
-        id: hudRow
-        anchors.centerIn: parent // Ensures the entire group is centered horizontally
-        spacing: 35 // spacing between elements and separators
-
-        // 1. NEURAL_SYNC (Digital Font)
-        Text {
-            id: syncText
-            text: "NEURAL_SYNC: " + root.syncValue
-            color: root.textColor
-            opacity: 0.6
-            font.family: "Share Tech Mono"
-            font.pixelSize: 10
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        // Separator 1 (1px slim Rectangle)
+        height: parent.height
+        // Top border line with low opacity cyan glow
         Rectangle {
-            width: 1
-            height: 12
+            width: parent.width
+            height: 2
             color: root.separatorColor
             opacity: 0.2
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.top: parent.top
         }
 
-        // 2. LATENCY
-        Text {
-            id: latencyText
-            text: "LATENCY: " + root.latencyValue
-            color: root.textColor
-            opacity: 0.6
-            font.family: "Share Tech Mono"
-            font.pixelSize: 10
-            anchors.verticalCenter: parent.verticalCenter
-        }
+        // Main container for HUD metrics
+        Row {
+            id: hudRow
+            anchors.bottom: parent.bottom
+            // anchors.centerIn: parent // Ensures the entire group is centered horizontally
+            // spacing: 35 // spacing between elements and separators
+            width: parent.width * 0.9
+            height: parent.height - 2
+            anchors.horizontalCenter: parent.horizontalCenter
 
-        // Separator 2
-        Rectangle {
-            width: 1
-            height: 12
-            color: root.separatorColor
-            opacity: 0.2
-            anchors.verticalCenter: parent.verticalCenter
-        }
+            // 1. NEURAL_SYNC (Digital Font)
+            Rectangle {
+                // Layout.fillWidth: true
+                width: (parent.width - 2) / 3
+                color: "transparent"
+                height: parent.height
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: syncText
+                    text: "NEURAL_SYNC: " + root.syncValue
+                    color: root.textColor
+                    opacity: 0.6
+                    font.family: Constants.techFont.family
+                    font.pixelSize: 11
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                }
+            }
 
-        // 3. BUILD VERSION
-        Text {
-            id: buildText
-            text: "BUILD: v" + root.buildVersion
-            color: root.textColor
-            opacity: 0.6
-            font.family: "Share Tech Mono"
-            font.pixelSize: 10
-            anchors.verticalCenter: parent.verticalCenter
+            // Separator 1 (1px slim Rectangle)
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: root.separatorColor
+                opacity: 0.2
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            // 2. LATENCY
+            Rectangle {
+                width: (parent.width - 2) / 3
+                color: "transparent"
+                height: parent.height
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: latencyText
+                    text: "LATENCY: " + root.latencyValue
+                    color: root.textColor
+                    opacity: 0.6
+                    font.family: Constants.techFont.family
+                    font.pixelSize: 11
+                    anchors.centerIn: parent
+                }
+            }
+            // Separator 2
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: root.separatorColor
+                opacity: 0.2
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            // 3. BUILD VERSION
+            Rectangle {
+                width: (parent.width - 2) / 3
+                color: "transparent"
+                height: parent.height
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: buildText
+                    text: "BUILD: v" + root.buildVersion
+                    color: root.textColor
+                    opacity: 0.6
+                    font.family: Constants.techFont.family
+                    font.pixelSize: 11
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                }
+            }
         }
     }
 }
