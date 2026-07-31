@@ -1430,13 +1430,11 @@ QVariantList DatabaseManager::getSessionTotals(int sessionId) {
         return totalsList;
     }
 
-    const QStringList unitSymbols = {"s", "x", "b"}; // TODO: Get symbol from ModuleModel
-
     while (query.next()) {
         QVariantMap entry;
         entry["name"] = query.value("mod_name").toString().toUpper();
         entry["quantity"] = query.value("total_qty").toInt();
-        entry["unit"] = unitSymbols.value(query.value("unit_type").toInt(), "x");
+        entry["unit"] = SystemManager::getUnitLabel(query.value("unit_type").toInt());
 
         totalsList.append(entry);
         hDebug() << "TOALS LIST:" << entry;
@@ -1484,8 +1482,6 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
     QVariantList modulesInSubsystem;
     int moduleIdx = 0;
 
-    const QStringList unitSymbols = {"s", "x", "b"}; // TODO: Get symbol from ModuleModel
-
     while (query.next()) {
         int subId = query.value("subsystem").toInt();
 
@@ -1523,7 +1519,7 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
         QVariantMap modEntry;
         modEntry["name"] = query.value("mod_name").toString().toUpper();
         modEntry["quantity"] = query.value("quantity").toInt();
-        modEntry["unit"] = unitSymbols.value(query.value("unit_type").toInt(), "x");
+        modEntry["unit"] = SystemManager::getUnitLabel(query.value("unit_type").toInt());
         modEntry["time"] = formatDuration(moduleDuration);
         modEntry["delta"] = deltaText;
         modEntry["diff"] = diff;
