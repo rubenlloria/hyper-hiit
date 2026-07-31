@@ -55,26 +55,22 @@ Rectangle {
         height: parent.height
         // Top border line with low opacity cyan glow
         Rectangle {
+            id: topBar
             width: parent.width
             height: 2
             color: root.separatorColor
             opacity: 0.2
-            anchors.top: parent.top
         }
 
         // Main container for HUD metrics
         Row {
             id: hudRow
-            anchors.bottom: parent.bottom
-            // anchors.centerIn: parent // Ensures the entire group is centered horizontally
-            // spacing: 35 // spacing between elements and separators
             width: parent.width * 0.9
             height: parent.height - 2
             anchors.horizontalCenter: parent.horizontalCenter
 
             // 1. NEURAL_SYNC (Digital Font)
             Rectangle {
-                // Layout.fillWidth: true
                 width: (parent.width - 2) / 3
                 color: "transparent"
                 height: parent.height

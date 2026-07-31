@@ -317,10 +317,11 @@ Rectangle {
                             }
                         }
                     }
+
                     Column {
-                        // TODO: Improve spacer to prevent footer overlap last module
-                        height: Constants.bottomMargin
-                        width: 20
+                        // Safe area buffer to prevent content occlusion by fixed footer and audio player
+                        height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                        width: 1
                     }
                 }
             }

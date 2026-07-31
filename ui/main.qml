@@ -39,6 +39,8 @@ Window {
 
     property color currentDirectiveColor: Constants.primaryTextColor
     property alias mainStack: mainStack
+    property alias footer: footer
+    property alias player: player
 
     width: Constants.designWidth    // Value 412 defined in Constants.qml
     height: Constants.designHeight  // Value 865 defined in Constants.qml
