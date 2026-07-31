@@ -78,6 +78,14 @@ void SystemManager::setSystemAudio(bool enabled) {
     emit systemAudioChanged();
 }
 
+void SystemManager::setExitConfirm(bool enabled) {
+    if (m_exitConfirm == enabled) return;
+
+    m_exitConfirm = enabled;
+    m_db->setConfig("system_exit_confirm", enabled ? "1" : "0");
+    emit exitConfirmChanged();
+}
+
 void SystemManager::setSystemTheme(int themeIndex) {
     if (m_systemTheme == themeIndex) return;
 
@@ -113,6 +121,8 @@ void SystemManager::setConfig(const QString &key, const QString &value) {
         setSystemScanline(value == "true");
     } else if (key == "systemAudio") {
         setSystemAudio(value == "true");
+    } else if (key == "systemExitConfirm") {
+        setExitConfirm(value == "true");
     } else if (key == "systemTheme") {
         setSystemTheme(value.toInt());
     } else {

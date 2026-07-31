@@ -58,6 +58,7 @@ Rectangle {
     property alias themeSelector: themeSelector
     property alias scanlineSwitch: scanlineSwitch
     property alias audioSwitch: audioSwitch
+    property alias exitConfirmSwitch: exitConfirmSwitch
 
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
@@ -201,7 +202,7 @@ Rectangle {
                         Rectangle {
                             id: systemContainer
                             width: parent.width
-                            height: 400
+                            height: 500
                             color: Constants.backgroundColor
                             border.color: Constants.secondaryTextColor
                             border.width: 1
@@ -215,7 +216,7 @@ Rectangle {
                                     id: scanlineSwitch
                                     width: 350
                                     title: "SCANLINE_RENDER"
-                                    description: "Enable/Disable horizontal terminal lines"
+                                    description: "Enable/Disable horizontal terminal lines."
                                     checked: systemManager.systemScanline
                                 }
 
@@ -223,8 +224,16 @@ Rectangle {
                                     id: audioSwitch
                                     width: 350
                                     title: "AUDIO_UPLINK"
-                                    description: "Link to Audio Uplink module"
+                                    description: "Link to Audio Uplink module."
                                     checked: systemManager.systemAudio
+                                }
+
+                                NeonSwitch {
+                                    id: exitConfirmSwitch
+                                    width: 350
+                                    title: "SHUTDOWN_CONFIRM"
+                                    description: "Request authorization before exit."
+                                    checked: systemManager.exitConfirm
                                 }
 
                                 NeonSelector {
@@ -320,7 +329,8 @@ Rectangle {
 
                     Column {
                         // Safe area buffer to prevent content occlusion by fixed footer and audio player
-                        height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                        height: 10 + mainWindow.footer.height
+                                + (systemManager.systemAudio ? mainWindow.player.height : 0)
                         width: 1
                     }
                 }

@@ -142,19 +142,23 @@ DashboardForm {
     }
 
     exitButton.interactionArea.onClicked: {
-        confirmPopup.target = "SYSTEM // SAYONARA";
-        confirmPopup.message = "DO YOU WANT TO PROCEED TO EXIT hyper//hiit?"
-        confirmPopup.onAccept = function() {
-            Constants.hInfo(infoName, "#### SAYONARA BABY ####");
+        if (systemManager.exitConfirm) {
+            confirmPopup.target = "SYSTEM // SAYONARA";
+            confirmPopup.message = "DO YOU WANT TO PROCEED TO EXIT hyper//hiit?"
+            confirmPopup.onAccept = function() {
+                Constants.hInfo(infoName, "#### SAYONARA BABY ####");
+                mainWindow.safeExit();
+                // Qt.quit();
+            };
+
+            confirmPopup.onCancel = function() {
+                Constants.hInfo(infoName, "Purge cancelled");
+            };
+
+            confirmPopup.open();
+        } else {
             mainWindow.safeExit();
-            // Qt.quit();
-        };
-
-        confirmPopup.onCancel = function() {
-            Constants.hInfo(infoName, "Purge cancelled");
-        };
-
-        confirmPopup.open();
+        }
     }
 
     function updateCharts() {

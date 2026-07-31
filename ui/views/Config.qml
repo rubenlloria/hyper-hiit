@@ -62,6 +62,11 @@ ConfigForm {
         queueSave("systemAudio", configForm.audioSwitch.checked, configForm.audioSwitch);
     }
 
+    // SHUTDOWN_CONFIRM Switch
+    exitConfirmSwitch.onCheckedChanged: {
+        queueSave("systemExitConfirm", configForm.exitConfirmSwitch.checked, configForm.exitConfirmSwitch);
+    }
+
     // Link the back button to the main stack
     header.settingsMouseArea.onClicked: {
         console.log("Back to dashboard...");
@@ -169,7 +174,6 @@ ConfigForm {
             sessionManager.setConfig(key, value);
         }
         else if (key.startsWith("system")) {
-            // Envia els paràmetres globals (com scanline_render) al DatabaseManager
             systemManager.setConfig(key, value);
         } else {
             Constants.hWarning(debugName, "Key not recognized: " + key + ", with value: " + value);

@@ -79,7 +79,7 @@ Window {
 
     Timer {
         id: delayedExit
-        interval: 1000 // Sufficient time for HWUI to detach
+        interval: 250 // Sufficient time for HWUI to detach
         onTriggered: Qt.quit()
     }
 

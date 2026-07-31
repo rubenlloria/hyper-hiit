@@ -48,6 +48,7 @@ class SystemManager : public QObject {
     Q_PROPERTY(bool systemReady READ systemReady WRITE setSystemReady NOTIFY systemReadyChanged)
     Q_PROPERTY(bool systemScanline READ systemScanline WRITE setSystemScanline NOTIFY systemScanlineChanged)
     Q_PROPERTY(bool systemAudio READ systemAudio WRITE setSystemAudio NOTIFY systemAudioChanged)
+    Q_PROPERTY(bool exitConfirm READ exitConfirm WRITE setExitConfirm NOTIFY exitConfirmChanged)
     Q_PROPERTY(int systemTheme READ systemTheme WRITE setSystemTheme NOTIFY systemThemeChanged)
 
 public:
@@ -63,6 +64,9 @@ public:
 
     bool systemAudio() const { return m_systemAudio; }
     void setSystemAudio(bool enabled);
+
+    bool exitConfirm() const { return m_exitConfirm; }
+    void setExitConfirm(bool enabled);
 
     int systemTheme() const { return m_systemTheme; }
     void setSystemTheme(int themeIndex);
@@ -99,6 +103,7 @@ signals:
     void systemReadyChanged();
     void systemScanlineChanged();
     void systemAudioChanged();
+    void exitConfirmChanged();
     void systemThemeChanged();
 
 private:
@@ -106,6 +111,7 @@ private:
     bool m_systemReady;
     bool m_systemScanline;
     bool m_systemAudio;
+    bool m_exitConfirm;
     int m_systemTheme;
 };
 
