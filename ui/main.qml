@@ -141,9 +141,11 @@ Window {
                            ? mediaController.trackProgress
                            : 0.0
 
-            trackMetadata: mediaController.notificationAccessGranted
-                           ? mediaController.trackMetadata
-                           : qsTr("AUDIO UPLINK: NOT GRANTED")
+            trackMetadata: Qt.platform.os !== "android"
+                           ? qsTr("NOT AVAILABLE ON DESKTOP")
+                           : (mediaController.notificationAccessGranted
+                              ? mediaController.trackMetadata
+                              : qsTr("AUDIO UPLINK: NOT GRANTED"))
 
             property real startX: 0
 
@@ -254,11 +256,13 @@ Window {
     }
 
     function checkAudioUplink() {
+        if (Qt.platform.os !== "android")
+            return false
         if (mediaController.notificationAccessGranted) {
             return true
         }
-        confirmPopup.target = "AUDIO // UPLINK";
-        confirmPopup.message = "hyper//hiit requires notification access to sync playback data. Enable it in Android Settings to continue."
+        confirmPopup.target = qsTr("AUDIO // UPLINK");
+        confirmPopup.message = qsTr("hyper//hiit requires notification access to sync playback data. Enable it in Android Settings to continue.")
         confirmPopup.enableCancel = false;
         confirmPopup.onAccept = function() {
             mediaController.requestNotificationAccess()
