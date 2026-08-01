@@ -127,6 +127,14 @@ qt_add_qml_module(hyper-hiit
         Documentation/en/architecture-report.md
 )
 
+# Translations
+qt_add_translations(hyper-hiit
+    TS_FILES
+        i18n/hyper-hiit_es_ES.ts
+        i18n/hyper-hiit_ca_ES.ts
+        RESOURCE_PREFIX "/i18n"
+)
+
 # [SYNC_FIX] Make src/ directory headers visible to the QML registration generator
 # This allows the auto-generated 'hyper-hiit_qmltyperegistrations.cpp'
 # to find 'Chronometer.h' during the build process.

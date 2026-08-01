@@ -59,37 +59,46 @@ int main(int argc, char *argv[])
     });
 #endif
 
+    DatabaseManager dbManager;
+
+    if (!dbManager.initDatabase()){
+        hCritical() << "Database initialization failed. Aborting startup.";
+        return 20;
+    }
+    SystemManager systemManager(&dbManager);
+    SessionManager sessionManager(&dbManager);
+    int activeDirId = sessionManager.getActiveDirectiveId();
+
     QTranslator translator;
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
-        const QString baseName = "hyper-hiit_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
-            app.installTranslator(&translator);
-            break;
+
+    if (systemManager.systemLanguage()) {
+        const QStringList uiLanguages = QLocale::system().uiLanguages();
+        for (const QString &locale : uiLanguages) {
+            const QString baseName = "hyper-hiit_" + QLocale(locale).name();
+            hInfo() << "Loading language file " << baseName;
+            if (translator.load(":/i18n/" + baseName)) {
+                app.installTranslator(&translator);
+                hInfo() << "Language file " << baseName << " loaded";
+                break;
+            }
         }
     }
 
-    DatabaseManager dbManager;
     ModuleModel moduleModel;
     DirectiveModel directiveModel(&dbManager);
     ProtocolModel protocolModel(&dbManager);
     ProtocolModel architectProtocolModel(&dbManager);
 
-    if (dbManager.initDatabase()) {
-        // Neural Sync: Fetching data from SQLite and injecting into the Model
-        moduleModel.setModules(dbManager.getAllModules());
-        directiveModel.setDirectives(dbManager.getAllDirectives());
-        int activeDirId = dbManager.getConfig("active_directive_id", "-4").toInt();
+    // Neural Sync: Fetching data from SQLite and injecting into the Model
+    moduleModel.setModules(dbManager.getAllModules());
+    directiveModel.setDirectives(dbManager.getAllDirectives());
 
-        // protocolModel.
-        protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
-        architectProtocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
-        hDebug() << "Resuming Directive:" << activeDirId;
-    }
+    // protocolModel.
+    protocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
+    architectProtocolModel.setProtocols(dbManager.getProtocolsByDirective(activeDirId));
+    hDebug() << "Resuming Directive:" << activeDirId;
 
-    SessionManager sessionManager(&dbManager);
     AchievementManager achievementManager(&dbManager);
-    SystemManager systemManager(&dbManager);
     MediaController mediaController;
 
     qmlRegisterType<Chronometer>("org.aic.hyperhiit", 1, 0, "Chronometer");

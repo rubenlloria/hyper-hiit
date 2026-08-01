@@ -67,6 +67,11 @@ ConfigForm {
         queueSave("systemExitConfirm", configForm.exitConfirmSwitch.checked, configForm.exitConfirmSwitch);
     }
 
+    // SYSTEM_LANGUAGE Switch
+    languageSwitch.onCheckedChanged: {
+        queueSave("systemLanguage", configForm.languageSwitch.checked, configForm.languageSwitch);
+    }
+
     // Link the back button to the main stack
     header.settingsMouseArea.onClicked: {
         console.log("Back to dashboard...");
@@ -92,9 +97,9 @@ ConfigForm {
 
     restoreDBButton.interactionArea.onClicked: {
         confirmPopup.target = "SYSTEM // DATABASE";
-        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
-                "[SYSTEM DATABASE]" +
-                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY."
+        confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
+                qsTr("[SYSTEM DATABASE]") +
+                qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.")
         confirmPopup.onAccept = function() {
             Constants.hWarning(infoName, "Restoring database...");
             dbManager.restoreDatabase();

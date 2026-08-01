@@ -46,10 +46,13 @@ void SystemManager::loadSystemConfig() {
     m_systemScanline = (m_db->getConfig("system_scanline", "1") == "1");
     m_systemAudio = (m_db->getConfig("system_audio", "1") == "1");
     m_exitConfirm = (m_db->getConfig("system_exit_confirm", "1") == "1");
+    m_systemLanguage = (m_db->getConfig("system_language", "1") == "1");
     m_systemTheme = m_db->getConfig("system_theme", "0").toInt();
 
     emit systemScanlineChanged();
     emit systemAudioChanged();
+    emit exitConfirmChanged();
+    emit systemLanguageChanged();
     hDebug() << "systemThemeChanged to " << m_systemTheme;
     emit systemThemeChanged();
 }
@@ -85,6 +88,14 @@ void SystemManager::setExitConfirm(bool enabled) {
     m_exitConfirm = enabled;
     m_db->setConfig("system_exit_confirm", enabled ? "1" : "0");
     emit exitConfirmChanged();
+}
+
+void SystemManager::setSystemLanguage(bool enabled) {
+    if (m_systemLanguage == enabled) return;
+
+    m_systemLanguage = enabled;
+    m_db->setConfig("system_language", enabled ? "1" : "0");
+    emit systemLanguageChanged();
 }
 
 void SystemManager::setSystemTheme(int themeIndex) {
@@ -124,6 +135,8 @@ void SystemManager::setConfig(const QString &key, const QString &value) {
         setSystemAudio(value == "true");
     } else if (key == "systemExitConfirm") {
         setExitConfirm(value == "true");
+    } else if (key == "systemLanguage") {
+        setSystemLanguage(value == "true");
     } else if (key == "systemTheme") {
         setSystemTheme(value.toInt());
     } else {

@@ -59,6 +59,7 @@ Rectangle {
     property alias scanlineSwitch: scanlineSwitch
     property alias audioSwitch: audioSwitch
     property alias exitConfirmSwitch: exitConfirmSwitch
+    property alias languageSwitch: languageSwitch
 
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
@@ -76,7 +77,7 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
             titlePart1: "core"
             titlePart2: "config"
-            buttonLabel: "BACK     "
+            buttonLabel: qsTr("BACK     ")
             buttonGlyph: Constants.backIcon
         }
 
@@ -109,7 +110,7 @@ Rectangle {
                         spacing: 12
 
                         Text {
-                            text: "USER_BIO_DATA"
+                            text: qsTr("USER_BIO_DATA")
                             color: Constants.primaryTextColor
                             font.family: Constants.mainFont.family
                             font.pixelSize: 14
@@ -132,15 +133,15 @@ Rectangle {
                                 NeonTextField {
                                     id: userNameField
                                     width: 350
-                                    label: "USER_NAME"
-                                    placeholder: "AGENT_PRIME"
+                                    label: qsTr("USER_NAME")
+                                    placeholder: "AGENT"
                                     text: sessionManager.userName
                                 }
 
                                 NeonSpinBox {
                                     id: weightField
                                     width: 350
-                                    label: "BIOMASS_KG"
+                                    label: qsTr("BIOMASS_KG")
                                     value: sessionManager.userWeight
                                     suffix: "KG"
                                 }
@@ -148,7 +149,7 @@ Rectangle {
                                 NeonSpinBox {
                                     id: heightField
                                     width: 350
-                                    label: "HEIGHT_CM"
+                                    label: qsTr("HEIGHT_CM")
                                     value: sessionManager.userHeight
                                     suffix: "CM"
                                 }
@@ -156,30 +157,30 @@ Rectangle {
                                 NeonSelector {
                                     id: sexSelector
                                     width: 350
-                                    label: "SEX"
+                                    label: qsTr("SEX")
                                     horizontal: true
-                                    option1Label: "WOMAN"
-                                    option2Label: "REPLICANT"
-                                    option3Label: "MAN"
+                                    option1Label: qsTr("WOMAN")
+                                    option2Label: qsTr("REPLICANT")
+                                    option3Label: qsTr("MAN")
                                     selectedIndex: sessionManager.userSex
                                 }
 
                                 NeonSpinBox {
                                     id: ageField
                                     width: 350
-                                    label: "AGE"
+                                    label: qsTr("AGE")
                                     value: sessionManager.userAge
                                 }
 
                                 NeonSelector {
                                     id: rankSelector
                                     width: 350
-                                    label: "RANK_LEVEL"
+                                    label: qsTr("RANK_LEVEL")
                                     horizontal: true
                                     neonColor: Constants.primaryTextColor
-                                    option1Label: "NEWBIE"
-                                    option2Label: "ADVANCED"
-                                    option3Label: "ROOT"
+                                    option1Label: qsTr("NEWBIE")
+                                    option2Label: qsTr("ADVANCED")
+                                    option3Label: qsTr("ROOT")
                                     selectedIndex: sessionManager.userRank
                                 }
                             }
@@ -192,7 +193,7 @@ Rectangle {
                         spacing: 12
 
                         Text {
-                            text: "SYSTEM_PARAMETERS"
+                            text: qsTr("SYSTEM_PARAMETERS")
                             color: Constants.secondaryTextColor
                             font.family: Constants.mainFont.family
                             font.pixelSize: 14
@@ -202,7 +203,7 @@ Rectangle {
                         Rectangle {
                             id: systemContainer
                             width: parent.width
-                            height: 500
+                            height: 600
                             color: Constants.backgroundColor
                             border.color: Constants.secondaryTextColor
                             border.width: 1
@@ -215,31 +216,39 @@ Rectangle {
                                 NeonSwitch {
                                     id: scanlineSwitch
                                     width: 350
-                                    title: "SCANLINE_RENDER"
-                                    description: "Enable/Disable horizontal terminal lines."
+                                    title: qsTr("SCANLINE_RENDER")
+                                    description: qsTr("Enable/Disable horizontal terminal lines.")
                                     checked: systemManager.systemScanline
                                 }
 
                                 NeonSwitch {
                                     id: audioSwitch
                                     width: 350
-                                    title: "AUDIO_UPLINK"
-                                    description: "Link to Audio Uplink module."
+                                    title: qsTr("AUDIO_UPLINK")
+                                    description: qsTr("Link to Audio Uplink module.")
                                     checked: systemManager.systemAudio
                                 }
 
                                 NeonSwitch {
                                     id: exitConfirmSwitch
                                     width: 350
-                                    title: "SHUTDOWN_CONFIRM"
-                                    description: "Request authorization before exit."
+                                    title: qsTr("SHUTDOWN_CONFIRM")
+                                    description: qsTr("Request authorization before exit.")
                                     checked: systemManager.exitConfirm
+                                }
+
+                                NeonSwitch {
+                                    id: languageSwitch
+                                    width: 350
+                                    title: qsTr("SYSTEM_LANGUAGE")
+                                    description: qsTr("Use system configured language.")
+                                    checked: systemManager.systemLanguage
                                 }
 
                                 NeonSelector {
                                     id: themeSelector
                                     width: 350
-                                    label: "NEON_THEME"
+                                    label: qsTr("NEON_THEME")
                                     horizontal: false
                                     neonColor: Constants.secondaryTextColor
                                     option1Label: "CYBERPUNK"
@@ -260,7 +269,7 @@ Rectangle {
                         property color sectionColor: Constants.rootColor
 
                         Text {
-                            text: "ROOT_ACCESS"
+                            text: qsTr("ROOT_ACCESS")
                             color: rootCol.sectionColor
                             font.family: Constants.mainFont.family
                             font.pixelSize: 14
@@ -283,7 +292,7 @@ Rectangle {
                                     spacing: 8
 
                                     NeonText {
-                                        label: " ACCESS_ARCHITECT_MODE "
+                                        label: qsTr(" ACCESS_ARCHITECT_MODE ")
                                         labelColor: rootCol.sectionColor
                                         cornerWidth: 2
                                         font.family: Constants.mainFont.family
@@ -293,9 +302,9 @@ Rectangle {
                                     }
 
                                     Text {
-                                        text: "PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR"
+                                        text: qsTr("PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR")
                                         color: Constants.primaryTextColor
-                                        font.family: "Share Tech Mono"
+                                        font.family: Constants.techFont.family
                                         font.pixelSize: 12
                                         anchors.horizontalCenter: parent.horizontalCenter
                                     }
@@ -319,7 +328,7 @@ Rectangle {
                             NeonButton {
                                 id: restoreDBButton
                                 width: parent.width * 0.9
-                                label: "RESTORE_DB"
+                                label: qsTr("RESTORE_DB")
                                 Layout.alignment: Qt.AlignTop
                                 themeColor: Constants.rootColor
                                 anchors.horizontalCenter: parent.horizontalCenter
