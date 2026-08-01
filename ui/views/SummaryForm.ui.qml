@@ -235,7 +235,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     // Layout.alignment: Qt.AlignHCenter
                     NeonTitle {
-                        label: qsTr("ACHIEVMENTS")
+                        label: qsTr("ACHIEVEMENTS")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
