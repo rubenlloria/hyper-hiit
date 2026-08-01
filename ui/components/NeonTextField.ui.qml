@@ -18,9 +18,9 @@ Item {
     height: 60
 
     property alias text: textInput.text
-    property string placeholder: "ENTER_DATA..."
+    property string placeholder: qsTr("ENTER_DATA...")
     property color neonColor: Constants.primaryTextColor
-    property string label: "FIELD_NAME"
+    property string label: qsTr("FIELD_NAME")
     property color labelColor: Constants.primaryTextColor
     property bool showSuccessPulse: false
     property alias textInput: textInput

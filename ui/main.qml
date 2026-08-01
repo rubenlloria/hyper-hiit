@@ -45,7 +45,7 @@ Window {
     width: Constants.designWidth    // Value 412 defined in Constants.qml
     height: Constants.designHeight  // Value 865 defined in Constants.qml
     visible: true
-    title: "HyperHIIT - System Interface"
+    title: "HyperHIIT - " + qsTr("System Interface")
     color: Constants.backgroundColor // Background color from Constants.qml
     visibility: Qt.platform.os === "android" ? Window.FullScreen : Window.Windowed
 
@@ -143,7 +143,7 @@ Window {
 
             trackMetadata: mediaController.notificationAccessGranted
                            ? mediaController.trackMetadata
-                           : "AUDIO UPLINK: NOT GRANTED"
+                           : qsTr("AUDIO UPLINK: NOT GRANTED")
 
             property real startX: 0
 

@@ -35,10 +35,10 @@ DirectiveEditorView {
         // Populate the popup context for the UI agent
 
         let targetName = editor.nameText;
-        confirmPopup.target = "DIRECTIVE // " + targetName.toUpperCase()
-        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
-                             (targetName !== "" ? "[" + targetName + "]" : "THIS ENTITY") +
-                             "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY."
+        confirmPopup.target = qsTr("DIRECTIVE // ") + targetName.toUpperCase()
+        confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
+                             (targetName !== "" ? "[" + targetName + "]" : qsTr("THIS ENTITY")) +
+                             qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY.")
 
 
         // Display the tactical confirmation overlay
@@ -98,8 +98,8 @@ DirectiveEditorView {
                 sessionManager.setActiveDirectiveId(-4);
                 sessionManager.activeDirectiveInfo = {
                     "id": -4,
-                    "name": "SELECT_DIRECTIVE",
-                    "description": "No data",
+                    "name": qsTr("SELECT_DIRECTIVE"),
+                    "description": qsTr("No data"),
                     "icon": Constants.zapIcon,
                     "color": Constants.primaryColor
                 };

@@ -56,7 +56,7 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
             titlePart1: "sys"
             titlePart2: "summary"
-            buttonLabel: "DASHBOARD"
+            buttonLabel: qsTr("DASHBOARD")
             buttonGlyph: Constants.dashboardIcon
         }
 
@@ -116,21 +116,21 @@ Rectangle {
                     spacing: 15
                     NeonMetadata {
                         id: rankMetadata
-                        keyLabel: "RANK"
+                        keyLabel: qsTr("RANK")
                         valueLabel: root.rank
                         width: parent.width * 0.48
                         unitLabel: ""
                     }
                     NeonMetadata {
                         id: countMetadata
-                        keyLabel: "MODULE_COUNT"
+                        keyLabel: qsTr("MODULE_COUNT")
                         valueLabel: root.moduleCount
                         width: parent.width * 0.48
                         unitLabel: ""
                     }
                     NeonMetadata {
                         id: durationMetadata
-                        keyLabel: "DURATION"
+                        keyLabel: qsTr("DURATION")
                         valueLabel: root.hasGhost ? root.duration + " "
                                                     + root.timeDiffString : root.duration
                         width: parent.width * 0.48
@@ -141,14 +141,14 @@ Rectangle {
                     }
                     NeonMetadata {
                         id: caloriesMetadata
-                        keyLabel: "CALORIES"
+                        keyLabel: qsTr("CALORIES")
                         valueLabel: root.calories
                         width: parent.width * 0.48
                         unitLabel: "kcal"
                     }
                     NeonMetadata {
                         id: improvementMetadata
-                        keyLabel: "IMPROVEMENT"
+                        keyLabel: qsTr("IMPROVEMENT")
                         valueLabel: root.improvement + "%"
                         width: parent.width * 0.48
                         color: improvement
@@ -157,7 +157,7 @@ Rectangle {
                     }
                     NeonMetadata {
                         id: efficiencyMetadata
-                        keyLabel: "EFFICIENCY"
+                        keyLabel: qsTr("EFFICIENCY")
                         valueLabel: root.efficiency + "%"
                         width: parent.width * 0.48
                         color: efficiency
@@ -171,7 +171,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     // Layout.alignment: Qt.AlignHCenter
                     NeonTitle {
-                        label: "TOTALS"
+                        label: qsTr("TOTALS")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
@@ -207,7 +207,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     // Layout.alignment: Qt.AlignHCenter
                     NeonTitle {
-                        label: "ANALYSIS"
+                        label: qsTr("ANALYSIS")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
@@ -235,7 +235,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     // Layout.alignment: Qt.AlignHCenter
                     NeonTitle {
-                        label: "ACHIEVMENTS"
+                        label: qsTr("ACHIEVMENTS")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
@@ -286,7 +286,8 @@ Rectangle {
 
                 Column {
                     // Safe area buffer to prevent content occlusion by fixed footer and audio player
-                    height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                    height: 10 + mainWindow.footer.height
+                            + (systemManager.systemAudio ? mainWindow.player.height : 0)
                     width: 1
                 }
             }

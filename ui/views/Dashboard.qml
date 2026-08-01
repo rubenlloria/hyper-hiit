@@ -143,8 +143,8 @@ DashboardForm {
 
     exitButton.interactionArea.onClicked: {
         if (systemManager.exitConfirm) {
-            confirmPopup.target = "SYSTEM // SAYONARA";
-            confirmPopup.message = "DO YOU WANT TO PROCEED TO EXIT hyper//hiit?"
+            confirmPopup.target = qsTr("SYSTEM") + " // SAYONARA";
+            confirmPopup.message = qsTr("DO YOU WANT TO PROCEED TO EXIT hyper//hiit?")
             confirmPopup.onAccept = function() {
                 Constants.hInfo(infoName, "#### SAYONARA BABY ####");
                 mainWindow.safeExit();

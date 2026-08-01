@@ -23,7 +23,7 @@ Item {
     // Public properties for data binding
     property string directiveTitle: "DIRECTIVE_NAME"
     property string directiveDescription: "Description text"
-    property string directiveGlyph: "\ue0d2"
+    property string directiveGlyph: Constants.flameIcon
     property color color: Constants.primaryTextColor
 
     // Alias to expose the interaction area to the parent

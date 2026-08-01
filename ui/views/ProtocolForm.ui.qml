@@ -15,8 +15,8 @@ Rectangle {
     height: Constants.designHeight
     color: Constants.backgroundColor
 
-    property string currentModuleName: "ENGAGING"
-    property string dialMessage: "WAIT"
+    property string currentModuleName: qsTr("ENGAGING")
+    property string dialMessage: qsTr("WAIT")
     property int countdownTimer: -5
     property string unit: "s"
     property int unitType: 0 // 0: SECONDS | 1: REPS [Source 8]
@@ -57,7 +57,7 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
             titlePart1: "sys"
             titlePart2: "protocol"
-            buttonLabel: "BACK     "
+            buttonLabel: qsTr("BACK     ")
             buttonLink: "back"
             buttonGlyph: Constants.backIcon
         }
@@ -110,7 +110,7 @@ Rectangle {
             NeonText {
                 id: nextModuleTitle
                 anchors.horizontalCenter: parent.horizontalCenter
-                label: "Next Module"
+                label: qsTr("Next Module")
                 labelColor: Constants.secondaryTextColor
             }
             NeonText {
@@ -124,20 +124,14 @@ Rectangle {
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 15
-            // NeonMetadata {
-            //     keyLabel: "HEART_RATE"
-            //     valueLabel: root.bpm
-            //     unitLabel: "BPM"
-            //     color: Constants.primaryColor
-            // }
             NeonMetadata {
-                keyLabel: "RECORD"
+                keyLabel: qsTr("RECORD")
                 valueLabel: root.personalBest > 0 ? root.record : "--:--"
                 unitLabel: ""
                 color: Constants.primaryColor
             }
             NeonMetadata {
-                keyLabel: "CALORIES"
+                keyLabel: qsTr("CALORIES")
                 valueLabel: root.calories
                 unitLabel: "kcal"
                 color: Constants.primaryColor

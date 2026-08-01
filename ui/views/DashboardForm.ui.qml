@@ -98,11 +98,11 @@ Rectangle {
                     activeThemeColor: sessionManager.activeDirectiveInfo.color
                                       || Constants.primaryColor
                     activeItemName: sessionManager.activeDirectiveInfo.name
-                                    || "SELECT_DIRECTIVE..."
+                                    || qsTr("SELECT_DIRECTIVE...")
                     activeIconGlyph: sessionManager.activeDirectiveInfo.icon
                                      || Constants.zapIcon
                     activeItemDesc: sessionManager.activeDirectiveInfo.description
-                                    || "No data"
+                                    || qsTr("No data")
                 }
 
                 ProtocolList {
@@ -131,12 +131,13 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     themeColor: Constants.rootColor
                     iconGlyph: Constants.powerIcon
-                    label: "SHUTDOWN"
+                    label: qsTr("SHUTDOWN")
                 }
 
                 Column {
                     // Safe area buffer to prevent content occlusion by fixed footer and audio player
-                    height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                    height: 10 + mainWindow.footer.height
+                            + (systemManager.systemAudio ? mainWindow.player.height : 0)
                     width: 1
                 }
             }

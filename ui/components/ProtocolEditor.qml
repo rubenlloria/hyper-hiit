@@ -271,10 +271,10 @@ ProtocolEditorView {
         Constants.hDebug(debugName, "Purging the protocol: " + name
                          + ", with id: " + id
                          );
-        confirmPopup.target = "PROTOCOL // " + name.toUpperCase();
-        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
-                (name !== "" ? "[" + name + "]" : "THIS ENTITY") +
-                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY."
+        confirmPopup.target = qsTr("PROTOCOL // ") + name.toUpperCase();
+        confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
+                (name !== "" ? "[" + name + "]" : qsTr("THIS ENTITY")) +
+                qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.")
         confirmPopup.onAccept = function() {
             dbManager.deleteProtocol(id);
             Constants.hInfo(infoName, "Data and history purged for protocol: " + name);

@@ -132,13 +132,13 @@ Rectangle {
 
         Text {
             color: Constants.secondaryTextColor
-            text: "- last"
+            text: qsTr("- last")
             font.family: Constants.techFont.family
             font.pixelSize: 14
         }
         Text {
             color: Constants.primaryTextColor
-            text: "- current"
+            text: qsTr("- current")
             font.family: Constants.techFont.family
             font.pixelSize: 14
         }
@@ -164,7 +164,7 @@ Rectangle {
 
             NeonText {
                 id: evoTitle
-                label: "EVOLUTION_METRICS"
+                label: qsTr("EVOLUTION_METRICS")
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
                 labelColor: Constants.primaryTextColor
@@ -176,7 +176,7 @@ Rectangle {
                 Layout.fillHeight: true
                 Text {
                     id: evoInfo
-                    text: "LAST_7_DAYS"
+                    text: qsTr("LAST_7_DAYS")
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     font.family: Constants.techFont.family
@@ -467,7 +467,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 2
                 Text {
-                    text: "AVG_SESSIONS"
+                    text: qsTr("AVG_SESSIONS")
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
@@ -488,7 +488,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 2
                 Text {
-                    text: "AVG_CALORIES"
+                    text: qsTr("AVG_CALORIES")
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
@@ -509,7 +509,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 2
                 Text {
-                    text: "IMPROVEMENT"
+                    text: qsTr("IMPROVEMENT")
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family
@@ -530,7 +530,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 2
                 Text {
-                    text: "EFFICIENCY"
+                    text: qsTr("EFFICIENCY")
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family

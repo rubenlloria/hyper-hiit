@@ -32,7 +32,7 @@ Item {
         }
 
         NeonText {
-            label: "SUBSYSTEM_0" + root.subsystemId + ":"
+            label: qsTr("SUBSYSTEM_0") + root.subsystemId + ":"
             labelColor: mainWindow.currentDirectiveColor
             font.family: Constants.mainFont.family
             font.pixelSize: 12

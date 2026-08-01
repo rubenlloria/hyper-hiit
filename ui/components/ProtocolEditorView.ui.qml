@@ -179,7 +179,7 @@ Item {
         RowLayout {
             width: parent.width
             NeonText {
-                label: " PROTOCOL_BUILDER "
+                label: qsTr(" PROTOCOL_BUILDER ")
                 labelColor: root.accentColor
                 font.family: Constants.mainFont.family
                 font.pixelSize: 14
@@ -322,7 +322,7 @@ Item {
                 id: nameField
                 width: parent.width
                 text: "INFERNO_SEQUENCE"
-                label: "PROTOCOL_NAME"
+                label: qsTr("PROTOCOL_NAME")
                 // isDirty: root.isDirty
             }
 
@@ -333,7 +333,7 @@ Item {
                 option2Label: "ADVANCED"
                 option3Label: "ROOT"
                 selectedIndex: root.selectedRank
-                label: "RANK_CLASSIFICATION"
+                label: qsTr("RANK_CLASSIFICATION")
             }
 
             // 4. DIRECTIVE MAPPING GRID
@@ -341,7 +341,7 @@ Item {
                 width: parent.width
                 spacing: 8
                 Text {
-                    text: "DIRECTIVE_MAPPING_GRID"
+                    text: qsTr("DIRECTIVE_MAPPING_GRID")
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -386,7 +386,7 @@ Item {
                 width: parent.width
                 height: 15
                 Text {
-                    text: "SEQUENCE_EDITOR // TIMELINE"
+                    text: qsTr("SEQUENCE_EDITOR // TIMELINE")
                     color: Constants.primaryTextColor
                     font.family: Constants.mainFont.family
                     font.pixelSize: 12
@@ -529,7 +529,7 @@ Item {
                                     }
                                 } // Grip icon
                                 Text {
-                                    text: "SUBSYSTEM_" + subsystem_id
+                                    text: qsTr("SUBSYSTEM_") + subsystem_id
                                     color: Constants.primaryColor
                                     font.family: Constants.mainFont.family
                                     font.pixelSize: 12
@@ -905,7 +905,7 @@ Item {
 
                 // border.style: "Dashed" // Simplified for UI file representation
                 Text {
-                    text: "+ ADD_SUBSYSTEM"
+                    text: qsTr("+ ADD_SUBSYSTEM")
                     color: Constants.primaryColor
                     anchors.centerIn: parent
                     font.family: Constants.techFont.family

@@ -186,10 +186,10 @@ ModuleEditorView {
 
         // Populate the popup context for the UI agent
         let targetName = m_model.module_name;
-        confirmPopup.target = "MODULE // " + targetName.toUpperCase()
-        confirmPopup.message = "ARE YOU SURE YOU WANT TO DELETE " +
-                (targetName !== "" ? "[" + targetName + "]" : "THIS ENTITY") +
-                "? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY."
+        confirmPopup.target = qsTr("MODULE // ") + targetName.toUpperCase()
+        confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
+                (targetName !== "" ? "[" + targetName + "]" : qsTr("THIS ENTITY")) +
+                qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY.")
 
 
         // Display the tactical confirmation overlay

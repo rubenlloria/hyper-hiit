@@ -25,10 +25,6 @@ Item {
     property int cornerSize: label.font.pixelSize / 2 - 1
     property int cornerWidth: 0
 
-    // FontLoader {
-    //     id: internalShareTecFont
-    //     source: "fonts/Orbitron-VariableFont_wght.ttf"
-    // }
     Text {
         id: label
         text: "LABEL"

@@ -16,8 +16,8 @@ Item {
     width: 350
     height: 80
 
-    property string title: "SCANLINE_RENDER"
-    property string description: "Enable/Disable horizontal terminal line"
+    property string title: qsTr("SCANLINE_RENDER")
+    property string description: qsTr("Enable/Disable horizontal terminal line")
     property bool checked: true
     property color neonColor: Constants.secondaryColor
     property color borderColor: Constants.secondaryColor

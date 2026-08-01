@@ -45,7 +45,7 @@ Item {
 
     // Public properties for state and theme
     property bool isOpen: false
-    property string title: "ACTIVE_DIRECTIVE"
+    property string title: qsTr("ACTIVE_DIRECTIVE")
     property color activeThemeColor: Constants.primaryColor
     property string activeItemName: "STRENGTH_MATRIX"
     property string activeIconGlyph: Constants.zapIcon
@@ -172,7 +172,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: "SWITCH_TO:"
+                    text: qsTr("SWITCH_TO:")
                     color: Constants.primaryTextColor
                     opacity: 0.7
                     font.family: Constants.techFont.family

@@ -64,7 +64,7 @@ Rectangle {
             Layout.preferredHeight: 100 // Match your AppHeader design
             titlePart1: "sys"
             titlePart2: "briefing"
-            buttonLabel: "BACK     "
+            buttonLabel: qsTr("BACK     ")
             buttonGlyph: Constants.backIcon
         }
 
@@ -104,7 +104,7 @@ Rectangle {
                 Column {
                     spacing: 5
                     Text {
-                        text: "BRIEFING:"
+                        text: qsTr("BRIEFING:")
                         color: Constants.primaryTextColor
                         font.family: Constants.techFont.family
                         font.pixelSize: 12
@@ -128,23 +128,23 @@ Rectangle {
                     columns: 2
                     spacing: 15
                     NeonMetadata {
-                        keyLabel: "RANK"
+                        keyLabel: qsTr("RANK")
                         valueLabel: root.rank
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
-                        keyLabel: "MODULE_COUNT"
+                        keyLabel: qsTr("MODULE_COUNT")
                         valueLabel: root.moduleCount
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
-                        keyLabel: "DURATION"
+                        keyLabel: qsTr("DURATION")
                         valueLabel: root.duration
                         unitLabel: "mm:ss"
                         width: parent.width * 0.48
                     }
                     NeonMetadata {
-                        keyLabel: "EST_CALORIES"
+                        keyLabel: qsTr("EST_CALORIES")
                         valueLabel: root.estimatedKcal
                         unitLabel: "kcal"
                         width: parent.width * 0.48
@@ -167,14 +167,15 @@ Rectangle {
                 NeonButton {
                     id: executeButton
                     anchors.horizontalCenter: parent.horizontalCenter
-                    label: "EXECUTE"
+                    label: qsTr("EXECUTE")
                     iconGlyph: Constants.playIcon
                     themeColor: Constants.descriptionColor
                 }
 
                 Column {
                     // Safe area buffer to prevent content occlusion by fixed footer and audio player
-                    height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                    height: 10 + mainWindow.footer.height
+                            + (systemManager.systemAudio ? mainWindow.player.height : 0)
                     width: 1
                 }
             }

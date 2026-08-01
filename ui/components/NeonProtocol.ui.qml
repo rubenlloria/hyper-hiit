@@ -58,11 +58,6 @@ Item {
             label: root.protocolName
             labelColor: root.primaryColor
             size: 16
-            // text: root.protocolName
-            // color: root.primaryColor
-            // font.family: "Orbitron"
-            // font.pixelSize: 16
-            // font.bold: true
             anchors.left: parent.left
             anchors.top: parent.top
         }
@@ -71,7 +66,7 @@ Item {
             id: rankLevel
             text: root.rankLabel
             color: root.secondaryColor
-            font.family: "Share Tech Mono"
+            font.family: Constants.techFont.family
             font.pixelSize: 12
             font.bold: true
             anchors.right: parent.right
@@ -96,20 +91,20 @@ Item {
 
             Text {
                 id: estimatedDuration
-                text: "DURATION: " + root.estimatedDuration
+                text: qsTr("DURATION: ") + root.estimatedDuration
                 color: Constants.descriptionColor
                 opacity: 0.7
-                font.family: "Share Tech Mono"
-                font.pixelSize: 10
+                font.family: Constants.techFont.family
+                font.pixelSize: 11
             }
 
             Text {
                 id: moduleCount
-                text: "MODULES: " + root.moduleCount
+                text: qsTr("MODULES: ") + root.moduleCount
                 color: Constants.descriptionColor
                 opacity: 0.7
-                font.family: "Share Tech Mono"
-                font.pixelSize: 10
+                font.family: Constants.techFont.family
+                font.pixelSize: 11
             }
         }
 

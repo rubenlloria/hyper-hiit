@@ -21,12 +21,7 @@ Item {
     property string label_on: "label_on"
     property string label_off: "label_off"
     property alias labelColor: indicatorLabel.color
-    // property alias ledColor: indicatorLed.color
 
-    // FontLoader {
-    //     id: internalShareTecFont
-    //     source: "fonts/ShareTechMono-Regular.ttf"
-    // }
     Row {
         id: indicatorRow
         spacing: 10

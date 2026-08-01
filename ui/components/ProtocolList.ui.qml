@@ -25,9 +25,9 @@ Item {
         // Header Title
         Text {
             id: listTitle
-            text: "PROTOCOLS"
+            text: qsTr("PROTOCOLS")
             color: Constants.primaryTextColor
-            font.family: "Share Tech Mono"
+            font.family: Constants.techFont.family
             font.pixelSize: 12
             topPadding: 8
             bottomPadding: 8

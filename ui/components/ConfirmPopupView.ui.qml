@@ -72,7 +72,7 @@ Item {
                         color: Constants.rootColor
                     }
                     NeonText {
-                        label: "SYSTEM_WARNING"
+                        label: qsTr("SYSTEM_WARNING")
                         labelColor: Constants.rootColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 12
@@ -92,7 +92,7 @@ Item {
                 id: targetMessage
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: "TARGET: " + root.targetText
+                text: qsTr("TARGET: ") + root.targetText
                 color: Constants.primaryTextColor
                 font.family: Constants.mainFont.family
                 font.pixelSize: 14
@@ -106,7 +106,7 @@ Item {
                 id: confirmationMessage
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: "ARE YOU SURE YOU WANT TO EXECUTE THIS DESTRUCTIVE OPERATION?"
+                text: qsTr("ARE YOU SURE YOU WANT TO EXECUTE THIS DESTRUCTIVE OPERATION?")
                 color: Constants.descriptionColor
                 font.family: Constants.techFont.family
                 font.pixelSize: 14
@@ -123,7 +123,7 @@ Item {
 
                 NeonButton {
                     id: abortButton
-                    label: "CANCEL"
+                    label: qsTr("CANCEL")
                     themeColor: Constants.secondaryColor
                     iconGlyph: Constants.cancelIcon
                     visible: enableCancelButton
@@ -131,7 +131,7 @@ Item {
 
                 NeonButton {
                     id: executeButton
-                    label: "CONFIRM"
+                    label: qsTr("CONFIRM")
                     themeColor: Constants.rootColor
                     iconGlyph: Constants.confirmIcon
                 }

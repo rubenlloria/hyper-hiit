@@ -31,7 +31,7 @@ Item {
         }
 
         Text {
-            text: "SUBSYSTEM_0" + root.subsystemId + ":"
+            text: qsTr("SUBSYSTEM_0") + root.subsystemId + ":"
             color: Constants.primaryTextColor
             font.family: Constants.mainFont.family
             font.pixelSize: 12

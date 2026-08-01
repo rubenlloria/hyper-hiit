@@ -43,17 +43,11 @@ Rectangle {
     // --- VIEWMODEL PROPERTIES ---
     property string titlePart1: "hyper"
     property string titlePart2: "hiit"
-    property string statusLabel: "SYSTEM_ONLINE"
-    property string buttonLabel: "ARCHITECT"
-    property string buttonGlyph: "\uE154"
+    property string statusLabel: qsTr("SYSTEM_ONLINE")
+    property string buttonLabel: qsTr("ARCHITECT")
+    property string buttonGlyph: Constants.settingsIcon
     property string buttonLink: "ArchitectForm.qml"
     property alias settingsMouseArea: settingsMouseArea
-
-    // FontLoader {
-    //     id: lucideFont
-    //     source: "fonts/lucide.ttf"
-    //     // font.family: "lucide"
-    // }
 
     // LEFT BRACKET (Top-Left corner facing DOWN)
     Item {
@@ -213,8 +207,8 @@ Rectangle {
         anchors.left: settingsActionGroup.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
-        label_on: "SYSTEM_ONLINE"
-        label_off: "SYSTEM_OFFLINE"
+        label_on: qsTr("SYSTEM_ONLINE")
+        label_off: qsTr("SYSTEM_OFFLINE")
         active: systemManager.systemReady
         labelColor: Constants.primaryTextColor
     }

@@ -110,7 +110,7 @@ Rectangle {
 
             NeonText {
                 id: evoTitle
-                label: "ACHIEVEMENT_MATRIX"
+                label: qsTr("ACHIEVEMENT_MATRIX")
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 18
                 labelColor: Constants.secondaryColor

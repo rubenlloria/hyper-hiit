@@ -236,7 +236,7 @@ Item {
             Row {
                 spacing: 10
                 Text {
-                    text: "NAME:"
+                    text: qsTr("NAME:")
                     color: root.accentColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -251,7 +251,7 @@ Item {
                     width: parent.width * 0.58
                 }
                 Text {
-                    text: "COLOR:"
+                    text: qsTr("COLOR:")
                     color: root.accentColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -267,7 +267,7 @@ Item {
             Row {
                 spacing: 10
                 Text {
-                    text: "DESC:"
+                    text: qsTr("DESC:")
                     color: root.accentColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -297,14 +297,14 @@ Item {
             NeonTextField {
                 id: nameInput
                 width: parent.width - 30
-                label: "NAME"
-                text: "DIRECTIVE_NAME"
+                label: qsTr("NAME")
+                text: qsTr("DIRECTIVE_NAME")
             }
 
             NeonTextField {
                 id: descInput
                 width: parent.width - 30
-                label: "DESCRIPTION"
+                label: qsTr("DESCRIPTION")
             }
 
             // GLOW_SELECTOR Section
@@ -312,7 +312,7 @@ Item {
             Column {
                 spacing: 8
                 Text {
-                    text: "GLOW_SELECTOR"
+                    text: qsTr("GLOW_SELECTOR")
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
@@ -343,7 +343,7 @@ Item {
                     NeonTextField {
                         id: hexInput
                         width: 200
-                        label: "HEX_CODE"
+                        label: qsTr("HEX_CODE")
                         placeholder: root.accentColor
                     }
                     Rectangle {
@@ -362,7 +362,7 @@ Item {
             Column {
                 spacing: 8
                 Text {
-                    text: "ICON_IDENTIFIER"
+                    text: qsTr("ICON_IDENTIFIER")
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10

@@ -9,7 +9,7 @@ import "."
 ProtocolForm {
     id: protocolController
     // Initial state: Preparation phase
-    currentModuleName: "ENGAGING"
+    currentModuleName: qsTr("ENGAGING")
     countdownTimer: -5 // Starting from -5 as requested
     unitType: 0 // Display as REPS/Units for the countdown
     unit: systemManager.getUnitLabel(unitType)
@@ -275,7 +275,7 @@ ProtocolForm {
             sessionManager.startSession(activeProtocolId, executionList);
             globalChronometer.start(0);
         }
-        progressDial.dialMessage = "NEXT";
+        progressDial.dialMessage = qsTr("NEXT");
         loadModule(0);
     }
 
@@ -314,10 +314,10 @@ ProtocolForm {
         if (unitType === 0) {
             protocolController.currentModuleDuration = entry.data.quantity * 1000;
             progressDial.messageColor = Constants.primaryTextColor;
-            progressDial.dialMessage = "WAIT";
+            progressDial.dialMessage = qsTr("WAIT");
         } else {
             protocolController.progressDial.messageColor = Constants.secondaryTextColor;
-            progressDial.dialMessage = "NEXT";
+            progressDial.dialMessage = qsTr("NEXT");
 
             let lastDuration = 0;
             if (lastSessionCheckpoints.length > index) {
@@ -342,7 +342,7 @@ ProtocolForm {
             let nextUnitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
             nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
         } else {
-            nextModuleText.label = "Last" ;
+            nextModuleText.label = qsTr("Last");
         }
         // Update active subsystem for the Row of Rectangles
         activeSubsystemId = entry.subId;
@@ -392,11 +392,11 @@ ProtocolForm {
 
     function finishProtocol() {
         isRunning = false;
-        currentModuleName = "COMPLETED";
+        currentModuleName = qsTr("COMPLETED");
         currentQuantity = "";
         progressDial.messageColor = Constants.primaryTextColor
-        progressDial.dialMessage = "STOPPED";
-        nextModuleText.label = "GOD_JOB!";
+        progressDial.dialMessage = qsTr("STOPPED");
+        nextModuleText.label = qsTr("GOOD_GOD!");
         nextModuleTitle.label = " ";
         subsystemProgress.activeSubsystemProgress = 1.0;
 
@@ -421,7 +421,7 @@ ProtocolForm {
         }
 
         activeSessionId = sessionManager.saveSession();
-        header.buttonLabel ="SUMMARY";
+        header.buttonLabel = qsTr("SUMMARY");
         header.buttonGlyph = Constants.summaryIcon;
         header.buttonLink = "summary";
     }

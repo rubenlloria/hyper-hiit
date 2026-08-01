@@ -26,7 +26,6 @@ Item {
     property string valueLabel: "Value"
     property int valueSize: 25
     property string unitLabel: ""
-    // property string directiveGlyph: "\ue0d2"
     property color color: Constants.primaryTextColor // Default cyan neon
 
     // Main background layer

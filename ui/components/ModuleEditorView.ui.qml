@@ -91,7 +91,7 @@ Item {
         NeonTextField {
             id: searchInput
             width: parent.width
-            placeholder: "> SEARCH_MODULE_REGISTRY"
+            placeholder: qsTr("> SEARCH_MODULE_REGISTRY")
             // icon glyph for search: \ue151
         }
 
@@ -263,7 +263,7 @@ Item {
                         Layout.fillWidth: true
 
                         Text {
-                            text: "REGISTER_NEW_MODULE"
+                            text: qsTr("REGISTER_NEW_MODULE")
                             color: Constants.secondaryTextColor
                             font.pixelSize: 12
                             font.family: Constants.mainFont.family
@@ -316,7 +316,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
-                        text: "MODULE_FACTORY"
+                        text: qsTr("MODULE_FACTORY")
                         color: Constants.secondaryTextColor
                         font.family: Constants.mainFont.family
                         font.pixelSize: 11
@@ -332,8 +332,8 @@ Item {
                     NeonTextField {
                         id: moduleNameField
                         width: parent.width
-                        placeholder: "> ENTER_NAME"
-                        label: "MODULE_NAME"
+                        placeholder: qsTr("> ENTER_NAME")
+                        label: qsTr("MODULE_NAME")
                         neonColor: Constants.primaryColor
                         labelColor: Constants.primaryTextColor
                         text: searchInput.text
@@ -350,7 +350,7 @@ Item {
                         Layout.preferredWidth: 100
                         spacing: 8
                         Text {
-                            text: "UNIT"
+                            text: qsTr("UNIT")
                             color: Constants.primaryTextColor
                             font.family: Constants.techFont.family
                             font.pixelSize: 11
@@ -369,7 +369,7 @@ Item {
                         Layout.preferredWidth: 60
                         spacing: 8
                         Text {
-                            text: "DIFFICULTY"
+                            text: qsTr("DIFFICULTY")
                             color: Constants.primaryTextColor
                             font.family: Constants.techFont.family
                             font.pixelSize: 11
@@ -387,7 +387,7 @@ Item {
                         Layout.preferredWidth: 100
                         spacing: 8
                         Text {
-                            text: "TARGET_ZONE"
+                            text: qsTr("TARGET_ZONE")
                             color: Constants.primaryTextColor
                             font.family: Constants.techFont.family
                             font.pixelSize: 11
@@ -412,8 +412,8 @@ Item {
                         NeonTextField {
                             id: repTimeField
                             width: parent.width
-                            placeholder: "> VALUE"
-                            label: "REP_TIME"
+                            placeholder: qsTr("> VALUE")
+                            label: qsTr("REP_TIME")
                             neonColor: Constants.primaryColor
                             labelColor: Constants.primaryTextColor
                             textInput.validator: DoubleValidator {
@@ -454,8 +454,8 @@ Item {
                         NeonTextField {
                             id: fatigueRateField
                             width: parent.width
-                            placeholder: "> VALUE"
-                            label: "FATIGUE_RATE"
+                            placeholder: qsTr("> VALUE")
+                            label: qsTr("FATIGUE_RATE")
                             neonColor: Constants.primaryColor
                             labelColor: Constants.primaryTextColor
                             textInput.validator: DoubleValidator {
@@ -475,35 +475,35 @@ Item {
                     NeonTextField {
                         id: moduleDescriptionField
                         width: parent.width
-                        placeholder: "> ENTER_DESCRIPTION"
-                        label: "DESCRIPTION"
+                        placeholder: qsTr("> ENTER_DESCRIPTION")
+                        label: qsTr("DESCRIPTION")
                         neonColor: Constants.primaryColor
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
                         id: instructionsField
                         width: parent.width
-                        placeholder: "> ENTER_INSTRUCTIONS"
-                        label: "INSTRUCTIONS"
+                        placeholder: qsTr("> ENTER_INSTRUCTIONS")
+                        label: qsTr("INSTRUCTIONS")
                         neonColor: Constants.primaryColor
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
                         id: safetyField
                         width: parent.width
-                        placeholder: "> ENTER_SAFETY"
-                        label: "SAFETY"
+                        placeholder: qsTr("> ENTER_SAFETY")
+                        label: qsTr("SAFETY")
                         neonColor: Constants.primaryColor
                         labelColor: Constants.primaryTextColor
                     }
                     NeonTextField {
                         id: equipmentField
                         width: parent.width
-                        placeholder: "> ENTER_EQUIPMENT"
-                        label: "EQUIPMENT"
+                        placeholder: qsTr("> ENTER_EQUIPMENT")
+                        label: qsTr("EQUIPMENT")
                         neonColor: Constants.primaryColor
                         labelColor: Constants.primaryTextColor
-                        text: "NONE"
+                        text: qsTr("NONE")
                     }
                 }
 
@@ -531,7 +531,7 @@ Item {
                                 color: Constants.primaryColor
                             } // check glyph [7]
                             Text {
-                                text: "REGISTER_MODULE"
+                                text: qsTr("REGISTER_MODULE")
                                 color: Constants.primaryColor
                                 font.family: Constants.mainFont.family
                                 font.pixelSize: 11
@@ -562,7 +562,7 @@ Item {
                         opacity: 0.8
 
                         Text {
-                            text: "ABORT"
+                            text: qsTr("ABORT")
                             anchors.centerIn: parent
                             color: Constants.primaryColor
                             font.family: Constants.mainFont.family

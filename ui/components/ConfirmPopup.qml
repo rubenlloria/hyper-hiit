@@ -22,8 +22,8 @@ Popup {
     closePolicy: Popup.NoAutoClose
 
     // --- CONTEXT PROPERTIES ---
-    property string message: "ARE YOU SURE YOU WANT TO EXECUTE THIS DESTRUCTIVE OPERATION?"
-    property string target: "TARGET ITEM"
+    property string message: qsTr("ARE YOU SURE YOU WANT TO EXECUTE THIS DESTRUCTIVE OPERATION?")
+    property string target: qsTr("TARGET ITEM")
 
     property alias view: view
 

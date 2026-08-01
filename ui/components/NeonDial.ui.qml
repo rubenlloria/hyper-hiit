@@ -68,7 +68,7 @@ Item {
             opacity: 1
             ShapePath {
                 fillColor: "transparent"
-                strokeColor: "#000000"
+                strokeColor: Constants.descriptionColor
                 strokeWidth: 2
 
                 PathAngleArc {
@@ -130,7 +130,7 @@ Item {
         }
         NeonText {
             id: dialMessage
-            label: "WAIT"
+            label: qsTr("WAIT")
             labelColor: root.messageColor
             font.pixelSize: 18
             font.letterSpacing: 4

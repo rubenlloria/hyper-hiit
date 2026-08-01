@@ -38,7 +38,7 @@ Rectangle {
             Layout.fillWidth: true
             titlePart1: "sys"
             titlePart2: "architect"
-            buttonLabel: "BACK     "
+            buttonLabel: qsTr("BACK     ")
             buttonGlyph: Constants.backIcon
         }
 
@@ -79,7 +79,7 @@ Rectangle {
                     width: parent.width * 0.9
                     spacing: 5
                     NeonTitle {
-                        label: "DIRECTIVE_EDITOR"
+                        label: qsTr("DIRECTIVE_EDITOR")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
@@ -108,7 +108,7 @@ Rectangle {
                                 }
                                 NeonText {
                                     Layout.alignment: Qt.AlignVCenter
-                                    label: "ALL"
+                                    label: qsTr("ALL")
                                     labelColor: parent.parent.border.color
                                 }
                             }
@@ -138,7 +138,7 @@ Rectangle {
                                 }
                                 NeonText {
                                     Layout.alignment: Qt.AlignVCenter
-                                    label: "ORPHAN"
+                                    label: qsTr("ORPHAN")
                                     labelColor: parent.parent.border.color
                                 }
                             }
@@ -172,7 +172,7 @@ Rectangle {
                                 }
                                 NeonText {
                                     Layout.alignment: Qt.AlignVCenter
-                                    label: "NEW"
+                                    label: qsTr("NEW")
                                     labelColor: parent.parent.border.color
                                 }
                             }
@@ -206,7 +206,7 @@ Rectangle {
                     width: parent.width * 0.9
                     spacing: 5
                     NeonTitle {
-                        label: "PROTOCOL_BUILDER"
+                        label: qsTr("PROTOCOL_BUILDER")
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
@@ -215,13 +215,15 @@ Rectangle {
 
                     NeonAccordion {
                         id: protocolAccordion
-                        title: "SELECT_PROTOCOL"
+                        title: qsTr("SELECT_PROTOCOL")
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: editingIndex === -1 ? Constants.descriptionColor : Constants.primaryColor
-                        activeItemName: editingIndex
-                                        === -1 ? "DIRECTIVE_NOT_SELECTED" : "ASSOCIATED_PROTOCOLS"
+                        activeItemName: editingIndex === -1 ? qsTr("DIRECTIVE_NOT_SELECTED") : qsTr(
+                                                                  "ASSOCIATED_PROTOCOLS")
                         activeIconGlyph: ""
-                        activeItemDesc: editingIndex === -1 ? "Select directive first." : "Manage selected directive protocols"
+                        activeItemDesc: editingIndex
+                                        === -1 ? qsTr("Select directive first.") : qsTr(
+                                                     "Manage selected directive protocols")
                         width: parent.width
                         headerMouseArea.visible: false
                     }
@@ -234,9 +236,8 @@ Rectangle {
                         visible: protocolAccordion.isOpen
                         property real borderOpacity: addProtocol.pressed ? 1 : 0.5
 
-                        // border.style: "Dashed" // Simplified for UI file representation
                         Text {
-                            text: "+ ADD_PROTOCOL"
+                            text: qsTr("+ ADD_PROTOCOL")
                             color: Constants.primaryColor
                             anchors.centerIn: parent
                             font.family: Constants.techFont.family
@@ -266,12 +267,13 @@ Rectangle {
 
                     NeonAccordion {
                         id: moduleAccordion
-                        title: "SELECT_MODULE"
+                        title: qsTr("SELECT_MODULE")
                         anchors.horizontalCenter: parent.horizontalCenter
                         activeThemeColor: Constants.primaryColor
-                        activeItemName: "MODULE_LIBRARY"
+                        activeItemName: qsTr("MODULE_LIBRARY")
                         activeIconGlyph: Constants.libraryIcon
-                        activeItemDesc: moduleEditor.moduleDataModel.count + " Modules in registry"
+                        activeItemDesc: moduleEditor.moduleDataModel.count + qsTr(
+                                            " Modules in registry")
                         width: parent.width
                         showSwitchLabel: false
                         headerMouseArea.visible: true
@@ -289,7 +291,8 @@ Rectangle {
 
                 Column {
                     // Safe area buffer to prevent content occlusion by fixed footer and audio player
-                    height: 10 + mainWindow.footer.height + (systemManager.systemAudio ? mainWindow.player.height: 0)
+                    height: 10 + mainWindow.footer.height
+                            + (systemManager.systemAudio ? mainWindow.player.height : 0)
                     width: 1
                 }
             }
