@@ -148,11 +148,13 @@ QtObject {
     readonly property string libraryIcon:   "\uE0AD" // database (Module Library)
     readonly property string gripIcon:      "\uE0EA" // grip-horizontal (move)
     readonly property string confirmIcon:   "\uE06C" // check
-    readonly property string addIcon:       "\uE13D" // + (add)
-    readonly property string cancelIcon:    "\uE1B2" // x (remove)
+    readonly property string addIcon:       "\uE13D" // plus + (add)
+    readonly property string cancelIcon:    "\uE1B2" // cross x (remove)
     readonly property string alertIcon:     "\uE193" // triangle-alert
     readonly property string cloneIcon:     "\uE3FD" // copy-plus (Clone item)
     readonly property string powerIcon:     "\uE140" // power(Application Exit)
+    readonly property string allIcon:       "\uE106" // list (all protocols)
+    readonly property string orphanIcon:    "\uE104" // link-2-off (orphan protocols)
     // Power & Stamina Protocols (High Intensity)
     readonly property string kineticIcon:   "\ue58c" // bolt (Kinetic Energy)
     readonly property string weightIcon:    "\ue530" // weight (Heavy Load)

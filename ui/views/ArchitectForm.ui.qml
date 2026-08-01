@@ -102,7 +102,7 @@ Rectangle {
                                 spacing: 0
                                 NeonIcon {
                                     Layout.alignment: Qt.AlignVCenter
-                                    glyph: Constants.activityIcon
+                                    glyph: Constants.allIcon
                                     size: 12
                                     color: parent.parent.border.color
                                 }
@@ -132,7 +132,7 @@ Rectangle {
                                 spacing: 0
                                 NeonIcon {
                                     Layout.alignment: Qt.AlignVCenter
-                                    glyph: Constants.activityIcon
+                                    glyph: Constants.orphanIcon
                                     size: 12
                                     color: parent.parent.border.color
                                 }
@@ -166,7 +166,7 @@ Rectangle {
                                 spacing: 0
                                 NeonIcon {
                                     Layout.alignment: Qt.AlignVCenter
-                                    glyph: Constants.activityIcon
+                                    glyph: Constants.addIcon
                                     size: 12
                                     color: parent.parent.border.color
                                 }
