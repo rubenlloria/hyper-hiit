@@ -179,7 +179,7 @@ Item {
         RowLayout {
             width: parent.width
             NeonText {
-                label: qsTr(" PROTOCOL_BUILDER ")
+                label: qsTr(" PROTOCOL ")
                 labelColor: root.accentColor
                 font.family: Constants.mainFont.family
                 font.pixelSize: 14
@@ -386,7 +386,7 @@ Item {
                 width: parent.width
                 height: 15
                 Text {
-                    text: qsTr("SEQUENCE_EDITOR // TIMELINE")
+                    text: qsTr("SEQUENCE_EDITOR")
                     color: Constants.primaryTextColor
                     font.family: Constants.mainFont.family
                     font.pixelSize: 12

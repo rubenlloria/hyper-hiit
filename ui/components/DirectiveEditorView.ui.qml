@@ -312,7 +312,7 @@ Item {
             Column {
                 spacing: 8
                 Text {
-                    text: qsTr("GLOW_SELECTOR")
+                    text: qsTr("COLOR_SELECTOR")
                     color: Constants.primaryTextColor
                     font.family: Constants.techFont.family
                     font.pixelSize: 10
