@@ -895,7 +895,10 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory(int startDay, int windowSi
 
         // Convert to standard 3-letter label (e.g., "MON", "TUE")
         // Forced to Upper Case for the Tactical Overlay aesthetic
-        QString dayLabel = QLocale::c().toString(targetDate, "ddd").toUpper();
+
+        QString dayLabel = getConfig("system_language", "1") == "1"
+                               ? QLocale::system().toString(targetDate, "ddd").toUpper()
+                               : QLocale::c().toString(targetDate, "ddd").toUpper();
 
         hDebug() << "Date: " << dateKey << " is: " << dayLabel << "and has: " << calories << "kcal.";
 
