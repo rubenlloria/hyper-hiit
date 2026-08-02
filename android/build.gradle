@@ -43,7 +43,7 @@ android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
     ndkVersion = androidNdkVersion
-    //compileSdkVersion 33 // O superior (como 34 o 35)
+    compileSdkVersion 35
 
     sourceSets {
         main {
