@@ -45,11 +45,11 @@ void AchievementManager::initMatrix() {
         QSqlQuery q("SELECT COUNT(*) FROM session_history");
         if (q.exec() && q.next()) {
             int sessionCount = q.value(0).toInt();
-            qDebug() << "[DEBUG]: Badge Info:" << "Total count of Sessions completed:" << sessionCount;
+            hDebug() << "Total count of Sessions completed:" << sessionCount;
 
             return sessionCount >= 1;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve session count.";
+        hWarning() << "Failed to retrieve session count.";
         return false;
     }, this));
 
@@ -59,10 +59,10 @@ void AchievementManager::initMatrix() {
         if (q.exec() && q.next()) {
             int totalKcal = round(q.value(0).toDouble() / 1000);
 
-            qDebug() << "[DEBUG]: Badge Info:" << "Total count of Kcal burned:" << totalKcal;
+            hDebug() << "Total count of Kcal burned:" << totalKcal;
             return totalKcal >= 5000.0;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve Kcal count.";
+        hWarning() << "Failed to retrieve Kcal count.";
         return false;
     }, this));
 
@@ -71,10 +71,10 @@ void AchievementManager::initMatrix() {
         QSqlQuery q("SELECT 1 FROM session_history h JOIN protocols p ON h.protocol_id = p.protocol_id "
                     "WHERE p.rank = 3 LIMIT 1");
         if (q.exec() && q.next()) {
-            qDebug() << "[DEBUG]: Badge Info:" << "ROOT level reached";
+            hDebug() << "ROOT level reached";
             return true;
         }
-        qDebug() << "[DEBUG]: Badge Info:" << "ROOT level NOT reached";
+        hDebug() << "ROOT level NOT reached";
         return false;
     }, this));
 
@@ -85,13 +85,13 @@ void AchievementManager::initMatrix() {
             double maxSpeedReached = q.value(0).toDouble();
 
             // Technical Log: tracking the highest speed recorded in the system
-            qDebug() << "[DEBUG]: Badge Info:" << "Peak session speed found:" << maxSpeedReached * 100;
+            hDebug() << "Peak session speed found:" << maxSpeedReached * 100;
 
             // Logic comparison performed in C++ level instead of SQL level
             // Threshold: 1.05 represents 105% efficiency against previous Personal Best
             return maxSpeedReached > 1.05;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve max speed";
+        hWarning() << "Failed to retrieve max speed";
         return false;
     }, this));
 
@@ -100,11 +100,11 @@ void AchievementManager::initMatrix() {
         QSqlQuery q("SELECT SUM(session_duration) FROM session_history");
         if (q.exec() && q.next()) {
             long hoursActive = q.value(0).toLongLong();
-            qDebug() << "[DEBUG]: Badge Info:" << "Hours active: " << round(hoursActive / (1000 * 60 * 60)) << "h.";
+            hDebug() << "Hours active: " << round(hoursActive / (1000 * 60 * 60)) << "h.";
 
             return hoursActive >= 36000000;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve total hours active";
+        hWarning() << "Failed to retrieve total hours active";
         return false;
     }, this));
 
@@ -131,12 +131,12 @@ void AchievementManager::initMatrix() {
             int completedRootDirectives = qCompleted.value(0).toInt();
 
             // Tactical Log: Monitoring progression towards total domination
-            qDebug() << "[DEBUG]: Badge Info:" << "Completed" << completedRootDirectives << "of" << totalDirectives << " ROOT protocols from diferent directives";
+            hDebug() << "Completed" << completedRootDirectives << "of" << totalDirectives << " ROOT protocols from diferent directives";
 
             // Achievement is unlocked only if progress matches or exceeds total directives
             return completedRootDirectives >= totalDirectives;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve root protocols completed";
+        hWarning() << "Failed to retrieve root protocols completed";
         return false;
     }, this));
 
@@ -144,7 +144,7 @@ void AchievementManager::initMatrix() {
     m_achievements.append(new Badge("OVERCLOCK", "cpu", "+20% weekly performance improvement.", [this]() {
         int improvementPercentage = m_db->getImprovementPercentage();
 
-        qDebug() << "[DEBUG]: Badge Info:" << "Current system improvement: " << QString("%1\%").arg(improvementPercentage);
+        hDebug() << "Current system improvement: " << QString("%1\%").arg(improvementPercentage);
 
         return improvementPercentage >= 20;
     }, this));
@@ -155,12 +155,12 @@ void AchievementManager::initMatrix() {
                     "FROM session_history WHERE session_timestamp >= strftime('%s','now','-7 days')");
         if (q.exec() && q.next()) {
             int daysActive = q.value(0).toInt();
-            qDebug() << "[DEBUG]: Badge Info:" << "Days active in last week:" << daysActive;
+            hDebug() << "Days active in last week:" << daysActive;
 
             // The achievement is unlocked if there are 7 distinct active days
             return daysActive >= 7;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve days active in last week.";
+        hWarning() << "Failed to retrieve days active in last week.";
         return false;
     }, this));
 
@@ -171,11 +171,11 @@ void AchievementManager::initMatrix() {
         if (q.exec() && q.next()) {
             int ghosts = q.value(0).toInt();
 
-            qDebug() << "[DEBUG]: Badge Info:" << "Shattered" << ghosts << "ghosts last 7 days";
+            hDebug() << "Shattered" << ghosts << "ghosts last 7 days";
 
             return  ghosts >= 5;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve ghosts in last week.";
+        hWarning() << "Failed to retrieve ghosts in last week.";
         return false;
     }, this));
 
@@ -185,11 +185,11 @@ void AchievementManager::initMatrix() {
         if (q.exec() && q.next()) {
             int totalSessions = q.value(0).toInt();
 
-            qDebug() << "[DEBUG]: Badge Info:" << "Total count of Sessions completed:" << totalSessions;
+            hDebug() << "Total count of Sessions completed:" << totalSessions;
 
             return totalSessions >= 100;
         }
-        qWarning() << "[WARNING]: Badge Info:" << "Failed to retrieve session count.";
+        hWarning() << "Failed to retrieve session count.";
         return false;
     }, this));
 }
@@ -197,7 +197,7 @@ void AchievementManager::initMatrix() {
 void AchievementManager::runTacticalCheck() {
     hInfo() << "Synchronizing Achievement Matrix telemetry...";
     for (QObject *obj : std::as_const(m_achievements)) {
-        hInfo() << static_cast<Badge*>(obj)->name();
+        hDebug() << static_cast<Badge*>(obj)->name();
         static_cast<Badge*>(obj)->updateState();
     }
 }

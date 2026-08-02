@@ -32,7 +32,7 @@
 // They provide automatic function signature tracing via Q_FUNC_INFO.
 
 #ifndef hDebug
-#ifdef HH_DEBUG
+#if defined( HH_DEBUG) && !defined(NDEBUG)
 #define hDebug() qDebug() << "[DEBUG]: " << Q_FUNC_INFO
 #else
 #define hDebug() if(false) qDebug()

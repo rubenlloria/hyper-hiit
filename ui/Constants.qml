@@ -287,6 +287,8 @@ QtObject {
      * Provides a unified look for terminal telemetry [Source 122].
      */
     function hDebug(qml, msg) {
+        if (!Qt.isDebugBuild) return;
+
         if (qml === "") return;
         console.debug("[DEBUG]:", qml+":", msg)
     }
