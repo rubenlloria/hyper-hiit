@@ -55,8 +55,8 @@ Rectangle {
         width: 15
         height: 15
         anchors.left: parent.left
-        anchors.leftMargin: 20
-        x: 20
+        anchors.leftMargin: 40
+        x: 40
         Rectangle {
             id: bracketLeftV
             width: 2
@@ -83,7 +83,7 @@ Rectangle {
         width: 15
         height: 15
         anchors.right: titleArea.right
-        anchors.rightMargin: 20
+        anchors.rightMargin: 85
         Rectangle {
             id: bracketRightV
             width: 2
