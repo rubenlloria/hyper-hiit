@@ -26,7 +26,8 @@ Item {
     property string valueLabel: "Value"
     property int valueSize: 25
     property string unitLabel: ""
-    property color color: Constants.primaryTextColor // Default cyan neon
+    property color color: Constants.primaryTextColor
+    property color borderColor: root.color
 
     // Main background layer
     Rectangle {
@@ -34,7 +35,7 @@ Item {
         anchors.fill: parent
         color: Constants.deepColor
         opacity: 0.8
-        border.color: root.color
+        border.color: root.borderColor
         border.width: 1
     }
     Column {

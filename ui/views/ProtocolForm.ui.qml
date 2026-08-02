@@ -128,13 +128,15 @@ Rectangle {
                 keyLabel: qsTr("RECORD")
                 valueLabel: root.personalBest > 0 ? root.record : "--:--"
                 unitLabel: ""
-                color: Constants.primaryColor
+                borderColor: Constants.primaryColor
+                color: Constants.primaryTextColor
             }
             NeonMetadata {
-                keyLabel: qsTr("CALORIES")
+                keyLabel: qsTr("CALORIESsssss")
                 valueLabel: root.calories
                 unitLabel: "kcal"
-                color: Constants.primaryColor
+                borderColor: Constants.primaryColor
+                color: Constants.primaryTextColor
             }
         }
     }
