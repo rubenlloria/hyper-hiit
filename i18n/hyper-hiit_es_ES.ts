@@ -368,7 +368,7 @@
     <message>
         <location filename="../ui/components/ConfirmPopupView.ui.qml" line="75"/>
         <source>SYSTEM_WARNING</source>
-        <translation>ALERTA</translation>
+        <translation>ALERTA_DE_SISTEMA</translation>
     </message>
     <message>
         <location filename="../ui/components/ConfirmPopupView.ui.qml" line="95"/>
@@ -684,7 +684,7 @@
     <message>
         <location filename="../ui/components/NeonEvolution.ui.qml" line="167"/>
         <source>EVOLUTION_METRICS</source>
-        <translation>MÉTRICAS_DE_EVOLUCIÓN</translation>
+        <translation>MÉTRICAS_D_EVOLUCIÓN</translation>
     </message>
     <message>
         <location filename="../ui/components/NeonEvolution.ui.qml" line="179"/>
@@ -780,7 +780,7 @@
     <message>
         <location filename="../ui/views/Protocol.qml" line="345"/>
         <source>Last</source>
-        <translation>Anterior</translation>
+        <translation>Último</translation>
     </message>
     <message>
         <location filename="../ui/views/Protocol.qml" line="395"/>
@@ -892,9 +892,13 @@
         <translation>RÉCORD</translation>
     </message>
     <message>
-        <location filename="../ui/views/ProtocolForm.ui.qml" line="134"/>
+        <location filename="../ui/views/ProtocolForm.ui.qml" line="135"/>
+        <source>CALORIESsssss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>CALORIES</source>
-        <translation>CALORÍAS</translation>
+        <translation type="vanished">CALORÍAS</translation>
     </message>
 </context>
 <context>

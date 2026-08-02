@@ -780,7 +780,7 @@
     <message>
         <location filename="../ui/views/Protocol.qml" line="345"/>
         <source>Last</source>
-        <translation>Anterior</translation>
+        <translation>Últim</translation>
     </message>
     <message>
         <location filename="../ui/views/Protocol.qml" line="395"/>
@@ -892,9 +892,13 @@
         <translation>RÈCORD</translation>
     </message>
     <message>
-        <location filename="../ui/views/ProtocolForm.ui.qml" line="134"/>
+        <location filename="../ui/views/ProtocolForm.ui.qml" line="135"/>
+        <source>CALORIESsssss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>CALORIES</source>
-        <translation>CALORIES</translation>
+        <translation type="vanished">CALORIES</translation>
     </message>
 </context>
 <context>
