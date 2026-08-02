@@ -132,6 +132,11 @@ qt_add_translations(hyper-hiit
     TS_FILES
         i18n/hyper-hiit_es_ES.ts
         i18n/hyper-hiit_ca_ES.ts
+        i18n/hyper-hiit_fr_FR.ts
+        i18n/hyper-hiit_de_DE.ts
+        i18n/hyper-hiit_pt_BR.ts
+        i18n/hyper-hiit_it_IT.ts
+        i18n/hyper-hiit_ru_RU.ts
         RESOURCE_PREFIX "/i18n"
 )
 
