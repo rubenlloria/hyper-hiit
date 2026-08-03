@@ -37,7 +37,7 @@ Popup {
         message = "";
         onAccept = null;
         onCancel = null;
-        view.enableCancelButton = true;
+        enableCancel = true;
     }
 
     ConfirmPopupView {
