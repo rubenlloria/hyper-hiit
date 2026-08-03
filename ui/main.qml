@@ -263,7 +263,6 @@ Window {
         }
         confirmPopup.target = qsTr("AUDIO // UPLINK");
         confirmPopup.message = qsTr("hyper//hiit requires notification access to sync playback data. Enable it in Android Settings to continue.")
-        confirmPopup.enableCancel = false;
         confirmPopup.onAccept = function() {
             mediaController.requestNotificationAccess()
         }
@@ -279,6 +278,7 @@ Window {
                     + " | OS: " + Qt.platform.os);
         Constants.hInfo(infoName, "SYSTEM_READY: App Window -> " + mainWindow.width + "x" + mainWindow.height);
         Constants.hInfo(infoName, "SYSTEM_READY: root geometry -> " + root.width + "x" + root.height);
+        Constants.hInfo(infoName, "DEBUG BUILD: " + isDebugBuild);
         // Constants.setTheme(systemManager.systemTheme);
     }
 

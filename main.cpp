@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+#ifdef NDEBUG
+    const bool isDebugBuild = false;
+#else
+    const bool isDebugBuild = true;
+#endif
+
 #ifdef Q_OS_ANDROID
     // Evita que el plugin d'Android cride exit() en tancar l'app.
     // exit() dispara __cxa_finalize, que destrueix objectes globals de TOT
@@ -111,6 +117,7 @@ int main(int argc, char *argv[])
     // 2. Register Context Properties (Neural Sync)
     // We inject the version defined in CMake so the HUD can display it
     engine.rootContext()->setContextProperty("appVersion", APP_VERSION_STR);
+    engine.rootContext()->setContextProperty("isDebugBuild", isDebugBuild);
     engine.rootContext()->setContextProperty("dbManager", &dbManager);
     engine.rootContext()->setContextProperty("moduleModel", &moduleModel);
     engine.rootContext()->setContextProperty("directiveModel", &directiveModel);
