@@ -1452,6 +1452,7 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
 
     while (query.next()) {
         int subId = query.value("subsystem").toInt();
+        int unitType = query.value("unit_type").toInt();
 
         // Detect subsystem transition
         if (subId != currentSubId) {
@@ -1469,6 +1470,9 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
         int currentCP = (moduleIdx < currentLog.size()) ? currentLog[moduleIdx].toInt() : 0;
         int prevCP = (moduleIdx > 0) ? currentLog[moduleIdx - 1].toInt() : 0;
         int moduleDuration = currentCP - prevCP;
+        if (unitType == 0) {
+            moduleDuration = qRound(moduleDuration / 1000.0) * 1000;
+        }
 
         // Calculate Delta against Ghost
         QString deltaText = "--:--";
@@ -1477,6 +1481,9 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
             int gCurrentCP = ghostLog[moduleIdx].toInt();
             int gPrevCP = (moduleIdx > 0) ? ghostLog[moduleIdx - 1].toInt() : 0;
             int ghostDur = gCurrentCP - gPrevCP;
+            if (unitType == 0) {
+                ghostDur = qRound(ghostDur / 1000.0) * 1000;
+            }
             diff = moduleDuration - ghostDur;
             deltaText = (diff > 0 ? "+" : "") + formatDuration(diff);
             deltaText = (diff == 0 ? " " : "") + deltaText;
@@ -1487,7 +1494,7 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
         QVariantMap modEntry;
         modEntry["name"] = query.value("mod_name").toString().toUpper();
         modEntry["quantity"] = query.value("quantity").toInt();
-        modEntry["unit"] = SystemManager::getUnitLabel(query.value("unit_type").toInt());
+        modEntry["unit"] = SystemManager::getUnitLabel(unitType);
         modEntry["time"] = formatDuration(moduleDuration);
         modEntry["delta"] = deltaText;
         modEntry["diff"] = diff;
