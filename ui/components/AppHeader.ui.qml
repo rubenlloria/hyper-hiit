@@ -83,7 +83,7 @@ Rectangle {
         width: 15
         height: 15
         anchors.right: titleArea.right
-        anchors.rightMargin: 85
+        anchors.rightMargin: 70
         Rectangle {
             id: bracketRightV
             width: 2
