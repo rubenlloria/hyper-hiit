@@ -893,12 +893,8 @@
     </message>
     <message>
         <location filename="../ui/views/ProtocolForm.ui.qml" line="135"/>
-        <source>CALORIESsssss</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>CALORIES</source>
-        <translation type="vanished">KALORIEN</translation>
+        <translation>KALORIEN</translation>
     </message>
 </context>
 <context>
