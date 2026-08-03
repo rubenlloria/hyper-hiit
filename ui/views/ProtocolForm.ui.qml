@@ -132,7 +132,7 @@ Rectangle {
                 color: Constants.primaryTextColor
             }
             NeonMetadata {
-                keyLabel: qsTr("CALORIESsssss")
+                keyLabel: qsTr("CALORIES")
                 valueLabel: root.calories
                 unitLabel: "kcal"
                 borderColor: Constants.primaryColor
