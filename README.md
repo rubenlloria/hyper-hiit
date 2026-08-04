@@ -34,6 +34,8 @@ The interface is designed to minimize cognitive load during high-intensity sessi
 - **CORE_CONFIG & ARCHITECT** — in-app settings, plus an editor to create and edit directives, protocols and modules without redeploying.
 - **Selectable Neon Themes** — switch the whole UI between skins such as `CYBERPUNK`, `GHOST_SHELL` and `LIGHT_REPORT`.
 
+> For more information you can see the [user manual](Documentation/en/manual/user-manual.md)
+
 ## Tech Stack
 
 - **UI:** QML (declarative), custom dark/neon theming
@@ -49,7 +51,7 @@ The data model follows a relational-style structure:
 - **Directives** — collections of protocols sharing a training focus (e.g. cardio, strength, mobility).
 - **Session History** — completed sessions, used to compute rolling performance metrics.
 
-For the full technical breakdown — metrics formulas, the JSON schema, UX rules and the version roadmap — see [`architecture-report.md`](./architecture-report.md).
+For the full technical breakdown — metrics formulas, the JSON schema, UX rules and the version roadmap — see [`architecture-report.md`](./Documentation/en/architecture-report.md).
 
 ## Getting Started
 
@@ -68,11 +70,11 @@ cmake --build .
 
 ## Roadmap
 
-Development is staged from `v0.1` (core terminal shell) through `v1.0` (full system online), prioritizing a usable training MVP early (`v0.4`) before layering on metrics, achievements, audio, and configuration tooling. See the [Version Roadmap](./architecture-report.md#version-roadmap) in the architecture report for the complete breakdown.
+Development is staged from `v0.1` (core terminal shell) through `v1.0` (full system online), prioritizing a usable training MVP early (`v0.4`) before layering on metrics, achievements, audio, and configuration tooling. See the [Version Roadmap](./Documentation/en/architecture-report.md#version-roadmap) in the architecture report for the complete breakdown.
 
 ## Documentation & Guidelines
 
-Please refer to the `Documentation/` folder for architectural principles and design standards.
+Please refer to the [`Documentation/`](./Documentation/)folder for architectural principles and design standards.
 
 ## License
 

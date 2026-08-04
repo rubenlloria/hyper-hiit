@@ -124,9 +124,11 @@ qt_add_qml_module(hyper-hiit
         Documentation/ca/architecture-report.ca.md
         Documentation/ca/training-technical-manual.ca.md
         Documentation/es/github_prefixes.md
+        Documentation/es/manual/user-manual.es.md
         Documentation/es/architecture-report.es.md
         Documentation/en/markdownFormat.md
         Documentation/en/architecture-report.md
+        Documentation/en/manual/user-manual.md
 )
 
 # Translations
