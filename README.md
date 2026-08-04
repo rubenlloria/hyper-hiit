@@ -17,7 +17,7 @@ HYPER//HIIT is a free, highly configurable open-source software suite designed f
 Please refer to the `Documentation/` folder for architectural principles and design standards.
 
 ## License
-This project is licensed under the **GNU General Public License v2.0** - see the LICENSE file for details.
+This project is licensed under the **GNU General Public License v3.0** - see the LICENSE file for details.
 
 ---
 *Developed for tactical training optimization.*

@@ -109,8 +109,10 @@ qt_add_qml_module(hyper-hiit
         ui/components/SummaryList.ui.qml
     RESOURCES
         res/init_data.json
-        gpl2_header.txt
+        gpl3_header.txt
         authors.txt
+        LICENSE
+        README.md
         ui/qmldir
         # assets
         ui/assets/fonts/Orbitron-VariableFont_wght.ttf
