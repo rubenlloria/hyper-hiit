@@ -49,7 +49,7 @@ The data model follows a relational-style structure:
 - **Directives** — collections of protocols sharing a training focus (e.g. cardio, strength, mobility).
 - **Session History** — completed sessions, used to compute rolling performance metrics.
 
-For the full technical breakdown — metrics formulas, the JSON schema, UX rules and the version roadmap — see [`architecture-report.md`](./architecture-report.md).
+For the full technical breakdown — metrics formulas, the JSON schema, UX rules and the version roadmap — see [`architecture-report.md`](./Documentation/en/architecture-report.md).
 
 ## Getting Started
 
@@ -68,11 +68,11 @@ cmake --build .
 
 ## Roadmap
 
-Development is staged from `v0.1` (core terminal shell) through `v1.0` (full system online), prioritizing a usable training MVP early (`v0.4`) before layering on metrics, achievements, audio, and configuration tooling. See the [Version Roadmap](./architecture-report.md#version-roadmap) in the architecture report for the complete breakdown.
+Development is staged from `v0.1` (core terminal shell) through `v1.0` (full system online), prioritizing a usable training MVP early (`v0.4`) before layering on metrics, achievements, audio, and configuration tooling. See the [Version Roadmap](./Documentation/en/architecture-report.md#version-roadmap) in the architecture report for the complete breakdown.
 
 ## Documentation & Guidelines
 
-Please refer to the `Documentation/` folder for architectural principles and design standards.
+Please refer to the [`Documentation/`](./Documentation/)folder for architectural principles and design standards.
 
 ## License
 
