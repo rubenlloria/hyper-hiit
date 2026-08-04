@@ -34,6 +34,8 @@ The interface is designed to minimize cognitive load during high-intensity sessi
 - **CORE_CONFIG & ARCHITECT** — in-app settings, plus an editor to create and edit directives, protocols and modules without redeploying.
 - **Selectable Neon Themes** — switch the whole UI between skins such as `CYBERPUNK`, `GHOST_SHELL` and `LIGHT_REPORT`.
 
+> For more information you can see the [user manual](Documentation/en/manual/user-manual.md)
+
 ## Tech Stack
 
 - **UI:** QML (declarative), custom dark/neon theming
