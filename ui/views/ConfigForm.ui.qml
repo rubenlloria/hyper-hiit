@@ -64,6 +64,7 @@ Rectangle {
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
     property alias restoreDBButton: restoreDBButton
+    property alias githubArea: githubArea
 
     ColumnLayout {
         width: parent.width
@@ -332,6 +333,47 @@ Rectangle {
                                 Layout.alignment: Qt.AlignTop
                                 themeColor: Constants.rootColor
                                 anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+
+                    NeonTitle {
+                        width: parent.width
+                        label: "About"
+                        titleColor: Constants.descriptionColor
+                    }
+
+                    Column {
+                        width: parent.width * .9
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Text {
+                            id: aboutText
+                            text: qsTr("Terminal source and documentation available at:")
+                            color: Constants.descriptionColor
+                            font.pixelSize: 16
+                            font.family: Constants.techFont.family
+                            horizontalAlignment: Text.AlignLeft
+                            width: parent.width
+                            wrapMode: Text.WordWrap
+                            opacity: 0.8
+                        }
+                        Text {
+                            id: githubLinkText
+                            text: "github.com/rubenlloria/hyper-hiit"
+                            color: Constants.primaryTextColor
+                            font.pixelSize: 16
+                            font.family: Constants.techFont.family
+                            horizontalAlignment: Text.AlignLeft
+                            width: parent.width
+                            wrapMode: Text.WordWrap
+                            font.underline: true
+
+                            // opacity: 0.8
+                            MouseArea {
+                                id: githubArea
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                // La lògica d'obertura la posarem al fitxer .qml companion
                             }
                         }
                     }

@@ -112,6 +112,12 @@ ConfigForm {
         confirmPopup.open();
     }
 
+    githubArea.onClicked: {
+        Qt.openUrlExternally("https://github.com/rubenlloria/hyper-hiit")
+        Constants.hInfo(infoName, "External uplink requested: GitHub Repository.");
+    }
+
+
     // Timer {
     //     id: nameDebouncer
     //     interval: 2000 // Between 1500-2500ms

@@ -210,144 +210,149 @@
 <context>
     <name>ConfigForm.ui</name>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="80"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="81"/>
         <source>BACK     </source>
         <translation>RETOUR     </translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="113"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="114"/>
         <source>USER_BIO_DATA</source>
         <translation>DONNÉES_BIOMÉTRIQUES</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="136"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="137"/>
         <source>USER_NAME</source>
         <translation>NOM_UTILISATEUR</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="144"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="145"/>
         <source>BIOMASS_KG</source>
         <translation>BIOMASSE_KG</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="152"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="153"/>
         <source>HEIGHT_CM</source>
         <translation>TAILLE_CM</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="160"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="161"/>
         <source>SEX</source>
         <translation>SEXE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="162"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="163"/>
         <source>WOMAN</source>
         <translation>FEMME</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="163"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="164"/>
         <source>REPLICANT</source>
         <translation>RÉPLICANT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="164"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="165"/>
         <source>MAN</source>
         <translation>HOMME</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="171"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="172"/>
         <source>AGE</source>
         <translation>ÂGE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="178"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="179"/>
         <source>RANK_LEVEL</source>
         <translation>NIVEAU_DE_RANG</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="181"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="182"/>
         <source>NEWBIE</source>
         <translation>DÉBUTANT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="182"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="183"/>
         <source>ADVANCED</source>
         <translation>AVANCÉ</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="183"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="184"/>
         <source>ROOT</source>
         <translation>ROOT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="196"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="197"/>
         <source>SYSTEM_PARAMETERS</source>
         <translation>PARAMÈTRES_DU_SYSTÈME</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="219"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="220"/>
         <source>SCANLINE_RENDER</source>
         <translation>RENDU_DE_BALAYAGE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="220"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="221"/>
         <source>Enable/Disable horizontal terminal lines.</source>
         <translation>Active la ligne de balayage horizontale.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="227"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="228"/>
         <source>AUDIO_UPLINK</source>
         <translation>LIAISON_AUDIO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="228"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="229"/>
         <source>Link to Audio Uplink module.</source>
         <translation>Lien vers le module de liaison audio.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="235"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="236"/>
         <source>SHUTDOWN_CONFIRM</source>
         <translation>CONFIRMATION_ARRÊT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="236"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="237"/>
         <source>Request authorization before exit.</source>
         <translation>Demande une autorisation avant de quitter.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="243"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="244"/>
         <source>SYSTEM_LANGUAGE</source>
         <translation>LANGUE_DU_SYSTÈME</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="244"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="245"/>
         <source>Use system configured language.</source>
         <translation>Utilise la langue configurée du système.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="251"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="252"/>
         <source>NEON_THEME</source>
         <translation>THÈME_NÉON</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="272"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="273"/>
         <source>ROOT_ACCESS</source>
         <translation>ACCÈS_ROOT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="295"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="296"/>
         <source> ACCESS_ARCHITECT_MODE </source>
         <translation> MODE_ARCHITECTE </translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="305"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="306"/>
         <source>PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR</source>
         <translation>SUITE_DE_CONCEPTION // ÉDITEUR_DE_DIRECTIVES</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="331"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="332"/>
         <source>RESTORE_DB</source>
         <translation>RESTAURER_BD</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="351"/>
+        <source>Terminal source and documentation available at:</source>
+        <translation>Code source et documentation du terminal disponibles à l&apos;adresse:</translation>
     </message>
 </context>
 <context>
