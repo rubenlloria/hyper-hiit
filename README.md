@@ -6,7 +6,7 @@ HYPER//HIIT is a free, highly configurable open-source software suite designed f
 ## Technical Specifications
 - **Framework:** Qt 6 / QML
 - **Architecture:** C++ Backend for logic / Tactical UI in QML.
-- **System Design:** Modular components (`NeonAccordion`, `CyberButton`) with dynamic theme management.
+- **System Design:** Modular components (`NeonAccordion`, `NeonButton`, etc..) with dynamic theme management.
 - **Build System:** CMake
 
 ## Project Structure
@@ -14,7 +14,7 @@ HYPER//HIIT is a free, highly configurable open-source software suite designed f
 - `devel`: Active integration and rapid prototyping.
 
 ## Documentation & Guidelines
-Please refer to the `guidelines/` folder for architectural principles and design standards.
+Please refer to the `Documentation/` folder for architectural principles and design standards.
 
 ## License
 This project is licensed under the **GNU General Public License v2.0** - see the LICENSE file for details.
