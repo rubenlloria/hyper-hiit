@@ -10,7 +10,7 @@
 
 | Splash | Dashboard | Protocol Execution |
 |:---:|:---:|:---:|
-| ![Splash screen](Documentation/screenshots/splash.jpg) | ![Dashboard](Documentation/screenshots/dashboard.jpg) | ![Protocol](Documentation/screenshots/protocol-countdown.jpg) |
+| ![Splash screen](Documentation/screenshots/splash.jpg) | ![Dashboard](Documentation/screenshots/dashboard.jpg) | ![Protocol](Documentation/screenshots/protocol-progress.jpg) |
 
 | Config — Ghost Shell theme | Config — Light Report theme | Architect — Protocol editor |
 |:---:|:---:|:---:|
