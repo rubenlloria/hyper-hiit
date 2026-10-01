@@ -72,7 +72,7 @@ Item {
             color: Constants.secondaryColor
             opacity: 0.7
             font.family: Constants.techFont.family
-            font.pixelSize: 10
+            font.pixelSize: 12
         }
 
         NeonText {
@@ -87,7 +87,7 @@ Item {
             color: Constants.descriptionColor
             opacity: 0.7
             font.family: Constants.techFont.family
-            font.pixelSize: 10
+            font.pixelSize: 12
         }
     }
 }
