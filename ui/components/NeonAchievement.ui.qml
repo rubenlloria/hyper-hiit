@@ -180,6 +180,8 @@ Rectangle {
                     // modelData is the Achievement object from the QList
                     glyph: achievementMatrix.iconMap[modelData.icon] || "x"
                     unlocked: modelData.unlocked
+                    badgeTitle: modelData.name
+                    badgeDescription: modelData.description
 
                     // Optional: The name/description can be used for tooltips
                 }

@@ -1,3 +1,4 @@
+
 /****************************************************************************
 ** File: NeonAchievement.ui.qml
 ** Date: 19/5/2026
@@ -44,6 +45,8 @@ Item {
     property bool unlocked: false
     property color color: Constants.primaryColor
     readonly property color accentColor: root.color
+    property string badgeTitle: "Badge TITLE"
+    property string badgeDescription: "Badge description"
 
     width: size
     height: size
@@ -64,6 +67,40 @@ Item {
         anchors.centerIn: parent
         glyph: root.glyph
         size: root.size / 2
+    }
+
+    MouseArea {
+        id: badgeMouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
+    ToolTip {
+        id: badgeToolTip
+        visible: badgeMouseArea.containsMouse && root.badgeDescription !== ""
+        delay: 300
+        timeout: 4000
+
+        x: (parent.width - width) / 2
+        y: -height - 20
+
+        contentItem: Text {
+            text: root.badgeTitle !== "" ? "<b>" + root.badgeTitle + "</b><br />"
+                                           + root.badgeDescription : root.badgeDescription
+            color: Constants.primaryTextColor
+            font.family: Constants.techFont.family
+            font.pixelSize: 12
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            textFormat: Text.StyledText
+        }
+        background: Rectangle {
+            color: Constants.backgroundColor
+            border.color: root.unlocked ? Constants.primaryColor : Constants.descriptionColor
+            border.width: 1
+            radius: 2
+            opacity: 0.95
+        }
     }
 
     states: [
