@@ -22,6 +22,7 @@
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
 
+
 /*
 This is a UI file (.ui.qml) that is intended to be edited in Qt Design Studio only.
 It is supposed to be strictly declarative and only uses a subset of QML. If you edit
@@ -198,6 +199,7 @@ Rectangle {
                         width: parent.width - 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         fontSize: 14
+                        glow: 0.5
                     }
 
                     Repeater {
@@ -211,6 +213,7 @@ Rectangle {
                                 label: modelData.quantity + modelData.unit
                                 labelColor: Constants.primaryTextColor
                                 size: 22
+                                glow: 0.5
                             }
 
                             NeonText {
@@ -219,6 +222,7 @@ Rectangle {
                                 size: 22
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignBottom
+                                glow: 0.5
                             }
                         }
                     }

@@ -61,6 +61,7 @@ Item {
             font.family: Constants.mainFont.family
             font.pixelSize: 12
             cornerWidth: 1
+            glow: 0.8
         }
         Repeater {
             id: moduleRepeater
@@ -80,12 +81,14 @@ Item {
                     labelColor: Constants.primaryTextColor
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignBottom
+                    glow: 0
                 }
                 NeonText {
                     label: modelData.time
                     size: 16
                     labelColor: Constants.primaryTextColor
                     Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    glow: 0
                 }
                 NeonText {
                     label: " " + modelData.delta
@@ -93,6 +96,7 @@ Item {
                     labelColor: modelData.diff
                                 > 0 ? Constants.secondaryTextColor : Constants.primaryTextColor
                     Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                    glow: 0
                 }
             }
         }

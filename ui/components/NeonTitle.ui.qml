@@ -1,4 +1,5 @@
 
+
 /****************************************************************************
 ** File: NeonTitle.ui.qml
 ** Date: 12/5/2026
@@ -21,7 +22,6 @@
 **
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -38,6 +38,7 @@ Item {
     property alias label: titleText.label
     property color titleColor: Constants.secondaryTextColor
     property int fontSize: 18
+    property int glow: 1
 
     RowLayout {
         id: layout
@@ -85,6 +86,7 @@ Item {
             size: root.fontSize
             cornerWidth: 1
             Layout.alignment: Qt.AlignVCenter
+            glow: root.glow
         }
 
         // 3. Línia Dreta (Degradat de color a transparent)
