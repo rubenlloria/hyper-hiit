@@ -1,4 +1,5 @@
 
+
 /****************************************************************************
 ** File: NeonProtocol.ui.qml
 ** Date: 9/3/2026
@@ -21,7 +22,6 @@
 **
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
-
 import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
@@ -43,6 +43,7 @@ Item {
     property string rankLabel: "root"
     property string estimatedDuration: "129"
     property string moduleCount: "4"
+    property string estimatedCalories: "420"
     property real currentProgress: 0.5
     property real personalBest: 0.3 // Value between 0.0 and 1.0
     property color primaryColor: Constants.primaryColor
@@ -119,7 +120,7 @@ Item {
                 color: Constants.descriptionColor
                 opacity: 0.7
                 font.family: Constants.techFont.family
-                font.pixelSize: 11
+                font.pixelSize: 12
             }
 
             Text {
@@ -128,7 +129,16 @@ Item {
                 color: Constants.descriptionColor
                 opacity: 0.7
                 font.family: Constants.techFont.family
-                font.pixelSize: 11
+                font.pixelSize: 12
+            }
+
+            Text {
+                id: estimatedCalories
+                text: qsTr("CALORIES: ") + root.estimatedCalories + " kcal"
+                color: Constants.descriptionColor
+                opacity: 0.7
+                font.family: Constants.techFont.family
+                font.pixelSize: 12
             }
         }
 
