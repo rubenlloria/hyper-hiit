@@ -47,7 +47,7 @@ Item {
     property alias font: label.font
     property int cornerSize: label.font.pixelSize / 2 - 1
     property int cornerWidth: 0
-    property int glow: 1
+    property real glow: 1
 
     Text {
         id: label

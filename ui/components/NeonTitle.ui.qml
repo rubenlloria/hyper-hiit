@@ -38,7 +38,7 @@ Item {
     property alias label: titleText.label
     property color titleColor: Constants.secondaryTextColor
     property int fontSize: 18
-    property int glow: 1
+    property real glow: 1
 
     RowLayout {
         id: layout
