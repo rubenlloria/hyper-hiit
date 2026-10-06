@@ -274,14 +274,6 @@ DashboardForm {
         var sexFactor = (userSex - 1) * 0.05;
         const corrector  = 1.0 + ageFactor + sexFactor;
 
-        Constants.hDebug("Briefing", "CALORIECALC DEMO: userAge: %1 | userSex: %2 | userWeight: %3 | ageFactor: %4 | sexFactor: %5 | corrector: %6"
-                         .arg(userAge)
-                         .arg(userSex)
-                         .arg(userWeight)
-                         .arg(ageFactor)
-                         .arg(sexFactor)
-                         .arg(corrector));
-
         // Iterate through subsystems
         for (let i = 0; i < structuredData.length; i++) {
             let moduleList = structuredData[i].modules;
@@ -306,7 +298,6 @@ DashboardForm {
                            * durationHours
                            * mod.fatigue_rate
                            * corrector;
-                Constants.hDebug(debugName, "CALORIECALC: Protocol: %5 | metFactor: %1 | fatigue: %2 | durHours: %3 | totalKcal: %4".arg(mod.met_factor).arg(mod.fatigue_rate).arg(durationHours).arg(totalKcal).arg(protocolId));
             }
         }
 
