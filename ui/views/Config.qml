@@ -23,6 +23,8 @@
 ****************************************************************************/
 
 import QtQuick
+import QtCore
+
 import "../components"
 // Access to NeonIcon, NeonText, etc.
 import ".."
@@ -40,6 +42,7 @@ ConfigForm {
     readonly property color colorDirty: Constants.secondaryTextColor
     property var pendingData: ({})
     property var pulsingComponents: []   // Components currently in success animation
+    property int cheatCounter: 0
 
     // USER_NAME TextField
     userNameField.onTextChanged: {
@@ -136,11 +139,71 @@ ConfigForm {
         confirmPopup.open();
     }
 
+    exportDBButton.interactionArea.onClicked: {
+        let timeStamp = Qt.formatDateTime(new Date(), "yyMMddhhmm");
+        let fileName = "hyperhiit_core_" + timeStamp + ".db";
+        let folder = StandardPaths.writableLocation(StandardPaths.AppDataLocation);
+        Constants.hDebug(debugName, "Folder: " + folder + " File: " + fileName);
+
+        configForm.exportDialog.currentFolder = folder;
+        configForm.exportDialog.currentFile = folder + "/" + fileName;
+        configForm.exportDialog.open()
+        Qt.callLater(function() {
+            configForm.exportDialog.currentFile = folder + "/" + fileName;
+        });
+    }
+
+    importDBButton.interactionArea.onClicked: {
+        configForm.importDialog.open()
+    }
+
+    exportDialog.onAccepted: {
+        let targetPath = exportDialog.selectedFile.toString().replace("file://", "");
+        let success = dbManager.exportDatabase(targetPath);
+
+        if (success) {
+            Constants.hInfo("System", "Database exported to: " + targetPath)
+        } else {
+            Constants.hCritical("System", "Failed to export database.")
+        }
+    }
+
+    // Lògica d'importació
+    importDialog.onAccepted: {
+        let sourcePath = importDialog.selectedFile.toString().replace("file://", "")
+        confirmPopup.target = "SYSTEM // DATABASE";
+        confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO REPLACE") +
+                qsTr("[SYSTEM DATABASE]") +
+                qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.")
+        confirmPopup.onAccept = function() {
+            Constants.hWarning(infoName, "Importing database...");
+            if (dbManager.importDatabase(sourcePath)) {
+                Constants.hInfo("System", "Database imported successfully.")
+                sessionManager.sessionSaved();
+            } else {
+                Constants.hCritical("System", "Failed to import database from: " + sourcePath)
+            }
+        };
+
+        confirmPopup.onCancel = function() {
+            Constants.hInfo(infoName, "Import cancelled");
+        };
+
+        confirmPopup.open();
+    }
+
+    cheatArea.onClicked: {
+        cheatCounter++;
+        if (cheatCounter > 8) {
+            exportDBButton.visible = true;
+            importDBButton.visible = true;
+        }
+    }
+
     githubArea.onClicked: {
         Qt.openUrlExternally("https://github.com/rubenlloria/hyper-hiit")
         Constants.hInfo(infoName, "External uplink requested: GitHub Repository.");
     }
-
 
     // Timer {
     //     id: nameDebouncer

@@ -214,6 +214,9 @@ QtObject {
     readonly property string scanIcon:      "\uE257" // scan (Module diagnostic)
     readonly property string eyeIcon:       "\uE0BA" // eye (Visual monitoring)
     readonly property string infoIcon:      "\uE0F9" // info (System metadata)
+    readonly property string importIcon:    "\uE45A" // arrow-up-from-line (Import database)
+    readonly property string exportIcon:    "\uE454" // arrow-down-from-line (Export database)
+    readonly property string restoreIcon:   "\uE3AB" // database-backup (Restore database)
 
     // Badges
     readonly property string activityIcon:  "\uE038" //  1. NEURAL Badge

@@ -268,6 +268,25 @@ public:
     */
     void closeDatabase();
 
+    /**
+     * @brief Exports the active SQLite database file to a target destination path.
+     * Flushes any pending WAL transactions before copying the database file.
+     * If destinationPath is empty or points to a directory, a default timestamped filename
+     * (hyperhiit_core_YYMMDDhhmm.db) is automatically generated in the download location.
+     * @param destinationPath The destination file or directory path for the backup.
+     * @return True if the database was successfully exported; false otherwise.
+     */
+    Q_INVOKABLE bool exportDatabase(const QString &destinationPath = QString());
+
+    /**
+     * @brief Imports a backup SQLite database file and overwrites the active database.
+     * Closes the existing SQL connection, replaces the current database file with the
+     * provided source file, and re-initializes the database connection.
+     * @param sourcePath The full file path of the SQLite database to import.
+     * @return True if the import succeeded and database connection was restored; false otherwise.
+     */
+    Q_INVOKABLE bool importDatabase(const QString &sourcePath);
+
 private:
     QSqlDatabase m_db;
     int m_dbSchema = 0;
@@ -328,6 +347,11 @@ private:
  */
     QString formatDuration(int ms);
 
+    /**
+     * @brief Retrieves the absolute file path to the active internal SQLite database.
+     * @return The full path to hyperhiit_core.db within QStandardPaths::AppDataLocation.
+     */
+    QString getDatabaseFilePath() const;
 
 };
 

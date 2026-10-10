@@ -27,6 +27,7 @@
 #define HH_CRITICAL
 
 #include <QFile>
+#include <QFileInfo>
 #include "DatabaseManager.h"
 #include "SystemManager.h"
 #include "SystemLog.h"
@@ -2161,4 +2162,192 @@ void DatabaseManager::closeDatabase() {
     if (m_db.isOpen()) {
         m_db.close();
     }
+}
+
+QString DatabaseManager::getDatabaseFilePath() const {
+    QString appDataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    return QDir(appDataDir).filePath("hyperhiit_core.db");
+}
+
+bool DatabaseManager::exportDatabase(const QString &destinationPath) {
+    QString sourceDbPath = getDatabaseFilePath();
+
+    if (!QFile::exists(sourceDbPath)) {
+        hCritical() << "Database export failed: Source file does not exist:" << sourceDbPath;
+        return false;
+    }
+
+    // Flush WAL logs into the main database file prior to copying
+    QSqlQuery checkpointQuery(m_db);
+    if (!checkpointQuery.exec("PRAGMA wal_checkpoint(FULL);")) {
+        hWarning() << "WAL checkpoint before export failed:" << checkpointQuery.lastError().text();
+    }
+
+    // Content URIs (Android SAF) must be kept intact; only strip file:// prefixes
+    QString targetPath = destinationPath;
+    const bool isContentUri = targetPath.startsWith("content://");
+    if (!isContentUri) {
+        targetPath = QUrl(destinationPath).isLocalFile()
+        ? QUrl(destinationPath).toLocalFile()
+        : destinationPath;
+
+        // Fallback filename if path is empty or a directory
+        const QString timeStamp = QDateTime::currentDateTime().toString("yyMMddhhmm");
+        const QString fileName = QString("hyperhiit_core_%1.db").arg(timeStamp);
+        if (targetPath.isEmpty()) {
+            targetPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation))
+            .filePath(fileName);
+        } else if (QFileInfo(targetPath).isDir()) {
+            targetPath = QDir(targetPath).filePath(fileName);
+        }
+    }
+
+    QFile source(sourceDbPath);
+    if (!source.open(QIODevice::ReadOnly)) {
+        hCritical() << "Failed to open source database:" << source.errorString();
+        return false;
+    }
+
+    // QFile handles content:// URIs on Android (Qt 6); truncate to overwrite
+    QFile target(targetPath);
+    if (!target.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        hCritical() << "Failed to open export target:" << targetPath << target.errorString();
+        return false;
+    }
+
+    // Copy in chunks to avoid loading the whole database in memory
+    constexpr qint64 chunkSize = 64 * 1024;
+    while (!source.atEnd()) {
+        const QByteArray chunk = source.read(chunkSize);
+        if (chunk.isEmpty() || target.write(chunk) != chunk.size()) {
+            hCritical() << "Failed while writing export:" << target.errorString();
+            target.close();
+            return false;
+        }
+    }
+
+    target.flush();
+    target.close();
+
+    hInfo() << "Database successfully exported to:" << targetPath;
+    return true;
+}
+
+bool DatabaseManager::importDatabase(const QString &sourcePath) {
+    // Keep content:// URIs intact (Android SAF); convert file:// URLs to local paths
+    QString sourceFilePath = sourcePath;
+    if (!sourceFilePath.startsWith("content://")) {
+        const QUrl url(sourcePath);
+        sourceFilePath = url.isLocalFile() ? url.toLocalFile() : sourcePath;
+    }
+
+    QString targetDbPath = getDatabaseFilePath();
+    const QString tempPath = targetDbPath + ".import_tmp";
+    const QString backupPath = targetDbPath + ".bak";
+
+    // Step 1: copy the source into a temporary file next to the database
+    {
+        QFile source(sourceFilePath);
+        if (!source.open(QIODevice::ReadOnly)) {
+            hCritical() << "Database import failed: cannot open source:" << sourceFilePath
+                        << source.errorString();
+            return false;
+        }
+
+        QFile::remove(tempPath);
+        QFile temp(tempPath);
+        if (!temp.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            hCritical() << "Failed to create temporary import file:" << temp.errorString();
+            return false;
+        }
+
+        constexpr qint64 chunkSize = 64 * 1024;
+        while (!source.atEnd()) {
+            const QByteArray chunk = source.read(chunkSize);
+            if (chunk.isEmpty() || temp.write(chunk) != chunk.size()) {
+                hCritical() << "Failed while copying import source:" << temp.errorString();
+                temp.close();
+                QFile::remove(tempPath);
+                return false;
+            }
+        }
+        temp.close();
+    }
+
+    // Step 2: verify the file is a valid SQLite database before touching the current one
+    {
+        const QString checkConn = "import_validation_connection";
+        bool valid = false;
+        {
+            QSqlDatabase checkDb = QSqlDatabase::addDatabase("QSQLITE", checkConn);
+            checkDb.setDatabaseName(tempPath);
+            if (checkDb.open()) {
+                QSqlQuery q(checkDb);
+                valid = q.exec("PRAGMA integrity_check;") && q.next()
+                        && q.value(0).toString() == "ok";
+                checkDb.close();
+            }
+        }
+        QSqlDatabase::removeDatabase(checkConn);
+
+        if (!valid) {
+            hCritical() << "Database import failed: file is not a valid SQLite database.";
+            QFile::remove(tempPath);
+            return false;
+        }
+    }
+
+    // Step 3: close the active connection to release locks
+    const QString connectionName = m_db.connectionName();
+    if (m_db.isOpen()) {
+        m_db.close();
+    }
+    m_db = QSqlDatabase();
+    QSqlDatabase::removeDatabase(connectionName);
+
+    // Step 4: keep a backup of the current database, then swap files
+    QFile::remove(backupPath);
+    const bool hadDb = QFile::exists(targetDbPath);
+    if (hadDb && !QFile::rename(targetDbPath, backupPath)) {
+        hCritical() << "Failed to back up the current database prior to import.";
+        QFile::remove(tempPath);
+        initDatabase();
+        return false;
+    }
+
+    // Remove stale WAL/SHM files that belong to the old database
+    QFile::remove(targetDbPath + "-wal");
+    QFile::remove(targetDbPath + "-shm");
+
+    if (!QFile::rename(tempPath, targetDbPath)) {
+        hCritical() << "Failed to move imported database into place; restoring backup.";
+        if (hadDb) {
+            QFile::rename(backupPath, targetDbPath);
+        }
+        QFile::remove(tempPath);
+        initDatabase();
+        return false;
+    }
+
+    // Step 5: re-initialize the connection; roll back if the new database cannot be used
+    if (!initDatabase()) {
+        hCritical() << "Imported database could not be initialized; restoring backup.";
+        // initDatabase() may have left a connection open on the bad file
+        const QString badConn = m_db.connectionName();
+        if (m_db.isOpen()) {
+            m_db.close();
+        }
+        m_db = QSqlDatabase();
+        QSqlDatabase::removeDatabase(badConn);
+
+        QFile::remove(targetDbPath);
+        if (hadDb) {
+            QFile::rename(backupPath, targetDbPath);
+        }
+        return initDatabase() && false;  // restored, but the import still failed
+    }
+
+    QFile::remove(backupPath);
+    hInfo() << "Database successfully imported from:" << sourceFilePath;
+    return true;
 }

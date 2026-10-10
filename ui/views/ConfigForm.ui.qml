@@ -34,6 +34,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
 import Qt5Compat.GraphicalEffects
+import QtQuick.Dialogs
 
 import ".."
 import "../components"
@@ -65,7 +66,12 @@ Rectangle {
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
     property alias restoreDBButton: restoreDBButton
+    property alias importDBButton: importDBButton
+    property alias exportDBButton: exportDBButton
+    property alias importDialog: importDialog
+    property alias exportDialog: exportDialog
     property alias githubArea: githubArea
+    property alias cheatArea: cheatArea
 
     ColumnLayout {
         width: parent.width
@@ -266,7 +272,7 @@ Rectangle {
                     Column {
                         id: rootCol
                         width: parent.width
-                        height: 250
+                        height: exportDBButton.visible ? 370 : 255
                         spacing: 12
                         property color sectionColor: Constants.rootColor
 
@@ -331,9 +337,30 @@ Rectangle {
                                 id: restoreDBButton
                                 width: parent.width * 0.9
                                 label: qsTr("RESTORE_DB")
+                                iconGlyph: Constants.restoreIcon
                                 Layout.alignment: Qt.AlignTop
                                 themeColor: Constants.rootColor
                                 anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                            NeonButton {
+                                id: exportDBButton
+                                width: parent.width * 0.9
+                                label: qsTr("EXPORT_SYSTEM_DATABASE")
+                                iconGlyph: Constants.exportIcon
+                                Layout.alignment: Qt.AlignTop
+                                themeColor: Constants.rootColor
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                visible: false
+                            }
+                            NeonButton {
+                                id: importDBButton
+                                width: parent.width * 0.9
+                                label: qsTr("IMPORT_SYSTEM_DATABASE")
+                                iconGlyph: Constants.importIcon
+                                Layout.alignment: Qt.AlignTop
+                                themeColor: Constants.rootColor
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                visible: false
                             }
                         }
                     }
@@ -342,6 +369,10 @@ Rectangle {
                         width: parent.width
                         label: "About"
                         titleColor: Constants.descriptionColor
+                        MouseArea {
+                            id: cheatArea
+                            anchors.fill: parent
+                        }
                     }
 
                     Column {
@@ -388,5 +419,19 @@ Rectangle {
                 }
             }
         }
+    }
+
+    FileDialog {
+        id: exportDialog
+        title: "EXPORT_DATABASE"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["SQLite Database (*.db)", "All Files (*)"]
+    }
+
+    FileDialog {
+        id: importDialog
+        title: "IMPORT_DATABASE"
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["SQLite Database (*.db)", "All Files (*)"]
     }
 }
