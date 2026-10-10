@@ -63,7 +63,7 @@ ProtocolForm {
     property double sessionStoredCalories: 0.0
     property double userWeight: sessionManager.userWeight
     property int userAge: sessionManager.userAge
-    property bool userSex: sessionManager.userSex
+    property int userSex: sessionManager.userSex
     property var lastSessionCheckpoints: [] // Stores the QList<int> returned from C++
 
     onActiveProtocolIdChanged: {
