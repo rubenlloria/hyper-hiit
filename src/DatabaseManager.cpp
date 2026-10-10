@@ -882,7 +882,8 @@ QVariantList DatabaseManager::getWeeklyCalorieHistory(int startDay, int windowSi
 
     // Store database results in a temporary map for fast lookup
     while (query.next()) {
-        calorieMap.insert(query.value("raw_date").toString(), query.value("daily_calories").toInt() / 1000);
+        calorieMap.insert(query.value("raw_date").toString(),
+                          qRound(query.value("daily_calories").toDouble() / 1000.0));
     }
 
     // 2. Generate the 7-day sequence (from 6 days ago up to today)
