@@ -789,9 +789,9 @@ int DatabaseManager::saveSession(int protocolId, qint64 timestamp, int totalSecs
     q.bindValue(":ts", timestamp);
     q.bindValue(":duration", totalSecs);
     q.bindValue(":log", modulesLog);
-    q.bindValue(":kcal", calories);
-    q.bindValue(":speed", speed);
-    q.bindValue(":met", met_score);
+    q.bindValue(":kcal", std::round(calories * 100.0) / 100.0);
+    q.bindValue(":speed", std::round(speed * 100.0) / 100.0);
+    q.bindValue(":met", std::round(met_score * 100.0) / 100.0);
 
     if (!q.exec()) {
         hWarning() << "Critical failure saving session data: " << q.lastError().text();
