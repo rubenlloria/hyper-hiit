@@ -382,6 +382,8 @@ Item {
                             size: 40
                             glyph: model.icon
                             color: model.color
+                            badgeTitle: model.name
+                            badgeDescription: model.description
                             unlocked: root.directiveList.indexOf(
                                           model.id) !== -1
                             MouseArea {
