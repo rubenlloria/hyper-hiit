@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
     int activeDirId = sessionManager.getActiveDirectiveId();
 
     QTranslator translator;
+    QString activeLocale = QStringLiteral("en");   // language shared by the UI and the database texts
 
     if (systemManager.systemLanguage()) {
         const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -109,10 +110,14 @@ int main(int argc, char *argv[])
             if (translator.load(":/i18n/" + baseName)) {
                 app.installTranslator(&translator);
                 hInfo() << "Language file " << baseName << " loaded";
+                activeLocale = QLocale(locale).name();
                 break;
             }
         }
     }
+
+    // Keep the module and directive texts stored in the database in the UI language
+    dbManager.applyLanguageData(activeLocale);
 
     ModuleModel moduleModel;
     DirectiveModel directiveModel(&dbManager);

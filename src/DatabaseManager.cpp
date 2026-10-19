@@ -28,6 +28,8 @@
 
 #include <QFile>
 #include <QFileInfo>
+#include <QUrl>
+#include <QJsonParseError>
 #include "DatabaseManager.h"
 #include "SystemManager.h"
 #include "SystemLog.h"
@@ -228,138 +230,10 @@ bool DatabaseManager::createTables() {
 } // createTables()
 
 bool DatabaseManager::seedDatabase() {
-    QSqlQuery q;
-
     hInfo() << "Seeding tables";
-    // Load the data shard from the Qt Resource System
-    // QFile file(":/qt/qml/res/init_data.json");
-    QFile file(":/qt/qml/org/aic/hyperhiit/res/init_data.json");
-    if (!file.open(QIODevice::ReadOnly)) {
-        hCritical() << "Data shard init_data.json not found.";
-        return false;
-    }
-
-    QByteArray jsonData = file.readAll();
-    file.close();
-
-    if (jsonData.isEmpty()) {
-        hWarning() << "Shard is empty. Neural Sync aborted.";
-        return false;
-    }
-
-    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-    QJsonObject root = doc.object();
-
-    QString versionStr = root["version"].toString();
-    float version = versionStr.toFloat();
-
-    if (version < MIN_JSON_VERSION) {
-        hCritical() << "Incompatible Data Packet: Detected version" << versionStr
-                    << "but system requires at least" << MIN_JSON_VERSION;
-        return false;
-    }
-
-    QJsonArray modulesArr = root["modules"].toArray();
-    QJsonArray directivesArr = root["directives"].toArray();
-    QJsonArray protocolsArr = root["protocols"].toArray();
-    QJsonArray ranksArr = root["ranks"].toArray();
-    // QJsonArray mappingArr = root["mapping"].toArray();
-
-    // Start SQL Transaction to maximize performance and ensure Neural Sync integrity
-    if (!m_db.transaction()) {
-        hCritical() << "Could not start transaction:" << m_db.lastError().text();
-        return false;
-    }
-
-    //////////// MODULES ///////////////
-    for (const QJsonValue &value : std::as_const(modulesArr)) { // TODO: add equipment as list. see doc
-        QJsonObject d = value.toObject();
-        QString moduleName = d.value("module_name").toString();
-        hInfo() << "inserting module " << moduleName;
-        // insertModule(name, difficulty, zone, desc, inst, safe, equip, unit, met, fatigue, time)
-        int id = insertModule(
-            moduleName,
-            d.value("difficulty").toInt(0),
-            d.value("target_zone").toString("FULL_BODY"),
-            d.value("description").toString(),
-            d.value("instructions").toString(),
-            d.value("safety_info").toString(),
-            // d.value("equipment").toString(),
-            resolveUnitType(d.value("unit_type")),
-            d.value("met_factor").toDouble(),
-            d.value("fatigue_rate").toDouble(),
-            d.value("rep_time").toDouble()
-            );
-        if (id != -1) {
-            nameToModuleId[moduleName.toLower()] = id;
-        }
-    }
-
-    //////////// DIRECTIVES ///////////////
-    for (const QJsonValue &value : std::as_const(directivesArr)) {
-        QJsonObject d = value.toObject();
-        QString directiveName = d.value("directive_name").toString();
-        hInfo() << "inserting directive " << directiveName;
-        int id = insertDirective(
-            directiveName,
-            d.value("directive_description").toString(),
-            d.value("directive_icon").toString(),
-            d.value("directive_color").toString()
-            );
-        if (id != -1) {
-            nameToDirectiveId[directiveName] = id;
-        }
-    }
-
-    //////////// PROTOCOLS ///////////////
-    for (const QJsonValue &value : std::as_const(protocolsArr)) {
-        QJsonObject d = value.toObject();
-        QString protocolName = d.value("protocol_name").toString();
-        hInfo() << "inserting protocol " << protocolName;
-        int id = insertProtocol(
-            protocolName,
-            d.value("estimated_duration").toDouble(),
-            d.value("module_count").toInt(),
-            d.value("rank").toInt(),
-            d.value("personal_best").toDouble()
-            );
-        if (id != -1) {
-            nameToProtocolId[protocolName] = id;
-            QJsonArray targetDirs = d.value("target_directives").toArray();
-            linkProtocol(id, targetDirs);
-            QJsonArray protocolStructure = d.value("structure").toArray();
-            seedProtocolStructure(id, protocolStructure);
-        }
-    }
-
-    ///////////////// RANKS ///////////////////
-    for (const QJsonValue &value : std::as_const(ranksArr)) {
-        QJsonObject d = value.toObject();
-        QString rankName= d.value("rank_name").toString();
-        int id = insertRank(
-            d.value("rank_level").toInt(0),
-            rankName
-            );
-        if (id < 0) {
-            hCritical() << "Failed to insert rank " << rankName
-                        << " with id: " << d.value("rank_level").toInt(0);
-        } else {
-            hInfo() << "inserted rank " << rankName;
-        }
-    }
-
-    hInfo() << "Tables seeded succesfully";
-
-    if (m_db.commit()) {
-        hInfo() << "UPLINK_COMPLETE: Neural Sync at 100%";
-        return true;
-    } else {
-        hCritical() << "[CRITICAL]: Transaction commit failed. Rolling back.";
-        m_db.rollback();
-        return false;
-    }
-
-    return true;
+    // The master data shard goes through the same merge routine as any external file
+    const QVariantMap result = loadFromJson(":/qt/qml/org/aic/hyperhiit/res/init_data.json", true);
+    return result.value("ok").toBool();
 }
 
 QList<Module> DatabaseManager::getAllModules() {
@@ -706,8 +580,9 @@ int DatabaseManager::insertProtocol(const QString &name, int duration, int modul
         hCritical() << "Failed seeding protocol " << name << ":" << q.lastError().text();
         return -1;
     }
+    const int newId = q.lastInsertId().toInt();
     setProtocolMaxDuration();
-    return q.lastInsertId().toInt();
+    return newId;
 }
 
 int DatabaseManager::insertRank(int rank_level, const QString &rank_name) {
@@ -2350,5 +2225,269 @@ bool DatabaseManager::importDatabase(const QString &sourcePath) {
 
     QFile::remove(backupPath);
     hInfo() << "Database successfully imported from:" << sourceFilePath;
+    return true;
+}
+
+/**
+ * Returns the id of the row whose name column matches (case-insensitive), or -1.
+ * Table and column names are internal constants, never user input.
+ */
+int DatabaseManager::findIdByName(const QString &table, const QString &idColumn,
+                                  const QString &nameColumn, const QString &name) {
+    QSqlQuery q;
+    q.prepare(QString("SELECT %1 FROM %2 WHERE %3 = :name COLLATE NOCASE LIMIT 1")
+                  .arg(idColumn, table, nameColumn));
+    q.bindValue(":name", name);
+    if (q.exec() && q.next()) {
+        return q.value(0).toInt();
+    }
+    return -1;
+}
+
+QVariantMap DatabaseManager::loadFromJson(const QString &path, bool allowCreate) {
+    int modulesCreated = 0, modulesUpdated = 0;
+    int directivesCreated = 0, directivesUpdated = 0;
+    int protocolsCreated = 0, skipped = 0;
+
+    auto makeResult = [&](bool ok, const QString &error) {
+        return QVariantMap{
+            {"ok", ok}, {"error", error},
+            {"modulesCreated", modulesCreated}, {"modulesUpdated", modulesUpdated},
+            {"directivesCreated", directivesCreated}, {"directivesUpdated", directivesUpdated},
+            {"protocolsCreated", protocolsCreated}, {"skipped", skipped}
+        };
+    };
+
+    // File dialogs return file:// URLs; resource and content:// paths are used as they are
+    QString localPath = path;
+    if (localPath.startsWith("file://")) {
+        localPath = QUrl(localPath).toLocalFile();
+    }
+
+    QFile file(localPath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        hCritical() << "loadFromJson: cannot open" << localPath;
+        return makeResult(false, "Cannot open file");
+    }
+
+    QJsonParseError parseError;
+    const QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &parseError);
+    file.close();
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        hCritical() << "loadFromJson: invalid JSON:" << parseError.errorString();
+        return makeResult(false, "Invalid JSON");
+    }
+
+    const QJsonObject root = doc.object();
+    if (root.contains("version") && root.value("version").toString().toFloat() < MIN_JSON_VERSION) {
+        hCritical() << "loadFromJson: incompatible data version" << root.value("version").toString();
+        return makeResult(false, "Incompatible data version");
+    }
+
+    // A text field that is absent from the JSON stays NULL, so COALESCE keeps the stored value
+    auto textOrNull = [](const QJsonObject &obj, const QString &key) {
+        return obj.contains(key) ? QVariant(obj.value(key).toString())
+                                 : QVariant(QMetaType::fromType<QString>());
+    };
+
+    if (!m_db.transaction()) {
+        hCritical() << "loadFromJson: could not start transaction:" << m_db.lastError().text();
+        return makeResult(false, "Database transaction failed");
+    }
+    auto rollbackWith = [&](const QString &error) {
+        m_db.rollback();
+        hCritical() << "loadFromJson: rolled back:" << error;
+        return makeResult(false, error);
+    };
+
+    //////////// MODULES ///////////////
+    const QJsonArray modulesArr = root.value("modules").toArray();
+    for (const QJsonValue &value : modulesArr) {
+        const QJsonObject m = value.toObject();
+        const QString name = m.value("module_name").toString().trimmed();
+        if (name.isEmpty()) { ++skipped; continue; }
+
+        const int id = findIdByName("modules", "module_id", "mod_name", name);
+        if (id != -1) {
+            // Existing module: texts only
+            QSqlQuery q;
+            q.prepare("UPDATE modules SET "
+                      "mod_description  = COALESCE(:desc, mod_description), "
+                      "mod_instructions = COALESCE(:inst, mod_instructions), "
+                      "mod_safety       = COALESCE(:safe, mod_safety) "
+                      "WHERE module_id = :id");
+            q.bindValue(":desc", textOrNull(m, "description"));
+            q.bindValue(":inst", textOrNull(m, "instructions"));
+            q.bindValue(":safe", textOrNull(m, "safety_info"));
+            q.bindValue(":id", id);
+            if (!q.exec()) return rollbackWith("Failed to update module " + name);
+            ++modulesUpdated;
+        } else if (allowCreate) {
+            // A new module needs the full definition, otherwise it is skipped
+            const int unit = resolveUnitType(m.value("unit_type"));
+            if (!m.contains("target_zone") || unit == -1 || m.value("rep_time").toDouble() <= 0) {
+                hWarning() << "loadFromJson: incomplete module skipped:" << name;
+                ++skipped;
+                continue;
+            }
+            const int newId = insertModule(
+                name,
+                m.value("difficulty").toInt(0),
+                m.value("target_zone").toString(),
+                m.value("description").toString(),
+                m.value("instructions").toString(),
+                m.value("safety_info").toString(),
+                unit,
+                m.value("met_factor").toDouble(),
+                m.value("fatigue_rate").toDouble(),
+                m.value("rep_time").toDouble());
+            if (newId < 0) return rollbackWith("Failed to create module " + name);
+            ++modulesCreated;
+        } else {
+            ++skipped;
+        }
+    }
+
+    //////////// DIRECTIVES ///////////////
+    const QJsonArray directivesArr = root.value("directives").toArray();
+    for (const QJsonValue &value : directivesArr) {
+        const QJsonObject d = value.toObject();
+        const QString name = d.value("directive_name").toString().trimmed();
+        if (name.isEmpty()) { ++skipped; continue; }
+
+        const int id = findIdByName("directives", "dir_id", "dir_name", name);
+        if (id != -1) {
+            // Existing directive: description only
+            QSqlQuery q;
+            q.prepare("UPDATE directives SET dir_description = COALESCE(:desc, dir_description) "
+                      "WHERE dir_id = :id");
+            q.bindValue(":desc", textOrNull(d, "directive_description"));
+            q.bindValue(":id", id);
+            if (!q.exec()) return rollbackWith("Failed to update directive " + name);
+            ++directivesUpdated;
+        } else if (allowCreate && d.contains("directive_icon") && d.contains("directive_color")) {
+            const int newId = insertDirective(name,
+                                              d.value("directive_description").toString(),
+                                              d.value("directive_icon").toString(),
+                                              d.value("directive_color").toString());
+            if (newId < 0) return rollbackWith("Failed to create directive " + name);
+            ++directivesCreated;
+        } else {
+            ++skipped;
+        }
+    }
+
+    //////////// PROTOCOLS (create only, never modify) ///////////////
+    const QJsonArray protocolsArr = root.value("protocols").toArray();
+    for (const QJsonValue &value : protocolsArr) {
+        const QJsonObject p = value.toObject();
+        const QString name = p.value("protocol_name").toString().trimmed();
+        const QJsonArray structure = p.value("structure").toArray();
+
+        if (name.isEmpty() || !allowCreate || structure.isEmpty()
+            || findIdByName("protocols", "protocol_id", "protocol_name", name) != -1) {
+            ++skipped;
+            continue;
+        }
+
+        // Every module and unit must be resolvable before anything is inserted
+        bool complete = true;
+        for (const QJsonValue &sv : structure) {
+            const QJsonObject s = sv.toObject();
+            const QString moduleName = s.value("module").toString();
+            const int moduleId = findIdByName("modules", "module_id", "mod_name", moduleName);
+            if (moduleId == -1 || resolveUnitType(s.value("unit")) == -1 || s.value("quantity").toInt() <= 0) {
+                hWarning() << "loadFromJson: protocol" << name << "skipped, bad entry:" << moduleName;
+                complete = false;
+                break;
+            }
+            nameToModuleId[moduleName.toLower()] = moduleId;
+        }
+        if (!complete) { ++skipped; continue; }
+
+        // Directives are resolved by name; unknown ones are ignored by linkProtocol
+        const QJsonArray targetDirs = p.value("target_directives").toArray();
+        for (const QJsonValue &dv : targetDirs) {
+            const int dirId = findIdByName("directives", "dir_id", "dir_name", dv.toString());
+            if (dirId != -1) nameToDirectiveId[dv.toString()] = dirId;
+        }
+
+        const int newId = insertProtocol(name,
+                                         p.value("estimated_duration").toInt(),
+                                         structure.size(),
+                                         p.value("rank").toInt(1),
+                                         0);
+        if (newId < 0) return rollbackWith("Failed to create protocol " + name);
+        linkProtocol(newId, targetDirs);
+        seedProtocolStructure(newId, structure);
+        ++protocolsCreated;
+    }
+
+    //////////// RANKS ///////////////
+    // rank_level is the key and the name is display-only, so names can be translated safely
+    const QJsonArray ranksArr = root.value("ranks").toArray();
+    for (const QJsonValue &value : ranksArr) {
+        const QJsonObject r = value.toObject();
+        const int level = r.value("rank_level").toInt(0);
+        const QString rankName = r.value("rank_name").toString().trimmed();
+        if (rankName.isEmpty()) { ++skipped; continue; }
+
+        QSqlQuery q;
+        q.prepare("SELECT 1 FROM ranks WHERE rank_level = :level");
+        q.bindValue(":level", level);
+        const bool exists = q.exec() && q.next();
+
+        if (exists) {
+            QSqlQuery u;
+            u.prepare("UPDATE ranks SET rank_name = :name WHERE rank_level = :level");
+            u.bindValue(":name", rankName);
+            u.bindValue(":level", level);
+            if (!u.exec()) return rollbackWith("Failed to rename rank " + rankName);
+        } else if (allowCreate) {
+            if (insertRank(level, rankName) < 0) return rollbackWith("Failed to create rank " + rankName);
+        } else {
+            ++skipped;
+        }
+    }
+
+    if (!m_db.commit()) {
+        return rollbackWith("Commit failed");
+    }
+
+    hInfo() << "loadFromJson done:" << modulesCreated << "modules created," << modulesUpdated
+            << "updated;" << directivesCreated << "directives created," << directivesUpdated
+            << "updated;" << protocolsCreated << "protocols created;" << skipped << "skipped";
+    return makeResult(true, QString());
+}
+
+bool DatabaseManager::applyLanguageData(const QString &locale) {
+    const QString resourceDir = ":/qt/qml/org/aic/hyperhiit/res/";
+    const bool english = locale.isEmpty() || locale == "en";
+
+    // Language file when available, English master file otherwise
+    QString path = resourceDir + "init_data.json";
+    if (!english && QFile::exists(resourceDir + "init_data_" + locale + ".json")) {
+        path = resourceDir + "init_data_" + locale + ".json";
+    }
+
+    // The marker is the file actually applied, so a file added by an app update is picked up
+    const QString marker = QFileInfo(path).fileName();
+    if (getConfig("data_language_file", "") == marker) {
+        return true;
+    }
+
+    // A fresh (or legacy) database already holds the English texts: only record the marker
+    if (marker == "init_data.json" && getConfig("data_language_file", "").isEmpty()) {
+        setConfig("data_language_file", marker);
+        return true;
+    }
+
+    const QVariantMap result = loadFromJson(path, false);
+    if (!result.value("ok").toBool()) {
+        hWarning() << "applyLanguageData: could not apply" << marker << result.value("error").toString();
+        return false;
+    }
+    setConfig("data_language_file", marker);
+    hInfo() << "Database texts switched to" << marker;
     return true;
 }

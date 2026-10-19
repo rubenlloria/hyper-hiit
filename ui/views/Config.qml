@@ -122,6 +122,28 @@ ConfigForm {
                     });
     }
 
+    importJsonButton.interactionArea.onClicked: {
+        configForm.importJsonDialog.open()
+    }
+
+    // The import only adds data or updates texts, so no confirmation is needed
+    importJsonDialog.onAccepted: {
+        let result = dbManager.loadFromJson(importJsonDialog.selectedFile.toString())
+        if (result.ok) {
+            Constants.hInfo(debugName, "JSON imported: " + result.modulesCreated + " modules, " +
+                            result.directivesCreated + " directives, " + result.protocolsCreated +
+                            " protocols created; " + (result.modulesUpdated + result.directivesUpdated) +
+                            " texts updated; " + result.skipped + " skipped")
+            // Refresh the cached lists, same signal used after importDatabase
+            moduleModel.setModules(dbManager.getAllModules())
+            directiveModel.setDirectives(dbManager.getAllDirectives())
+            sessionManager.sessionSaved()
+        } else {
+            Constants.hCritical(debugName, "JSON import failed: " + result.error)
+        }
+    }
+
+
     restoreDBButton.interactionArea.onClicked: {
         confirmPopup.target = "SYSTEM // DATABASE";
         confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
@@ -145,32 +167,32 @@ ConfigForm {
         let folder = StandardPaths.writableLocation(StandardPaths.AppDataLocation);
         Constants.hDebug(debugName, "Folder: " + folder + " File: " + fileName);
 
-        configForm.exportDialog.currentFolder = folder;
-        configForm.exportDialog.currentFile = folder + "/" + fileName;
-        configForm.exportDialog.open()
+        configForm.exportDBDialog.currentFolder = folder;
+        configForm.exportDBDialog.currentFile = folder + "/" + fileName;
+        configForm.exportDBDialog.open()
         Qt.callLater(function() {
-            configForm.exportDialog.currentFile = folder + "/" + fileName;
+            configForm.exportDBDialog.currentFile = folder + "/" + fileName;
         });
     }
 
     importDBButton.interactionArea.onClicked: {
-        configForm.importDialog.open()
+        configForm.importDBDialog.open()
     }
 
-    exportDialog.onAccepted: {
-        let targetPath = exportDialog.selectedFile.toString().replace("file://", "");
+    exportDBDialog.onAccepted: {
+        let targetPath = exportDBDialog.selectedFile.toString().replace("file://", "");
         let success = dbManager.exportDatabase(targetPath);
 
         if (success) {
-            Constants.hInfo("System", "Database exported to: " + targetPath)
+            Constants.hInfo(debugName, "Database exported to: " + targetPath)
         } else {
-            Constants.hCritical("System", "Failed to export database.")
+            Constants.hCritical(debugName, "Failed to export database.")
         }
     }
 
     // Lògica d'importació
-    importDialog.onAccepted: {
-        let sourcePath = importDialog.selectedFile.toString().replace("file://", "")
+    importDBDialog.onAccepted: {
+        let sourcePath = importDBDialog.selectedFile.toString().replace("file://", "")
         confirmPopup.target = "SYSTEM // DATABASE";
         confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO REPLACE") +
                 qsTr("[SYSTEM DATABASE]") +
@@ -178,10 +200,10 @@ ConfigForm {
         confirmPopup.onAccept = function() {
             Constants.hWarning(infoName, "Importing database...");
             if (dbManager.importDatabase(sourcePath)) {
-                Constants.hInfo("System", "Database imported successfully.")
+                Constants.hInfo(debugName, "Database imported successfully.")
                 sessionManager.sessionSaved();
             } else {
-                Constants.hCritical("System", "Failed to import database from: " + sourcePath)
+                Constants.hCritical(debugName, "Failed to import database from: " + sourcePath)
             }
         };
 
@@ -197,6 +219,7 @@ ConfigForm {
         if (cheatCounter > 8) {
             exportDBButton.visible = true;
             importDBButton.visible = true;
+            restoreDBButton.visible = true;
         }
     }
 

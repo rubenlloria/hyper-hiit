@@ -287,6 +287,40 @@ public:
      */
     Q_INVOKABLE bool importDatabase(const QString &sourcePath);
 
+    /**
+     * @brief Merges an external JSON file (same schema as init_data.json) into the database.
+     *
+     * Everything is matched by name (case-insensitive) and nothing is ever deleted:
+     *  - Existing modules and directives: only their texts are updated (description,
+     *    instructions, safety_info). Name, zone, timings and METs are never touched.
+     *  - Missing modules, directives and protocols are created when allowCreate is true
+     *    and the entry carries all the required fields; otherwise they are skipped.
+     *  - Existing protocols are never modified, so the session history stays valid.
+     *  - Ranks are matched by rank_level: an existing rank is renamed (display text only),
+     *    a missing one is created only when allowCreate is true.
+     *  - It is also what seedDatabase() uses for the master init_data.json.
+     *  - The whole import runs in a single transaction (all or nothing).
+     *
+     * @param path Local path, file:// URL or Qt resource path (":/...").
+     * @param allowCreate When false only existing entries are updated (language files).
+     * @return Map with: ok, error, modulesCreated, modulesUpdated, directivesCreated,
+     *         directivesUpdated, protocolsCreated, skipped.
+     */
+    Q_INVOKABLE QVariantMap loadFromJson(const QString &path, bool allowCreate = true);
+
+    /**
+     * @brief Applies the translated texts that match the UI language.
+     *
+     * Loads init_data_<locale>.json through loadFromJson(path, false). English (or a locale
+     * without a data file) loads init_data.json, which restores the original texts.
+     * It does nothing when that file was already the last one applied, so texts edited
+     * by hand are not overwritten on every start.
+     *
+     * @param locale Locale name such as "es_ES"; empty or "en" selects English.
+     * @return True on success or when there was nothing to do.
+     */
+    bool applyLanguageData(const QString &locale);
+
 private:
     QSqlDatabase m_db;
     int m_dbSchema = 0;
@@ -312,39 +346,39 @@ private:
     void seedProtocolStructure(int protocolId, const QJsonArray &structureArr);
 
     /**
- * @brief Internal helper to retrieve the Power Index for a specific time window.
- * @param startDay: Days offset from now (0 for today).
- * @param windowSize: Number of days to include in the sum.
- */
+     * @brief Internal helper to retrieve the Power Index for a specific time window.
+     * @param startDay: Days offset from now (0 for today).
+     * @param windowSize: Number of days to include in the sum.
+     */
     double getPowerScore(int startDay, int windowSize);
 
     /**
- * @brief Retrieves the average efficiency (based on speed_index) for a given window.
- * @param startDay: Days offset from now (0 for today).
- * @param windowSize: Number of days to include in the sum.
- * @return a percentage (e.g., 105 for 105% efficiency).
- */
+     * @brief Retrieves the average efficiency (based on speed_index) for a given window.
+     * @param startDay: Days offset from now (0 for today).
+     * @param windowSize: Number of days to include in the sum.
+     * @return a percentage (e.g., 105 for 105% efficiency).
+     */
     int getAverageEfficiency(int startDay, int windowSize);
 
     /**
- * @brief Resolves a protocol ID by its unique name using a direct database query.
- * @param name: Name of protocol to find.
- * @return <int> id of protocol
- */
+     * @brief Resolves a protocol ID by its unique name using a direct database query.
+     * @param name: Name of protocol to find.
+     * @return <int> id of protocol
+     */
     int getProtocolIdByName(const QString &name);
 
     /**
- * @brief Executes incremental schema updates based on the current user_version.
- * @param oldVersion The version detected in the database file.
- */
+     * @brief Executes incremental schema updates based on the current user_version.
+     * @param oldVersion The version detected in the database file.
+     */
     void runMigrations(int oldVersion);
 
     /**
- * @brief Formats a duration in milliseconds to a readable mm:ss string.
- *
- * @param ms duration in milliseconds
- * @return a readable String in format mm:ss h.
- */
+     * @brief Formats a duration in milliseconds to a readable mm:ss string.
+     *
+     * @param ms duration in milliseconds
+     * @return a readable String in format mm:ss h.
+     */
     QString formatDuration(int ms);
 
     /**
@@ -353,6 +387,17 @@ private:
      */
     QString getDatabaseFilePath() const;
 
+    /**
+     * @brief Looks up a row id by its name, ignoring case.
+     *
+     * @param table Table to search (e.g. "modules").
+     * @param idColumn Name of the id column to return (e.g. "module_id").
+     * @param nameColumn Name of the column that holds the name (e.g. "mod_name").
+     * @param name Value to match, case-insensitive.
+     * @return The row id, or -1 if no row matches or the query fails.
+     */
+    int findIdByName(const QString &table, const QString &idColumn,
+                     const QString &nameColumn, const QString &name);
 };
 
 #endif

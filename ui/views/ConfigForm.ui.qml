@@ -65,11 +65,13 @@ Rectangle {
 
     property alias architectButton: architectButton
     property alias architectMouseArea: architectMouseArea
+    property alias importJsonButton: importJsonButton
+    property alias importJsonDialog: importJsonDialog
     property alias restoreDBButton: restoreDBButton
     property alias importDBButton: importDBButton
     property alias exportDBButton: exportDBButton
-    property alias importDialog: importDialog
-    property alias exportDialog: exportDialog
+    property alias importDBDialog: importDBDialog
+    property alias exportDBDialog: exportDBDialog
     property alias githubArea: githubArea
     property alias cheatArea: cheatArea
 
@@ -272,7 +274,7 @@ Rectangle {
                     Column {
                         id: rootCol
                         width: parent.width
-                        height: exportDBButton.visible ? 370 : 255
+                        height: exportDBButton.visible ? 405 : 255
                         spacing: 12
                         property color sectionColor: Constants.rootColor
 
@@ -334,10 +336,10 @@ Rectangle {
                             }
 
                             NeonButton {
-                                id: restoreDBButton
+                                id: importJsonButton
                                 width: parent.width * 0.9
-                                label: qsTr("RESTORE_DB")
-                                iconGlyph: Constants.restoreIcon
+                                label: qsTr("IMPORT_JSON_DATA")
+                                iconGlyph: Constants.importIcon
                                 Layout.alignment: Qt.AlignTop
                                 themeColor: Constants.rootColor
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -357,6 +359,16 @@ Rectangle {
                                 width: parent.width * 0.9
                                 label: qsTr("IMPORT_SYSTEM_DATABASE")
                                 iconGlyph: Constants.importIcon
+                                Layout.alignment: Qt.AlignTop
+                                themeColor: Constants.rootColor
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                visible: false
+                            }
+                            NeonButton {
+                                id: restoreDBButton
+                                width: parent.width * 0.9
+                                label: qsTr("RESTORE_DB")
+                                iconGlyph: Constants.restoreIcon
                                 Layout.alignment: Qt.AlignTop
                                 themeColor: Constants.rootColor
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -422,14 +434,21 @@ Rectangle {
     }
 
     FileDialog {
-        id: exportDialog
+        id: importJsonDialog
+        title: "IMPORT_JSON_DATA"
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["JSON data (*.json)", "All Files (*)"]
+    }
+
+    FileDialog {
+        id: exportDBDialog
         title: "EXPORT_DATABASE"
         fileMode: FileDialog.SaveFile
         nameFilters: ["SQLite Database (*.db)", "All Files (*)"]
     }
 
     FileDialog {
-        id: importDialog
+        id: importDBDialog
         title: "IMPORT_DATABASE"
         fileMode: FileDialog.OpenFile
         nameFilters: ["SQLite Database (*.db)", "All Files (*)"]
