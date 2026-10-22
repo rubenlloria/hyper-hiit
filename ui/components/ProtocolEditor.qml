@@ -184,6 +184,7 @@ ProtocolEditorView {
             "module_id":    original.module_id,
             "s_order":      0,
             "module_name":  original.module_name,
+            "display_name": original.display_name || original.module_name,
             "quantity":     original.quantity,
             "unit":         original.unit,
             "unit_type":    original.unit_type,

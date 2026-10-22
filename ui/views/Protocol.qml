@@ -71,7 +71,8 @@ ProtocolForm {
             loadProtocolDetails();
             let next = executionList[0];
             let unitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
-            nextModuleText.label = next.data.quantity + unitSymbol + " " + next.data.module_name;
+            nextModuleText.label = next.data.quantity + unitSymbol + " "
+                    + (next.data.display_name || next.data.module_name);
         }
     }
 
@@ -329,7 +330,7 @@ ProtocolForm {
         progressDial.dialColor = Constants.secondaryColor
 
         // Update UI Properties for ProtocolForm.ui.qml [Source 17]
-        currentModuleName = entry.data.module_name;
+        currentModuleName = entry.data.display_name || entry.data.module_name;
         currentQuantity = entry.data.quantity + unitSymbol;
         unitType = entry.data.unit_type;
 
@@ -364,7 +365,8 @@ ProtocolForm {
         if (index < executionList.length -1) {
             let next = executionList[index +1];
             let nextUnitSymbol = systemManager.getUnitLabel(next.data.unit_type) || "";
-            nextModuleText.label = next.data.quantity + nextUnitSymbol + " " + next.data.module_name ;
+            nextModuleText.label = next.data.quantity + nextUnitSymbol + " "
+                    + (next.data.display_name || next.data.module_name);
         } else {
             nextModuleText.label = qsTr("Last");
         }

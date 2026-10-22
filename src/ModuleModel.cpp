@@ -60,6 +60,8 @@ QVariant ModuleModel::data(const QModelIndex &index, int role) const
     case RepTimeRole:       return module.repTime;
     case MetFactorRole:     return module.metFactor;
     case FatigueRateRole:   return module.fatigueRate;
+    case DisplayNameRole:   return module.displayName;
+    case VisualRole:        return module.visual;
     default:                return QVariant();
     }
 }
@@ -82,6 +84,8 @@ QHash<int, QByteArray> ModuleModel::roleNames() const
     roles[RepTimeRole]      = "repTime";
     roles[MetFactorRole]    = "metFactor";
     roles[FatigueRateRole]  = "fatigueRate";
+    roles[DisplayNameRole]  = "displayName";
+    roles[VisualRole]       = "visual";
     return roles;
 }
 

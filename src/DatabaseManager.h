@@ -42,7 +42,7 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 
-#define DB_SCHEMA_VERSION 4
+#define DB_SCHEMA_VERSION 5
 #define MIN_JSON_VERSION 0.5
 
 class DatabaseManager : public QObject {
@@ -372,6 +372,18 @@ private:
      * @param oldVersion The version detected in the database file.
      */
     void runMigrations(int oldVersion);
+
+    /**
+     * @brief Schema 5: adds the optional columns mod_display_name and mod_visual to modules.
+     *
+     * mod_display_name holds the translated name shown in the UI (NULL means "use mod_name",
+     * which stays the stable key). mod_visual holds a free text reference to an illustration
+     * (YouTube URL, GIF/SVG or local video); its type is deduced from the scheme or extension.
+     * Safe to run twice: existing columns are skipped. Runs inside a transaction.
+     *
+     * @return True when the schema is at version 5 afterwards.
+     */
+    bool migrateToV5();
 
     /**
      * @brief Formats a duration in milliseconds to a readable mm:ss string.

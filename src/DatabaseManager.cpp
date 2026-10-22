@@ -108,7 +108,7 @@ bool DatabaseManager::createTables() {
             "module_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "mod_name VARCHAR(100) UNIQUE NOT NULL,"
             "target_zone VARCHAR(50),"      // Target area (e.g., FULL BODY)
-            "difficulty INT,"                // 1: Begginer | 2: Intermediate | 3: Advanced
+            "difficulty INT,"               // 1: Begginer | 2: Intermediate | 3: Advanced
             "mod_description TEXT,"
             "mod_instructions TEXT,"
             "mod_safety TEXT,"
@@ -116,7 +116,9 @@ bool DatabaseManager::createTables() {
             "unit_type INTEGER NOT NULL,"   // 0: SECONDS | 1: REPS | 2: BREATHS
             "rep_time FLOAT,"
             "met_factor FLOAT,"             // Efficiency constant
-            "fatigue_rate FLOAT"            // Performance tier 1
+            "fatigue_rate FLOAT,"           // Performance tier 1
+            "mod_display_name TEXT,"        // Translated name for the UI (NULL = use mod_name)
+            "mod_visual TEXT"               // Illustration reference: URL, GIF/SVG or local video
             ");";
     if (!q.exec(createModules)) {
         hCritical() << "Failed to create modules "
@@ -244,6 +246,9 @@ QList<Module> DatabaseManager::getAllModules() {
         Module m;
         m.id = q.value("module_id").toInt();
         m.name = q.value("mod_name").toString();
+        m.displayName = q.value("mod_display_name").toString();
+        if (m.displayName.isEmpty()) m.displayName = m.name;   // no translation: show the key
+        m.visual = q.value("mod_visual").toString();
         m.targetZone = q.value("target_zone").toString();
         m.difficulty = q.value("difficulty").toInt();
         m.description = q.value("mod_description").toString();
@@ -370,7 +375,7 @@ QVariantList DatabaseManager::getProtocolStructure(int protocolId, bool useFullA
             // STEP 2: Fetch modules for this subsystem
             QVariantList modulesInSub;
             QSqlQuery modQuery;
-            modQuery.prepare("SELECT m.mod_name, ps.quantity, ps.unit_type "
+            modQuery.prepare("SELECT COALESCE(m.mod_display_name, m.mod_name), ps.quantity, ps.unit_type "
                              "FROM protocol_structure ps "
                              "JOIN Modules m ON ps.module_id = m.module_id "
                              "WHERE ps.protocol_id = :p_id AND ps.subsystem = :sub_id "
@@ -410,7 +415,8 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
     // SQL JOIN to fetch Level 4 metadata: rep_time, met_factor, and fatigue_rate
     query.prepare(
         "SELECT ps.subsystem, ps.module_id, ps.quantity, ps.unit_type, "
-        "m.mod_name, m.rep_time, m.target_zone, m.met_factor, m.fatigue_rate, m.unit_type AS default_type "
+        "m.mod_name, COALESCE(m.mod_display_name, m.mod_name) AS display_name, m.mod_visual, "
+        "m.rep_time, m.target_zone, m.met_factor, m.fatigue_rate, m.unit_type AS default_type "
         "FROM protocol_structure ps "
         "JOIN modules m ON ps.module_id = m.module_id "
         "WHERE ps.protocol_id = :protId "
@@ -449,7 +455,9 @@ QVariantList DatabaseManager::getProtocolExecutionDetails(int protocolId) {
         int defaultType = query.value("default_type").toInt();
 
         mod["module_id"] = query.value("module_id").toInt();
-        mod["module_name"] = query.value("mod_name").toString();
+        mod["module_name"] = query.value("mod_name").toString();      // stable key, used for calibration
+        mod["display_name"] = query.value("display_name").toString(); // translated name for the UI
+        mod["visual"] = query.value("mod_visual").toString();
         mod["quantity"] = query.value("quantity").toInt();
         mod["unit_type"] = currentUnit;
         mod["default_type"] = defaultType;
@@ -1245,6 +1253,58 @@ void DatabaseManager::runMigrations(int oldVersion) {
         }
     }
 
+    // --- SCHEMA 5 ---//
+    if (oldVersion < 5) {
+        if (!migrateToV5()) return;
+    }
+}
+
+bool DatabaseManager::migrateToV5() {
+    hInfo() << "Migrating database to version 5: module display name and visual reference.";
+
+    if (!m_db.transaction()) {
+        hCritical() << "Could not initiate database transaction for V5.";
+        return false;
+    }
+
+    // Adds a TEXT column only when it is missing, so running the migration twice is harmless
+    auto addColumn = [](const QString &column) {
+        QSqlQuery info("PRAGMA table_info(modules)");
+        while (info.next()) {
+            if (info.value("name").toString() == column) return true;
+        }
+        QSqlQuery alter;
+        if (!alter.exec(QString("ALTER TABLE modules ADD COLUMN %1 TEXT").arg(column))) {
+            hCritical() << "Migration V5 failed on column" << column << ":" << alter.lastError().text();
+            return false;
+        }
+        return true;
+    };
+
+    if (!addColumn("mod_display_name") || !addColumn("mod_visual")) {
+        m_db.rollback();
+        return false;
+    }
+
+    // Forget the last applied language file so the next start re-applies it and
+    // fills the new display names (the marker is rewritten by applyLanguageData)
+    QSqlQuery marker;
+    if (!marker.exec("DELETE FROM system_config WHERE config_key = 'data_language_file'")) {
+        hCritical() << "Migration V5 failed clearing the language marker:" << marker.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    QSqlQuery version;
+    if (!m_db.commit() || !version.exec("PRAGMA user_version = 5")) {
+        hCritical() << "Migration V5 error during commit:" << version.lastError().text();
+        m_db.rollback();
+        return false;
+    }
+
+    hInfo() << "Migration v5 completed successfully.";
+    return true;
+
 }
 
 QVariantList DatabaseManager::getSessionTotals(int sessionId) {
@@ -1263,7 +1323,7 @@ QVariantList DatabaseManager::getSessionTotals(int sessionId) {
 
     // 2. Aggregate quantities grouping by module and unit_type
     // We join with modules to get the human-readable name
-    query.prepare("SELECT m.mod_name, SUM(ps.quantity) as total_qty, ps.unit_type "
+    query.prepare("SELECT COALESCE(m.mod_display_name, m.mod_name) AS mod_name, SUM(ps.quantity) as total_qty, ps.unit_type "
                   "FROM protocol_structure ps "
                   "JOIN modules m ON ps.module_id = m.module_id "
                   "WHERE ps.protocol_id = :pid "
@@ -1314,7 +1374,7 @@ QVariantList DatabaseManager::getSessionDetailedAnalysis(int historyId) {
     }
 
     // 3. Fetch Protocol Structure joined with Module names and the specific unit_type
-    query.prepare("SELECT ps.subsystem, ps.quantity, ps.unit_type, m.mod_name "
+    query.prepare("SELECT ps.subsystem, ps.quantity, ps.unit_type, COALESCE(m.mod_display_name, m.mod_name) AS mod_name "
                   "FROM protocol_structure ps "
                   "JOIN modules m ON ps.module_id = m.module_id "
                   "WHERE ps.protocol_id = :pid "
@@ -1713,10 +1773,11 @@ int DatabaseManager::saveModule(const QVariantMap &moduleData) {
     if (isNew) {
         query.prepare("INSERT INTO modules (mod_name, target_zone, difficulty, "
                       "mod_description, mod_instructions, mod_safety, mod_equipment, "
-                      "unit_type, rep_time, met_factor, fatigue_rate) "
-                      "VALUES (:name, :target, :diff, :desc, :instr, :safe, :equip, :unit, :time, :met, :fatigue)");
+                      "unit_type, rep_time, met_factor, fatigue_rate, display_name) "
+                      "VALUES (:name, :target, :diff, :desc, :instr, :safe, :equip, :unit, :time, :met, :fatigue, :d_name)");
+        query.bindValue(":name",    moduleData.value("display_name").toString());
     } else {
-        query.prepare("UPDATE modules SET mod_name=:name, target_zone=:target, "
+        query.prepare("UPDATE modules SET mod_display_name=:d_name, target_zone=:target, "
                       "difficulty=:diff, mod_description=:desc, mod_instructions=:instr, "
                       "mod_safety=:safe, mod_equipment=:equip, unit_type=:unit, "
                       "rep_time=:time, met_factor=:met, fatigue_rate=:fatigue "
@@ -1725,7 +1786,7 @@ int DatabaseManager::saveModule(const QVariantMap &moduleData) {
     }
 
     // Mapping fields from the QVariantMap shard
-    query.bindValue(":name",    moduleData.value("name").toString());
+    query.bindValue(":d_name",  moduleData.value("display_name").toString());
     query.bindValue(":target",  moduleData.value("targetZone").toString());
     query.bindValue(":diff",    moduleData.value("difficulty").toInt());
     query.bindValue(":desc",    moduleData.value("description").toString());
@@ -1738,7 +1799,7 @@ int DatabaseManager::saveModule(const QVariantMap &moduleData) {
     query.bindValue(":fatigue", moduleData.value("fatigueRate").toDouble());
 
     hDebug() << "Saving module to Database with data:\n"
-                << "name: " << moduleData.value("name").toString()
+                << "name: " << moduleData.value("display_name").toString()
     << "\ntargetZone: " << moduleData.value("targetZone").toString()
     << "\ndifficulty: " << moduleData.value("difficulty").toInt()
     << "\ndescription: " << moduleData.value("description").toString()
@@ -2307,22 +2368,10 @@ QVariantMap DatabaseManager::loadFromJson(const QString &path, bool allowCreate)
         const QString name = m.value("module_name").toString().trimmed();
         if (name.isEmpty()) { ++skipped; continue; }
 
-        const int id = findIdByName("modules", "module_id", "mod_name", name);
-        if (id != -1) {
-            // Existing module: texts only
-            QSqlQuery q;
-            q.prepare("UPDATE modules SET "
-                      "mod_description  = COALESCE(:desc, mod_description), "
-                      "mod_instructions = COALESCE(:inst, mod_instructions), "
-                      "mod_safety       = COALESCE(:safe, mod_safety) "
-                      "WHERE module_id = :id");
-            q.bindValue(":desc", textOrNull(m, "description"));
-            q.bindValue(":inst", textOrNull(m, "instructions"));
-            q.bindValue(":safe", textOrNull(m, "safety_info"));
-            q.bindValue(":id", id);
-            if (!q.exec()) return rollbackWith("Failed to update module " + name);
-            ++modulesUpdated;
-        } else if (allowCreate) {
+        int id = findIdByName("modules", "module_id", "mod_name", name);
+        bool created = false;
+
+        if (id == -1 && allowCreate) {
             // A new module needs the full definition, otherwise it is skipped
             const int unit = resolveUnitType(m.value("unit_type"));
             if (!m.contains("target_zone") || unit == -1 || m.value("rep_time").toDouble() <= 0) {
@@ -2330,7 +2379,7 @@ QVariantMap DatabaseManager::loadFromJson(const QString &path, bool allowCreate)
                 ++skipped;
                 continue;
             }
-            const int newId = insertModule(
+            id = insertModule(
                 name,
                 m.value("difficulty").toInt(0),
                 m.value("target_zone").toString(),
@@ -2341,11 +2390,50 @@ QVariantMap DatabaseManager::loadFromJson(const QString &path, bool allowCreate)
                 m.value("met_factor").toDouble(),
                 m.value("fatigue_rate").toDouble(),
                 m.value("rep_time").toDouble());
-            if (newId < 0) return rollbackWith("Failed to create module " + name);
+            if (id < 0) return rollbackWith("Failed to create module " + name);
+            created = true;
             ++modulesCreated;
-        } else {
-            ++skipped;
         }
+        if (id == -1) { ++skipped; continue; }   // missing and not allowed to create
+
+        // Only the keys present in the JSON are touched; everything else stays as it is
+        QStringList sets;
+        QVariantMap values;
+        auto setText = [&](const QString &key, const QString &column) {
+            if (!m.contains(key)) return;
+            sets << column + " = :" + key;
+            values[key] = m.value(key).toString();
+        };
+        setText("description", "mod_description");
+        setText("instructions", "mod_instructions");
+        setText("safety_info", "mod_safety");
+
+        // A display name equal to the key (or empty) means "no translation": store NULL
+        const QVariant nullText(QMetaType::fromType<QString>());
+        if (m.contains("display_name")) {
+            const QString display = m.value("display_name").toString().trimmed();
+            sets << "mod_display_name = :display_name";
+            values["display_name"] = (display.isEmpty() || display.compare(name, Qt::CaseInsensitive) == 0)
+                                         ? nullText : QVariant(display);
+        }
+        if (m.contains("visual")) {
+            const QString visual = m.value("visual").toString().trimmed();
+            sets << "mod_visual = :visual";
+            values["visual"] = visual.isEmpty() ? nullText : QVariant(visual);
+        }
+
+        if (sets.isEmpty()) {
+            if (!created) ++skipped;
+            continue;
+        }
+        QSqlQuery q;
+        q.prepare("UPDATE modules SET " + sets.join(", ") + " WHERE module_id = :id");
+        for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
+            q.bindValue(":" + it.key(), it.value());
+        }
+        q.bindValue(":id", id);
+        if (!q.exec()) return rollbackWith("Failed to update module " + name);
+        if (!created) ++modulesUpdated;
     }
 
     //////////// DIRECTIVES ///////////////
@@ -2480,6 +2568,14 @@ bool DatabaseManager::applyLanguageData(const QString &locale) {
     if (marker == "init_data.json" && getConfig("data_language_file", "").isEmpty()) {
         setConfig("data_language_file", marker);
         return true;
+    }
+
+    // A language switch must not leave names of the previous language behind, whatever the
+    // file contains: clear every display name first, the file sets the ones it translates
+    QSqlQuery clearNames;
+    if (!clearNames.exec("UPDATE modules SET mod_display_name = NULL")) {
+        hWarning() << "applyLanguageData: could not clear display names:" << clearNames.lastError().text();
+        return false;
     }
 
     const QVariantMap result = loadFromJson(path, false);

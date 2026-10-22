@@ -62,10 +62,13 @@ ModuleEditorView {
             let rawRepTime= moduleModel.data(idx, 266);
             let rawMetFactor = moduleModel.data(idx, 267);
             let rawFatigue = moduleModel.data(idx, 268);
+            let rawDisplayName = moduleModel.data(idx, 269);
+            let rawVisual = moduleModel.data(idx, 270);
 
             // Conditional logging for first and last entry to avoid flooding
             if (i === 0 || i === count - 1) {
                 Constants.hDebug(debugName, "Telemetry Shard [" + i + "]: NAME=" + rawName
+                                 + " | DISPLAY=" + rawDisplayName
                                  + " | ID=" + rawId
                                  + " | ZONE=" + rawZone
                                  + " | DESCRIPTION=" + rawDescription
@@ -82,7 +85,8 @@ ModuleEditorView {
             // Role mapping based on src/ModuleModel.h [Source 272]
             tempArray.push({
                                "module_id": moduleModel.data(moduleModel.index(i, 0), 257),    // IdRole
-                               "module_name": moduleModel.data(moduleModel.index(i, 0), 258),         // NameRole
+                               "module_name": moduleModel.data(moduleModel.index(i, 0), 258),         // NameRole (stable key)
+                               "display_name": moduleModel.data(moduleModel.index(i, 0), 269),        // DisplayNameRole (translated)
                                "zone": moduleModel.data(moduleModel.index(i, 0), 259),  // TargetRole
                                "difficulty": moduleModel.data(moduleModel.index(i, 0), 260),   // DifficultyRole
                                "description": moduleModel.data(moduleModel.index(i, 0), 261),  // DescriptionRole
@@ -114,7 +118,7 @@ ModuleEditorView {
         for (let i = 0; i < masterModuleList.length; i++) {
             let module = masterModuleList[i];
             let nameUpper = module.module_name.toUpperCase();
-            Constants.hDebug(debugName, "Iterating module: " + module.module_name);
+            Constants.hDebug(debugName, "Iterating module: " + module.module_name + ": " + module.display_name);
 
             // Match by name or target zone
             if (nameUpper === search) {
@@ -123,6 +127,7 @@ ModuleEditorView {
 
             if (search === "" ||
                 module.module_name.toUpperCase().includes(search) ||
+                (module.display_name || "").toUpperCase().includes(search) ||
                 module.zone.toUpperCase().includes(search)) {
 
                 moduleDataModel.append(module);
@@ -171,7 +176,7 @@ ModuleEditorView {
         moduleFactory.moduleId = m_model.module_id; // Store actual DB ID for saveModule
 
         // Data injection using existing aliases
-        moduleNameField.text = m_model.module_name || "";
+        moduleNameField.text = m_model.display_name || m_model.module_name || "";
         moduleDescriptionField.text = m_model.description || "";
         instructionsField.text = m_model.instructions || "";
         safetyField.text = m_model.safety|| "";
@@ -259,7 +264,7 @@ ModuleEditorView {
         Constants.hDebug(debugName, "Saving module with id " + moduleId + " on DB");
         let moduleShard = {
             "id": moduleFactory.moduleId,
-            "name": moduleNameField.text,
+            "display_name": moduleNameField.text,
             "targetZone": targetZoneCombo.currentText,
             "difficulty": difficultyCombo.currentIndex + 1,
             "description": moduleDescriptionField.text,

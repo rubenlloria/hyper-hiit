@@ -1,4 +1,5 @@
 
+
 /****************************************************************************
 ** File: ModuleEditorView.ui.qml
 ** Date: 28/6/2026
@@ -21,7 +22,6 @@
 **
 ** Copyright (C) 2026 Rubén Llòria
 ****************************************************************************/
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -75,6 +75,7 @@ Item {
         ListElement {
             module_id: 2
             module_name: "BURPEES"
+            display_name: "BURPEES"
             zone: "FULL_BODY"
             difficulty: 2
             description: "Plank, push-up and jump sequence."
@@ -91,6 +92,7 @@ Item {
         ListElement {
             module_id: 1
             module_name: "REST"
+            display_name: "REST"
             zone: "REST"
             difficulty: 0
             description: "Active or passive recovery period."
@@ -148,7 +150,7 @@ Item {
                             spacing: 4
 
                             Text {
-                                text: model.module_name
+                                text: model.display_name || model.module_name
                                 color: Constants.primaryTextColor
                                 font.family: Constants.mainFont.family
                                 font.pixelSize: 16

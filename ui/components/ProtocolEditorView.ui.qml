@@ -86,6 +86,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Burpees"
+                    display_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 1
@@ -100,6 +101,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Mountain Climbers"
+                    display_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 0
@@ -119,6 +121,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Burpees"
+                    display_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 1
@@ -133,6 +136,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Mountain Climbers"
+                    display_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 1
@@ -152,6 +156,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Burpees"
+                    display_name: "Burpees"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 1
@@ -166,6 +171,7 @@ Item {
                     module_id: 0
                     s_order: 0
                     module_name: "Mountain Climbers"
+                    display_name: "Mountain Climbers"
                     quantity: 15
                     unit: "Rep."
                     unit_type: 1
@@ -776,7 +782,8 @@ Item {
                                     Column {
                                         Layout.fillWidth: true
                                         Text {
-                                            text: model.module_name
+                                            text: model.display_name
+                                                  || model.module_name
                                             width: 140
                                             color: Constants.primaryTextColor
                                             font.family: Constants.techFont.family

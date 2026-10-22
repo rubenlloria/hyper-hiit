@@ -363,6 +363,7 @@ ArchitectForm {
             "module_id": model.module_id,
             "s_order": targetSubsystem.modules.count + 1,
             "module_name": model.module_name,
+            "display_name": model.display_name || model.module_name,
             "quantity": 10, // Default starting value
             "unit": model.unit,
             "unit_type": model.unit_type,

@@ -42,6 +42,8 @@ struct Module {
     QString instructions;
     QString safety;
     QString equipment;
+    QString displayName;  // Translated name for the UI (falls back to name)
+    QString visual;       // Illustration reference (not used by the UI yet)
     int unitType;         // 0: SECONDS | 1: REPS
     double repTime;       // Base time per unit
     double metFactor;     // Metabolic efficiency
@@ -65,7 +67,9 @@ public:
         UnitTypeRole,
         RepTimeRole,
         MetFactorRole,
-        FatigueRateRole
+        FatigueRateRole,
+        DisplayNameRole,
+        VisualRole
     };
 
     explicit ModuleModel(QObject *parent = nullptr);
