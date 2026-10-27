@@ -57,6 +57,11 @@ public:
      */
     Q_INVOKABLE void stop();
 
+    /**
+     * @brief resume periodic update timer.
+     */
+    Q_INVOKABLE void resume();
+
     // double progressValue() const { return m_progressValue; }
 
 signals:

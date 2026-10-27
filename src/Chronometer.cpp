@@ -69,6 +69,10 @@ void Chronometer::stop() {
     m_timer->stop();
 }
 
+void Chronometer::resume() {
+    m_timer->start();
+}
+
 void Chronometer::updateTime() {
     // Get the actual elapsed time since start() was called
     qint64 currentTime = QDateTime::currentMSecsSinceEpoch();

@@ -54,7 +54,7 @@ ProtocolForm {
     property int activeSubsystemId: 0
     property bool isRunning: false
     property bool m_targetReached: false
-    property bool enableSkipForward: true
+    property bool enableSkipForward: false
 
     // Internal state for progress tracking
     property real currentModuleDuration: 10000
@@ -310,7 +310,27 @@ ProtocolForm {
     function loadModule(index) {
         Constants.hDebug(debugName, "executionList.length: " + executionList.length + " | index: " + index);
         if (index >= executionList.length) {
-            finishProtocol();
+            if (unitType === 0 && m_targetReached) {
+                finishProtocol()
+            } else {
+                globalChronometer.stop()
+                unitChronometer.stop()
+                confirmPopup.target = "RUN // PROTOCOL";
+                confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO FINISH PROTOCOL EXECUTION?")
+                confirmPopup.onAccept = function() {
+                    Constants.hWarning(infoName, "Finishing protocol...");
+                    finishProtocol();
+                };
+                confirmPopup.onCancel = function() {
+                    Constants.hInfo(infoName, "Return to protocol");
+                    if ( !(unitType === 0 && m_targetReached)) {
+                        unitChronometer.resume()
+                        globalChronometer.resume()
+                    }
+                };
+
+                confirmPopup.open();
+            }
             return;
         }
 
