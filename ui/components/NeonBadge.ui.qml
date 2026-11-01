@@ -44,7 +44,7 @@ Item {
     property string glyph: "x"
     property bool unlocked: false
     property color color: Constants.primaryColor
-    readonly property color accentColor: root.color
+    property color accentColor: Constants.primaryColor
     property string badgeTitle: "Badge TITLE"
     property string badgeDescription: "Badge description"
 
@@ -57,7 +57,7 @@ Item {
     // Dark background
     Rectangle {
         anchors.fill: parent
-        color: Constants.secondaryDarkColor
+        color: Constants.deepColor
         opacity: 0.85
         radius: 4
     }
