@@ -271,11 +271,11 @@ ProtocolEditorView {
 
             if (dbManager.hasProtocolHistory(protocolId)) {
                 confirmPopup.target = "HISTORY // " + name;
-                confirmPopup.message = "Structural changes will purge existing session history. Continue?"
+                confirmPopup.message = qsTr("Structural changes will detach existing session history. Calories and totals are kept. Continue?");
                 confirmPopup.onAccept = function() {
-                    dbManager.clearProtocolHistory(protocolId);
+                    dbManager.detachProtocolHistory(protocolId);
                     dbManager.saveProtocolStructure(protocolId, protocolStructure);
-                    Constants.hInfo(infoName, "Structure updated and history purged for: " + name);
+                    Constants.hInfo(infoName, "Structure updated and history detached for: " + name);
                 };
                 confirmPopup.open();
             } else {
@@ -299,10 +299,10 @@ ProtocolEditorView {
         confirmPopup.target = qsTr("PROTOCOL // ") + name.toUpperCase();
         confirmPopup.message = qsTr("ARE YOU SURE YOU WANT TO DELETE ") +
                 (name !== "" ? "[" + name + "]" : qsTr("THIS ENTITY")) +
-                qsTr("? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.")
+                qsTr("? THE PROTOCOL WILL BE REMOVED. ITS SESSIONS AND CALORIES ARE KEPT IN THE REGISTRY.")
         confirmPopup.onAccept = function() {
             dbManager.deleteProtocol(id);
-            Constants.hInfo(infoName, "Data and history purged for protocol: " + name);
+            Constants.hInfo(infoName, "Protocol deleted, history kept detached: " + name);
             protocolDeleted();
         };
 

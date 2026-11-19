@@ -233,11 +233,18 @@ public:
     Q_INVOKABLE bool hasProtocolHistory(int protocolId);
 
     /**
-     * @brief Deletes all telemetry and session logs for a specific protocol.
+     * @brief Detaches the session history of a protocol, keeping every record.
+     *
+     * Used when the structure of a protocol changes and when it is deleted. The sessions stay
+     * in the database, so calories, duration, speed and MET score keep counting in the
+     * statistics, but they lose the link to the protocol: their per-module times only make sense
+     * for the structure they were recorded with. The personal best of the protocol is reset for
+     * the same reason. protocol_id is set to NULL (never 0), so the foreign key is not violated.
+     *
      * @param protocolId Target identifier.
-     * @return True if the deletion transaction is successful.
+     * @return True if the history was detached.
      */
-    Q_INVOKABLE bool clearProtocolHistory(int protocolId);
+    Q_INVOKABLE bool detachProtocolHistory(int protocolId);
 
     /**
      * Purges a protocol, its structure, and all associated session history.

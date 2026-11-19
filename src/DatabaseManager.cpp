@@ -829,12 +829,12 @@ double DatabaseManager::getPowerScore(int startDay, int windowSize) {
     QString sql = QString(
                       "SELECT SUM("
                       "  CAST(h.calories_burned AS INTEGER) + "
-                      "  (p.rank * %1) + "
+                      "  (COALESCE(p.rank, 1) * %1) + "
                       "  h.met_score + "
                       "  (h.session_duration * h.session_speed)"
                       ") as segment_score "
                       "FROM session_history h "
-                      "JOIN protocols p ON h.protocol_id = p.protocol_id "
+                      "LEFT JOIN protocols p ON h.protocol_id = p.protocol_id "
                       "WHERE h.session_timestamp >= strftime('%s', 'now', '-%2 days', 'start of day') "
                       "AND h.session_timestamp <= strftime('%s', 'now', '-%3 days', '+1 day', 'start of day')")
                       .arg(rankMultiplierK)
@@ -1982,15 +1982,24 @@ bool DatabaseManager::hasProtocolHistory(int protocolId) {
     return query.exec() && query.next() && query.value(0).toInt() > 0;
 }
 
-bool DatabaseManager::clearProtocolHistory(int protocolId) {
+bool DatabaseManager::detachProtocolHistory(int protocolId) {
     QSqlQuery query;
-    query.prepare("DELETE FROM session_history WHERE protocol_id = :id");
+    query.prepare("UPDATE session_history SET protocol_id = NULL WHERE protocol_id = :id");
     query.bindValue(":id", protocolId);
-    if (query.exec()) {
-        hInfo() << "History purged for protocol:" << protocolId;
-        return true;
+    if (!query.exec()) {
+        hCritical() << "Failed to detach history of protocol" << protocolId << ":" << query.lastError().text();
+        return false;
     }
-    return false;
+    hInfo() << "History detached for protocol:" << protocolId << "- sessions kept:" << query.numRowsAffected();
+
+    // The record was set with the structure that is being replaced or removed
+    query.prepare("UPDATE protocols SET personal_best = 0 WHERE protocol_id = :id");
+    query.bindValue(":id", protocolId);
+    if (!query.exec()) {
+        hCritical() << "Failed to reset the personal best of protocol" << protocolId << ":" << query.lastError().text();
+        return false;
+    }
+    return true;
 }
 
 bool DatabaseManager::deleteProtocol(int protocolId) {
@@ -2005,11 +2014,12 @@ bool DatabaseManager::deleteProtocol(int protocolId) {
 
     QSqlQuery query;
 
-    // 1. Clear session history (Telemetry records)
-    // We use the existing logic to ensure consistency
-    if (!clearProtocolHistory(protocolId)) {
-        hWarning() << "Telemetry purge failed or no history found for protocol:" << protocolId;
-        // We continue as history might be empty
+    // 1. Detach the session history: the sessions, and their calories, are always kept.
+    // It must succeed, otherwise the foreign key would block the deletion of the protocol.
+    if (!detachProtocolHistory(protocolId)) {
+        hCritical() << "Failed to detach the session history of protocol:" << protocolId;
+        m_db.rollback();
+        return false;
     }
 
     // 2. Clear protocol structure (Sequence mapping)
