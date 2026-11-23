@@ -1,9 +1,13 @@
 {
-  "version": "0.7",
+  "version": "0.8",
   "author": "Rubén Llòria",
+  "description": "hyper//hiit initial data. contains directives, protocols, modules and ranks",
+  "type": "data",
+  "language": "en",
   "modules": [
     {
       "module_name": "Rest",
+      "display_name": "Rest",
       "difficulty": 0,
       "target_zone": "REST",
       "description": "Active or passive recovery period.",
@@ -19,6 +23,7 @@
     },
     {
       "module_name": "Burpees",
+      "display_name": "Burpees",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "Plank, push-up and jump sequence.",
@@ -34,6 +39,7 @@
     },
     {
       "module_name": "Sit-ups",
+      "display_name": "Sit-ups",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "Abdominal flexion exercise.",
@@ -49,6 +55,7 @@
     },
     {
       "module_name": "Lunges",
+      "display_name": "Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
       "description": "Alternating forward steps.",
@@ -58,12 +65,13 @@
         "NONE"
       ],
       "unit_type": "reps",
-      "met_factor": 5.0,
+      "met_factor": 5.5,
       "fatigue_rate": 1.12,
       "rep_time": 2.5
     },
     {
       "module_name": "Jumping Jacks",
+      "display_name": "Jumping Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
       "description": "Explosive full body cardio jump.",
@@ -79,6 +87,7 @@
     },
     {
       "module_name": "Squat Thrusts",
+      "display_name": "Squat Thrusts",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "Burpee without the push-up or jump.",
@@ -94,6 +103,7 @@
     },
     {
       "module_name": "Mountain Climbers",
+      "display_name": "Mountain Climbers",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "Dynamic core stability and cardio.",
@@ -109,6 +119,7 @@
     },
     {
       "module_name": "Lateral Skaters",
+      "display_name": "Lateral Skaters",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "Lateral explosive jumps.",
@@ -124,6 +135,7 @@
     },
     {
       "module_name": "High Knees",
+      "display_name": "High Knees",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
       "description": "Running in place with exaggerated knee lift.",
@@ -139,6 +151,7 @@
     },
     {
       "module_name": "Diamond Push-ups",
+      "display_name": "Diamond Push-ups",
       "difficulty": 3,
       "target_zone": "UPPER_PUSH",
       "description": "Triceps-dominant close grip push-up.",
@@ -154,6 +167,7 @@
     },
     {
       "module_name": "Archer Squats",
+      "display_name": "Archer Squats",
       "difficulty": 3,
       "target_zone": "LOWER_KNEE",
       "description": "Unilateral squat loading one leg.",
@@ -169,6 +183,7 @@
     },
     {
       "module_name": "V-Ups",
+      "display_name": "V-Ups",
       "difficulty": 3,
       "target_zone": "CORE",
       "description": "Explosive core V-fold.",
@@ -184,6 +199,7 @@
     },
     {
       "module_name": "Pike Push-ups",
+      "display_name": "Pike Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
       "description": "Shoulder-dominant push-up.",
@@ -199,6 +215,7 @@
     },
     {
       "module_name": "Step-ups",
+      "display_name": "Step-ups",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
       "description": "Leg strength on elevated surface.",
@@ -215,6 +232,7 @@
     },
     {
       "module_name": "Glute Bridges",
+      "display_name": "Glute Bridges",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
       "description": "Posterior chain activation.",
@@ -230,6 +248,7 @@
     },
     {
       "module_name": "Lateral Shuffles",
+      "display_name": "Lateral Shuffles",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
       "description": "Side-to-side athletic movement.",
@@ -245,6 +264,7 @@
     },
     {
       "module_name": "Butt Kicks",
+      "display_name": "Butt Kicks",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
       "description": "Rapid heels-to-glute movement.",
@@ -260,6 +280,7 @@
     },
     {
       "module_name": "Cross Jacks",
+      "display_name": "Cross Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
       "description": "Jumping jack variation crossing arms and legs.",
@@ -275,6 +296,7 @@
     },
     {
       "module_name": "Seal Jacks",
+      "display_name": "Seal Jacks",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
       "description": "Jumping jack with horizontal arm claps.",
@@ -290,8 +312,9 @@
     },
     {
       "module_name": "Shadow Boxing",
+      "display_name": "Shadow Boxing",
       "difficulty": 2,
-      "target_zone": "FULL_BODY",
+      "target_zone": "UPPER_PUSH",
       "description": "Dynamic rhythmic punching.",
       "instructions": "Perform jabs and crosses with light footwork.",
       "safety_info": "Do not fully lock elbows on punches.",
@@ -305,6 +328,7 @@
     },
     {
       "module_name": "Fast Feet",
+      "display_name": "Fast Feet",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "Rapid low-impact foot turnover.",
@@ -320,6 +344,7 @@
     },
     {
       "module_name": "Hollow Rocks",
+      "display_name": "Hollow Rocks",
       "difficulty": 3,
       "target_zone": "CORE",
       "description": "Advanced core stabilization rocking.",
@@ -335,6 +360,7 @@
     },
     {
       "module_name": "Bulgarian Split Squats",
+      "display_name": "Bulgarian Split Squats",
       "difficulty": 3,
       "target_zone": "LOWER_KNEE",
       "description": "Elevated rear foot unilateral squat.",
@@ -351,6 +377,7 @@
     },
     {
       "module_name": "Plank Jacks",
+      "display_name": "Plank Jacks",
       "difficulty": 2,
       "target_zone": "CORE",
       "description": "Dynamic plank with jumping legs.",
@@ -366,6 +393,7 @@
     },
     {
       "module_name": "Decline Push-ups",
+      "display_name": "Decline Push-ups",
       "difficulty": 3,
       "target_zone": "UPPER_PUSH",
       "description": "Elevated feet push-up for upper chest.",
@@ -382,6 +410,7 @@
     },
     {
       "module_name": "Sumo Squats",
+      "display_name": "Sumo Squats",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
       "description": "Wide stance squat for inner thigh focus.",
@@ -397,6 +426,7 @@
     },
     {
       "module_name": "Leg Raises",
+      "display_name": "Leg Raises",
       "difficulty": 2,
       "target_zone": "CORE",
       "description": "Lower abdominal lift.",
@@ -412,6 +442,7 @@
     },
     {
       "module_name": "Technical Push-ups",
+      "display_name": "Technical Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
       "description": "Form-focused controlled push-ups.",
@@ -427,6 +458,7 @@
     },
     {
       "module_name": "Scissor Kicks",
+      "display_name": "Scissor Kicks",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "Horizontal alternating leg kicks.",
@@ -442,6 +474,7 @@
     },
     {
       "module_name": "Deadbug",
+      "display_name": "Deadbug",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "Neural flow stability exercise.",
@@ -457,6 +490,7 @@
     },
     {
       "module_name": "Reverse Lunges",
+      "display_name": "Reverse Lunges",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
       "description": "Backward lunge variation, easier on the knees.",
@@ -472,6 +506,7 @@
     },
     {
       "module_name": "Bicycle Crunches",
+      "display_name": "Bicycle Crunches",
       "difficulty": 2,
       "target_zone": "CORE",
       "description": "Rotational crunch targeting obliques.",
@@ -487,6 +522,7 @@
     },
     {
       "module_name": "Air Squats",
+      "display_name": "Air Squats",
       "difficulty": 1,
       "target_zone": "LOWER_KNEE",
       "description": "Standard bodyweight squat.",
@@ -501,22 +537,24 @@
       "rep_time": 3.25
     },
     {
-      "module_name": "Alternating Lunges",
+      "module_name": "Shoulder Taps",
+      "display_name": "Shoulder Taps",
       "difficulty": 1,
-      "target_zone": "LOWER_KNEE",
-      "description": "Alternating lunges for muscular endurance.",
-      "instructions": "Perform lunges alternating legs on each repetition.",
-      "safety_info": "Keep knee aligned with the heel.",
+      "target_zone": "CORE",
+      "description": "Plank position with alternating taps to the opposite shoulder, training anti-rotation core stability.",
+      "instructions": "From a high plank with feet wide, lift one hand and tap the opposite shoulder, return it to the floor and alternate, keeping the hips still.",
+      "safety_info": "Keep the hips level and avoid rocking; drop to the knees if the wrists or core tire.",
       "equipment": [
         "NONE"
       ],
       "unit_type": "reps",
-      "met_factor": 5.5,
-      "fatigue_rate": 1.12,
-      "rep_time": 2.5
+      "met_factor": 4.5,
+      "fatigue_rate": 1.08,
+      "rep_time": 1.8
     },
     {
       "module_name": "Push-ups",
+      "display_name": "Push-ups",
       "difficulty": 2,
       "target_zone": "UPPER_PUSH",
       "description": "Standard push-up with full range of motion.",
@@ -532,6 +570,7 @@
     },
     {
       "module_name": "Plank",
+      "display_name": "Plank",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "Static core stabilization exercise focusing on anti-extension and spinal alignment.",
@@ -547,9 +586,10 @@
     },
     {
       "module_name": "Sukhasana",
+      "display_name": "Easy Pose",
       "difficulty": 0,
       "target_zone": "CORE",
-      "description": "(Easy Seated Breath) Calm seated breathing pose used to open and close a practice.",
+      "description": "(Sukhasana) Calm seated breathing pose used to open and close a practice.",
       "instructions": "Sit cross-legged with a tall spine, hands resting on the knees, and breathe slowly and evenly.",
       "safety_info": "Sit on a folded blanket or cushion if the hips are tight.",
       "equipment": [
@@ -562,9 +602,10 @@
     },
     {
       "module_name": "Balasana",
+      "display_name": "Child's Pose",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
-      "description": "(Child's Pose) Restorative kneeling fold for the hips and lower back.",
+      "description": "(Balasana) Restorative kneeling fold for the hips and lower back.",
       "instructions": "Kneel and sit back onto the heels, folding the torso forward with arms extended.",
       "safety_info": "Widen the knees if there is any pressure on the belly or knees.",
       "equipment": [
@@ -577,9 +618,10 @@
     },
     {
       "module_name": "Marjaryasana-Bitilasana",
+      "display_name": "Cat-Cow",
       "difficulty": 1,
       "target_zone": "CORE",
-      "description": "(Cat-Cow) Slow spinal flexion-extension flow synced with breath.",
+      "description": "(Marjaryasana-Bitilasana) Slow spinal flexion-extension flow synced with breath.",
       "instructions": "On hands and knees, alternate arching and rounding the spine in rhythm with inhale/exhale.",
       "safety_info": "Move slowly; do not force the range of motion in the neck.",
       "equipment": [
@@ -592,9 +634,10 @@
     },
     {
       "module_name": "Bhujangasana",
+      "display_name": "Cobra",
       "difficulty": 1,
       "target_zone": "CORE",
-      "description": "(Cobra) Gentle spinal extension for the lower back and chest.",
+      "description": "(Bhujangasana) Gentle spinal extension for the lower back and chest.",
       "instructions": "Lying face down, press through the hands to lift the chest while keeping hips on the floor.",
       "safety_info": "Keep elbows slightly bent; do not force the lift if it strains the lower back.",
       "equipment": [
@@ -607,9 +650,10 @@
     },
     {
       "module_name": "Adho Mukha Svanasana",
+      "display_name": "Downward Dog",
       "difficulty": 1,
       "target_zone": "UPPER_PUSH",
-      "description": "(Downward Dog) Inverted V-shape stretch and shoulder opener.",
+      "description": "(Adho Mukha Svanasana) Inverted V-shape stretch and shoulder opener.",
       "instructions": "From plank, lift hips up and back, pressing heels toward the floor and chest toward the thighs.",
       "safety_info": "Keep a slight bend in the knees if hamstrings are tight; do not lock the elbows.",
       "equipment": [
@@ -622,9 +666,10 @@
     },
     {
       "module_name": "Uttanasana",
+      "display_name": "Standing Forward Fold",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
-      "description": "(Standing Forward Fold) Standing hamstring and spine release.",
+      "description": "(Uttanasana) Standing hamstring and spine release.",
       "instructions": "Hinge forward from the hips letting the head and arms hang toward the floor.",
       "safety_info": "Bend the knees generously if the hamstrings or lower back feel tight.",
       "equipment": [
@@ -637,10 +682,11 @@
     },
     {
       "module_name": "Virabhadrasana II",
+      "display_name": "Warrior II",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
-      "description": "(Warrior II) Standing lunge hold building leg endurance and hip opening.",
-      "instructions": "Bend the front knee to 90 degrees, extend arms parallel to the floor, gaze over the front hand.",
+      "description": "(Virabhadrasana II) Standing lunge hold building leg endurance and hip opening.",
+      "instructions": "Bend the front knee to 90 degrees, extend arms parallel to the floor, gaze over the front hand. Hold half of the breaths on each side.",
       "safety_info": "Keep the front knee tracking over the ankle; do not let it collapse inward.",
       "equipment": [
         "NONE"
@@ -652,10 +698,11 @@
     },
     {
       "module_name": "Vrikshasana",
+      "display_name": "Tree Pose",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
-      "description": "(Tree Pose) Single-leg standing balance pose.",
-      "instructions": "Root through one foot and place the opposite sole on the inner calf or thigh, hands at heart center.",
+      "description": "(Vrikshasana) Single-leg standing balance pose.",
+      "instructions": "Root through one foot and place the opposite sole on the inner calf or thigh, hands at heart center. Hold half of the breaths on each side.",
       "safety_info": "Avoid resting the foot directly on the knee joint; use a wall for support if needed.",
       "equipment": [
         "NONE"
@@ -667,9 +714,10 @@
     },
     {
       "module_name": "Setu Bandhasana",
+      "display_name": "Bridge Pose",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
-      "description": "(Bridge Pose) Held hip-opening backbend lying on the back.",
+      "description": "(Setu Bandhasana) Held hip-opening backbend lying on the back.",
       "instructions": "Lying on the back with knees bent, press through the feet to lift the hips and hold.",
       "safety_info": "Keep the knees tracking straight; avoid letting them splay outward.",
       "equipment": [
@@ -682,9 +730,10 @@
     },
     {
       "module_name": "Paschimottanasana",
+      "display_name": "Seated Forward Fold",
       "difficulty": 1,
       "target_zone": "LOWER_HINGE",
-      "description": "(Seated Forward Fold) Seated hamstring and lower-back stretch.",
+      "description": "(Paschimottanasana) Seated hamstring and lower-back stretch.",
       "instructions": "Sit with legs extended and hinge forward from the hips, reaching toward the feet.",
       "safety_info": "Keep a soft bend in the knees if the lower back rounds excessively.",
       "equipment": [
@@ -697,9 +746,10 @@
     },
     {
       "module_name": "Surya Namaskar",
+      "display_name": "Sun Salutation",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
-      "description": "(Sun Salutation) Continuous full-body sequence linking breath and movement.",
+      "description": "(Surya Namaskar) Continuous full-body sequence linking breath and movement.",
       "instructions": "Flow through forward fold, plank, upward and downward dog in one continuous cycle.",
       "safety_info": "Keep the movement slow and controlled; avoid holding the breath.",
       "equipment": [
@@ -712,6 +762,7 @@
     },
     {
       "module_name": "Qi Shi",
+      "display_name": "Qi Shi",
       "difficulty": 0,
       "target_zone": "FULL_BODY",
       "description": "(Commencing Form) Opening stance that settles weight and breath before the form.",
@@ -727,6 +778,7 @@
     },
     {
       "module_name": "Yun Shou",
+      "display_name": "Yun Shou",
       "difficulty": 1,
       "target_zone": "UPPER_PULL",
       "description": "(Cloud Hands) Slow flowing lateral arm-pulling movement.",
@@ -742,10 +794,11 @@
     },
     {
       "module_name": "Ye Ma Fen Zong",
+      "display_name": "Ye Ma Fen Zong",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "(Parting the Wild Horse's Mane) Diagonal weight-shifting step coordinating arms and legs.",
-      "instructions": "Step diagonally forward while one arm sweeps up and out and the other draws down and back.",
+      "instructions": "Step diagonally forward while one arm sweeps up and out and the other draws down and back. Practice both sides within the time given.",
       "safety_info": "Keep steps controlled and the front knee tracking over the ankle.",
       "equipment": [
         "NONE"
@@ -757,10 +810,11 @@
     },
     {
       "module_name": "Lou Xi Ao Bu",
+      "display_name": "Lou Xi Ao Bu",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
       "description": "(Brush Knee and Twist Step) Stepping form that brushes past the knee while rotating the torso.",
-      "instructions": "Step forward while one hand brushes past the knee and the other pushes forward at chest height.",
+      "instructions": "Step forward while one hand brushes past the knee and the other pushes forward at chest height. Practice both sides within the time given.",
       "safety_info": "Keep the stepping knee soft and avoid overreaching with the step.",
       "equipment": [
         "NONE"
@@ -772,6 +826,7 @@
     },
     {
       "module_name": "Shou Hui Pipa",
+      "display_name": "Shou Hui Pipa",
       "difficulty": 1,
       "target_zone": "UPPER_PULL",
       "description": "(Play the Guitar) Held weight-shift with the arms drawn in as if holding an instrument.",
@@ -787,10 +842,11 @@
     },
     {
       "module_name": "Jin Ji Du Li",
+      "display_name": "Jin Ji Du Li",
       "difficulty": 2,
       "target_zone": "LOWER_KNEE",
       "description": "(Golden Rooster Stands on One Leg) Single-leg standing balance with a slow knee raise.",
-      "instructions": "Shift weight fully onto one leg and slowly raise the opposite knee, holding with control.",
+      "instructions": "Shift weight fully onto one leg and slowly raise the opposite knee, holding with control. Practice both sides within the time given.",
       "safety_info": "Keep a soft standing knee; use a wall for support if balance is limited.",
       "equipment": [
         "NONE"
@@ -802,10 +858,11 @@
     },
     {
       "module_name": "Dao Juan Gong",
+      "display_name": "Dao Juan Gong",
       "difficulty": 2,
       "target_zone": "FULL_BODY",
       "description": "(Repulse the Monkey) Slow stepping-back flow coordinating the whole body.",
-      "instructions": "Step backward while one hand draws back and the other pushes forward, alternating sides continuously.",
+      "instructions": "Step backward while one hand draws back and the other pushes forward, alternating sides continuously. Practice both sides within the time given.",
       "safety_info": "Keep steps small and controlled; do not rush the weight transfer.",
       "equipment": [
         "NONE"
@@ -817,10 +874,11 @@
     },
     {
       "module_name": "Bai He Liang Chi",
+      "display_name": "Bai He Liang Chi",
       "difficulty": 1,
       "target_zone": "CORE",
       "description": "(White Crane Spreads Its Wings) Slow torso rotation and arm-lift flow for core stability.",
-      "instructions": "Shift weight onto the back leg while lifting one arm overhead and the other low, rotating gently at the core.",
+      "instructions": "Shift weight onto the back leg while lifting one arm overhead and the other low, rotating gently at the core. Practice both sides within the time given.",
       "safety_info": "Move slowly and keep the core braced throughout the rotation.",
       "equipment": [
         "NONE"
@@ -832,6 +890,7 @@
     },
     {
       "module_name": "Shi Zi Shou",
+      "display_name": "Shi Zi Shou",
       "difficulty": 1,
       "target_zone": "FULL_BODY",
       "description": "(Cross Hands, Closing Form) Closing form that gathers and settles energy at the end of the sequence.",
@@ -842,6 +901,118 @@
       ],
       "unit_type": "seconds",
       "met_factor": 2.0,
+      "fatigue_rate": 1.03,
+      "rep_time": 1.0
+    },
+    {
+      "module_name": "Supermans",
+      "display_name": "Supermans",
+      "difficulty": 1,
+      "target_zone": "UPPER_PULL",
+      "description": "Prone back-extension hold for the posterior chain.",
+      "instructions": "Lie face down, lift arms and legs together, squeeze the back for one second and lower.",
+      "safety_info": "Keep the neck neutral; do not hyperextend the lower back.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "reps",
+      "met_factor": 3.0,
+      "fatigue_rate": 1.06,
+      "rep_time": 3.0
+    },
+    {
+      "module_name": "Single-Leg RDL",
+      "display_name": "Single-Leg RDL",
+      "difficulty": 2,
+      "target_zone": "LOWER_HINGE",
+      "description": "Bodyweight single-leg hip hinge.",
+      "instructions": "Hinge at the hip on one leg while the other extends behind, then return to standing.",
+      "safety_info": "Keep the back flat and the standing knee slightly bent.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "reps",
+      "met_factor": 5.0,
+      "fatigue_rate": 1.09,
+      "rep_time": 4.0
+    },
+    {
+      "module_name": "Jump Squats",
+      "display_name": "Jump Squats",
+      "difficulty": 2,
+      "target_zone": "LOWER_KNEE",
+      "description": "Explosive squat jump for lower-body power.",
+      "instructions": "Squat to parallel and jump as high as possible, landing softly into the next rep.",
+      "safety_info": "Land on the balls of the feet with bent knees; stop if technique degrades.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "reps",
+      "met_factor": 8.0,
+      "fatigue_rate": 1.15,
+      "rep_time": 2.5
+    },
+    {
+      "module_name": "Savasana",
+      "display_name": "Savasana",
+      "difficulty": 0,
+      "target_zone": "REST",
+      "description": "(Corpse Pose) Complete rest pose that closes the practice and lets the body absorb the work.",
+      "instructions": "Lie on your back with legs relaxed and arms at your sides, palms up, and let the breath become natural.",
+      "safety_info": "Place a cushion under the knees if the lower back is uncomfortable; cover up if you feel cold.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "seconds",
+      "met_factor": 1.0,
+      "fatigue_rate": 1.0,
+      "rep_time": 1.0
+    },
+    {
+      "module_name": "Supta Matsyendrasana",
+      "display_name": "Supine Twist",
+      "difficulty": 1,
+      "target_zone": "CORE",
+      "description": "(Supta Matsyendrasana) Gentle lying twist that releases the spine and hips.",
+      "instructions": "Lie on your back, draw one knee across the body toward the opposite side and open the other arm; hold half of the breaths on each side.",
+      "safety_info": "Keep both shoulders on the floor; ease out of the twist if you feel pinching in the lower back.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "breaths",
+      "met_factor": 2.0,
+      "fatigue_rate": 1.03,
+      "rep_time": 6.5
+    },
+    {
+      "module_name": "Fang Song",
+      "display_name": "Fang Song",
+      "difficulty": 0,
+      "target_zone": "FULL_BODY",
+      "description": "(Loosening Exercises) Gentle joint mobilisation of neck, shoulders, spine, hips, knees and ankles to prepare for the form.",
+      "instructions": "Stand with feet shoulder-width apart and rotate each joint slowly from the neck down to the ankles, breathing calmly.",
+      "safety_info": "Move within a comfortable range; keep the knees soft and stop at any pain.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "seconds",
+      "met_factor": 2.0,
+      "fatigue_rate": 1.03,
+      "rep_time": 1.0
+    },
+    {
+      "module_name": "Zhan Zhuang",
+      "display_name": "Zhan Zhuang",
+      "difficulty": 1,
+      "target_zone": "LOWER_KNEE",
+      "description": "(Standing Post) Standing meditation that builds rooting, posture and calm before the form.",
+      "instructions": "Stand with feet shoulder-width apart, knees slightly bent and arms rounded as if holding a large ball in front of the chest, and breathe slowly.",
+      "safety_info": "Keep the knees soft and the shoulders relaxed; shorten the hold if the thighs shake or hurt.",
+      "equipment": [
+        "NONE"
+      ],
+      "unit_type": "seconds",
+      "met_factor": 2.5,
       "fatigue_rate": 1.03,
       "rep_time": 1.0
     }
@@ -967,8 +1138,8 @@
       ]
     },
     {
-      "protocol_name": "METABOLIX",
-      "estimated_duration": 540,
+      "protocol_name": "BLAZE",
+      "estimated_duration": 564,
       "module_count": 12,
       "rank": 2,
       "personal_best": 600,
@@ -986,7 +1157,7 @@
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Squat Thrusts",
+          "module": "Air Squats",
           "quantity": 20,
           "unit": "reps"
         },
@@ -1007,7 +1178,7 @@
         {
           "subsystem": 2,
           "s_order": 2,
-          "module": "Squat Thrusts",
+          "module": "Air Squats",
           "quantity": 20,
           "unit": "reps"
         },
@@ -1028,7 +1199,7 @@
         {
           "subsystem": 3,
           "s_order": 2,
-          "module": "Squat Thrusts",
+          "module": "Air Squats",
           "quantity": 20,
           "unit": "reps"
         },
@@ -1049,7 +1220,7 @@
         {
           "subsystem": 4,
           "s_order": 2,
-          "module": "Squat Thrusts",
+          "module": "Air Squats",
           "quantity": 20,
           "unit": "reps"
         },
@@ -1255,8 +1426,8 @@
       ]
     },
     {
-      "protocol_name": "PULSE_ID",
-      "estimated_duration": 600,
+      "protocol_name": "PULSE",
+      "estimated_duration": 670,
       "module_count": 12,
       "rank": 2,
       "personal_best": 0,
@@ -1274,14 +1445,14 @@
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Butt Kicks",
+          "module": "Shadow Boxing",
           "quantity": 40,
           "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 3,
-          "module": "Cross Jacks",
+          "module": "Bicycle Crunches",
           "quantity": 40,
           "unit": "reps"
         },
@@ -1295,14 +1466,14 @@
         {
           "subsystem": 2,
           "s_order": 2,
-          "module": "Butt Kicks",
+          "module": "Shadow Boxing",
           "quantity": 30,
           "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 3,
-          "module": "Cross Jacks",
+          "module": "Bicycle Crunches",
           "quantity": 30,
           "unit": "reps"
         },
@@ -1316,14 +1487,14 @@
         {
           "subsystem": 3,
           "s_order": 2,
-          "module": "Butt Kicks",
+          "module": "Shadow Boxing",
           "quantity": 20,
           "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 3,
-          "module": "Cross Jacks",
+          "module": "Bicycle Crunches",
           "quantity": 20,
           "unit": "reps"
         },
@@ -1337,22 +1508,22 @@
         {
           "subsystem": 4,
           "s_order": 2,
-          "module": "Butt Kicks",
+          "module": "Shadow Boxing",
           "quantity": 10,
           "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 3,
-          "module": "Cross Jacks",
+          "module": "Bicycle Crunches",
           "quantity": 10,
           "unit": "reps"
         }
       ]
     },
     {
-      "protocol_name": "VO2_MAX_ST",
-      "estimated_duration": 540,
+      "protocol_name": "VO2MAX",
+      "estimated_duration": 386,
       "module_count": 9,
       "rank": 3,
       "personal_best": 0,
@@ -1714,7 +1885,7 @@
       ]
     },
     {
-      "protocol_name": "REINFORCE",
+      "protocol_name": "GRANITE",
       "estimated_duration": 900,
       "module_count": 9,
       "rank": 2,
@@ -1789,7 +1960,7 @@
       ]
     },
     {
-      "protocol_name": "STEEL_CORE",
+      "protocol_name": "ORION",
       "estimated_duration": 1740,
       "module_count": 15,
       "rank": 2,
@@ -1906,8 +2077,8 @@
       ]
     },
     {
-      "protocol_name": "STAMINA",
-      "estimated_duration": 1740,
+      "protocol_name": "ANTARES",
+      "estimated_duration": 1845,
       "module_count": 15,
       "rank": 2,
       "personal_best": 0,
@@ -1925,7 +2096,7 @@
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Alternating Lunges",
+          "module": "Glute Bridges",
           "quantity": 40,
           "unit": "reps"
         },
@@ -1946,7 +2117,7 @@
         {
           "subsystem": 2,
           "s_order": 2,
-          "module": "Alternating Lunges",
+          "module": "Glute Bridges",
           "quantity": 40,
           "unit": "reps"
         },
@@ -1967,7 +2138,7 @@
         {
           "subsystem": 3,
           "s_order": 2,
-          "module": "Alternating Lunges",
+          "module": "Glute Bridges",
           "quantity": 40,
           "unit": "reps"
         },
@@ -1988,7 +2159,7 @@
         {
           "subsystem": 4,
           "s_order": 2,
-          "module": "Alternating Lunges",
+          "module": "Glute Bridges",
           "quantity": 40,
           "unit": "reps"
         },
@@ -2009,7 +2180,7 @@
         {
           "subsystem": 5,
           "s_order": 2,
-          "module": "Alternating Lunges",
+          "module": "Glute Bridges",
           "quantity": 40,
           "unit": "reps"
         },
@@ -2023,7 +2194,7 @@
       ]
     },
     {
-      "protocol_name": "STEADFAST",
+      "protocol_name": "POLARIS",
       "estimated_duration": 1260,
       "module_count": 15,
       "rank": 2,
@@ -2140,7 +2311,7 @@
       ]
     },
     {
-      "protocol_name": "LASTING",
+      "protocol_name": "OPHIUCHUS",
       "estimated_duration": 1200,
       "module_count": 9,
       "rank": 3,
@@ -2215,7 +2386,7 @@
       ]
     },
     {
-      "protocol_name": "STABILIZER",
+      "protocol_name": "BEDROCK",
       "estimated_duration": 480,
       "module_count": 6,
       "rank": 2,
@@ -2269,14 +2440,13 @@
       ]
     },
     {
-      "protocol_name": "METABOLIC_ISO",
+      "protocol_name": "KINDLE",
       "estimated_duration": 520,
       "module_count": 6,
       "rank": 2,
       "personal_best": 0,
       "target_directives": [
-        "FAT_BURNING",
-        "ENDURANCE_GRID"
+        "FAT_BURNING"
       ],
       "structure": [
         {
@@ -2324,13 +2494,3623 @@
       ]
     },
     {
-      "protocol_name": "A_TEST",
-      "estimated_duration": 520,
+      "protocol_name": "PRANA",
+      "estimated_duration": 838,
       "module_count": 9,
       "rank": 1,
       "personal_best": 0,
       "target_directives": [
-        "FAT_BURNING",
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 20,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Balasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Bhujangasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Adho Mukha Svanasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Balasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Paschimottanasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 8,
+          "module": "Supta Matsyendrasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 9,
+          "module": "Savasana",
+          "quantity": 240,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SHANTI",
+      "estimated_duration": 919,
+      "module_count": 7,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 20,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Balasana",
+          "quantity": 14,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Paschimottanasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Setu Bandhasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Supta Matsyendrasana",
+          "quantity": 14,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Savasana",
+          "quantity": 360,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "DHARANA",
+      "estimated_duration": 1085,
+      "module_count": 11,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Surya Namaskar",
+          "quantity": 36,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Virabhadrasana II",
+          "quantity": 14,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Vrikshasana",
+          "quantity": 14,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Uttanasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Adho Mukha Svanasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 8,
+          "module": "Setu Bandhasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 9,
+          "module": "Supta Matsyendrasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 10,
+          "module": "Balasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 11,
+          "module": "Savasana",
+          "quantity": 240,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "TAPAS",
+      "estimated_duration": 1202,
+      "module_count": 10,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Surya Namaskar",
+          "quantity": 60,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Virabhadrasana II",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Adho Mukha Svanasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Bhujangasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Setu Bandhasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 8,
+          "module": "Paschimottanasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 9,
+          "module": "Supta Matsyendrasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 10,
+          "module": "Savasana",
+          "quantity": 240,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "DHYANA",
+      "estimated_duration": 1639,
+      "module_count": 12,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 30,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Surya Namaskar",
+          "quantity": 36,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Virabhadrasana II",
+          "quantity": 24,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Vrikshasana",
+          "quantity": 24,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Uttanasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Adho Mukha Svanasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 8,
+          "module": "Setu Bandhasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 9,
+          "module": "Paschimottanasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 10,
+          "module": "Supta Matsyendrasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 11,
+          "module": "Balasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 12,
+          "module": "Savasana",
+          "quantity": 300,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SAMADHI",
+      "estimated_duration": 1920,
+      "module_count": 14,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "NEURAL_FLOW"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Sukhasana",
+          "quantity": 20,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Marjaryasana-Bitilasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Surya Namaskar",
+          "quantity": 60,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Virabhadrasana II",
+          "quantity": 24,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 5,
+          "module": "Vrikshasana",
+          "quantity": 20,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 6,
+          "module": "Uttanasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 7,
+          "module": "Adho Mukha Svanasana",
+          "quantity": 12,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 8,
+          "module": "Bhujangasana",
+          "quantity": 8,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 9,
+          "module": "Setu Bandhasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 10,
+          "module": "Paschimottanasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 11,
+          "module": "Supta Matsyendrasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 12,
+          "module": "Balasana",
+          "quantity": 10,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 13,
+          "module": "Sukhasana",
+          "quantity": 16,
+          "unit": "breaths"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 14,
+          "module": "Savasana",
+          "quantity": 360,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "KOKYU",
+      "estimated_duration": 840,
+      "module_count": 22,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "KAMAE",
+      "estimated_duration": 930,
+      "module_count": 26,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 3,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 4,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "KAIZEN",
+      "estimated_duration": 1115,
+      "module_count": 27,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 4,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "MUSHIN",
+      "estimated_duration": 1190,
+      "module_count": 27,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 4,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 5,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "FUDOSHIN",
+      "estimated_duration": 1400,
+      "module_count": 30,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Ye Ma Fen Zong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Dao Juan Gong",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SATORI",
+      "estimated_duration": 1415,
+      "module_count": 37,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "EQUINOX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fang Song",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Zhan Zhuang",
+          "quantity": 120,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 4,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Qi Shi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Bai He Liang Chi",
+          "quantity": 25,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Lou Xi Ao Bu",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 4,
+          "module": "Shou Hui Pipa",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 5,
+          "module": "Yun Shou",
+          "quantity": 50,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 6,
+          "module": "Jin Ji Du Li",
+          "quantity": 40,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 7,
+          "module": "Shi Zi Shou",
+          "quantity": 25,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "PING",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "OVERCLOCK",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "High Knees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "High Knees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "High Knees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "High Knees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "BRUTE_FORCE",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SYN_FLOOD",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "BREACH",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "KERNEL_PANIC",
+      "estimated_duration": 240,
+      "module_count": 16,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "APEX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 10,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "protocol_name": "FURNACE",
+      "estimated_duration": 922,
+      "module_count": 15,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "FAT_BURNING"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 10,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "CINDER",
+      "estimated_duration": 1062,
+      "module_count": 15,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "FAT_BURNING"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Plank Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Plank Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Plank Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Plank Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Squat Thrusts",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Plank Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "CADENCE",
+      "estimated_duration": 1164,
+      "module_count": 19,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "CARDIO_ENHANCEMENT"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Lateral Shuffles",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Fast Feet",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Lateral Shuffles",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Fast Feet",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Lateral Shuffles",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Fast Feet",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Lateral Shuffles",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Fast Feet",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Lateral Shuffles",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Mountain Climbers",
+          "quantity": 20,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "IGNITION",
+      "estimated_duration": 1128,
+      "module_count": 19,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "CARDIO_ENHANCEMENT",
+        "FAT_BURNING"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "High Knees",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Cross Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "High Knees",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Cross Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "High Knees",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Cross Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "High Knees",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Cross Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 4,
+          "module": "Rest",
+          "quantity": 75,
+          "unit": "seconds"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "High Knees",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Cross Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "BASALT",
+      "estimated_duration": 838,
+      "module_count": 18,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "STRENGTH_MATRIX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 14,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 14,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 14,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 12,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 12,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 12,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 6,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 6,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 6,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Single-Leg RDL",
+          "quantity": 4,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Decline Push-ups",
+          "quantity": 4,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Supermans",
+          "quantity": 4,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "ANVIL",
+      "estimated_duration": 734,
+      "module_count": 24,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "STRENGTH_MATRIX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 1,
+          "module": "Jump Squats",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 2,
+          "module": "Technical Push-ups",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 3,
+          "module": "Hollow Rocks",
+          "quantity": 8,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SOLARIS",
+      "estimated_duration": 1759,
+      "module_count": 18,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
+        "ENDURANCE_GRID",
+        "FAT_BURNING"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Push-ups",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 30,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "PULSAR",
+      "estimated_duration": 1495,
+      "module_count": 15,
+      "rank": 3,
+      "personal_best": 0,
+      "target_directives": [
+        "ENDURANCE_GRID"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 60,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 50,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 50,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 50,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 40,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 30,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Jumping Jacks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Bicycle Crunches",
+          "quantity": 20,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "SELENE",
+      "estimated_duration": 1235,
+      "module_count": 24,
+      "rank": 2,
+      "personal_best": 0,
+      "target_directives": [
         "ENDURANCE_GRID"
       ],
       "structure": [
@@ -2344,1053 +6124,174 @@
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Plank",
+          "module": "Reverse Lunges",
           "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 3,
           "module": "Glute Bridges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 15,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 15,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 12,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 25,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 25,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 12,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 25,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 25,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 1,
+          "module": "Burpees",
+          "quantity": 8,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 2,
+          "module": "Reverse Lunges",
+          "quantity": 15,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 7,
+          "s_order": 3,
+          "module": "Glute Bridges",
+          "quantity": 15,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 8,
+          "s_order": 1,
+          "module": "Burpees",
           "quantity": 5,
           "unit": "reps"
         },
         {
-          "subsystem": 2,
-          "s_order": 1,
-          "module": "Burpees",
+          "subsystem": 8,
+          "s_order": 2,
+          "module": "Reverse Lunges",
           "quantity": 10,
           "unit": "reps"
         },
         {
-          "subsystem": 2,
-          "s_order": 2,
-          "module": "Plank",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
+          "subsystem": 8,
           "s_order": 3,
           "module": "Glute Bridges",
           "quantity": 10,
           "unit": "reps"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "reps"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 2,
-          "module": "Plank",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 3,
-          "module": "Glute Bridges",
-          "quantity": 20,
-          "unit": "reps"
         }
       ]
     },
     {
-      "protocol_name": "NEURALIS",
-      "estimated_duration": 1264,
-      "module_count": 11,
-      "rank": 1,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 50,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Balasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 50,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Marjaryasana-Bitilasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 50,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Bhujangasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 50,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Paschimottanasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 50,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Balasana",
-          "quantity": 10,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "ZEN_SYNC",
-      "estimated_duration": 1323,
-      "module_count": 13,
-      "rank": 1,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Uttanasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Adho Mukha Svanasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Balasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Marjaryasana-Bitilasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Paschimottanasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 12,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 13,
-          "module": "Sukhasana",
-          "quantity": 8,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "FOCUS_ID",
-      "estimated_duration": 1427,
-      "module_count": 13,
-      "rank": 2,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Surya Namaskar",
-          "quantity": 7,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Virabhadrasana II",
-          "quantity": 7,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Vrikshasana",
-          "quantity": 7,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Surya Namaskar",
-          "quantity": 7,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Setu Bandhasana",
-          "quantity": 7,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 12,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 13,
-          "module": "Balasana",
-          "quantity": 7,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "MIND_GRID",
-      "estimated_duration": 1515,
+      "protocol_name": "IDLE",
+      "estimated_duration": 714,
       "module_count": 15,
-      "rank": 2,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Marjaryasana-Bitilasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Bhujangasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Adho Mukha Svanasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Vrikshasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Uttanasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 12,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 13,
-          "module": "Setu Bandhasana",
-          "quantity": 10,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 14,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 15,
-          "module": "Balasana",
-          "quantity": 10,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "STASIS_X",
-      "estimated_duration": 1680,
-      "module_count": 17,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Surya Namaskar",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Virabhadrasana II",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Vrikshasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Surya Namaskar",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Setu Bandhasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 12,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 13,
-          "module": "Uttanasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 14,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 15,
-          "module": "Paschimottanasana",
-          "quantity": 8,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 16,
-          "module": "Rest",
-          "quantity": 45,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 17,
-          "module": "Balasana",
-          "quantity": 8,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "NEURAL_AX",
-      "estimated_duration": 1744,
-      "module_count": 19,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "NEURAL_FLOW"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Sukhasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Adho Mukha Svanasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Virabhadrasana II",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Surya Namaskar",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 8,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 9,
-          "module": "Vrikshasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 10,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 11,
-          "module": "Bhujangasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 12,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 13,
-          "module": "Marjaryasana-Bitilasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 14,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 15,
-          "module": "Setu Bandhasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 16,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 17,
-          "module": "Paschimottanasana",
-          "quantity": 6,
-          "unit": "breaths"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 18,
-          "module": "Rest",
-          "quantity": 40,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 19,
-          "module": "Balasana",
-          "quantity": 6,
-          "unit": "breaths"
-        }
-      ]
-    },
-    {
-      "protocol_name": "FLOW_LINK",
-      "estimated_duration": 900,
-      "module_count": 4,
       "rank": 1,
       "personal_best": 0,
       "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Yun Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Shou Hui Pipa",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "BALANCER",
-      "estimated_duration": 900,
-      "module_count": 4,
-      "rank": 1,
-      "personal_best": 0,
-      "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Jin Ji Du Li",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Bai He Liang Chi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "SYNC_CORE",
-      "estimated_duration": 1020,
-      "module_count": 5,
-      "rank": 2,
-      "personal_best": 0,
-      "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Yun Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Lou Xi Ao Bu",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Bai He Liang Chi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "WAVE_FORM",
-      "estimated_duration": 1020,
-      "module_count": 5,
-      "rank": 2,
-      "personal_best": 0,
-      "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Ye Ma Fen Zong",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Dao Juan Gong",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Jin Ji Du Li",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "ROOT_STANCE",
-      "estimated_duration": 1199,
-      "module_count": 7,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Yun Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Ye Ma Fen Zong",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Lou Xi Ao Bu",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Jin Ji Du Li",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Dao Juan Gong",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "STILL_POINT",
-      "estimated_duration": 1200,
-      "module_count": 7,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "EQUINOX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Qi Shi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Shou Hui Pipa",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Bai He Liang Chi",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Lou Xi Ao Bu",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 5,
-          "module": "Jin Ji Du Li",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 6,
-          "module": "Yun Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 7,
-          "module": "Shi Zi Shou",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "SPIKE_ID",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 1,
-      "personal_best": 0,
-      "target_directives": [
-        "APEX"
+        "CARDIO_ENHANCEMENT"
       ],
       "structure": [
         {
@@ -3398,732 +6299,360 @@
           "s_order": 1,
           "module": "Jumping Jacks",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Butt Kicks",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 3,
-          "module": "Fast Feet",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 1,
           "module": "Jumping Jacks",
-          "quantity": 20,
-          "unit": "seconds"
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Butt Kicks",
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 3,
-          "module": "Fast Feet",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Shoulder Taps",
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 1,
           "module": "Jumping Jacks",
-          "quantity": 20,
-          "unit": "seconds"
+          "quantity": 40,
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Butt Kicks",
+          "quantity": 40,
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 3,
-          "module": "Fast Feet",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Shoulder Taps",
+          "quantity": 40,
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 1,
           "module": "Jumping Jacks",
-          "quantity": 20,
-          "unit": "seconds"
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 3,
-          "module": "Fast Feet",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "OVERDRIVE",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 1,
-      "personal_best": 0,
-      "target_directives": [
-        "APEX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "High Knees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 1,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 3,
-          "module": "High Knees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 1,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 3,
-          "module": "High Knees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 1,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Butt Kicks",
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 3,
-          "module": "High Knees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "RED_LINE",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 2,
-      "personal_best": 0,
-      "target_directives": [
-        "APEX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Shoulder Taps",
+          "quantity": 30,
+          "unit": "reps"
         },
         {
           "subsystem": 5,
           "s_order": 1,
-          "module": "Burpees",
+          "module": "Jumping Jacks",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 5,
           "s_order": 2,
-          "module": "Rest",
+          "module": "Butt Kicks",
+          "quantity": 20,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Shoulder Taps",
+          "quantity": 20,
+          "unit": "reps"
+        }
+      ]
+    },
+    {
+      "protocol_name": "FLINT",
+      "estimated_duration": 770,
+      "module_count": 18,
+      "rank": 1,
+      "personal_best": 0,
+      "target_directives": [
+        "STRENGTH_MATRIX"
+      ],
+      "structure": [
+        {
+          "subsystem": 1,
+          "s_order": 1,
+          "module": "Reverse Lunges",
           "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 1,
+          "s_order": 3,
+          "module": "Deadbug",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 2,
+          "s_order": 3,
+          "module": "Deadbug",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 3,
+          "s_order": 3,
+          "module": "Deadbug",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 4,
+          "s_order": 3,
+          "module": "Deadbug",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 1,
+          "module": "Reverse Lunges",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 2,
+          "module": "Supermans",
+          "quantity": 10,
+          "unit": "reps"
+        },
+        {
+          "subsystem": 5,
+          "s_order": 3,
+          "module": "Deadbug",
+          "quantity": 10,
+          "unit": "reps"
         },
         {
           "subsystem": 6,
           "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
+          "module": "Reverse Lunges",
+          "quantity": 10,
+          "unit": "reps"
         },
         {
           "subsystem": 6,
           "s_order": 2,
-          "module": "Rest",
+          "module": "Supermans",
           "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
-          "subsystem": 7,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 7,
-          "s_order": 2,
-          "module": "Rest",
+          "subsystem": 6,
+          "s_order": 3,
+          "module": "Deadbug",
           "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 8,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 8,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         }
       ]
     },
     {
-      "protocol_name": "PEAK_SIGNAL",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 2,
+      "protocol_name": "VEGA",
+      "estimated_duration": 926,
+      "module_count": 15,
+      "rank": 1,
       "personal_best": 0,
       "target_directives": [
-        "APEX"
+        "ENDURANCE_GRID"
       ],
       "structure": [
         {
           "subsystem": 1,
           "s_order": 1,
-          "module": "Mountain Climbers",
+          "module": "Air Squats",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
           "subsystem": 1,
           "s_order": 3,
-          "module": "Mountain Climbers",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 1,
-          "module": "Mountain Climbers",
+          "module": "Air Squats",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
           "subsystem": 2,
           "s_order": 3,
-          "module": "Mountain Climbers",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 1,
-          "module": "Mountain Climbers",
+          "module": "Air Squats",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
           "subsystem": 3,
           "s_order": 3,
-          "module": "Mountain Climbers",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 1,
-          "module": "Mountain Climbers",
+          "module": "Air Squats",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
           "subsystem": 4,
           "s_order": 3,
-          "module": "Mountain Climbers",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
-          "subsystem": 4,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "FLASHPOINT",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "APEX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
+          "subsystem": 5,
           "s_order": 1,
-          "module": "Burpees",
+          "module": "Air Squats",
           "quantity": 20,
-          "unit": "seconds"
+          "unit": "reps"
         },
         {
-          "subsystem": 1,
+          "subsystem": 5,
           "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "module": "Glute Bridges",
+          "quantity": 20,
+          "unit": "reps"
         },
         {
-          "subsystem": 1,
+          "subsystem": 5,
           "s_order": 3,
-          "module": "Squat Thrusts",
+          "module": "Shoulder Taps",
           "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 3,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 3,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 3,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        }
-      ]
-    },
-    {
-      "protocol_name": "ZENITH",
-      "estimated_duration": 240,
-      "module_count": 16,
-      "rank": 3,
-      "personal_best": 0,
-      "target_directives": [
-        "APEX"
-      ],
-      "structure": [
-        {
-          "subsystem": 1,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 3,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 1,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 1,
-          "module": "Mountain Climbers",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 3,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 2,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 1,
-          "module": "Squat Thrusts",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 3,
-          "module": "Mountain Climbers",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 3,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 1,
-          "module": "Burpees",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 2,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 3,
-          "module": "Mountain Climbers",
-          "quantity": 20,
-          "unit": "seconds"
-        },
-        {
-          "subsystem": 4,
-          "s_order": 4,
-          "module": "Rest",
-          "quantity": 10,
-          "unit": "seconds"
+          "unit": "reps"
         }
       ]
     }
