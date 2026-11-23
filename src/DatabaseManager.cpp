@@ -2597,3 +2597,8 @@ bool DatabaseManager::applyLanguageData(const QString &locale) {
     hInfo() << "Database texts switched to" << marker;
     return true;
 }
+
+double DatabaseManager::getTotalKCal() {
+    QSqlQuery query("SELECT COALESCE(SUM(calories_burned), 0) FROM session_history");
+    return query.next() ? round(query.value(0).toDouble() / 1000) : 0;
+}

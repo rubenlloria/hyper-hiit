@@ -45,7 +45,7 @@ Rectangle {
 
     // --- Dynamic Properties ---
     // These variables can be controlled from C++ models or logic files
-    property string syncValue: "100%"
+    property string score: sessionManager.totalScore
     property string latencyValue: "<1ms"
     property string buildVersion: appVersion
     property color textColor: Constants.primaryTextColor
@@ -70,7 +70,7 @@ Rectangle {
             height: parent.height - 2
             anchors.horizontalCenter: parent.horizontalCenter
 
-            // 1. NEURAL_SYNC (Digital Font)
+            // 1. SCORE
             Rectangle {
                 width: (parent.width - 2) / 3
                 color: "transparent"
@@ -78,7 +78,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 Text {
                     id: syncText
-                    text: "NEURAL_SYNC: " + root.syncValue
+                    text: "SCORE: " + root.score
                     color: root.textColor
                     opacity: 0.6
                     font.family: Constants.techFont.family

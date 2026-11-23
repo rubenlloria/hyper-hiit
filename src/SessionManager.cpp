@@ -62,6 +62,9 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
 
         emit activeDirectiveInfoChanged();
     }
+
+    connect(this, &SessionManager::sessionSaved, this, &SessionManager::setTotalScore);
+    setTotalScore();
 }
 
 void SessionManager::startSession(int protocolId,  const QVariantList &executionList) {
@@ -454,6 +457,15 @@ void SessionManager::setActiveDirectiveInfo(const QVariantMap &info) {
             << ", icon: " << m_activeDirectiveInfo["icon"]
             << ", color: " << m_activeDirectiveInfo["color"]
         ;
+}
+
+void SessionManager::setTotalScore() {
+    int score = m_db->getTotalKCal();
+    if (m_totalScore == score) return;
+
+    m_totalScore = score;
+
+    emit totalScoreChanged();
 }
 
 int SessionManager::getActiveDirectiveId() {

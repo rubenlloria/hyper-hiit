@@ -42,6 +42,7 @@ class SessionManager : public QObject {
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
     Q_PROPERTY(int activeSessionId READ activeSessionId)
     Q_PROPERTY(QVariantMap activeDirectiveInfo READ activeDirectiveInfo WRITE setActiveDirectiveInfo NOTIFY activeDirectiveInfoChanged)
+    Q_PROPERTY(int totalScore READ totalScore WRITE setTotalScore NOTIFY totalScoreChanged)
 
 public:
     explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
@@ -104,9 +105,14 @@ public:
 
     int activeModuleIndex() const { return m_activeModuleIndex; }
     void setActiveModuleIndex(int index);
+
     int activeSessionId() const { return m_sessionId; }
+
     QVariantMap activeDirectiveInfo() const { return m_activeDirectiveInfo; }
     Q_INVOKABLE void setActiveDirectiveInfo(const QVariantMap &info);
+
+    int totalScore() const { return m_totalScore; }
+    void setTotalScore();
 
 signals:
     void telemetryChanged();
@@ -119,6 +125,7 @@ signals:
     void activeModuleChanged();
     void sessionSaved();
     void activeDirectiveInfoChanged();
+    void totalScoreChanged();
 
 private:
     int m_protocolId;
@@ -141,6 +148,7 @@ private:
     // Stores the checkpoints (ms) of the previous session for comparison
     QList<int> m_lastSessionDurations;
     QVariantMap m_activeDirectiveInfo;
+    int m_totalScore;
 };
 
 #endif // SESSIONMANAGER_H

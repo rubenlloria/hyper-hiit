@@ -328,6 +328,14 @@ public:
      */
     bool applyLanguageData(const QString &locale);
 
+    /**
+     * @brief Total calories burned across every saved session.
+     * Sessions whose protocol was detached or deleted are included.
+     *
+     * @return Total Kcal from history to set score.
+     */
+    double getTotalKCal();
+
 private:
     QSqlDatabase m_db;
     int m_dbSchema = 0;
