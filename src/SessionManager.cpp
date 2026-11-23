@@ -27,6 +27,9 @@
 #define HH_CRITICAL
 
 #include "SessionManager.h"
+
+#include <cmath>
+
 #include "SystemLog.h"
 #include "DatabaseManager.h"
 
@@ -44,6 +47,8 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     m_totalCalories = 0.0f;
     m_activeModuleIndex = 0;
     m_sessionId = 0;
+    m_totalScore = 0;
+    m_level = 0;
 
     // Get the current ID from system_config [1]
     int dirId = getActiveDirectiveId();
@@ -64,7 +69,15 @@ SessionManager::SessionManager(DatabaseManager *db, QObject *parent)
     }
 
     connect(this, &SessionManager::sessionSaved, this, &SessionManager::setTotalScore);
+    connect(this, &SessionManager::totalScoreChanged, this, &SessionManager::updateLevel);
     setTotalScore();
+}
+
+namespace {
+// Level curve: every level costs kLevelRatio times more points than the previous one.
+// With 1,100 kcal a week: level 10 in about 5 weeks, 20 in 17 weeks, 30 in 40 weeks, 50 in 3 years.
+constexpr double kLevelBasePoints = 1000.0;   // Points (kcal) needed to go from level 1 to level 2
+constexpr double kLevelRatio = 1.07;         // Growth of the cost of each new level
 }
 
 void SessionManager::startSession(int protocolId,  const QVariantList &executionList) {
@@ -468,6 +481,29 @@ void SessionManager::setTotalScore() {
     emit totalScoreChanged();
 }
 
+void SessionManager::updateLevel() {
+    int score = m_totalScore;
+    if (score <= 0) {
+        m_level = 0;
+        return;
+    }
+
+    const int level =  1 + static_cast<int>(std::log1p(score * (kLevelRatio - 1.0) / kLevelBasePoints) / std::log(kLevelRatio));
+    if (level == m_level) return;
+
+    // Emit signal only if previous level is greater than 0 (first init)
+    const bool shouldEmit = (m_level != 0);
+
+    m_level = level;
+    emit levelChanged();
+    hDebug() << "Level changed";
+
+    if (shouldEmit) {
+        emit levelUp();
+        hDebug() << "level " << m_level << " reached!!!!";
+    }
+}
+
 int SessionManager::getActiveDirectiveId() {
     return m_db->getConfig("active_directive_id", "-4").toInt();
 }
@@ -475,4 +511,3 @@ int SessionManager::getActiveDirectiveId() {
 void SessionManager::setActiveDirectiveId(int dirId) {
     m_db->setConfig("active_directive_id", QString::number(dirId));
 }
-

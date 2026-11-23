@@ -46,7 +46,7 @@ Rectangle {
     // --- Dynamic Properties ---
     // These variables can be controlled from C++ models or logic files
     property string score: sessionManager.totalScore
-    property string latencyValue: "<1ms"
+    property string levelValue: sessionManager.level
     property string buildVersion: appVersion
     property color textColor: Constants.primaryTextColor
     property color separatorColor: Constants.primaryTextColor
@@ -97,15 +97,15 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
-            // 2. LATENCY
+            // 2. LEVEL
             Rectangle {
                 width: (parent.width - 2) / 3
                 color: "transparent"
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
                 Text {
-                    id: latencyText
-                    text: "LATENCY: " + root.latencyValue
+                    id: levelText
+                    text: "LEVEL: " + root.levelValue
                     color: root.textColor
                     opacity: 0.6
                     font.family: Constants.techFont.family

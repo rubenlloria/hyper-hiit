@@ -42,7 +42,8 @@ class SessionManager : public QObject {
     Q_PROPERTY(int activeModuleIndex READ activeModuleIndex WRITE setActiveModuleIndex NOTIFY activeModuleChanged)
     Q_PROPERTY(int activeSessionId READ activeSessionId)
     Q_PROPERTY(QVariantMap activeDirectiveInfo READ activeDirectiveInfo WRITE setActiveDirectiveInfo NOTIFY activeDirectiveInfoChanged)
-    Q_PROPERTY(int totalScore READ totalScore WRITE setTotalScore NOTIFY totalScoreChanged)
+    Q_PROPERTY(int totalScore READ totalScore NOTIFY totalScoreChanged)
+    Q_PROPERTY(int level READ level NOTIFY levelChanged)
 
 public:
     explicit SessionManager(DatabaseManager *db, QObject *parent = nullptr);
@@ -114,6 +115,16 @@ public:
     int totalScore() const { return m_totalScore; }
     void setTotalScore();
 
+    /** @brief Current level, derived from totalScore (never stored, never decreases). Starts at 1. */
+    int level() const { return m_level; }
+
+    /**
+     * @brief Level for a given score. Every level costs more than the previous one (exponential curve):
+     * score = base * (ratio^(level - 1) - 1) / (ratio - 1). Base and ratio are at the top of SessionManager.cpp.
+     * @param score Accumulated points (here, kcal). Zero or negative values give level 1.
+     */
+    void updateLevel();
+
 signals:
     void telemetryChanged();
     void userNameChanged();
@@ -126,6 +137,8 @@ signals:
     void sessionSaved();
     void activeDirectiveInfoChanged();
     void totalScoreChanged();
+    void levelChanged();
+    void levelUp();
 
 private:
     int m_protocolId;
@@ -149,6 +162,7 @@ private:
     QList<int> m_lastSessionDurations;
     QVariantMap m_activeDirectiveInfo;
     int m_totalScore;
+    int m_level;
 };
 
 #endif // SESSIONMANAGER_H
