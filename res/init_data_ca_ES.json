@@ -1,0 +1,493 @@
+{
+  "version": "0.8",
+  "description": "Paquet d'idioma català per a hyper//hiit. Conté els textos de mòduls, directives i rangs.",
+  "type": "language",
+  "language": "ca_ES",
+  "modules": [
+    {
+      "module_name": "Rest",
+      "display_name": "Descans",
+      "description": "Període de recuperació activa o passiva.",
+      "instructions": "Pren-te el temps necessari per descansar i respirar profundament.",
+      "safety_info": "No t'asseguis de cop; mantén un lleuger moviment."
+    },
+    {
+      "module_name": "Burpees",
+      "display_name": "Burpees",
+      "description": "Seqüència de planxa, flexió i salt.",
+      "instructions": "Dret, baixa a planxa, fes una flexió, porta els peus cap a les mans i salta explosivament cap amunt.",
+      "safety_info": "Mantén el core ferm per evitar la hiperextensió lumbar durant el salt."
+    },
+    {
+      "module_name": "Sit-ups",
+      "display_name": "Abdominals",
+      "description": "Exercici de flexió abdominal.",
+      "instructions": "Estirat de cara amunt amb els genolls flexionats, eleva el tors cap als genolls.",
+      "safety_info": "Mantén el core ferm; no estiris el coll."
+    },
+    {
+      "module_name": "Lunges",
+      "display_name": "Camades",
+      "description": "Camades alternes cap endavant.",
+      "instructions": "Fes un pas endavant i baixa els malucs fins que els dos genolls formin un angle de 90 graus.",
+      "safety_info": "Mantén el genoll davanter alineat amb el turmell; no deixis que sobrepassi la punta del peu."
+    },
+    {
+      "module_name": "Jumping Jacks",
+      "display_name": "Jumping Jacks",
+      "description": "Salt cardio explosiu de cos sencer.",
+      "instructions": "Salta obrint les cames i alçant els braços per sobre del cap.",
+      "safety_info": "Aterra suaument sobre la part davantera dels peus."
+    },
+    {
+      "module_name": "Squat Thrusts",
+      "display_name": "Assegudes amb impuls",
+      "description": "Burpee sense la flexió ni el salt.",
+      "instructions": "Baixa a planxa i porta els peus de nou cap a les mans ràpidament.",
+      "safety_info": "Mantén l'esquena recta en la posició de planxa."
+    },
+    {
+      "module_name": "Mountain Climbers",
+      "display_name": "Escaladors",
+      "description": "Estabilitat dinàmica del core i cardio.",
+      "instructions": "En planxa, porta els genolls cap al pit amb un moviment alternat de cursa.",
+      "safety_info": "Mantén els malucs nivellats; no rebotis amunt i avall."
+    },
+    {
+      "module_name": "Lateral Skaters",
+      "display_name": "Patinadors laterals",
+      "description": "Salts laterals explosius.",
+      "instructions": "Salta cap a un costat, aterra sobre un peu i porta l'altre per darrere.",
+      "safety_info": "Concentra't en l'equilibri i en aterratges controlats."
+    },
+    {
+      "module_name": "High Knees",
+      "display_name": "Genolls alts",
+      "description": "Cursa al lloc amb elevació exagerada dels genolls.",
+      "instructions": "Puja els genolls tan amunt com puguis mentre corres al lloc.",
+      "safety_info": "Mantingues-te sobre la part davantera dels peus; mou els braços per agafar impuls."
+    },
+    {
+      "module_name": "Diamond Push-ups",
+      "display_name": "Flexions diamant",
+      "description": "Flexió de mans juntes amb predomini del tríceps.",
+      "instructions": "Forma un diamant amb les mans sota el pit i baixa el cos.",
+      "safety_info": "Mantén els colzes a prop de les costelles."
+    },
+    {
+      "module_name": "Archer Squats",
+      "display_name": "Assegudes d'arquer",
+      "description": "Asseguda unilateral que carrega una cama.",
+      "instructions": "Baixa lateralment mantenint una cama completament estirada.",
+      "safety_info": "Recolza el pes sobre el taló de la cama que es flexiona."
+    },
+    {
+      "module_name": "V-Ups",
+      "display_name": "Abdominals en V",
+      "description": "Plec explosiu del core en V.",
+      "instructions": "Eleva alhora el tors i les cames per tocar els dits dels peus a l'aire.",
+      "safety_info": "Evita estirar el coll; utilitza la força abdominal."
+    },
+    {
+      "module_name": "Pike Push-ups",
+      "display_name": "Flexions pike",
+      "description": "Flexió amb predomini de les espatlles.",
+      "instructions": "En posició de V (malucs amunt), baixa el cap cap a les mans.",
+      "safety_info": "Mira cap als peus per mantenir l'alineació del coll."
+    },
+    {
+      "module_name": "Step-ups",
+      "display_name": "Pujades a l'esglaó",
+      "description": "Força de cames sobre una superfície elevada.",
+      "instructions": "Puja a una cadira o a un calaix i posa't dret del tot.",
+      "safety_info": "Assegura't que la superfície sigui estable i segura."
+    },
+    {
+      "module_name": "Glute Bridges",
+      "display_name": "Pont de glutis",
+      "description": "Activació de la cadena posterior.",
+      "instructions": "Estirat de cara amunt, eleva els malucs cap al sostre i estreny els glutis.",
+      "safety_info": "No arquegis en excés la zona lumbar a la part alta."
+    },
+    {
+      "module_name": "Lateral Shuffles",
+      "display_name": "Desplaçaments laterals",
+      "description": "Moviment atlètic d'un costat a l'altre.",
+      "instructions": "Mantingues-te baix en mitja flexió de genolls i desplaça't lateralment.",
+      "safety_info": "No creuïs els peus; mantén el pit alt."
+    },
+    {
+      "module_name": "Butt Kicks",
+      "display_name": "Talons als glutis",
+      "description": "Moviment ràpid de talons a glutis.",
+      "instructions": "Trota al lloc portant els talons cap amunt fins a tocar els glutis.",
+      "safety_info": "Mantén una lleugera inclinació cap endavant i aterratges suaus."
+    },
+    {
+      "module_name": "Cross Jacks",
+      "display_name": "Cross Jacks",
+      "description": "Variant de jumping jack creuant braços i cames.",
+      "instructions": "Salta i creua braços i cames alternativament pel davant.",
+      "safety_info": "Mantén els moviments fluids i les espatlles relaxades."
+    },
+    {
+      "module_name": "Seal Jacks",
+      "display_name": "Seal Jacks",
+      "description": "Jumping jack amb palmades horitzontals dels braços.",
+      "instructions": "Obre i tanca els braços en horitzontal mentre saltes.",
+      "safety_info": "Concentra't a obrir el pit i retreure les escàpules."
+    },
+    {
+      "module_name": "Shadow Boxing",
+      "display_name": "Boxa de sombra",
+      "description": "Cops dinàmics i rítmics.",
+      "instructions": "Fes jabs i creuats amb un joc de peus lleuger.",
+      "safety_info": "No bloquegis del tot els colzes en colpejar."
+    },
+    {
+      "module_name": "Fast Feet",
+      "display_name": "Peus ràpids",
+      "description": "Canvi ràpid de suports de baix impacte.",
+      "instructions": "Corre al lloc amb passes molt curtes i ràpides.",
+      "safety_info": "Mantén els malucs baixos i recolza't sobre la part davantera dels peus."
+    },
+    {
+      "module_name": "Hollow Rocks",
+      "display_name": "Barquers",
+      "description": "Balanceig avançat d'estabilització del core.",
+      "instructions": "Mantén la posició hollow i balanceja't cap endavant i cap enrere.",
+      "safety_info": "La zona lumbar ha de romandre enganxada a terra."
+    },
+    {
+      "module_name": "Bulgarian Split Squats",
+      "display_name": "Assegudes búlgares",
+      "description": "Asseguda unilateral amb el peu del darrere elevat.",
+      "instructions": "Recolza el peu del darrere en un banc i fes l'asseguda sobre la cama davantera.",
+      "safety_info": "Assegura't que el genoll davanter no es desplomi cap endins."
+    },
+    {
+      "module_name": "Plank Jacks",
+      "display_name": "Jacks de planxa",
+      "description": "Planxa dinàmica amb salts de cames.",
+      "instructions": "En posició de planxa, salta obrint i tancant els peus.",
+      "safety_info": "Mantén els malucs a l'altura de les espatlles; evita que s'enfonsin."
+    },
+    {
+      "module_name": "Decline Push-ups",
+      "display_name": "Flexions declinades",
+      "description": "Flexió amb peus elevats per al pit superior.",
+      "instructions": "Amb els peus sobre un banc, fes flexions centrant-te en les espatlles.",
+      "safety_info": "Mantén el core ferm per evitar que s'arquegi la zona lumbar."
+    },
+    {
+      "module_name": "Sumo Squats",
+      "display_name": "Assegudes sumo",
+      "description": "Asseguda amb cames obertes per treballar la cuixa interna.",
+      "instructions": "Peus separats i puntes cap a fora; baixa profund amb un petit rebot a baix.",
+      "safety_info": "Mantén els genolls alineats amb les puntes dels peus."
+    },
+    {
+      "module_name": "Leg Raises",
+      "display_name": "Elevacions de cames",
+      "description": "Elevació abdominal inferior.",
+      "instructions": "Estirat de cara amunt, eleva les cames estirades fins a 90 graus.",
+      "safety_info": "Mantén la zona lumbar enganxada a terra durant tot l'exercici."
+    },
+    {
+      "module_name": "Technical Push-ups",
+      "display_name": "Flexions tècniques",
+      "description": "Flexions controlades centrades en la tècnica.",
+      "instructions": "Fes flexions estàndard amb tempo lent (3 s de baixada).",
+      "safety_info": "Prioritza la tècnica; atura't si es deteriora."
+    },
+    {
+      "module_name": "Scissor Kicks",
+      "display_name": "Tisores",
+      "description": "Cops horitzontals alterns de cames.",
+      "instructions": "Estirat de cara amunt, creua les cames alternant per sobre i per sota.",
+      "safety_info": "Mantén les cames tan rectes com puguis i el core actiu."
+    },
+    {
+      "module_name": "Deadbug",
+      "display_name": "Insecte mort",
+      "description": "Exercici d'estabilitat de flux neural.",
+      "instructions": "Estirat de cara amunt, baixa alternativament el braç i la cama oposats.",
+      "safety_info": "El moviment lent i controlat és clau per a la sincronització neural."
+    },
+    {
+      "module_name": "Reverse Lunges",
+      "display_name": "Camades inverses",
+      "description": "Variant de camada cap enrere, més amable amb els genolls.",
+      "instructions": "Fes un pas enrere i baixa els malucs fins que els dos genolls formin 90 graus.",
+      "safety_info": "Mantén el tors dret; no deixis que el genoll davanter sobrepassi la punta del peu."
+    },
+    {
+      "module_name": "Bicycle Crunches",
+      "display_name": "Abdominals bicicleta",
+      "description": "Abdominal rotacional que treballa els oblics.",
+      "instructions": "Simula un pedaleig mentre portes el colze cap al genoll contrari.",
+      "safety_info": "No estiris el coll; dirigeix el moviment des de l'abdomen."
+    },
+    {
+      "module_name": "Air Squats",
+      "display_name": "Assegudes",
+      "description": "Asseguda estàndard amb el pes corporal.",
+      "instructions": "Baixa els malucs mantenint l'esquena recta i torna a posar-te dret.",
+      "safety_info": "Els talons s'han de mantenir en contacte amb el terra en tot moment."
+    },
+    {
+      "module_name": "Shoulder Taps",
+      "display_name": "Tocs d'espatlla",
+      "description": "Posició de planxa amb tocs alterns a l'espatlla contrària, per treballar l'estabilitat anti-rotació del core.",
+      "instructions": "Des de planxa alta amb els peus separats, aixeca una mà i toca l'espatlla contrària, torna-la a recolzar i alterna, mantenint els malucs quiets.",
+      "safety_info": "Mantén els malucs nivellats i evita balancejar-te; recolza els genolls si els canells o el core es cansen."
+    },
+    {
+      "module_name": "Push-ups",
+      "display_name": "Flexions",
+      "description": "Flexió estàndard amb rang complet de moviment.",
+      "instructions": "Baixa el pit fins a terra mantenint el cos en línia recta.",
+      "safety_info": "Mantén el core activat per evitar la hiperextensió lumbar."
+    },
+    {
+      "module_name": "Plank",
+      "display_name": "Planxa",
+      "description": "Exercici estàtic d'estabilització del core centrat en l'antiextensió i l'alineació de la columna.",
+      "instructions": "Mantén una línia recta del cap als talons, recolzat sobre els avantbraços i les puntes dels peus. Activa glutis i core durant tota la sostinguda.",
+      "safety_info": "Evita la hiperextensió lumbar; no deixis que els malucs s'enfonsin. Mantén el coll neutre mirant a terra."
+    },
+    {
+      "module_name": "Sukhasana",
+      "display_name": "Postura fàcil",
+      "description": "(Sukhasana) Postura asseguda de respiració tranquil·la per obrir i tancar una pràctica.",
+      "instructions": "Seu amb les cames creuades i la columna dreta, les mans sobre els genolls, i respira de manera lenta i uniforme.",
+      "safety_info": "Seu sobre una manta doblegada o un coixí si els malucs estan tensos."
+    },
+    {
+      "module_name": "Balasana",
+      "display_name": "Postura del nen",
+      "description": "(Balasana) Flexió reparadora de genolls per a malucs i zona lumbar.",
+      "instructions": "Agenolla't i seu sobre els talons, inclinant el tors cap endavant amb els braços estirats.",
+      "safety_info": "Separa els genolls si notes pressió a l'abdomen o als genolls."
+    },
+    {
+      "module_name": "Marjaryasana-Bitilasana",
+      "display_name": "Gat-Vaca",
+      "description": "(Marjaryasana-Bitilasana) Flux lent de flexió i extensió de la columna sincronitzat amb la respiració.",
+      "instructions": "A quatre grapes, alterna arquejar i arrodonir la columna al ritme de la inhalació i l'exhalació.",
+      "safety_info": "Mou-te a poc a poc; no forcis el rang de moviment del coll."
+    },
+    {
+      "module_name": "Bhujangasana",
+      "display_name": "Cobra",
+      "description": "(Bhujangasana) Extensió suau de la columna per a la zona lumbar i el pit.",
+      "instructions": "Estirat de cara avall, empeny amb les mans per elevar el pit mantenint els malucs a terra.",
+      "safety_info": "Mantén els colzes lleugerament flexionats; no forcis l'elevació si et sobrecarrega la zona lumbar."
+    },
+    {
+      "module_name": "Adho Mukha Svanasana",
+      "display_name": "Gos cap avall",
+      "description": "(Adho Mukha Svanasana) Estirament en V invertida i obertura d'espatlles.",
+      "instructions": "Des de la planxa, eleva els malucs cap amunt i enrere, empenyent els talons cap a terra i el pit cap a les cuixes.",
+      "safety_info": "Mantén una lleugera flexió als genolls si els isquiotibials estan tensos; no bloquegis els colzes."
+    },
+    {
+      "module_name": "Uttanasana",
+      "display_name": "Flexió de peu",
+      "description": "(Uttanasana) Alliberament d'isquiotibials i columna dret.",
+      "instructions": "Inclina't cap endavant des dels malucs deixant caure el cap i els braços cap a terra.",
+      "safety_info": "Flexiona generosament els genolls si notes tensió als isquiotibials o a la zona lumbar."
+    },
+    {
+      "module_name": "Virabhadrasana II",
+      "display_name": "Guerrer II",
+      "description": "(Virabhadrasana II) Gambada sostinguda que desenvolupa la resistència de les cames i l'obertura de malucs.",
+      "instructions": "Flexiona el genoll davanter a 90 graus, estén els braços paral·lels a terra i mira per sobre de la mà davantera. Mantén la meitat de les respiracions a cada costat.",
+      "safety_info": "Mantén el genoll davanter alineat amb el turmell; no deixis que es desplomi cap endins."
+    },
+    {
+      "module_name": "Vrikshasana",
+      "display_name": "Postura de l'arbre",
+      "description": "(Vrikshasana) Postura d'equilibri sobre una cama.",
+      "instructions": "Arrela un peu i col·loca la planta de l'altre a la cara interna del panxell o de la cuixa, amb les mans al centre del pit. Mantén la meitat de les respiracions a cada costat.",
+      "safety_info": "Evita recolzar el peu directament sobre l'articulació del genoll; utilitza una paret com a suport si ho necessites."
+    },
+    {
+      "module_name": "Setu Bandhasana",
+      "display_name": "Postura del pont",
+      "description": "(Setu Bandhasana) Flexió cap enrere sostinguda que obre els malucs, estirat sobre l'esquena.",
+      "instructions": "Estirat de cara amunt amb els genolls flexionats, empeny amb els peus per elevar els malucs i mantén la posició.",
+      "safety_info": "Mantén els genolls alineats cap endavant; evita que s'obrin cap a fora."
+    },
+    {
+      "module_name": "Paschimottanasana",
+      "display_name": "Flexió asseguda",
+      "description": "(Paschimottanasana) Estirament assegut d'isquiotibials i zona lumbar.",
+      "instructions": "Seu amb les cames estirades i inclina't cap endavant des dels malucs, abastant els peus.",
+      "safety_info": "Mantén una lleugera flexió als genolls si la zona lumbar s'arrodoneix en excés."
+    },
+    {
+      "module_name": "Surya Namaskar",
+      "display_name": "Salutació al sol",
+      "description": "(Surya Namaskar) Seqüència contínua de cos sencer que uneix respiració i moviment.",
+      "instructions": "Flueix a través de la flexió cap endavant, la planxa i els gossos cap amunt i cap avall en un cicle continu.",
+      "safety_info": "Mantén el moviment lent i controlat; evita aguantar la respiració."
+    },
+    {
+      "module_name": "Qi Shi",
+      "display_name": "Qi Shi",
+      "description": "(Forma d'obertura) Postura inicial que assenta el pes i la respiració abans de la forma.",
+      "instructions": "Dret amb els peus a l'amplada de les espatlles, eleva i baixa lentament els braços al ritme de la respiració.",
+      "safety_info": "Mantén els genolls suaus i el pes centrat en tot moment."
+    },
+    {
+      "module_name": "Yun Shou",
+      "display_name": "Yun Shou",
+      "description": "(Mans de núvol) Moviment lateral lent i fluid de tracció de braços.",
+      "instructions": "Desplaça el pes d'un costat a l'altre mentre els braços tracen arcs circulars lents de tracció davant del cos.",
+      "safety_info": "Mantén el moviment pausat i continu; suavitza els genolls en tot moment."
+    },
+    {
+      "module_name": "Ye Ma Fen Zong",
+      "display_name": "Ye Ma Fen Zong",
+      "description": "(Separar la crinera del cavall salvatge) Pas diagonal amb canvi de pes que coordina braços i cames.",
+      "instructions": "Fes un pas en diagonal cap endavant mentre un braç escombra cap amunt i cap a fora i l'altre descendeix i es recull cap enrere. Practica els dos costats dins del temps indicat.",
+      "safety_info": "Mantén els passos controlats i el genoll davanter alineat amb el turmell."
+    },
+    {
+      "module_name": "Lou Xi Ao Bu",
+      "display_name": "Lou Xi Ao Bu",
+      "description": "(Fregar el genoll i pas torçat) Forma de passos que frega el genoll mentre rota el tors.",
+      "instructions": "Fes un pas endavant mentre una mà frega el genoll i l'altra empeny cap endavant a l'altura del pit. Practica els dos costats dins del temps indicat.",
+      "safety_info": "Mantén suau el genoll que fa el pas i evita avançar-lo en excés."
+    },
+    {
+      "module_name": "Shou Hui Pipa",
+      "display_name": "Shou Hui Pipa",
+      "description": "(Tocar la pipa) Canvi de pes sostingut amb els braços recollits com si sostinguessin un instrument.",
+      "instructions": "Porta el pes a la cama del darrere, uneix les mans davant del pit i mantén la posició.",
+      "safety_info": "Mantén les espatlles relaxades i allunyades de les orelles."
+    },
+    {
+      "module_name": "Jin Ji Du Li",
+      "display_name": "Jin Ji Du Li",
+      "description": "(El gall daurat es manté sobre una cama) Equilibri sobre una cama amb elevació lenta del genoll.",
+      "instructions": "Carrega tot el pes sobre una cama i eleva lentament el genoll contrari, mantenint-lo amb control. Practica els dos costats dins del temps indicat.",
+      "safety_info": "Mantén suau el genoll de suport; utilitza una paret com a suport si l'equilibri és limitat."
+    },
+    {
+      "module_name": "Dao Juan Gong",
+      "display_name": "Dao Juan Gong",
+      "description": "(Rebutjar el mico) Flux lent de passos cap enrere que coordina tot el cos.",
+      "instructions": "Fes passos cap enrere mentre una mà es recull i l'altra empeny cap endavant, alternant els costats de manera contínua. Practica els dos costats dins del temps indicat.",
+      "safety_info": "Mantén els passos curts i controlats; no precipitis la transferència del pes."
+    },
+    {
+      "module_name": "Bai He Liang Chi",
+      "display_name": "Bai He Liang Chi",
+      "description": "(La grua blanca desplega les ales) Flux lent de rotació del tors i elevació de braços per a l'estabilitat del core.",
+      "instructions": "Porta el pes a la cama del darrere mentre eleves un braç per sobre del cap i l'altre a baix, rotant suaument des del core. Practica els dos costats dins del temps indicat.",
+      "safety_info": "Mou-te a poc a poc i mantén el core ferm durant tota la rotació."
+    },
+    {
+      "module_name": "Shi Zi Shou",
+      "display_name": "Shi Zi Shou",
+      "description": "(Mans creuades, forma de tancament) Forma de tancament que recull i assenta l'energia al final de la seqüència.",
+      "instructions": "Creua els canells davant del pit; després obre lentament els braços i baixa'ls als costats.",
+      "safety_info": "Mantén el moviment lent i la respiració relaxada."
+    },
+    {
+      "module_name": "Supermans",
+      "display_name": "Supermans",
+      "description": "Sostinguda d'extensió dorsal de cara avall per a la cadena posterior.",
+      "instructions": "Estirat de cara avall, eleva braços i cames alhora, estreny l'esquena durant un segon i baixa.",
+      "safety_info": "Mantén el coll neutre; no hiperextenguis la zona lumbar."
+    },
+    {
+      "module_name": "Single-Leg RDL",
+      "display_name": "Pes mort unipodal",
+      "description": "Frontissa de maluc a una cama amb el pes corporal.",
+      "instructions": "Inclina't des del maluc sobre una cama mentre l'altra s'estén cap enrere i torna a posar-te dret.",
+      "safety_info": "Mantén l'esquena recta i el genoll de suport lleugerament flexionat."
+    },
+    {
+      "module_name": "Jump Squats",
+      "display_name": "Asseguda amb salt",
+      "description": "Salt d'asseguda explosiu per a la potència del tren inferior.",
+      "instructions": "Baixa en asseguda fins al paral·lel i salta tan alt com puguis, aterrant suaument cap a la repetició següent.",
+      "safety_info": "Aterra sobre la part davantera dels peus amb els genolls flexionats; atura't si la tècnica es deteriora."
+    },
+    {
+      "module_name": "Savasana",
+      "display_name": "Savasana",
+      "description": "(Relaxació final) Postura de repòs total que tanca la pràctica i deixa que el cos integre el treball.",
+      "instructions": "Estirat de cara amunt amb les cames còmodes i els braços als costats, palmells amunt, i deixa que la respiració sigui natural.",
+      "safety_info": "Si tens molèsties lumbars, posa un coixí sota els genolls; tapa't si tens fred."
+    },
+    {
+      "module_name": "Supta Matsyendrasana",
+      "display_name": "Torsió estirada",
+      "description": "(Supta Matsyendrasana) Torsió suau estirat que allibera la columna i els malucs.",
+      "instructions": "Estirat de cara amunt, porta un genoll creuat cap al costat contrari i obre l'altre braç; mantén la meitat de les respiracions a cada costat.",
+      "safety_info": "Mantén les dues espatlles a terra; surt de la torsió si notes pessic a la zona lumbar."
+    },
+    {
+      "module_name": "Fang Song",
+      "display_name": "Fang Song",
+      "description": "(Exercicis d'afluixament) Mobilització articular suau de coll, espatlles, columna, malucs, genolls i turmells per preparar la forma.",
+      "instructions": "Dret amb els peus a l'amplada de les espatlles, gira lentament cada articulació del coll als turmells, respirant amb calma.",
+      "safety_info": "Mou-te en un rang còmode; mantén els genolls suaus i atura't davant de qualsevol dolor."
+    },
+    {
+      "module_name": "Zhan Zhuang",
+      "display_name": "Zhan Zhuang",
+      "description": "(Postura del pal) Meditació dreta que desenvolupa l'arrelament, la postura i la calma abans de la forma.",
+      "instructions": "Dret amb els peus a l'amplada de les espatlles, genolls lleugerament flexionats i braços arrodonits com si abracessis una pilota gran davant del pit, i respira lentament.",
+      "safety_info": "Mantén els genolls suaus i les espatlles relaxades; escurça la sostinguda si les cuixes tremolen o fan mal."
+    }
+  ],
+  "directives": [
+    {
+      "directive_name": "FAT_BURNING",
+      "directive_description": "Protocol d'acceleració metabòlica"
+    },
+    {
+      "directive_name": "CARDIO_ENHANCEMENT",
+      "directive_description": "Sistema d'optimització cardiovascular"
+    },
+    {
+      "directive_name": "STRENGTH_MATRIX",
+      "directive_description": "Seqüència d'enfortiment muscular"
+    },
+    {
+      "directive_name": "ENDURANCE_GRID",
+      "directive_description": "Marc d'ampliació de la resistència"
+    },
+    {
+      "directive_name": "NEURAL_FLOW",
+      "directive_description": "Sincronització neurosinàptica"
+    },
+    {
+      "directive_name": "EQUINOX",
+      "directive_description": "Seqüència d'equilibri i sincronització de flux lent"
+    },
+    {
+      "directive_name": "APEX",
+      "directive_description": "Protocol de pic anaeròbic supramàxim"
+    }
+  ],
+  "ranks": [
+    {
+      "rank_level": 1,
+      "rank_name": "DEBUTANT"
+    },
+    {
+      "rank_level": 2,
+      "rank_name": "AVANÇAT"
+    },
+    {
+      "rank_level": 3,
+      "rank_name": "ROOT"
+    }
+  ]
+}

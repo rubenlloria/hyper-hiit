@@ -1,0 +1,494 @@
+{
+  "version": "0.8",
+  "version": "0.8",
+  "description": "Paquete de idioma español para hyper//hiit. Contiene los textos de módulos, directivas y rangos",
+  "type": "language",
+  "language": "es_ES",
+  "modules": [
+    {
+      "module_name": "Rest",
+      "display_name": "Descanso",
+      "description": "Periodo de recuperación activa o pasiva.",
+      "instructions": "Tómate tu tiempo para descansar y respirar profundamente.",
+      "safety_info": "No te sientes bruscamente; mantén un ligero movimiento."
+    },
+    {
+      "module_name": "Burpees",
+      "display_name": "Burpees",
+      "description": "Secuencia de plancha, flexión y salto.",
+      "instructions": "De pie, baja a plancha, haz una flexión, lleva los pies hacia las manos y salta explosivamente hacia arriba.",
+      "safety_info": "Mantén el core firme para evitar la hiperextensión lumbar durante el salto."
+    },
+    {
+      "module_name": "Sit-ups",
+      "display_name": "Abdominales",
+      "description": "Ejercicio de flexión abdominal.",
+      "instructions": "Tumbado boca arriba con las rodillas flexionadas, eleva el torso hacia las rodillas.",
+      "safety_info": "Mantén el core firme; no tires del cuello."
+    },
+    {
+      "module_name": "Lunges",
+      "display_name": "Zancadas",
+      "description": "Zancadas alternas hacia delante.",
+      "instructions": "Da un paso adelante y baja las caderas hasta que ambas rodillas formen un ángulo de 90 grados.",
+      "safety_info": "Mantén la rodilla delantera alineada con el tobillo; no dejes que sobrepase la punta del pie."
+    },
+    {
+      "module_name": "Jumping Jacks",
+      "display_name": "Jumping Jacks",
+      "description": "Salto explosivo de cardio de cuerpo completo.",
+      "instructions": "Salta abriendo las piernas y elevando los brazos por encima de la cabeza.",
+      "safety_info": "Aterriza suavemente sobre la parte delantera de los pies."
+    },
+    {
+      "module_name": "Squat Thrusts",
+      "display_name": "Sentadillas con impulso",
+      "description": "Burpee sin la flexión ni el salto.",
+      "instructions": "Baja a plancha y lleva los pies de vuelta hacia las manos rápidamente.",
+      "safety_info": "Mantén la espalda recta en la posición de plancha."
+    },
+    {
+      "module_name": "Mountain Climbers",
+      "display_name": "Escaladores",
+      "description": "Estabilidad dinámica del core y cardio.",
+      "instructions": "En plancha, lleva las rodillas hacia el pecho en un movimiento alterno de carrera.",
+      "safety_info": "Mantén las caderas niveladas; no rebotes arriba y abajo."
+    },
+    {
+      "module_name": "Lateral Skaters",
+      "display_name": "Patinadores laterales",
+      "description": "Saltos laterales explosivos.",
+      "instructions": "Salta hacia un lado, aterriza sobre un pie y lleva el otro por detrás.",
+      "safety_info": "Concéntrate en el equilibrio y en aterrizajes controlados."
+    },
+    {
+      "module_name": "High Knees",
+      "display_name": "Rodillas altas",
+      "description": "Carrera en el sitio con elevación exagerada de rodillas.",
+      "instructions": "Sube las rodillas lo más alto posible mientras corres en el sitio.",
+      "safety_info": "Mantente sobre la parte delantera de los pies; bombea los brazos para ganar impulso."
+    },
+    {
+      "module_name": "Diamond Push-ups",
+      "display_name": "Flexiones diamante",
+      "description": "Flexión de agarre cerrado con predominio del tríceps.",
+      "instructions": "Forma un diamante con las manos bajo el pecho y baja el cuerpo.",
+      "safety_info": "Mantén los codos cerca de las costillas."
+    },
+    {
+      "module_name": "Archer Squats",
+      "display_name": "Sentadillas de arquero",
+      "description": "Sentadilla unilateral que carga una pierna.",
+      "instructions": "Desciende lateralmente manteniendo una pierna completamente estirada.",
+      "safety_info": "Apoya el peso en el talón de la pierna que se flexiona."
+    },
+    {
+      "module_name": "V-Ups",
+      "display_name": "Abdominales en V",
+      "description": "Pliegue explosivo del core en V.",
+      "instructions": "Eleva a la vez el torso y las piernas para tocar los dedos de los pies en el aire.",
+      "safety_info": "Evita tirar del cuello; usa la fuerza abdominal."
+    },
+    {
+      "module_name": "Pike Push-ups",
+      "display_name": "Flexiones pike",
+      "description": "Flexión con predominio de los hombros.",
+      "instructions": "En posición de V (caderas arriba), baja la cabeza hacia las manos.",
+      "safety_info": "Mira hacia los pies para mantener la alineación del cuello."
+    },
+    {
+      "module_name": "Step-ups",
+      "display_name": "Subidas al escalón",
+      "description": "Fuerza de piernas sobre una superficie elevada.",
+      "instructions": "Sube a una silla o cajón y ponte de pie por completo.",
+      "safety_info": "Asegúrate de que la superficie sea estable y segura."
+    },
+    {
+      "module_name": "Glute Bridges",
+      "display_name": "Puente de glúteos",
+      "description": "Activación de la cadena posterior.",
+      "instructions": "Tumbado boca arriba, eleva las caderas hacia el techo y aprieta los glúteos.",
+      "safety_info": "No arquees en exceso la zona lumbar en la parte alta."
+    },
+    {
+      "module_name": "Lateral Shuffles",
+      "display_name": "Desplazamientos laterales",
+      "description": "Movimiento atlético de lado a lado.",
+      "instructions": "Mantente bajo en media sentadilla y desplázate lateralmente.",
+      "safety_info": "No cruces los pies; mantén el pecho alto."
+    },
+    {
+      "module_name": "Butt Kicks",
+      "display_name": "Talones al glúteo",
+      "description": "Movimiento rápido de talones a glúteos.",
+      "instructions": "Trota en el sitio llevando los talones hacia arriba hasta tocar los glúteos.",
+      "safety_info": "Mantén una ligera inclinación hacia delante y aterrizajes suaves."
+    },
+    {
+      "module_name": "Cross Jacks",
+      "display_name": "Cross Jacks",
+      "description": "Variante de jumping jack cruzando brazos y piernas.",
+      "instructions": "Salta y cruza brazos y piernas alternativamente por delante.",
+      "safety_info": "Mantén los movimientos fluidos y los hombros relajados."
+    },
+    {
+      "module_name": "Seal Jacks",
+      "display_name": "Seal Jacks",
+      "description": "Jumping jack con palmadas horizontales de brazos.",
+      "instructions": "Abre y cierra los brazos en horizontal mientras saltas.",
+      "safety_info": "Concéntrate en abrir el pecho y retraer las escápulas."
+    },
+    {
+      "module_name": "Shadow Boxing",
+      "display_name": "Boxeo de sombra",
+      "description": "Golpeo dinámico y rítmico.",
+      "instructions": "Realiza jabs y cruzados con un juego de pies ligero.",
+      "safety_info": "No bloquees por completo los codos al golpear."
+    },
+    {
+      "module_name": "Fast Feet",
+      "display_name": "Pies rápidos",
+      "description": "Cambio rápido de apoyos de bajo impacto.",
+      "instructions": "Corre en el sitio con pasos muy cortos y rápidos.",
+      "safety_info": "Mantén las caderas bajas y apóyate en la parte delantera de los pies."
+    },
+    {
+      "module_name": "Hollow Rocks",
+      "display_name": "Hollow Rocks",
+      "description": "Balanceo avanzado de estabilización del core.",
+      "instructions": "Mantén la posición hollow y balancéate hacia delante y hacia atrás.",
+      "safety_info": "La zona lumbar debe permanecer pegada al suelo."
+    },
+    {
+      "module_name": "Bulgarian Split Squats",
+      "display_name": "Sentadillas búlgaras",
+      "description": "Sentadilla unilateral con el pie trasero elevado.",
+      "instructions": "Apoya el pie trasero en un banco y haz la sentadilla sobre la pierna delantera.",
+      "safety_info": "Asegúrate de que la rodilla delantera no se desplome hacia dentro."
+    },
+    {
+      "module_name": "Plank Jacks",
+      "display_name": "Plank Jacks",
+      "description": "Plancha dinámica con saltos de piernas.",
+      "instructions": "En posición de plancha, salta abriendo y cerrando los pies.",
+      "safety_info": "Mantén las caderas a la altura de los hombros; evita que se hundan."
+    },
+    {
+      "module_name": "Decline Push-ups",
+      "display_name": "Flexiones declinadas",
+      "description": "Flexión con pies elevados para el pecho superior.",
+      "instructions": "Con los pies sobre un banco, haz flexiones centrándote en los hombros.",
+      "safety_info": "Mantén el core firme para evitar que se arquee la zona lumbar."
+    },
+    {
+      "module_name": "Sumo Squats",
+      "display_name": "Sentadillas sumo",
+      "description": "Sentadilla con piernas abiertas para trabajar el muslo interno.",
+      "instructions": "Pies separados y puntas hacia fuera; baja profundo con un pequeño rebote abajo.",
+      "safety_info": "Mantén las rodillas alineadas con las puntas de los pies."
+    },
+    {
+      "module_name": "Leg Raises",
+      "display_name": "Elevaciones de piernas",
+      "description": "Elevación abdominal inferior.",
+      "instructions": "Tumbado boca arriba, eleva las piernas estiradas hasta 90 grados.",
+      "safety_info": "Mantén la zona lumbar pegada al suelo durante todo el ejercicio."
+    },
+    {
+      "module_name": "Technical Push-ups",
+      "display_name": "Flexiones técnicas",
+      "description": "Flexiones controladas centradas en la técnica.",
+      "instructions": "Realiza flexiones estándar con tempo lento (3 s de bajada).",
+      "safety_info": "Prioriza la técnica; detente si esta se deteriora."
+    },
+    {
+      "module_name": "Scissor Kicks",
+      "display_name": "Tijeras",
+      "description": "Patadas horizontales alternas de piernas.",
+      "instructions": "Tumbado boca arriba, cruza las piernas alternando por encima y por debajo.",
+      "safety_info": "Mantén las piernas lo más rectas posible y el core activo."
+    },
+    {
+      "module_name": "Deadbug",
+      "display_name": "Bicho muerto",
+      "description": "Ejercicio de estabilidad de flujo neural.",
+      "instructions": "Tumbado boca arriba, baja alternativamente el brazo y la pierna opuestos.",
+      "safety_info": "El movimiento lento y controlado es clave para la sincronización neural."
+    },
+    {
+      "module_name": "Reverse Lunges",
+      "display_name": "Zancadas inversas",
+      "description": "Variante de zancada hacia atrás, más amable con las rodillas.",
+      "instructions": "Da un paso hacia atrás y baja las caderas hasta que ambas rodillas formen 90 grados.",
+      "safety_info": "Mantén el torso erguido; no dejes que la rodilla delantera sobrepase la punta del pie."
+    },
+    {
+      "module_name": "Bicycle Crunches",
+      "display_name": "Abdominales bicicleta",
+      "description": "Abdominal rotacional que trabaja los oblicuos.",
+      "instructions": "Simula un pedaleo mientras llevas el codo hacia la rodilla contraria.",
+      "safety_info": "No tires del cuello; dirige el movimiento desde el abdomen."
+    },
+    {
+      "module_name": "Air Squats",
+      "display_name": "Sentadillas",
+      "description": "Sentadilla estándar con el peso corporal.",
+      "instructions": "Baja las caderas manteniendo la espalda recta y vuelve a ponerte de pie.",
+      "safety_info": "Los talones deben mantenerse en contacto con el suelo en todo momento."
+    },
+    {
+      "module_name": "Shoulder Taps",
+      "display_name": "Toques de hombro",
+      "description": "Posición de plancha con toques alternos al hombro contrario, para trabajar la estabilidad anti-rotación del core.",
+      "instructions": "Desde plancha alta con los pies separados, levanta una mano y toca el hombro contrario, vuelve a apoyarla y alterna, manteniendo las caderas quietas.",
+      "safety_info": "Mantén las caderas niveladas y evita balancearte; apoya las rodillas si las muñecas o el core se cansan."
+    },
+    {
+      "module_name": "Push-ups",
+      "display_name": "Flexiones",
+      "description": "Flexión estándar con rango completo de movimiento.",
+      "instructions": "Baja el pecho hasta el suelo manteniendo el cuerpo en línea recta.",
+      "safety_info": "Mantén el core activado para evitar la hiperextensión lumbar."
+    },
+    {
+      "module_name": "Plank",
+      "display_name": "Plancha",
+      "description": "Ejercicio estático de estabilización del core centrado en la antiextensión y la alineación de la columna.",
+      "instructions": "Mantén una línea recta de la cabeza a los talones, apoyado sobre los antebrazos y las puntas de los pies. Activa glúteos y core durante toda la sujeción.",
+      "safety_info": "Evita la hiperextensión lumbar; no dejes que las caderas se hundan. Mantén el cuello neutro mirando al suelo."
+    },
+    {
+      "module_name": "Sukhasana",
+      "display_name": "Postura fácil",
+      "description": "(Sukhasana) Postura sentada de respiración tranquila para abrir y cerrar una práctica.",
+      "instructions": "Siéntate con las piernas cruzadas y la columna erguida, las manos sobre las rodillas, y respira de forma lenta y uniforme.",
+      "safety_info": "Siéntate sobre una manta doblada o un cojín si las caderas están tensas."
+    },
+    {
+      "module_name": "Balasana",
+      "display_name": "Postura del niño",
+      "description": "(Balasana) Flexión reparadora de rodillas para caderas y zona lumbar.",
+      "instructions": "Arrodíllate y siéntate sobre los talones, inclinando el torso hacia delante con los brazos estirados.",
+      "safety_info": "Separa las rodillas si notas presión en el abdomen o en las rodillas."
+    },
+    {
+      "module_name": "Marjaryasana-Bitilasana",
+      "display_name": "Gato-Vaca",
+      "description": "(Marjaryasana-Bitilasana) Flujo lento de flexión y extensión de la columna sincronizado con la respiración.",
+      "instructions": "A cuatro apoyos, alterna arquear y redondear la columna al ritmo de la inhalación y la exhalación.",
+      "safety_info": "Muévete despacio; no fuerces el rango de movimiento del cuello."
+    },
+    {
+      "module_name": "Bhujangasana",
+      "display_name": "Cobra",
+      "description": "(Bhujangasana) Extensión suave de la columna para la zona lumbar y el pecho.",
+      "instructions": "Tumbado boca abajo, empuja con las manos para elevar el pecho manteniendo las caderas en el suelo.",
+      "safety_info": "Mantén los codos ligeramente flexionados; no fuerces la elevación si te sobrecarga la zona lumbar."
+    },
+    {
+      "module_name": "Adho Mukha Svanasana",
+      "display_name": "Perro boca abajo",
+      "description": "(Adho Mukha Svanasana) Estiramiento en V invertida y apertura de hombros.",
+      "instructions": "Desde la plancha, eleva las caderas hacia arriba y atrás, empujando los talones hacia el suelo y el pecho hacia los muslos.",
+      "safety_info": "Mantén una ligera flexión en las rodillas si los isquiotibiales están tensos; no bloquees los codos."
+    },
+    {
+      "module_name": "Uttanasana",
+      "display_name": "Flexión de pie",
+      "description": "(Uttanasana) Liberación de isquiotibiales y columna de pie.",
+      "instructions": "Inclínate hacia delante desde las caderas dejando caer la cabeza y los brazos hacia el suelo.",
+      "safety_info": "Flexiona generosamente las rodillas si notas tensión en los isquiotibiales o en la zona lumbar."
+    },
+    {
+      "module_name": "Virabhadrasana II",
+      "display_name": "Guerrero II",
+      "description": "(Virabhadrasana II) Zancada sostenida que desarrolla la resistencia de las piernas y la apertura de caderas.",
+      "instructions": "Flexiona la rodilla delantera a 90 grados, extiende los brazos paralelos al suelo y mira por encima de la mano delantera. Mantén la mitad de las respiraciones en cada lado.",
+      "safety_info": "Mantén la rodilla delantera alineada con el tobillo; no dejes que se desplome hacia dentro."
+    },
+    {
+      "module_name": "Vrikshasana",
+      "display_name": "Postura del árbol",
+      "description": "(Vrikshasana) Postura de equilibrio sobre una pierna.",
+      "instructions": "Enraíza un pie y coloca la planta del otro en la cara interna de la pantorrilla o del muslo, con las manos en el centro del pecho. Mantén la mitad de las respiraciones en cada lado.",
+      "safety_info": "Evita apoyar el pie directamente sobre la articulación de la rodilla; usa una pared como apoyo si lo necesitas."
+    },
+    {
+      "module_name": "Setu Bandhasana",
+      "display_name": "Postura del puente",
+      "description": "(Setu Bandhasana) Flexión hacia atrás sostenida que abre las caderas, tumbado sobre la espalda.",
+      "instructions": "Tumbado boca arriba con las rodillas flexionadas, empuja con los pies para elevar las caderas y mantén la posición.",
+      "safety_info": "Mantén las rodillas alineadas hacia delante; evita que se abran hacia fuera."
+    },
+    {
+      "module_name": "Paschimottanasana",
+      "display_name": "Flexión sentada",
+      "description": "(Paschimottanasana) Estiramiento sentado de isquiotibiales y zona lumbar.",
+      "instructions": "Siéntate con las piernas estiradas e inclínate hacia delante desde las caderas, alcanzando los pies.",
+      "safety_info": "Mantén una ligera flexión en las rodillas si la zona lumbar se redondea en exceso."
+    },
+    {
+      "module_name": "Surya Namaskar",
+      "display_name": "Saludo al sol",
+      "description": "(Surya Namaskar) Secuencia continua de cuerpo completo que une respiración y movimiento.",
+      "instructions": "Fluye a través de la flexión hacia delante, la plancha y los perros boca arriba y boca abajo en un ciclo continuo.",
+      "safety_info": "Mantén el movimiento lento y controlado; evita contener la respiración."
+    },
+    {
+      "module_name": "Qi Shi",
+      "display_name": "Qi Shi",
+      "description": "(Forma de apertura) Postura inicial que asienta el peso y la respiración antes de la forma.",
+      "instructions": "De pie con los pies a la anchura de los hombros, eleva y baja lentamente los brazos al ritmo de la respiración.",
+      "safety_info": "Mantén las rodillas suaves y el peso centrado en todo momento."
+    },
+    {
+      "module_name": "Yun Shou",
+      "display_name": "Yun Shou",
+      "description": "(Manos de nube) Movimiento lateral lento y fluido de tracción de brazos.",
+      "instructions": "Desplaza el peso de un lado a otro mientras los brazos trazan arcos circulares lentos de tracción frente al cuerpo.",
+      "safety_info": "Mantén el movimiento pausado y continuo; suaviza las rodillas en todo momento."
+    },
+    {
+      "module_name": "Ye Ma Fen Zong",
+      "display_name": "Ye Ma Fen Zong",
+      "description": "(Separar la crin del caballo salvaje) Paso diagonal con cambio de peso que coordina brazos y piernas.",
+      "instructions": "Da un paso en diagonal hacia delante mientras un brazo barre hacia arriba y hacia fuera y el otro desciende y se recoge hacia atrás. Practica los dos lados dentro del tiempo indicado.",
+      "safety_info": "Mantén los pasos controlados y la rodilla delantera alineada con el tobillo."
+    },
+    {
+      "module_name": "Lou Xi Ao Bu",
+      "display_name": "Lou Xi Ao Bu",
+      "description": "(Rozar la rodilla y paso torsionado) Forma de pasos que roza la rodilla mientras rota el torso.",
+      "instructions": "Da un paso adelante mientras una mano roza la rodilla y la otra empuja hacia delante a la altura del pecho. Practica los dos lados dentro del tiempo indicado.",
+      "safety_info": "Mantén suave la rodilla que da el paso y evita adelantarla en exceso."
+    },
+    {
+      "module_name": "Shou Hui Pipa",
+      "display_name": "Shou Hui Pipa",
+      "description": "(Tocar la pipa) Cambio de peso sostenido con los brazos recogidos como si sostuvieran un instrumento.",
+      "instructions": "Lleva el peso a la pierna trasera, junta las manos frente al pecho y mantén la posición.",
+      "safety_info": "Mantén los hombros relajados y alejados de las orejas."
+    },
+    {
+      "module_name": "Jin Ji Du Li",
+      "display_name": "Jin Ji Du Li",
+      "description": "(El gallo dorado se sostiene sobre una pierna) Equilibrio sobre una pierna con elevación lenta de la rodilla.",
+      "instructions": "Carga todo el peso sobre una pierna y eleva lentamente la rodilla contraria, manteniéndola con control. Practica los dos lados dentro del tiempo indicado.",
+      "safety_info": "Mantén suave la rodilla de apoyo; usa una pared como apoyo si el equilibrio es limitado."
+    },
+    {
+      "module_name": "Dao Juan Gong",
+      "display_name": "Dao Juan Gong",
+      "description": "(Rechazar al mono) Flujo lento de pasos hacia atrás que coordina todo el cuerpo.",
+      "instructions": "Da pasos hacia atrás mientras una mano se recoge y la otra empuja hacia delante, alternando los lados de forma continua. Practica los dos lados dentro del tiempo indicado.",
+      "safety_info": "Mantén los pasos cortos y controlados; no apresures la transferencia del peso."
+    },
+    {
+      "module_name": "Bai He Liang Chi",
+      "display_name": "Bai He Liang Chi",
+      "description": "(La grulla blanca despliega las alas) Flujo lento de rotación del torso y elevación de brazos para la estabilidad del core.",
+      "instructions": "Lleva el peso a la pierna trasera mientras elevas un brazo por encima de la cabeza y el otro abajo, rotando suavemente desde el core. Practica los dos lados dentro del tiempo indicado.",
+      "safety_info": "Muévete despacio y mantén el core firme durante toda la rotación."
+    },
+    {
+      "module_name": "Shi Zi Shou",
+      "display_name": "Shi Zi Shou",
+      "description": "(Manos cruzadas, forma de cierre) Forma de cierre que recoge y asienta la energía al final de la secuencia.",
+      "instructions": "Cruza las muñecas frente al pecho; después abre lentamente los brazos y bájalos a los lados.",
+      "safety_info": "Mantén el movimiento lento y la respiración relajada."
+    },
+    {
+      "module_name": "Supermans",
+      "display_name": "Supermans",
+      "description": "Sujeción de extensión dorsal boca abajo para la cadena posterior.",
+      "instructions": "Tumbado boca abajo, eleva brazos y piernas a la vez, aprieta la espalda durante un segundo y baja.",
+      "safety_info": "Mantén el cuello neutro; no hiperextiendas la zona lumbar."
+    },
+    {
+      "module_name": "Single-Leg RDL",
+      "display_name": "Peso muerto unipodal",
+      "description": "Bisagra de cadera a una pierna con el peso corporal.",
+      "instructions": "Inclínate desde la cadera sobre una pierna mientras la otra se extiende hacia atrás y vuelve a ponerte de pie.",
+      "safety_info": "Mantén la espalda recta y la rodilla de apoyo ligeramente flexionada."
+    },
+    {
+      "module_name": "Jump Squats",
+      "display_name": "Sentadillas con salto",
+      "description": "Salto de sentadilla explosivo para la potencia del tren inferior.",
+      "instructions": "Baja en sentadilla hasta la paralela y salta lo más alto posible, aterrizando suavemente hacia la siguiente repetición.",
+      "safety_info": "Aterriza sobre la parte delantera de los pies con las rodillas flexionadas; detente si la técnica se deteriora."
+    },
+    {
+      "module_name": "Savasana",
+      "display_name": "Savasana",
+      "description": "(Relajación final) Postura de reposo total que cierra la práctica y deja que el cuerpo integre el trabajo.",
+      "instructions": "Túmbate boca arriba con las piernas cómodas y los brazos a los lados, palmas hacia arriba, y deja que la respiración sea natural.",
+      "safety_info": "Si tienes molestias lumbares, coloca un cojín bajo las rodillas; cúbrete si sientes frío."
+    },
+    {
+      "module_name": "Supta Matsyendrasana",
+      "display_name": "Torsión tumbada",
+      "description": "(Supta Matsyendrasana) Torsión suave tumbado que libera la columna y las caderas.",
+      "instructions": "Túmbate boca arriba, lleva una rodilla cruzada hacia el lado contrario y abre el otro brazo; mantén la mitad de las respiraciones en cada lado.",
+      "safety_info": "Mantén los dos hombros en el suelo; sal de la torsión si notas pellizco en la zona lumbar."
+    },
+    {
+      "module_name": "Fang Song",
+      "display_name": "Fang Song",
+      "description": "(Ejercicios de aflojamiento) Movilización articular suave de cuello, hombros, columna, caderas, rodillas y tobillos para preparar la forma.",
+      "instructions": "De pie con los pies a la anchura de los hombros, rota lentamente cada articulación del cuello a los tobillos, respirando con calma.",
+      "safety_info": "Muévete en un rango cómodo; mantén las rodillas suaves y detente ante cualquier dolor."
+    },
+    {
+      "module_name": "Zhan Zhuang",
+      "display_name": "Zhan Zhuang",
+      "description": "(Poste de pie) Meditación de pie que desarrolla el enraizamiento, la postura y la calma antes de la forma.",
+      "instructions": "De pie con los pies a la anchura de los hombros, rodillas ligeramente flexionadas y brazos redondeados como si abrazaras una gran pelota frente al pecho, y respira lentamente.",
+      "safety_info": "Mantén las rodillas suaves y los hombros relajados; acorta la sujeción si los muslos tiemblan o duelen."
+    }
+  ],
+  "directives": [
+    {
+      "directive_name": "FAT_BURNING",
+      "directive_description": "Protocolo de aceleración metabólica"
+    },
+    {
+      "directive_name": "CARDIO_ENHANCEMENT",
+      "directive_description": "Sistema de optimización cardiovascular"
+    },
+    {
+      "directive_name": "STRENGTH_MATRIX",
+      "directive_description": "Secuencia de fortalecimiento muscular"
+    },
+    {
+      "directive_name": "ENDURANCE_GRID",
+      "directive_description": "Marco de ampliación de la resistencia"
+    },
+    {
+      "directive_name": "NEURAL_FLOW",
+      "directive_description": "Sincronización neuro-sináptica"
+    },
+    {
+      "directive_name": "EQUINOX",
+      "directive_description": "Secuencia de equilibrio y sincronización de flujo lento"
+    },
+    {
+      "directive_name": "APEX",
+      "directive_description": "Protocolo de pico anaeróbico supramáximo"
+    }
+  ],
+  "ranks": [
+    {
+      "rank_level": 1,
+      "rank_name": "NOVEL"
+    },
+    {
+      "rank_level": 2,
+      "rank_name": "AVANZADO"
+    },
+    {
+      "rank_level": 3,
+      "rank_name": "ROOT"
+    }
+  ]
+}

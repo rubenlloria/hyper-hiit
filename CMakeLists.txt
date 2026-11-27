@@ -109,6 +109,8 @@ qt_add_qml_module(hyper-hiit
         ui/components/SummaryList.ui.qml
     RESOURCES
         res/init_data.json
+        res/init_data_ca_ES.json
+        res/init_data_es_ES.json
         gpl3_header.txt
         authors.txt
         LICENSE
