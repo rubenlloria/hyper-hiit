@@ -2,6 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pt_BR">
 <context>
+    <name>AchievementManager</name>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="231"/>
+        <source>Logged %1 protocol(s) in the last 7 days.</source>
+        <translation>%1 protocolo(s) registrado(s) nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="232"/>
+        <source>Extracted %1 kcal from systems in the last 7 days.</source>
+        <translation>%1 kcal extraída(s) dos sistemas nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="233"/>
+        <source>Completed %1 ROOT protocol(s) in the last 7 days.</source>
+        <translation>%1 protocolo(s) ROOT concluído(s) nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="234"/>
+        <source>Efficiency overclocked beyond 105% in %1 protocol(s) in the last 30 days.</source>
+        <translation>Eficiência com overclock acima de 105% em %1 protocolo(s) nos últimos 30 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="235"/>
+        <source>%1 minutes of active uptime in ADVANCED or higher protocols in the last 7 days.</source>
+        <translation>%1 minutos de tempo de atividade em protocolos AVANÇADO ou superior nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="236"/>
+        <source>Completed %1 protocols above your RANK or %2 at your RANK or higher in the last 7 days.</source>
+        <translation>Concluídos %1 protocolos acima do seu RANQUE ou %2 no seu RANQUE ou superior nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="238"/>
+        <source>+20% weekly performance improvement.</source>
+        <translation>+20% de melhoria no desempenho semanal.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="239"/>
+        <source>7-day synchronization streak.</source>
+        <translation>Sequência de sincronização de 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="240"/>
+        <source>Shattered %1 record(s) in the last 7 days.</source>
+        <translation>%1 recorde(s) quebrado(s) nos últimos 7 dias.</translation>
+    </message>
+    <message>
+        <location filename="../src/AchievementManager.cpp" line="241"/>
+        <source>Long-term support: %1 protocols completed in the last 365 days.</source>
+        <translation>Suporte de longo prazo: %1 protocolos concluídos nos últimos 365 dias.</translation>
+    </message>
+</context>
+<context>
     <name>AppHeader.ui</name>
     <message>
         <location filename="../ui/components/AppHeader.ui.qml" line="41"/>
@@ -192,165 +245,187 @@
 <context>
     <name>Config</name>
     <message>
-        <location filename="../ui/views/Config.qml" line="124"/>
+        <location filename="../ui/views/Config.qml" line="150"/>
         <source>ARE YOU SURE YOU WANT TO DELETE </source>
         <translation>TEM CERTEZA QUE DESEJA EXCLUIR </translation>
     </message>
     <message>
-        <location filename="../ui/views/Config.qml" line="125"/>
+        <location filename="../ui/views/Config.qml" line="151"/>
+        <location filename="../ui/views/Config.qml" line="199"/>
         <source>[SYSTEM DATABASE]</source>
         <translation>[BANCO DE DADOS DO SISTEMA]</translation>
     </message>
     <message>
-        <location filename="../ui/views/Config.qml" line="126"/>
+        <location filename="../ui/views/Config.qml" line="152"/>
+        <location filename="../ui/views/Config.qml" line="200"/>
         <source>? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.</source>
         <translation>? ESTA AÇÃO APAGARÁ PERMANENTEMENTE OS DADOS DO REGISTRO.</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/Config.qml" line="198"/>
+        <source>ARE YOU SURE YOU WANT TO REPLACE</source>
+        <translation>TEM CERTEZA DE QUE DESEJA SUBSTITUIR</translation>
     </message>
 </context>
 <context>
     <name>ConfigForm.ui</name>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="82"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="90"/>
         <source>BACK     </source>
         <translation>VOLTAR     </translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="115"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="123"/>
         <source>USER_BIO_DATA</source>
         <translation>DADOS_BIOMÉTRICOS</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="138"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="146"/>
         <source>USER_NAME</source>
         <translation>NOME_DE_USUÁRIO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="146"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="154"/>
         <source>BIOMASS_KG</source>
         <translation>BIOMASSA_KG</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="154"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="162"/>
         <source>HEIGHT_CM</source>
         <translation>ALTURA_CM</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="162"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="170"/>
         <source>SEX</source>
         <translation>SEXO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="164"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="172"/>
         <source>WOMAN</source>
         <translation>MULHER</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="165"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="173"/>
         <source>REPLICANT</source>
         <translation>REPLICANTE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="166"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="174"/>
         <source>MAN</source>
         <translation>HOMEM</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="173"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="181"/>
         <source>AGE</source>
         <translation>IDADE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="180"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="188"/>
         <source>RANK_LEVEL</source>
         <translation>NÍVEL_DE_PATENTE</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="183"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="191"/>
         <source>NEWBIE</source>
         <translation>NOVATO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="184"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="192"/>
         <source>ADVANCED</source>
         <translation>AVANÇADO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="185"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="193"/>
         <source>ROOT</source>
         <translation>ROOT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="198"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="206"/>
         <source>SYSTEM_PARAMETERS</source>
         <translation>PARÂMETROS_DO_SISTEMA</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="221"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="229"/>
         <source>SCANLINE_RENDER</source>
         <translation>RENDERIZAÇÃO_DE_VARREDURA</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="222"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="230"/>
         <source>Enable/Disable horizontal terminal lines.</source>
         <translation>Ativa a linha de varredura horizontal.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="229"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="237"/>
         <source>AUDIO_UPLINK</source>
         <translation>LINK_DE_ÁUDIO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="230"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="238"/>
         <source>Link to Audio Uplink module.</source>
         <translation>Vincula ao módulo de link de áudio.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="237"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="245"/>
         <source>SHUTDOWN_CONFIRM</source>
         <translation>CONFIRMAR_DESLIGAMENTO</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="238"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="246"/>
         <source>Request authorization before exit.</source>
         <translation>Solicita autorização antes de sair.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="245"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="253"/>
         <source>SYSTEM_LANGUAGE</source>
         <translation>IDIOMA_DO_SISTEMA</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="246"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="254"/>
         <source>Use system configured language.</source>
         <translation>Usa o idioma configurado no sistema.</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="253"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="261"/>
         <source>NEON_THEME</source>
         <translation>TEMA_NEON</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="274"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="282"/>
         <source>ROOT_ACCESS</source>
         <translation>ACESSO_ROOT</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="297"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="305"/>
         <source> ACCESS_ARCHITECT_MODE </source>
         <translation> MODO_ARQUITETO </translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="307"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="315"/>
         <source>PROTOCOL_DESIGN_SUITE // DIRECTIVE_EDITOR</source>
         <translation>SUÍTE_DE_DESIGN // EDITOR_DE_DIRETRIZES</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="333"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="341"/>
+        <source>IMPORT_JSON_DATA</source>
+        <translation>IMPORTAR_DADOS_JSON</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="370"/>
         <source>RESTORE_DB</source>
         <translation>RESTAURAR_BD</translation>
     </message>
     <message>
-        <location filename="../ui/views/ConfigForm.ui.qml" line="352"/>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="350"/>
+        <source>EXPORT_SYSTEM_DATABASE</source>
+        <translation>EXPORTAR_BANCO_DE_DADOS</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="360"/>
+        <source>IMPORT_SYSTEM_DATABASE</source>
+        <translation>IMPORTAR_BANCO_DE_DADOS</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/ConfigForm.ui.qml" line="395"/>
         <source>Terminal source and documentation available at:</source>
         <translation>Código-fonte e documentação do terminal disponíveis em:</translation>
     </message>
@@ -399,14 +474,14 @@
 <context>
     <name>Dashboard</name>
     <message>
-        <location filename="../ui/views/Dashboard.qml" line="170"/>
+        <location filename="../ui/views/Dashboard.qml" line="172"/>
         <source>SYSTEM</source>
         <translation>SISTEMA</translation>
     </message>
     <message>
-        <location filename="../ui/views/Dashboard.qml" line="171"/>
+        <location filename="../ui/views/Dashboard.qml" line="173"/>
         <source>DO YOU WANT TO PROCEED TO EXIT hyper//hiit?</source>
-        <translation type="unfinished">DESEJA CONTINUAR PARA SAIR DE
+        <translation>DESEJA CONTINUAR PARA SAIR DE
 hyper//hiit?</translation>
     </message>
 </context>
@@ -512,22 +587,22 @@ hyper//hiit?</translation>
 <context>
     <name>ModuleEditor</name>
     <message>
-        <location filename="../ui/components/ModuleEditor.qml" line="212"/>
+        <location filename="../ui/components/ModuleEditor.qml" line="217"/>
         <source>MODULE // </source>
         <translation>MÓDULO // </translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditor.qml" line="213"/>
+        <location filename="../ui/components/ModuleEditor.qml" line="218"/>
         <source>ARE YOU SURE YOU WANT TO DELETE </source>
         <translation>TEM CERTEZA QUE DESEJA EXCLUIR </translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditor.qml" line="214"/>
+        <location filename="../ui/components/ModuleEditor.qml" line="219"/>
         <source>THIS ENTITY</source>
         <translation>ESTA ENTIDADE</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditor.qml" line="215"/>
+        <location filename="../ui/components/ModuleEditor.qml" line="220"/>
         <source>? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE CORE REGISTRY.</source>
         <translation>? ESTA AÇÃO APAGARÁ PERMANENTEMENTE OS DADOS DO REGISTRO PRINCIPAL.</translation>
     </message>
@@ -535,113 +610,113 @@ hyper//hiit?</translation>
 <context>
     <name>ModuleEditorView.ui</name>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="118"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="120"/>
         <source>&gt; SEARCH_MODULE_REGISTRY</source>
         <translation>&gt; BUSCAR_NO_REGISTRO_DE_MÓDULOS</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="290"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="292"/>
         <source>REGISTER_NEW_MODULE</source>
         <translation>REGISTRAR_NOVO_MÓDULO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="343"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="345"/>
         <source>MODULE_FACTORY</source>
         <translation>FÁBRICA_DE_MÓDULOS</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="359"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="361"/>
         <source>&gt; ENTER_NAME</source>
         <translation>&gt; DIGITE_O_NOME</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="360"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="362"/>
         <source>MODULE_NAME</source>
         <translation>NOME_DO_MÓDULO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="377"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="379"/>
         <source>UNIT</source>
         <translation>UNIDADE</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="396"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="398"/>
         <source>DIFFICULTY</source>
         <translation>DIFICULDADE</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="414"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="416"/>
         <source>TARGET_ZONE</source>
         <translation>ZONA_ALVO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="439"/>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="481"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="441"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="483"/>
         <source>&gt; VALUE</source>
         <translation>&gt; VALOR</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="440"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="442"/>
         <source>REP_TIME</source>
         <translation>TEMPO_DE_REP</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="482"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="484"/>
         <source>FATIGUE_RATE</source>
         <translation>TAXA_DE_FADIGA</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="502"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="504"/>
         <source>&gt; ENTER_DESCRIPTION</source>
         <translation>&gt; DIGITE_A_DESCRIÇÃO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="503"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="505"/>
         <source>DESCRIPTION</source>
         <translation>DESCRIÇÃO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="510"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="512"/>
         <source>&gt; ENTER_INSTRUCTIONS</source>
         <translation>&gt; DIGITE_AS_INSTRUÇÕES</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="511"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="513"/>
         <source>INSTRUCTIONS</source>
         <translation>INSTRUÇÕES</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="518"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="520"/>
         <source>&gt; ENTER_SAFETY</source>
         <translation>&gt; DIGITE_A_SEGURANÇA</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="519"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="521"/>
         <source>SAFETY</source>
         <translation>SEGURANÇA</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="526"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="528"/>
         <source>&gt; ENTER_EQUIPMENT</source>
         <translation>&gt; DIGITE_O_EQUIPAMENTO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="527"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="529"/>
         <source>EQUIPMENT</source>
         <translation>EQUIPAMENTO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="530"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="532"/>
         <source>NONE</source>
         <translation>NENHUM</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="558"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="560"/>
         <source>REGISTER_MODULE</source>
         <translation>REGISTRAR_MÓDULO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ModuleEditorView.ui.qml" line="589"/>
+        <location filename="../ui/components/ModuleEditorView.ui.qml" line="591"/>
         <source>ABORT</source>
         <translation>ABORTAR</translation>
     </message>
@@ -721,14 +796,19 @@ hyper//hiit?</translation>
 <context>
     <name>NeonProtocol.ui</name>
     <message>
-        <location filename="../ui/components/NeonProtocol.ui.qml" line="118"/>
+        <location filename="../ui/components/NeonProtocol.ui.qml" line="119"/>
         <source>DURATION: </source>
         <translation>DURAÇÃO: </translation>
     </message>
     <message>
-        <location filename="../ui/components/NeonProtocol.ui.qml" line="127"/>
+        <location filename="../ui/components/NeonProtocol.ui.qml" line="128"/>
         <source>MODULES: </source>
         <translation>MÓDULOS: </translation>
+    </message>
+    <message>
+        <location filename="../ui/components/NeonProtocol.ui.qml" line="137"/>
+        <source>CALORIES: </source>
+        <translation>CALORIAS: </translation>
     </message>
 </context>
 <context>
@@ -773,38 +853,43 @@ hyper//hiit?</translation>
         <translation>INICIANDO</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="302"/>
-        <location filename="../ui/views/Protocol.qml" line="344"/>
+        <location filename="../ui/views/Protocol.qml" line="303"/>
+        <location filename="../ui/views/Protocol.qml" line="365"/>
         <source>NEXT</source>
         <translation>PRÓXIMO</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="341"/>
+        <location filename="../ui/views/Protocol.qml" line="319"/>
+        <source>ARE YOU SURE YOU WANT TO FINISH PROTOCOL EXECUTION?</source>
+        <translation>TEM CERTEZA DE QUE DESEJA FINALIZAR A EXECUÇÃO DO PROTOCOLO?</translation>
+    </message>
+    <message>
+        <location filename="../ui/views/Protocol.qml" line="362"/>
         <source>WAIT</source>
         <translation>AGUARDE</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="369"/>
+        <location filename="../ui/views/Protocol.qml" line="391"/>
         <source>Last</source>
         <translation>Durar</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="419"/>
+        <location filename="../ui/views/Protocol.qml" line="441"/>
         <source>COMPLETED</source>
         <translation>CONCLUÍDO</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="422"/>
+        <location filename="../ui/views/Protocol.qml" line="444"/>
         <source>STOPPED</source>
         <translation>PARADO</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="423"/>
+        <location filename="../ui/views/Protocol.qml" line="445"/>
         <source>GOOD_GOD!</source>
         <translation>MEU_DEUS!</translation>
     </message>
     <message>
-        <location filename="../ui/views/Protocol.qml" line="448"/>
+        <location filename="../ui/views/Protocol.qml" line="470"/>
         <source>SUMMARY</source>
         <translation>RESUMO</translation>
     </message>
@@ -812,60 +897,69 @@ hyper//hiit?</translation>
 <context>
     <name>ProtocolEditor</name>
     <message>
-        <location filename="../ui/components/ProtocolEditor.qml" line="298"/>
+        <location filename="../ui/components/ProtocolEditor.qml" line="274"/>
+        <source>Structural changes will detach existing session history. Calories and totals are kept. Continue?</source>
+        <translation>Alterações estruturais desvincularão o histórico de sessões existente. As calorias e os totais são mantidos. Deseja continuar?</translation>
+    </message>
+    <message>
+        <location filename="../ui/components/ProtocolEditor.qml" line="299"/>
         <source>PROTOCOL // </source>
         <translation>PROTOCOLO // </translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditor.qml" line="299"/>
+        <location filename="../ui/components/ProtocolEditor.qml" line="300"/>
         <source>ARE YOU SURE YOU WANT TO DELETE </source>
         <translation>TEM CERTEZA QUE DESEJA EXCLUIR </translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditor.qml" line="300"/>
+        <location filename="../ui/components/ProtocolEditor.qml" line="301"/>
         <source>THIS ENTITY</source>
         <translation>ESTA ENTIDADE</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditor.qml" line="301"/>
+        <location filename="../ui/components/ProtocolEditor.qml" line="302"/>
+        <source>? THE PROTOCOL WILL BE REMOVED. ITS SESSIONS AND CALORIES ARE KEPT IN THE REGISTRY.</source>
+        <translation>? O PROTOCOLO SERÁ REMOVIDO. SUAS SESSÕES E CALORIAS SERÃO MANTIDAS NO REGISTRO.</translation>
+    </message>
+    <message>
         <source>? THIS ACTION WILL PERMANENTLY ERASE DATA FROM THE REGISTRY.</source>
-        <translation>? ESTA AÇÃO APAGARÁ PERMANENTEMENTE OS DADOS DO REGISTRO.</translation>
+        <translation type="vanished">? ESTA AÇÃO APAGARÁ PERMANENTEMENTE OS DADOS DO REGISTRO.</translation>
     </message>
 </context>
 <context>
     <name>ProtocolEditorView.ui</name>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="206"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="212"/>
         <source> PROTOCOL </source>
         <translation> PROTOCOLO </translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="349"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="355"/>
         <source>PROTOCOL_NAME</source>
         <translation>NOME_DO_PROTOCOLO</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="360"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="366"/>
         <source>RANK_CLASSIFICATION</source>
         <translation>CLASSIFICAÇÃO_DE_PATENTE</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="368"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="374"/>
         <source>DIRECTIVE_MAPPING_GRID</source>
         <translation>GRADE_DE_MAPEAMENTO_DE_DIRETRIZES</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="413"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="421"/>
         <source>SEQUENCE_EDITOR</source>
         <translation>EDITOR_DE_SEQUÊNCIA</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="556"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="564"/>
         <source>SUBSYSTEM_</source>
         <translation>SUBSISTEMA_</translation>
     </message>
     <message>
-        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="932"/>
+        <location filename="../ui/components/ProtocolEditorView.ui.qml" line="941"/>
         <source>+ ADD_SUBSYSTEM</source>
         <translation>+ ADICIONAR_SUBSISTEMA</translation>
     </message>
@@ -914,52 +1008,52 @@ hyper//hiit?</translation>
 <context>
     <name>SummaryForm.ui</name>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="82"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="83"/>
         <source>DASHBOARD</source>
         <translation>PAINEL</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="142"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="143"/>
         <source>RANK</source>
         <translation>PATENTE</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="149"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="150"/>
         <source>MODULE_COUNT</source>
         <translation>Nº_DE_MÓDULOS</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="156"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="157"/>
         <source>DURATION</source>
         <translation>DURAÇÃO</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="167"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="168"/>
         <source>CALORIES</source>
         <translation>CALORIAS</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="174"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="175"/>
         <source>IMPROVEMENT</source>
         <translation>MELHORIA</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="183"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="184"/>
         <source>EFFICIENCY</source>
         <translation>EFICIÊNCIA</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="197"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="198"/>
         <source>TOTALS</source>
         <translation>TOTAIS</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="233"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="237"/>
         <source>ANALYSIS</source>
         <translation>ANÁLISE</translation>
     </message>
     <message>
-        <location filename="../ui/views/SummaryForm.ui.qml" line="261"/>
+        <location filename="../ui/views/SummaryForm.ui.qml" line="265"/>
         <source>ACHIEVEMENTS</source>
         <translation>CONQUISTAS</translation>
     </message>
