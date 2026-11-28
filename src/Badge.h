@@ -40,7 +40,7 @@ class Badge : public QObject {
 
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString icon READ icon CONSTANT)
-    Q_PROPERTY(QString description READ description CONSTANT)
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(bool unlocked READ unlocked NOTIFY unlockedChanged)
 
 public:
@@ -53,6 +53,15 @@ public:
     QString icon() const { return m_icon; }
     QString description() const { return m_description; }
     bool unlocked() const { return m_unlocked; }
+
+    /**
+     * @brief Updates the description (goal and language can change at runtime).
+     */
+    void setDescription(const QString &desc) {
+        if (desc == m_description) return;
+        m_description = desc;
+        emit descriptionChanged();
+    }
 
     /**
      * @brief Resets the unlocked status to false.
@@ -69,11 +78,10 @@ public:
 
     /**
      * @brief Executes the injected logic to verify if the Badge is reached.
-     * Only emits notification if the state transitions from locked to unlocked.
+     * Badges are temporal (rolling windows), so the state is always recomputed
+     * and it can go back to locked.
      */
     void updateState() {
-        if (m_unlocked) return; // Optimization: Already achieved
-
         bool newState = m_checkLogic();
         if (newState != m_unlocked) {
             m_unlocked = newState;
@@ -83,6 +91,7 @@ public:
 
 signals:
     void unlockedChanged();
+    void descriptionChanged();
 
 private:
     QString m_name;

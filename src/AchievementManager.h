@@ -54,6 +54,13 @@ private:
     DatabaseManager *m_db;
     QList<QObject*> m_achievements;
     void initMatrix();
+
+    // User rank (1-3) and the goals that depend on it, refreshed by updateRank()
+    int m_rank = 1;
+    int m_sysInitGoal = 0;
+    int m_fireGoal = 0;
+    int m_enduranceGoal = 0;
+    void updateRank();
 };
 
 #endif // ACHIEVEMENTMANAGER_H

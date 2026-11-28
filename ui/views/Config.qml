@@ -71,7 +71,8 @@ ConfigForm {
 
     // RANK_LEVEL Selector
     rankSelector.onSelectedIndexChanged: {
-        queueSave("userRank", configForm.rankSelector.selectedIndex, configForm.rankSelector);
+        queueSave("userRank", configForm.rankSelector.selectedIndex +1, configForm.rankSelector);
+        achievementManager.runTacticalCheck();
     }
 
     // SYSTEM_THEME Selector

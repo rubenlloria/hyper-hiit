@@ -191,7 +191,7 @@ Rectangle {
                                     option1Label: qsTr("NEWBIE")
                                     option2Label: qsTr("ADVANCED")
                                     option3Label: qsTr("ROOT")
-                                    selectedIndex: sessionManager.userRank
+                                    selectedIndex: sessionManager.userRank - 1
                                 }
                             }
                         }
